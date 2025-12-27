@@ -1,0 +1,413 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutual Fund Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>MutualFund<span class="highlight">Pro</span></span>
+            </div>
+            
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#dashboard" class="nav-link active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#portfolio" class="nav-link"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                    <li><a href="#funds" class="nav-link"><i class="fas fa-money-bill-wave"></i> Funds</a></li>
+                    <li><a href="#transactions" class="nav-link"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                    <li><a href="#reports" class="nav-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                    <li><a href="#research" class="nav-link"><i class="fas fa-search"></i> Research</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-user">
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/40?img=1" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-role">Premium Investor</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </div>
+                <button class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="page-section active">
+            <div class="section-header">
+                <h1><i class="fas fa-home"></i> Dashboard</h1>
+                <div class="date-range">
+                    <span>Last 30 Days</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="card card-primary">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Total Investment</h3>
+                        <p class="card-value">₹15,42,800</p>
+                        <p class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 12.5% from last month
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card card-success">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Current Value</h3>
+                        <p class="card-value">₹18,25,400</p>
+                        <p class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 8.2% returns
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card card-warning">
+                    <div class="card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Total Gain</h3>
+                        <p class="card-value">₹2,82,600</p>
+                        <p class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 18.3% overall
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card card-info">
+                    <div class="card-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>XIRR</h3>
+                        <p class="card-value">14.7%</p>
+                        <p class="card-change">
+                            Annualized returns
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Portfolio Performance</h3>
+                        <select class="chart-select">
+                            <option>1 Month</option>
+                            <option>3 Months</option>
+                            <option selected>1 Year</option>
+                            <option>3 Years</option>
+                        </select>
+                    </div>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Asset Allocation</h3>
+                        <button class="btn-view-all">View Details</button>
+                    </div>
+                    <canvas id="allocationChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Top Holdings -->
+            <div class="activity-holdings">
+                <div class="recent-activity">
+                    <div class="section-header">
+                        <h3>Recent Activity</h3>
+                        <a href="#" class="view-all-link">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <!-- Activities will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="top-holdings">
+                    <div class="section-header">
+                        <h3>Top Holdings</h3>
+                        <a href="#portfolio" class="view-all-link">View Portfolio</a>
+                    </div>
+                    <div class="holdings-list">
+                        <!-- Holdings will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts Section -->
+            <div class="alerts-section">
+                <div class="section-header">
+                    <h3>Recent Alerts</h3>
+                    <span class="badge badge-warning">3 New</span>
+                </div>
+                <div class="alerts-list">
+                    <!-- Alerts will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="page-section">
+            <div class="section-header">
+                <h1><i class="fas fa-briefcase"></i> My Portfolio</h1>
+                <div class="portfolio-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Investment
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Portfolio Summary -->
+            <div class="portfolio-summary">
+                <div class="summary-card">
+                    <h4>Equity</h4>
+                    <p class="summary-value">₹12,45,000</p>
+                    <p class="summary-percentage">68.2%</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Debt</h4>
+                    <p class="summary-value">₹4,35,000</p>
+                    <p class="summary-percentage">23.8%</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Hybrid</h4>
+                    <p class="summary-value">₹1,45,400</p>
+                    <p class="summary-percentage">8.0%</p>
+                </div>
+            </div>
+
+            <!-- Portfolio Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Investment Details</h3>
+                    <div class="table-filters">
+                        <input type="text" placeholder="Search investments..." class="search-input">
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Equity</option>
+                            <option>Debt</option>
+                            <option>Hybrid</option>
+                        </select>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fund Name</th>
+                            <th>Category</th>
+                            <th>Units</th>
+                            <th>Avg. Price</th>
+                            <th>Current NAV</th>
+                            <th>Investment</th>
+                            <th>Current Value</th>
+                            <th>Gain/Loss</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="portfolioTableBody">
+                        <!-- Portfolio data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                        <span class="page-info">Page 1 of 3</span>
+                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Funds Section -->
+        <section id="funds" class="page-section">
+            <div class="section-header">
+                <h1><i class="fas fa-money-bill-wave"></i> Mutual Funds</h1>
+                <div class="funds-actions">
+                    <button class="btn btn-primary" id="screenerBtn">
+                        <i class="fas fa-filter"></i> Fund Screener
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-compare"></i> Compare Funds
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fund Filters -->
+            <div class="fund-filters">
+                <div class="filter-group">
+                    <label>Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="equity">Equity</option>
+                        <option value="debt">Debt</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="elss">ELSS</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Risk Level</label>
+                    <select class="filter-select" id="riskFilter">
+                        <option value="">All Risks</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>AMC</label>
+                    <select class="filter-select" id="amcFilter">
+                        <option value="">All AMCs</option>
+                        <option value="sbi">SBI Mutual Fund</option>
+                        <option value="hdfc">HDFC Mutual Fund</option>
+                        <option value="icici">ICICI Prudential</option>
+                        <option value="nippon">Nippon India</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Rating</label>
+                    <select class="filter-select" id="ratingFilter">
+                        <option value="">All Ratings</option>
+                        <option value="5">★★★★★</option>
+                        <option value="4">★★★★☆</option>
+                        <option value="3">★★★☆☆</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-secondary" id="applyFilters">
+                    <i class="fas fa-check"></i> Apply
+                </button>
+                <button class="btn btn-outline" id="resetFilters">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+
+            <!-- Funds Grid -->
+            <div class="funds-grid" id="fundsGrid">
+                <!-- Funds will be populated by JavaScript -->
+            </div>
+
+            <!-- Fund Screener Modal -->
+            <div id="screenerModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-filter"></i> Advanced Fund Screener</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="screener-filters">
+                            <!-- Advanced filters will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transactions Section -->
+        <section id="transactions" class="page-section">
+            <!-- Transaction content will be added -->
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="page-section">
+            <!-- Reports content will be added -->
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="page-section">
+            <!-- Research content will be added -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>MutualFund<span class="highlight">Pro</span></h4>
+                <p>Your trusted partner in wealth creation through smart mutual fund investments.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h5>Quick Links</h5>
+                <ul>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#funds">Funds</a></li>
+                    <li><a href="#transactions">Transactions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Disclosures</a></li>
+                    <li><a href="#">Compliance</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h5>Contact</h5>
+                <p><i class="fas fa-envelope"></i> support@mutualfundpro.com</p>
+                <p><i class="fas fa-phone"></i> +91 1800-123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 MutualFundPro. All rights reserved. | Mutual fund investments are subject to market risks. Please read all scheme related documents carefully.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
