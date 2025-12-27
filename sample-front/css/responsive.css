@@ -1,0 +1,241 @@
+/* css/responsive.css */
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Large Desktops */
+@media (max-width: 1400px) {
+    .nav-container,
+    .main-content,
+    .footer-content {
+        max-width: 1200px;
+    }
+}
+
+/* Laptops */
+@media (max-width: 1200px) {
+    :root {
+        --font-size-xxl: 28px;
+        --font-size-xl: 22px;
+        --font-size-lg: 18px;
+    }
+    
+    .charts-section,
+    .activity-holdings {
+        grid-template-columns: 1fr;
+    }
+    
+    .funds-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-primary);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-md);
+    }
+    
+    .nav-menu.active {
+        display: block;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .mobile-toggle {
+        display: block;
+    }
+    
+    .nav-user {
+        gap: var(--spacing-md);
+    }
+    
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .fund-filters {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .portfolio-summary {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+    
+    .table-filters {
+        width: 100%;
+    }
+    
+    .search-input {
+        flex: 1;
+        min-width: auto;
+    }
+}
+
+/* Large Mobiles */
+@media (max-width: 768px) {
+    .main-content {
+        padding: var(--spacing-md);
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+    
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .fund-filters {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .funds-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .data-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Small Mobiles */
+@media (max-width: 576px) {
+    :root {
+        --font-size-xxl: 24px;
+        --font-size-xl: 20px;
+        --font-size-lg: 16px;
+        --font-size-md: 14px;
+    }
+    
+    .nav-container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .nav-brand span {
+        display: none;
+    }
+    
+    .user-info {
+        display: none;
+    }
+    
+    .portfolio-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-container {
+        padding: var(--spacing-md);
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .portfolio-actions,
+    .table-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: var(--spacing-sm);
+    }
+}
+
+/* Extra Small Mobiles */
+@media (max-width: 400px) {
+    :root {
+        --font-size-xxl: 22px;
+        --font-size-xl: 18px;
+    }
+    
+    .card {
+        padding: var(--spacing-md);
+    }
+    
+    .fund-card {
+        padding: var(--spacing-md);
+    }
+    
+    .fund-footer {
+        flex-direction: column;
+    }
+    
+    .fund-footer .btn {
+        width: 100%;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .actions,
+    .mobile-toggle,
+    .notifications,
+    .user-profile i,
+    .nav-user .btn-logout {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 0;
+    }
+    
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    .card,
+    .table-container,
+    .chart-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+    
+    a {
+        color: black;
+        text-decoration: none;
+    }
+    
+    .page-section {
+        display: block !important;
+        page-break-before: always;
+    }
+    
+    #dashboard {
+        page-break-before: auto;
+    }
+}
