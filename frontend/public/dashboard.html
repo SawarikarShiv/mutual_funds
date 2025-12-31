@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">∞</div>
+            <h2>Infinity</h2>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item active">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="portfolio.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span class="menu-text">Portfolio</span>
+            </a>
+            <a href="transactions.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span class="menu-text">Transactions</span>
+            </a>
+            <a href="reports.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">Reports</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">AS</div>
+                <div class="user-info">
+                    <h4>Amit Sharma</h4>
+                    <p>amit@example.com</p>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutButton">
+                <span class="logout-icon">🚪</span>
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>Dashboard Overview</h1>
+                <p class="welcome-message">Welcome back, Amit! Here's your portfolio summary.</p>
+            </div>
+            <div class="header-right">
+                <div class="date-display">
+                    <span id="currentDate">Monday, Dec 30, 2024</span>
+                </div>
+                <button class="btn btn-primary" id="refreshButton">
+                    <span>🔄 Refresh</span>
+                </button>
+                <button class="btn-notification">
+                    <span class="notification-icon">🔔</span>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Portfolio Value</h3>
+                        <span class="stat-trend positive">↑ 2.4%</span>
+                    </div>
+                    <div class="stat-value">₹24,78,560</div>
+                    <div class="stat-subtext">Total investments</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Total Returns</h3>
+                        <span class="stat-trend positive">↑ 15.8%</span>
+                    </div>
+                    <div class="stat-value">₹2,15,400</div>
+                    <div class="stat-subtext">Overall returns</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Today's Change</h3>
+                        <span class="stat-trend positive">↑ ₹8,240</span>
+                    </div>
+                    <div class="stat-value">+0.33%</div>
+                    <div class="stat-subtext">Market performance</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>XIRR</h3>
+                        <span class="stat-trend positive">↑ 18.2%</span>
+                    </div>
+                    <div class="stat-value">16.4%</div>
+                    <div class="stat-subtext">Annualized returns</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Portfolio Performance</h3>
+                    <select class="chart-period">
+                        <option>1 Month</option>
+                        <option selected>6 Months</option>
+                        <option>1 Year</option>
+                        <option>3 Years</option>
+                        <option>All Time</option>
+                    </select>
+                </div>
+                <div class="chart-placeholder">
+                    <div class="chart-mock">
+                        <div class="chart-line"></div>
+                        <div class="chart-points">
+                            <div class="point" style="left: 10%;"></div>
+                            <div class="point" style="left: 30%;"></div>
+                            <div class="point" style="left: 50%;"></div>
+                            <div class="point" style="left: 70%;"></div>
+                            <div class="point" style="left: 90%;"></div>
+                        </div>
+                    </div>
+                    <p class="chart-note">📈 Portfolio growth chart will be displayed here</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Asset Allocation</h3>
+                    <span class="chart-info">ⓘ</span>
+                </div>
+                <div class="allocation-chart">
+                    <div class="allocation-item">
+                        <div class="allocation-color equity"></div>
+                        <span class="allocation-label">Equity Funds</span>
+                        <span class="allocation-value">65%</span>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-color debt"></div>
+                        <span class="allocation-label">Debt Funds</span>
+                        <span class="allocation-value">25%</span>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-color hybrid"></div>
+                        <span class="allocation-label">Hybrid Funds</span>
+                        <span class="allocation-value">8%</span>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-color others"></div>
+                        <span class="allocation-label">Others</span>
+                        <span class="allocation-value">2%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Transactions -->
+        <section class="transactions-section">
+            <div class="section-header">
+                <h3>Recent Transactions</h3>
+                <a href="transactions.html" class="view-all">View All →</a>
+            </div>
+            <div class="transactions-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Fund Name</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dec 29, 2024</td>
+                            <td>SBI Bluechip Fund</td>
+                            <td>SIP</td>
+                            <td>₹10,000</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dec 28, 2024</td>
+                            <td>HDFC Balanced Fund</td>
+                            <td>Purchase</td>
+                            <td>₹50,000</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dec 27, 2024</td>
+                            <td>ICICI Prudential Fund</td>
+                            <td>Redemption</td>
+                            <td>₹25,000</td>
+                            <td><span class="status pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn">
+                    <span class="action-icon">➕</span>
+                    Add Investment
+                </button>
+                <button class="action-btn">
+                    <span class="action-icon">📥</span>
+                    Import Statement
+                </button>
+                <button class="action-btn">
+                    <span class="action-icon">📄</span>
+                    Generate Report
+                </button>
+                <button class="action-btn">
+                    <span class="action-icon">🎯</span>
+                    Set Goal
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
