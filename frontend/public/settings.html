@@ -3,49 +3,676 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | Infinity Mutual Funds</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Nexus - Settings Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #eef2ff;
+            --secondary: #1f2937;
+            --light-gray: #f9fafb;
+            --gray: #e5e7eb;
+            --dark-gray: #6b7280;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #374151;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--white);
+            border-right: 1px solid var(--gray);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 0 24px 24px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .menu-section {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .menu-section:last-child {
+            border-bottom: none;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--dark-gray);
+            padding: 0 24px 12px;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        /* Settings Container */
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .settings-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-hint {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-top: 6px;
+        }
+
+        /* Photo Upload */
+        .photo-upload {
+            display: flex;
+            align-items: center;
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 24px;
+            overflow: hidden;
+            border: 3px solid var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .photo-preview i {
+            font-size: 40px;
+            color: var(--primary);
+        }
+
+        .photo-upload-area {
+            flex: 1;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 12px;
+        }
+
+        .upload-btn:hover {
+            background-color: #4338ca;
+        }
+
+        /* Footer */
+        .settings-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray);
+        }
+
+        .help-link {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-secondary {
+            background-color: var(--light-gray);
+            color: var(--secondary);
+            border: 1px solid var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 16px 0;
+            }
+            
+            .logo {
+                padding: 0 16px 16px;
+            }
+            
+            .menu-section {
+                padding: 16px 0;
+            }
+            
+            .menu-item {
+                padding: 8px 16px;
+            }
+            
+            .main-content {
+                padding: 24px 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">∞</div>
-                <span class="brand-name">Infinity Mutual Funds</span>
-            </div>
-            <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="portfolio.html" class="nav-link">Portfolio</a>
-                <a href="transactions.html" class="nav-link">Transactions</a>
-                <a href="reports.html" class="nav-link">Reports</a>
-                <a href="settings.html" class="nav-link active">Settings</a>
-                <button class="logout-btn">Logout</button>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container">
-        <h1>Account Settings</h1>
-        <p>Manage your account preferences and security</p>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">Nexus</div>
         
-        <div class="settings-tabs">
-            <button class="tab-btn active">Profile</button>
-            <button class="tab-btn">Security</button>
-            <button class="tab-btn">Notifications</button>
+        <div class="menu-section">
+            <div class="menu-title">Destriboard</div>
+            <ul class="menu-items">
+                <li class="menu-item"><i class="fas fa-tasks"></i> Task</li>
+                <li class="menu-item"><i class="fas fa-calendar-alt"></i> Calendar</li>
+            </ul>
         </div>
         
-        <div class="settings-content">
-            <div class="setting-section">
-                <h3>Personal Information</h3>
-                <form>
-                    <input type="text" placeholder="Full Name" value="Amit Sharma">
-                    <input type="email" placeholder="Email" value="amit@example.com">
-                    <button class="btn btn-primary">Update</button>
-                </form>
+        <div class="menu-section">
+            <div class="menu-title">Status</div>
+            <ul class="menu-items">
+                <li class="menu-item"><i class="fas fa-user-friends"></i> Leads</li>
+                <li class="menu-item"><i class="fas fa-chart-line"></i> Opportunities</li>
+                <li class="menu-item"><i class="fas fa-file-contract"></i> Contracts</li>
+                <li class="menu-item"><i class="fas fa-building"></i> Companies</li>
+                <li class="menu-item"><i class="fas fa-chart-bar"></i> Analytics</li>
+            </ul>
+        </div>
+        
+        <div class="menu-section">
+            <div class="menu-title">Maintaining</div>
+            <ul class="menu-items">
+                <li class="menu-item"><i class="fas fa-wrench"></i> Forms</li>
+                <li class="menu-item"><i class="fas fa-envelope"></i> Emails</li>
+                <li class="menu-item"><i class="fas fa-ad"></i> Social Media Ads</li>
+            </ul>
+        </div>
+        
+        <div class="menu-section">
+            <div class="menu-title">Settings</div>
+            <ul class="menu-items">
+                <li class="menu-item active"><i class="fas fa-cog"></i> Apps Settings</li>
+                <li class="menu-item"><i class="fas fa-user-circle"></i> Account</li>
+                <li class="menu-item"><i class="fas fa-bell"></i> Notifications</li>
+                <li class="menu-item"><i class="fas fa-globe"></i> Language & Region</li>
+                <li class="menu-item"><i class="fas fa-briefcase"></i> Workspace Reference</li>
+                <li class="menu-item"><i class="fas fa-users"></i> Member</li>
+                <li class="menu-item"><i class="fas fa-credit-card"></i> Billing</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1 class="page-title">Settings</h1>
+            <div class="user-profile">
+                <div class="user-avatar">JM</div>
+                <div class="user-info">
+                    <div class="user-name">John Marpung</div>
+                    <div class="user-email">john@gmail.com</div>
+                </div>
             </div>
         </div>
-    </main>
 
-    <script src="assets/js/main.js"></script>
+        <div class="settings-container">
+            <!-- Personal Info Section -->
+            <div class="settings-card full-width">
+                <h2 class="card-title">Personal Info</h2>
+                <p class="form-hint" style="margin-bottom: 24px;">Update your personal details</p>
+                
+                <!-- Photo Upload -->
+                <div class="form-group">
+                    <div class="form-label">Your photo</div>
+                    <div class="photo-upload">
+                        <div class="photo-preview">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="photo-upload-area">
+                            <p>Upload a new photo. JPG or PNG, 1MB max.</p>
+                            <div class="upload-btn">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">Full name</label>
+                    <input type="text" id="fullName" class="form-control" value="John Marpung">
+                </div>
+                
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-control" value="john@gmail.com">
+                </div>
+                
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone number</label>
+                    <div style="display: flex;">
+                        <select class="form-control" style="width: 100px; margin-right: 12px;">
+                            <option>+1</option>
+                            <option>+44</option>
+                            <option>+61</option>
+                            <option>+81</option>
+                        </select>
+                        <input type="tel" id="phone" class="form-control" value="(684) 555-0102">
+                    </div>
+                </div>
+                
+                <!-- Date of Birth -->
+                <div class="form-group">
+                    <label class="form-label" for="dob">Date of birth</label>
+                    <input type="text" id="dob" class="form-control" value="1999/04/12">
+                </div>
+                
+                <!-- Country -->
+                <div class="form-group">
+                    <label class="form-label" for="country">Country</label>
+                    <select id="country" class="form-control">
+                        <option selected>United States</option>
+                        <option>Canada</option>
+                        <option>United Kingdom</option>
+                        <option>Australia</option>
+                        <option>Germany</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Account Settings Card -->
+            <div class="settings-card">
+                <h2 class="card-title">Account Settings</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="timezone">Timezone</label>
+                    <select id="timezone" class="form-control">
+                        <option selected>Eastern Time (ET)</option>
+                        <option>Central Time (CT)</option>
+                        <option>Mountain Time (MT)</option>
+                        <option>Pacific Time (PT)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="language">Language</label>
+                    <select id="language" class="form-control">
+                        <option selected>English (US)</option>
+                        <option>English (UK)</option>
+                        <option>Español</option>
+                        <option>Français</option>
+                        <option>Deutsch</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="currency">Currency</label>
+                    <select id="currency" class="form-control">
+                        <option selected>US Dollar (USD)</option>
+                        <option>Euro (EUR)</option>
+                        <option>British Pound (GBP)</option>
+                        <option>Japanese Yen (JPY)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Notifications Card -->
+            <div class="settings-card">
+                <h2 class="card-title">Notification Settings</h2>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="form-label">Email notifications</div>
+                        <div class="form-hint">Receive updates via email</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="form-label">Push notifications</div>
+                        <div class="form-hint">Receive browser notifications</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="form-label">Marketing emails</div>
+                        <div class="form-hint">Receive product updates and offers</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="settings-footer">
+            <div class="help-link">
+                <i class="fas fa-question-circle"></i> Help and Support
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle switch styling
+        document.querySelectorAll('.switch').forEach(switchElement => {
+            const slider = switchElement.querySelector('.slider');
+            const checkbox = switchElement.querySelector('input[type="checkbox"]');
+            
+            // Set initial state
+            if (checkbox.checked) {
+                slider.style.backgroundColor = 'var(--primary)';
+            }
+            
+            // Add change event
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    slider.style.backgroundColor = 'var(--primary)';
+                } else {
+                    slider.style.backgroundColor = '#ccc';
+                }
+            });
+        });
+        
+        // Initialize switch styles
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 50px;
+                height: 26px;
+            }
+            
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .4s;
+                border-radius: 34px;
+            }
+            
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+            
+            input:checked + .slider:before {
+                transform: translateX(24px);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Menu item click handler
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update page title based on selected menu
+                const pageTitle = document.querySelector('.page-title');
+                const menuText = this.textContent.trim();
+                pageTitle.textContent = menuText;
+            });
+        });
+        
+        // Photo upload simulation
+        const uploadBtn = document.querySelector('.upload-btn');
+        const photoPreview = document.querySelector('.photo-preview');
+        
+        uploadBtn.addEventListener('click', function() {
+            // In a real application, this would open a file picker
+            // For demo, we'll just change the icon
+            const icon = photoPreview.querySelector('i');
+            icon.className = 'fas fa-check-circle';
+            icon.style.color = '#10b981';
+            
+            // Show a temporary message
+            const originalText = uploadBtn.innerHTML;
+            uploadBtn.innerHTML = '<i class="fas fa-check"></i> Image Uploaded';
+            uploadBtn.style.backgroundColor = '#10b981';
+            
+            setTimeout(() => {
+                uploadBtn.innerHTML = originalText;
+                uploadBtn.style.backgroundColor = '';
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
