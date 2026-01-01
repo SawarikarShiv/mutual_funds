@@ -4,65 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transactions | Infinity Mutual Funds</title>
-    
-    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Your CSS Files - Assuming they're one level up in assets folder -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
-    
-    <!-- OR if using root paths -->
-    <!-- <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/components.css"> -->
-    
-    <style>
-        /* Add some base styles if CSS doesn't load */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f7fa;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .navbar {
-            background: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            color: #007bff;
-        }
-        
-        /* Temporary fallback styles */
-        .glass-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
-    <!-- Remove background-container if CSS doesn't load -->
-    <div class="background-container" style="display: none;"></div>
+    <!-- Background Image Container -->
+    <div class="background-container">
+        <div class="bg-overlay"></div>
+        <!-- You can replace this with your actual background image -->
+        <!-- For now, using a gradient background -->
+        <div class="bg-pattern"></div>
+    </div>
 
     <nav class="navbar">
         <div class="container">
@@ -71,19 +25,19 @@
                 <span class="brand-name">Infinity Mutual Funds</span>
             </div>
             <div class="nav-menu">
-                <a href="../dashboard.html" class="nav-link">
+                <a href="dashboard.html" class="nav-link">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../portfolio.html" class="nav-link">
+                <a href="portfolio.html" class="nav-link">
                     <i class="fas fa-briefcase"></i>
                     <span>Portfolio</span>
                 </a>
-                <a href="../transactions.html" class="nav-link active">
+                <a href="transactions.html" class="nav-link active">
                     <i class="fas fa-exchange-alt"></i>
                     <span>Transactions</span>
                 </a>
-                <a href="../reports.html" class="nav-link">
+                <a href="reports.html" class="nav-link">
                     <i class="fas fa-chart-pie"></i>
                     <span>Reports</span>
                 </a>
@@ -96,71 +50,229 @@
     </nav>
 
     <main class="container">
-        <!-- Page Header -->
+        <!-- Page Header with Stats -->
         <div class="page-header">
             <div class="header-content">
                 <div class="header-text">
                     <h1><i class="fas fa-history"></i> Transaction History</h1>
                     <p>Track and manage all your investment activities</p>
                 </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-rupee-sign"></i>
+                        <div>
+                            <h3>₹4,78,560</h3>
+                            <p>Total Invested</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div>
+                            <h3>28</h3>
+                            <p>This Month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn" id="addTransaction">
+                    <i class="fas fa-plus-circle"></i>
+                    New Transaction
+                </button>
+                <button class="action-btn outline" id="exportCSV">
+                    <i class="fas fa-file-export"></i>
+                    Export CSV
+                </button>
+                <button class="action-btn outline" id="printStatement">
+                    <i class="fas fa-print"></i>
+                    Print
+                </button>
             </div>
         </div>
 
-        <!-- Basic Transaction List (fallback) -->
-        <div class="glass-card">
-            <h2>Recent Transactions</h2>
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
-                <h3>SBI Bluechip Fund - SIP</h3>
-                <p>Date: Dec 29, 2024 | Amount: ₹10,000</p>
-                <p>Status: Completed</p>
+        <!-- Filters Section -->
+        <div class="filters-section glass-card">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Filter By:</label>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="all">All Types</option>
+                        <option value="purchase">Purchase</option>
+                        <option value="sip">SIP</option>
+                        <option value="redemption">Redemption</option>
+                        <option value="switch">Switch</option>
+                        <option value="dividend">Dividend</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="far fa-calendar"></i> Date:</label>
+                    <select id="dateFilter" class="filter-select">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month" selected>This Month</option>
+                        <option value="quarter">Last Quarter</option>
+                        <option value="year">This Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-sort-amount-down"></i> Sort:</label>
+                    <select id="sortFilter" class="filter-select">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="amount-desc">Highest Amount</option>
+                        <option value="amount-asc">Lowest Amount</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Search:</label>
+                    <input type="text" id="searchTransactions" placeholder="Search fund or folio..." class="search-input">
+                </div>
             </div>
+            
+            <!-- Custom Date Range (hidden by default) -->
+            <div class="custom-date-range" id="customDateRange" style="display: none;">
+                <div class="date-inputs">
+                    <input type="date" id="startDate" class="date-input">
+                    <span>to</span>
+                    <input type="date" id="endDate" class="date-input">
+                    <button class="btn btn-sm" id="applyDateRange">Apply</button>
+                    <button class="btn btn-sm outline" id="cancelDateRange">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction Summary -->
+        <div class="transaction-summary">
+            <div class="summary-card glass-card">
+                <i class="fas fa-arrow-circle-down success"></i>
+                <div>
+                    <h3>Investments</h3>
+                    <p class="amount">₹3,45,000</p>
+                    <p class="count">24 transactions</p>
+                </div>
+            </div>
+            <div class="summary-card glass-card">
+                <i class="fas fa-arrow-circle-up warning"></i>
+                <div>
+                    <h3>Redemptions</h3>
+                    <p class="amount">₹87,500</p>
+                    <p class="count">8 transactions</p>
+                </div>
+            </div>
+            <div class="summary-card glass-card">
+                <i class="fas fa-sync-alt info"></i>
+                <div>
+                    <h3>SIPs Active</h3>
+                    <p class="amount">6</p>
+                    <p class="count">₹45,000/month</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions List -->
+        <div class="transactions-container glass-card">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Recent Transactions</h2>
+                <span class="badge" id="transactionCount">24 transactions found</span>
+            </div>
+
+            <div class="transactions-list" id="transactionsList">
+                <!-- Transaction cards will be dynamically loaded -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" id="prevPage" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">3</span></span>
+                <button class="page-btn" id="nextPage">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-exchange-alt"></i>
+            <h3>No Transactions Found</h3>
+            <p>Try adjusting your filters or add a new transaction</p>
+            <button class="btn btn-primary" id="addFirstTransaction">
+                <i class="fas fa-plus"></i> Add Your First Transaction
+            </button>
         </div>
     </main>
 
-    <!-- Fallback message if CSS/JS don't load -->
-    <div id="cssWarning" style="display: none; background: #fff3cd; color: #856404; padding: 15px; margin: 20px; border-radius: 5px; border: 1px solid #ffeaa7;">
-        <strong>Warning:</strong> CSS files might not be loading. Please check:
-        <ol>
-            <li>File paths are correct</li>
-            <li>CSS files exist in the specified location</li>
-            <li>Server is running (if using localhost)</li>
-        </ol>
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="addTransactionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Transaction</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="transactionType">Transaction Type</label>
+                        <select id="transactionType" required>
+                            <option value="">Select type</option>
+                            <option value="purchase">Lump-sum Purchase</option>
+                            <option value="sip">SIP</option>
+                            <option value="redemption">Redemption</option>
+                            <option value="switch">Switch</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fundName">Fund Name</label>
+                            <select id="fundName" required>
+                                <option value="">Select fund</option>
+                                <option value="sbi-bluechip">SBI Bluechip Fund</option>
+                                <option value="hdfc-balanced">HDFC Balanced Fund</option>
+                                <option value="icici-tech">ICICI Technology Fund</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount (₹)</label>
+                            <input type="number" id="amount" placeholder="Enter amount" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transactionDate">Date</label>
+                        <input type="date" id="transactionDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="remarks">Remarks (Optional)</label>
+                        <textarea id="remarks" rows="3" placeholder="Add any notes..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelTransaction">Cancel</button>
+                <button class="btn btn-primary" id="saveTransaction">Save Transaction</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Check if CSS loaded
-        setTimeout(() => {
-            const allElements = document.querySelectorAll('*');
-            const computedStyle = window.getComputedStyle(allElements[0]);
-            
-            // If font is still default, CSS might not have loaded
-            if (computedStyle.fontFamily.includes('Arial') || computedStyle.fontFamily.includes('sans-serif')) {
-                document.getElementById('cssWarning').style.display = 'block';
-            }
-        }, 1000);
-    </script>
+    <!-- Success Toast -->
+    <div class="toast" id="successToast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span>Transaction added successfully!</span>
+        </div>
+    </div>
 
-    <!-- JS Files with correct paths -->
-    <script src="../assets/js/transactions.js"></script>
-    <script src="../assets/js/main.js"></script>
-    
-    <!-- Fallback JS if files don't exist -->
-    <script>
-        // Basic functionality if JS doesn't load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Transactions page loaded');
-            
-            // Basic logout functionality
-            const logoutBtn = document.querySelector('.logout-btn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to logout?')) {
-                        alert('Redirecting to login...');
-                        // window.location.href = '../index.html';
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="assets/js/transactions.js"></script>
+    <script src="assets/js/theme-manager.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
-</html>
+</html> 
