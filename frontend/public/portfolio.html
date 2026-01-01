@@ -6,6 +6,8 @@
     <title>Portfolio | Infinity Mutual Funds</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
@@ -20,6 +22,12 @@
                 <a href="transactions.html" class="nav-link">Transactions</a>
                 <a href="reports.html" class="nav-link">Reports</a>
                 <a href="settings.html" class="nav-link">Settings</a>
+                
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
                 <button class="logout-btn">Logout</button>
             </div>
         </div>
@@ -29,40 +37,81 @@
         <div class="page-header">
             <h1>My Portfolio</h1>
             <p>Manage and track all your mutual fund investments</p>
+            <!-- Real-time update indicator -->
+            <div class="last-updated">
+                <span id="lastUpdateTime">Last updated: Just now</span>
+                <button class="refresh-btn" id="refreshPortfolio">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Market Status -->
+        <div class="market-status" id="marketStatus">
+            <div class="status-indicator live">
+                <i class="fas fa-circle"></i>
+                <span>Live Market Data</span>
+            </div>
+            <div class="market-time">
+                <i class="far fa-clock"></i>
+                <span id="marketTime">Market Open: 09:15 AM - 03:30 PM</span>
+            </div>
         </div>
 
         <div class="portfolio-summary">
             <div class="summary-card">
                 <h3>Total Value</h3>
-                <p class="amount">₹24,78,560</p>
-                <p class="change positive">+2.4% today</p>
+                <p class="amount" id="totalValue">₹24,78,560</p>
+                <p class="change positive" id="todayChange">+2.4% today</p>
+                <div class="live-indicator">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Live</span>
+                </div>
             </div>
             <div class="summary-card">
                 <h3>Total Gain</h3>
-                <p class="amount">₹2,15,400</p>
-                <p class="change positive">+15.8% overall</p>
+                <p class="amount" id="totalGain">₹2,15,400</p>
+                <p class="change positive" id="overallChange">+15.8% overall</p>
             </div>
             <div class="summary-card">
                 <h3>Funds Held</h3>
-                <p class="amount">12</p>
-                <p class="info">across 4 AMCs</p>
+                <p class="amount" id="fundsCount">12</p>
+                <p class="info" id="amcCount">across 4 AMCs</p>
             </div>
         </div>
 
         <div class="portfolio-actions">
-            <button class="btn btn-primary">
-                <span>➕ Add Investment</span>
+            <button class="btn btn-primary" id="addInvestment">
+                <i class="fas fa-plus"></i>
+                <span>Add Investment</span>
             </button>
-            <button class="btn btn-outline">
-                <span>📥 Import CAS</span>
+            <button class="btn btn-outline" id="importCAS">
+                <i class="fas fa-file-import"></i>
+                <span>Import CAS</span>
             </button>
-            <button class="btn btn-outline">
-                <span>🔄 Rebalance</span>
+            <button class="btn btn-outline" id="rebalancePortfolio">
+                <i class="fas fa-balance-scale"></i>
+                <span>Rebalance</span>
+            </button>
+            <button class="btn btn-outline" id="liveUpdateToggle">
+                <i class="fas fa-bolt"></i>
+                <span>Live Updates: ON</span>
             </button>
         </div>
 
         <div class="portfolio-table-container">
-            <table class="portfolio-table">
+            <div class="table-header">
+                <h3>Your Holdings</h3>
+                <div class="table-filters">
+                    <input type="text" placeholder="Search funds..." id="searchFunds">
+                    <select id="sortFunds">
+                        <option value="value">Sort by Value</option>
+                        <option value="gain">Sort by Gain</option>
+                        <option value="name">Sort by Name</option>
+                    </select>
+                </div>
+            </div>
+            <table class="portfolio-table" id="portfolioTable">
                 <thead>
                     <tr>
                         <th>Fund Name</th>
@@ -75,39 +124,56 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>SBI Bluechip Fund</td>
-                        <td>SBI Mutual Fund</td>
-                        <td>1,234.56</td>
-                        <td>₹45.20</td>
-                        <td>₹52.10</td>
-                        <td>₹64,320</td>
-                        <td class="positive">+15.2%</td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Edit</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>HDFC Balanced Fund</td>
-                        <td>HDFC Mutual Fund</td>
-                        <td>890.12</td>
-                        <td>₹32.50</td>
-                        <td>₹35.80</td>
-                        <td>₹31,867</td>
-                        <td class="positive">+10.1%</td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Edit</button>
-                        </td>
-                    </tr>
+                <tbody id="portfolioTbody">
+                    <!-- Data will be populated dynamically -->
                 </tbody>
             </table>
+            <div class="table-footer">
+                <div class="pagination">
+                    <button class="page-btn" id="prevPage">← Previous</button>
+                    <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">3</span></span>
+                    <button class="page-btn" id="nextPage">Next →</button>
+                </div>
+            </div>
         </div>
     </main>
 
+    <!-- Theme Selection Modal -->
+    <div class="modal" id="themeModal">
+        <div class="modal-content">
+            <h2>Choose Theme</h2>
+            <div class="theme-options">
+                <div class="theme-option" data-theme="light">
+                    <div class="theme-preview light-theme"></div>
+                    <span>Light</span>
+                </div>
+                <div class="theme-option" data-theme="dark">
+                    <div class="theme-preview dark-theme"></div>
+                    <span>Dark</span>
+                </div>
+                <div class="theme-option" data-theme="blue">
+                    <div class="theme-preview blue-theme"></div>
+                    <span>Blue</span>
+                </div>
+                <div class="theme-option" data-theme="green">
+                    <div class="theme-preview green-theme"></div>
+                    <span>Green</span>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="closeThemeModal">Close</button>
+        </div>
+    </div>
+
+    <!-- Live Update Toast -->
+    <div class="toast" id="updateToast">
+        <div class="toast-content">
+            <i class="fas fa-sync-alt"></i>
+            <span>Portfolio updated with latest NAVs</span>
+        </div>
+    </div>
+
     <script src="assets/js/portfolio.js"></script>
+    <script src="assets/js/theme-manager.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>
