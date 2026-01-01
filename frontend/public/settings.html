@@ -3,106 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus - Settings Dashboard</title>
+    <title>Infinity Mutual Funds - Settings</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         :root {
-            --primary: #4f46e5;
-            --primary-light: #eef2ff;
-            --secondary: #1f2937;
-            --light-gray: #f9fafb;
-            --gray: #e5e7eb;
-            --dark-gray: #6b7280;
-            --white: #ffffff;
-            --border-radius: 12px;
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #7c3aed;
+            --sidebar-bg: #1e293b;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-color: #f9fafb;
+            --success-color: #10b981;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         body {
-            background-color: #f5f7fa;
-            color: #374151;
+            background-color: #f3f4f6;
+            color: var(--text-primary);
             display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Sidebar Styles */
         .sidebar {
             width: 260px;
-            background-color: var(--white);
-            border-right: 1px solid var(--gray);
+            background-color: var(--sidebar-bg);
+            color: white;
             padding: 24px 0;
             display: flex;
             flex-direction: column;
-            position: sticky;
-            top: 0;
-            height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            margin-bottom: 32px;
         }
 
         .logo {
-            font-size: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
             font-weight: 700;
-            color: var(--primary);
-            padding: 0 24px 24px;
-            border-bottom: 1px solid var(--gray);
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .menu-section {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--gray);
-        }
-
-        .menu-section:last-child {
-            border-bottom: none;
+            padding: 0 16px;
+            margin-bottom: 24px;
         }
 
         .menu-title {
             font-size: 12px;
-            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--dark-gray);
-            padding: 0 24px 12px;
-        }
-
-        .menu-items {
-            list-style: none;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 8px;
         }
 
         .menu-item {
-            padding: 10px 24px;
             display: flex;
             align-items: center;
-            color: var(--secondary);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 4px;
             cursor: pointer;
             transition: all 0.2s;
+            color: #cbd5e1;
         }
 
         .menu-item:hover {
-            background-color: var(--primary-light);
-            color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
         .menu-item.active {
-            background-color: var(--primary-light);
-            color: var(--primary);
-            border-right: 3px solid var(--primary);
+            background-color: rgba(37, 99, 235, 0.2);
+            color: white;
+            border-left: 4px solid var(--primary-color);
         }
 
         .menu-item i {
             margin-right: 12px;
             width: 20px;
-            text-align: center;
+            font-size: 16px;
         }
 
-        /* Main Content */
+        .menu-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 16px 0;
+        }
+
+        /* Main Content Styles */
         .main-content {
             flex: 1;
             padding: 32px;
@@ -119,48 +145,42 @@
         .page-title {
             font-size: 28px;
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--text-primary);
         }
 
-        .user-profile {
+        .user-info {
             display: flex;
             align-items: center;
-            background-color: var(--white);
+            background-color: white;
             padding: 8px 16px;
             border-radius: 50px;
             box-shadow: var(--shadow);
-            cursor: pointer;
         }
 
         .user-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: 600;
             margin-right: 12px;
         }
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-weight: 600;
+        .user-details h4 {
             font-size: 14px;
+            font-weight: 600;
         }
 
-        .user-email {
+        .user-details p {
             font-size: 12px;
-            color: var(--dark-gray);
+            color: var(--text-secondary);
         }
 
-        /* Settings Container */
+        /* Settings Content */
         .settings-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -168,60 +188,53 @@
         }
 
         .settings-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
             box-shadow: var(--shadow);
-            padding: 24px;
-            margin-bottom: 24px;
         }
 
-        .full-width {
+        .settings-card.full-width {
             grid-column: span 2;
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--gray);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
         }
 
-        /* Form Styles */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .form-label {
             display: block;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 8px;
-            color: var(--secondary);
+            color: var(--text-secondary);
         }
 
-        .form-control {
+        .form-input {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid var(--gray);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.2s;
+            font-size: 15px;
+            transition: all 0.2s;
+            background-color: white;
         }
 
-        .form-control:focus {
+        .form-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .form-hint {
-            font-size: 13px;
-            color: var(--dark-gray);
-            margin-top: 6px;
-        }
-
-        /* Photo Upload */
         .photo-upload {
             display: flex;
             align-items: center;
@@ -231,98 +244,161 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: var(--primary-light);
+            background-color: #e5e7eb;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 24px;
             overflow: hidden;
-            border: 3px solid var(--white);
-            box-shadow: var(--shadow);
+            border: 3px solid var(--border-color);
         }
 
-        .photo-preview i {
-            font-size: 40px;
-            color: var(--primary);
-        }
-
-        .photo-upload-area {
-            flex: 1;
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .upload-btn {
-            display: inline-block;
-            background-color: var(--primary);
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px 20px;
+            border: none;
+            padding: 12px 24px;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 12px;
+            transition: all 0.2s;
         }
 
         .upload-btn:hover {
-            background-color: #4338ca;
+            background-color: var(--primary-dark);
         }
 
-        /* Footer */
-        .settings-footer {
+        .upload-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper select {
+            appearance: none;
+            padding-right: 40px;
+        }
+
+        .select-wrapper i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .phone-input {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--gray);
+        }
+
+        .country-code {
+            width: 120px;
+            margin-right: 12px;
+        }
+
+        .phone-number {
+            flex: 1;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .data-item {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .data-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .help-section {
+            background: linear-gradient(135deg, #f0f9ff, #fef7ff);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .help-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .help-text {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .help-links {
+            display: flex;
+            gap: 16px;
         }
 
         .help-link {
-            color: var(--primary);
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .action-buttons {
             display: flex;
-            gap: 12px;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .btn {
-            padding: 12px 24px;
+        .help-link i {
+            margin-right: 8px;
+        }
+
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 32px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            border: none;
             font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
         }
 
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
+        .save-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.2);
         }
 
-        .btn-primary:hover {
-            background-color: #4338ca;
-        }
-
-        .btn-secondary {
-            background-color: var(--light-gray);
-            color: var(--secondary);
-            border: 1px solid var(--gray);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gray);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
             .settings-container {
                 grid-template-columns: 1fr;
             }
             
-            .full-width {
+            .settings-card.full-width {
                 grid-column: span 1;
             }
         }
@@ -334,344 +410,588 @@
             
             .sidebar {
                 width: 100%;
-                height: auto;
-                position: relative;
-                padding: 16px 0;
+                padding: 16px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
             }
             
-            .logo {
-                padding: 0 16px 16px;
+            .logo-container {
+                margin-bottom: 0;
+                width: 100%;
+                margin-bottom: 16px;
             }
             
             .menu-section {
-                padding: 16px 0;
-            }
-            
-            .menu-item {
-                padding: 8px 16px;
+                padding: 0;
+                margin-bottom: 0;
+                width: 48%;
             }
             
             .main-content {
-                padding: 24px 16px;
+                padding: 24px;
+            }
+            
+            .settings-container {
+                gap: 20px;
+            }
+            
+            .settings-card {
+                padding: 24px;
+            }
+            
+            .photo-upload {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .photo-preview {
+                margin-right: 0;
+                margin-bottom: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-section {
+                width: 100%;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .user-info {
+                margin-top: 16px;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .help-links {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <div class="sidebar">
-        <div class="logo">Nexus</div>
+        <div class="logo-container">
+            <div class="logo">IM</div>
+            <div class="logo-text">Infinity Mutual Funds</div>
+        </div>
         
         <div class="menu-section">
             <div class="menu-title">Destriboard</div>
-            <ul class="menu-items">
-                <li class="menu-item"><i class="fas fa-tasks"></i> Task</li>
-                <li class="menu-item"><i class="fas fa-calendar-alt"></i> Calendar</li>
-            </ul>
+            <div class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>Task</span>
+            </div>
+            <div class="menu-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>Calendar</span>
+            </div>
         </div>
+        
+        <div class="divider"></div>
         
         <div class="menu-section">
             <div class="menu-title">Status</div>
-            <ul class="menu-items">
-                <li class="menu-item"><i class="fas fa-user-friends"></i> Leads</li>
-                <li class="menu-item"><i class="fas fa-chart-line"></i> Opportunities</li>
-                <li class="menu-item"><i class="fas fa-file-contract"></i> Contracts</li>
-                <li class="menu-item"><i class="fas fa-building"></i> Companies</li>
-                <li class="menu-item"><i class="fas fa-chart-bar"></i> Analytics</li>
-            </ul>
+            <div class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span>Leads</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Opportunities</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Contracts</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-building"></i>
+                <span>Companies</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </div>
         </div>
+        
+        <div class="divider"></div>
         
         <div class="menu-section">
             <div class="menu-title">Maintaining</div>
-            <ul class="menu-items">
-                <li class="menu-item"><i class="fas fa-wrench"></i> Forms</li>
-                <li class="menu-item"><i class="fas fa-envelope"></i> Emails</li>
-                <li class="menu-item"><i class="fas fa-ad"></i> Social Media Ads</li>
-            </ul>
+            <div class="menu-item">
+                <i class="fas fa-wrench"></i>
+                <span>Forms</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>Emails</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-ad"></i>
+                <span>Social Media Ads</span>
+            </div>
         </div>
+        
+        <div class="divider"></div>
         
         <div class="menu-section">
             <div class="menu-title">Settings</div>
-            <ul class="menu-items">
-                <li class="menu-item active"><i class="fas fa-cog"></i> Apps Settings</li>
-                <li class="menu-item"><i class="fas fa-user-circle"></i> Account</li>
-                <li class="menu-item"><i class="fas fa-bell"></i> Notifications</li>
-                <li class="menu-item"><i class="fas fa-globe"></i> Language & Region</li>
-                <li class="menu-item"><i class="fas fa-briefcase"></i> Workspace Reference</li>
-                <li class="menu-item"><i class="fas fa-users"></i> Member</li>
-                <li class="menu-item"><i class="fas fa-credit-card"></i> Billing</li>
-            </ul>
+            <div class="menu-item active">
+                <i class="fas fa-sliders-h"></i>
+                <span>Apps Settings</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Account</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-globe"></i>
+                <span>Language & Region</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-briefcase"></i>
+                <span>Workspace Reference</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Member</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Billing</span>
+            </div>
         </div>
     </div>
-
-    <!-- Main Content -->
+    
+    <!-- Main Content Area -->
     <div class="main-content">
         <div class="header">
             <h1 class="page-title">Settings</h1>
-            <div class="user-profile">
+            <div class="user-info">
                 <div class="user-avatar">JM</div>
-                <div class="user-info">
-                    <div class="user-name">John Marpung</div>
-                    <div class="user-email">john@gmail.com</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="settings-container">
-            <!-- Personal Info Section -->
-            <div class="settings-card full-width">
-                <h2 class="card-title">Personal Info</h2>
-                <p class="form-hint" style="margin-bottom: 24px;">Update your personal details</p>
-                
-                <!-- Photo Upload -->
-                <div class="form-group">
-                    <div class="form-label">Your photo</div>
-                    <div class="photo-upload">
-                        <div class="photo-preview">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="photo-upload-area">
-                            <p>Upload a new photo. JPG or PNG, 1MB max.</p>
-                            <div class="upload-btn">
-                                <i class="fas fa-upload"></i> Upload Image
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Full Name -->
-                <div class="form-group">
-                    <label class="form-label" for="fullName">Full name</label>
-                    <input type="text" id="fullName" class="form-control" value="John Marpung">
-                </div>
-                
-                <!-- Email -->
-                <div class="form-group">
-                    <label class="form-label" for="email">Email</label>
-                    <input type="email" id="email" class="form-control" value="john@gmail.com">
-                </div>
-                
-                <!-- Phone Number -->
-                <div class="form-group">
-                    <label class="form-label" for="phone">Phone number</label>
-                    <div style="display: flex;">
-                        <select class="form-control" style="width: 100px; margin-right: 12px;">
-                            <option>+1</option>
-                            <option>+44</option>
-                            <option>+61</option>
-                            <option>+81</option>
-                        </select>
-                        <input type="tel" id="phone" class="form-control" value="(684) 555-0102">
-                    </div>
-                </div>
-                
-                <!-- Date of Birth -->
-                <div class="form-group">
-                    <label class="form-label" for="dob">Date of birth</label>
-                    <input type="text" id="dob" class="form-control" value="1999/04/12">
-                </div>
-                
-                <!-- Country -->
-                <div class="form-group">
-                    <label class="form-label" for="country">Country</label>
-                    <select id="country" class="form-control">
-                        <option selected>United States</option>
-                        <option>Canada</option>
-                        <option>United Kingdom</option>
-                        <option>Australia</option>
-                        <option>Germany</option>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Account Settings Card -->
-            <div class="settings-card">
-                <h2 class="card-title">Account Settings</h2>
-                
-                <div class="form-group">
-                    <label class="form-label" for="timezone">Timezone</label>
-                    <select id="timezone" class="form-control">
-                        <option selected>Eastern Time (ET)</option>
-                        <option>Central Time (CT)</option>
-                        <option>Mountain Time (MT)</option>
-                        <option>Pacific Time (PT)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="language">Language</label>
-                    <select id="language" class="form-control">
-                        <option selected>English (US)</option>
-                        <option>English (UK)</option>
-                        <option>Español</option>
-                        <option>Français</option>
-                        <option>Deutsch</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="currency">Currency</label>
-                    <select id="currency" class="form-control">
-                        <option selected>US Dollar (USD)</option>
-                        <option>Euro (EUR)</option>
-                        <option>British Pound (GBP)</option>
-                        <option>Japanese Yen (JPY)</option>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Notifications Card -->
-            <div class="settings-card">
-                <h2 class="card-title">Notification Settings</h2>
-                
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div class="form-label">Email notifications</div>
-                        <div class="form-hint">Receive updates via email</div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div class="form-label">Push notifications</div>
-                        <div class="form-hint">Receive browser notifications</div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div class="form-label">Marketing emails</div>
-                        <div class="form-hint">Receive product updates and offers</div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
+                <div class="user-details">
+                    <h4>John Marpung</h4>
+                    <p>john@gmail.com</p>
                 </div>
             </div>
         </div>
         
-        <!-- Footer -->
-        <div class="settings-footer">
-            <div class="help-link">
-                <i class="fas fa-question-circle"></i> Help and Support
+        <div class="settings-container">
+            <!-- Personal Information Card -->
+            <div class="settings-card">
+                <h2 class="card-title">Personal Information</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Your Photo</label>
+                    <div class="photo-upload">
+                        <div class="photo-preview">
+                            <img id="profile-image" src="" alt="Profile">
+                            <i class="fas fa-user fa-2x" style="color: #9ca3af;" id="profile-icon"></i>
+                        </div>
+                        <div>
+                            <button class="upload-btn" onclick="document.getElementById('file-upload').click()">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </button>
+                            <input type="file" id="file-upload" accept="image/jpeg, image/png" style="display: none;" onchange="previewImage(event)">
+                            <p class="upload-info">JPG or PNG, 1MB max</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" value="John Marpung">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" value="john@gmail.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-input" value="1999-04-12">
+                </div>
             </div>
             
-            <div class="action-buttons">
-                <button class="btn btn-secondary">Cancel</button>
-                <button class="btn btn-primary">Save Changes</button>
+            <!-- Regional Settings Card -->
+            <div class="settings-card">
+                <h2 class="card-title">Regional Settings</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Country</label>
+                    <div class="select-wrapper">
+                        <select class="form-input" id="country-select" onchange="updateCountryData()">
+                            <option value="US" selected>United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="JP">Japan</option>
+                            <option value="IN">India</option>
+                            <option value="BR">Brazil</option>
+                            <option value="ZA">South Africa</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <div class="phone-input">
+                        <div class="select-wrapper country-code">
+                            <select class="form-input" id="country-code">
+                                <option value="+1" selected>+1 (US)</option>
+                                <option value="+44">+44 (UK)</option>
+                                <option value="+61">+61 (AU)</option>
+                                <option value="+49">+49 (DE)</option>
+                                <option value="+33">+33 (FR)</option>
+                                <option value="+81">+81 (JP)</option>
+                                <option value="+91">+91 (IN)</option>
+                                <option value="+55">+55 (BR)</option>
+                                <option value="+27">+27 (ZA)</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <input type="tel" class="form-input phone-number" value="6845550102">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Time Zone</label>
+                    <div class="select-wrapper">
+                        <select class="form-input" id="timezone">
+                            <option value="America/New_York">Eastern Time (ET)</option>
+                            <option value="America/Chicago">Central Time (CT)</option>
+                            <option value="America/Denver">Mountain Time (MT)</option>
+                            <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                            <option value="Europe/London">Greenwich Mean Time (GMT)</option>
+                            <option value="Europe/Paris">Central European Time (CET)</option>
+                            <option value="Asia/Tokyo">Japan Standard Time (JST)</option>
+                            <option value="Asia/Kolkata">India Standard Time (IST)</option>
+                            <option value="Australia/Sydney">Australian Eastern Time (AET)</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <div class="select-wrapper">
+                        <select class="form-input" id="language">
+                            <option value="en" selected>English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="hi">Hindi</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <div class="select-wrapper">
+                        <select class="form-input" id="currency">
+                            <option value="USD" selected>US Dollar (USD)</option>
+                            <option value="GBP">British Pound (GBP)</option>
+                            <option value="EUR">Euro (EUR)</option>
+                            <option value="CAD">Canadian Dollar (CAD)</option>
+                            <option value="AUD">Australian Dollar (AUD)</option>
+                            <option value="JPY">Japanese Yen (JPY)</option>
+                            <option value="INR">Indian Rupee (INR)</option>
+                            <option value="BRL">Brazilian Real (BRL)</option>
+                            <option value="ZAR">South African Rand (ZAR)</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Country Data Card -->
+            <div class="settings-card full-width">
+                <h2 class="card-title">Country Information</h2>
+                <div class="data-grid" id="country-data">
+                    <!-- Country data will be populated here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Help and Support Section -->
+            <div class="help-section">
+                <h3 class="help-title">Help and Support</h3>
+                <p class="help-text">Need help with your settings? Our support team is here to assist you with any questions or issues you may have.</p>
+                <div class="help-links">
+                    <a href="#" class="help-link">
+                        <i class="far fa-question-circle"></i> Help Center
+                    </a>
+                    <a href="#" class="help-link">
+                        <i class="fas fa-book"></i> Documentation
+                    </a>
+                    <a href="#" class="help-link">
+                        <i class="fas fa-comments"></i> Contact Support
+                    </a>
+                    <a href="#" class="help-link">
+                        <i class="fas fa-video"></i> Tutorials
+                    </a>
+                </div>
             </div>
         </div>
+        
+        <button class="save-btn">
+            <i class="fas fa-save"></i> Save All Changes
+        </button>
     </div>
 
     <script>
-        // Toggle switch styling
-        document.querySelectorAll('.switch').forEach(switchElement => {
-            const slider = switchElement.querySelector('.slider');
-            const checkbox = switchElement.querySelector('input[type="checkbox"]');
-            
-            // Set initial state
-            if (checkbox.checked) {
-                slider.style.backgroundColor = 'var(--primary)';
+        // Country data mapping
+        const countryData = {
+            US: {
+                name: "United States",
+                code: "+1",
+                timezone: "America/New_York",
+                language: "en",
+                currency: "USD",
+                capital: "Washington D.C.",
+                population: "331.9 million",
+                area: "9.8 million km²",
+                gdp: "$22.675 trillion"
+            },
+            GB: {
+                name: "United Kingdom",
+                code: "+44",
+                timezone: "Europe/London",
+                language: "en",
+                currency: "GBP",
+                capital: "London",
+                population: "67.3 million",
+                area: "242,495 km²",
+                gdp: "$3.131 trillion"
+            },
+            CA: {
+                name: "Canada",
+                code: "+1",
+                timezone: "America/Toronto",
+                language: "en",
+                currency: "CAD",
+                capital: "Ottawa",
+                population: "38.0 million",
+                area: "9.98 million km²",
+                gdp: "$1.988 trillion"
+            },
+            AU: {
+                name: "Australia",
+                code: "+61",
+                timezone: "Australia/Sydney",
+                language: "en",
+                currency: "AUD",
+                capital: "Canberra",
+                population: "25.7 million",
+                area: "7.69 million km²",
+                gdp: "$1.617 trillion"
+            },
+            DE: {
+                name: "Germany",
+                code: "+49",
+                timezone: "Europe/Berlin",
+                language: "de",
+                currency: "EUR",
+                capital: "Berlin",
+                population: "83.2 million",
+                area: "357,022 km²",
+                gdp: "$4.319 trillion"
+            },
+            FR: {
+                name: "France",
+                code: "+33",
+                timezone: "Europe/Paris",
+                language: "fr",
+                currency: "EUR",
+                capital: "Paris",
+                population: "67.4 million",
+                area: "551,695 km²",
+                gdp: "$2.938 trillion"
+            },
+            JP: {
+                name: "Japan",
+                code: "+81",
+                timezone: "Asia/Tokyo",
+                language: "ja",
+                currency: "JPY",
+                capital: "Tokyo",
+                population: "125.8 million",
+                area: "377,975 km²",
+                gdp: "$5.065 trillion"
+            },
+            IN: {
+                name: "India",
+                code: "+91",
+                timezone: "Asia/Kolkata",
+                language: "hi",
+                currency: "INR",
+                capital: "New Delhi",
+                population: "1.408 billion",
+                area: "3.287 million km²",
+                gdp: "$3.176 trillion"
+            },
+            BR: {
+                name: "Brazil",
+                code: "+55",
+                timezone: "America/Sao_Paulo",
+                language: "pt",
+                currency: "BRL",
+                capital: "Brasília",
+                population: "213.3 million",
+                area: "8.516 million km²",
+                gdp: "$1.609 trillion"
+            },
+            ZA: {
+                name: "South Africa",
+                code: "+27",
+                timezone: "Africa/Johannesburg",
+                language: "en",
+                currency: "ZAR",
+                capital: "Pretoria",
+                population: "60.1 million",
+                area: "1.221 million km²",
+                gdp: "$415.3 billion"
             }
+        };
+
+        // Function to update country data when country is changed
+        function updateCountryData() {
+            const countrySelect = document.getElementById('country-select');
+            const countryCode = document.getElementById('country-code');
+            const timezoneSelect = document.getElementById('timezone');
+            const languageSelect = document.getElementById('language');
+            const currencySelect = document.getElementById('currency');
+            const countryDataDiv = document.getElementById('country-data');
             
-            // Add change event
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    slider.style.backgroundColor = 'var(--primary)';
-                } else {
-                    slider.style.backgroundColor = '#ccc';
+            const selectedCountry = countrySelect.value;
+            const data = countryData[selectedCountry];
+            
+            // Update dropdowns
+            countryCode.value = data.code;
+            
+            // Find and select matching timezone
+            for (let i = 0; i < timezoneSelect.options.length; i++) {
+                if (timezoneSelect.options[i].value.includes(data.timezone.split('/')[1])) {
+                    timezoneSelect.selectedIndex = i;
+                    break;
                 }
-            });
-        });
-        
-        // Initialize switch styles
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 50px;
-                height: 26px;
             }
             
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
+            // Find and select matching language
+            for (let i = 0; i < languageSelect.options.length; i++) {
+                if (languageSelect.options[i].value === data.language) {
+                    languageSelect.selectedIndex = i;
+                    break;
+                }
             }
             
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                transition: .4s;
-                border-radius: 34px;
+            // Find and select matching currency
+            for (let i = 0; i < currencySelect.options.length; i++) {
+                if (currencySelect.options[i].value === data.currency) {
+                    currencySelect.selectedIndex = i;
+                    break;
+                }
             }
             
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 18px;
-                width: 18px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                transition: .4s;
-                border-radius: 50%;
-            }
+            // Update country data display
+            countryDataDiv.innerHTML = `
+                <div class="data-item">
+                    <div class="data-label">Country Name</div>
+                    <div class="data-value">${data.name}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Country Code</div>
+                    <div class="data-value">${data.code}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Capital City</div>
+                    <div class="data-value">${data.capital}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Population</div>
+                    <div class="data-value">${data.population}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Area</div>
+                    <div class="data-value">${data.area}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">GDP (Nominal)</div>
+                    <div class="data-value">${data.gdp}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Primary Language</div>
+                    <div class="data-value">${languageSelect.options[languageSelect.selectedIndex].text}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Primary Currency</div>
+                    <div class="data-value">${currencySelect.options[currencySelect.selectedIndex].text}</div>
+                </div>
+            `;
+        }
+
+        // Function to preview uploaded image
+        function previewImage(event) {
+            const input = event.target;
+            const profileImage = document.getElementById('profile-image');
+            const profileIcon = document.getElementById('profile-icon');
             
-            input:checked + .slider:before {
-                transform: translateX(24px);
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Menu item click handler
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
                 
-                // Update page title based on selected menu
-                const pageTitle = document.querySelector('.page-title');
-                const menuText = this.textContent.trim();
-                pageTitle.textContent = menuText;
+                reader.onload = function(e) {
+                    profileImage.src = e.target.result;
+                    profileImage.style.display = 'block';
+                    profileIcon.style.display = 'none';
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Initialize the page with default country data
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountryData();
+            
+            // Set active menu item
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
-        });
-        
-        // Photo upload simulation
-        const uploadBtn = document.querySelector('.upload-btn');
-        const photoPreview = document.querySelector('.photo-preview');
-        
-        uploadBtn.addEventListener('click', function() {
-            // In a real application, this would open a file picker
-            // For demo, we'll just change the icon
-            const icon = photoPreview.querySelector('i');
-            icon.className = 'fas fa-check-circle';
-            icon.style.color = '#10b981';
             
-            // Show a temporary message
-            const originalText = uploadBtn.innerHTML;
-            uploadBtn.innerHTML = '<i class="fas fa-check"></i> Image Uploaded';
-            uploadBtn.style.backgroundColor = '#10b981';
-            
-            setTimeout(() => {
-                uploadBtn.innerHTML = originalText;
-                uploadBtn.style.backgroundColor = '';
-            }, 2000);
+            // Save button functionality
+            const saveButton = document.querySelector('.save-btn');
+            saveButton.addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-check"></i> Changes Saved!';
+                this.style.backgroundColor = '#10b981';
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-save"></i> Save All Changes';
+                    this.style.backgroundColor = '';
+                }, 2000);
+            });
         });
     </script>
 </body>
