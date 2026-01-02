@@ -45,6 +45,21 @@
             --energy-color: #ef4444;
         }
 
+        /* Light Theme */
+        [data-theme="light"] {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #7c3aed;
+            --sidebar-bg: #1e293b;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-color: #f9fafb;
+            --background-color: #f3f4f6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
         /* Dark Theme */
         [data-theme="dark"] {
             --primary-color: #60a5fa;
@@ -60,19 +75,19 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
 
-        /* Night Theme */
-        [data-theme="night"] {
-            --primary-color: #818cf8;
-            --primary-dark: #6366f1;
-            --secondary-color: #c084fc;
+        /* Normal Theme (Professional) */
+        [data-theme="normal"] {
+            --primary-color: #059669;
+            --primary-dark: #047857;
+            --secondary-color: #7c3aed;
             --sidebar-bg: #111827;
-            --card-bg: #1f2937;
-            --text-primary: #e5e7eb;
-            --text-secondary: #9ca3af;
-            --border-color: #374151;
-            --hover-color: #374151;
-            --background-color: #111827;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            --card-bg: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #d1d5db;
+            --hover-color: #f3f4f6;
+            --background-color: #f9fafb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
         }
 
         body {
@@ -83,24 +98,26 @@
             transition: all 0.3s ease;
         }
 
-        /* Theme Switcher */
+        /* Theme Switcher - Left Side Bottom */
         .theme-switcher {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            bottom: 20px;
+            left: 20px;
             z-index: 1000;
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 8px;
+            border-radius: 12px;
+            padding: 10px;
             box-shadow: var(--shadow);
             display: flex;
-            gap: 5px;
+            flex-direction: column;
+            gap: 8px;
+            border: 1px solid var(--border-color);
         }
 
         .theme-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
             display: flex;
@@ -109,16 +126,38 @@
             background: transparent;
             color: var(--text-secondary);
             transition: all 0.3s;
+            position: relative;
         }
 
         .theme-btn:hover {
             background: var(--hover-color);
-            color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
         .theme-btn.active {
             background: var(--primary-color);
             color: white;
+        }
+
+        .theme-tooltip {
+            position: absolute;
+            left: 50px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-btn:hover .theme-tooltip {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Sidebar Styles */
@@ -491,6 +530,148 @@
             color: var(--text-secondary);
         }
 
+        /* Portfolio Performance Bar Chart */
+        .performance-chart-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .performance-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .performance-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .performance-tab:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .performance-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .chart-wrapper {
+            margin-top: 20px;
+            position: relative;
+            height: 250px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            padding: 20px 0;
+            gap: 20px;
+            position: relative;
+        }
+
+        .bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .bar {
+            width: 40px;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .bar-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .grid-line {
+            border-top: 1px dashed var(--border-color);
+            position: relative;
+        }
+
+        .grid-value {
+            position: absolute;
+            right: -40px;
+            top: -8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .y-axis-label {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: rotate(-90deg);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
         /* Sector Analysis Section */
         .sectors-section {
             background-color: var(--card-bg);
@@ -704,60 +885,6 @@
             color: #f59e0b;
         }
 
-        /* Charts Section */
-        .charts-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .chart-container {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .chart-header h3 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .chart-period {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .chart-placeholder {
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--hover-color);
-            border-radius: 8px;
-            border: 2px dashed var(--border-color);
-            color: var(--text-secondary);
-        }
-
-        .chart-note {
-            color: var(--text-secondary);
-            font-size: 14px;
-            text-align: center;
-        }
-
         /* Asset Allocation */
         .allocation-item {
             display: flex;
@@ -787,8 +914,12 @@
 
         /* Responsive Design */
         @media (max-width: 1200px) {
-            .charts-section {
-                grid-template-columns: 1fr;
+            .performance-chart-container {
+                overflow-x: auto;
+            }
+            
+            .bar-chart {
+                min-width: 600px;
             }
         }
 
@@ -798,8 +929,16 @@
             }
             
             .theme-switcher {
-                top: 10px;
-                right: 10px;
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                flex-direction: row;
+                padding: 8px;
+            }
+            
+            .theme-btn {
+                width: 36px;
+                height: 36px;
             }
             
             .sidebar {
@@ -838,6 +977,10 @@
             .stats-grid, .sectors-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .performance-tabs {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -874,16 +1017,19 @@
     </style>
 </head>
 <body data-theme="light">
-    <!-- Theme Switcher -->
+    <!-- Theme Switcher - Left Side Bottom -->
     <div class="theme-switcher">
         <button class="theme-btn active" data-theme="light" title="Light Mode">
             <i class="fas fa-sun"></i>
+            <span class="theme-tooltip">Light Mode</span>
         </button>
         <button class="theme-btn" data-theme="dark" title="Dark Mode">
             <i class="fas fa-moon"></i>
+            <span class="theme-tooltip">Dark Mode</span>
         </button>
-        <button class="theme-btn" data-theme="night" title="Night Mode">
-            <i class="fas fa-star"></i>
+        <button class="theme-btn" data-theme="normal" title="Normal Mode">
+            <i class="fas fa-adjust"></i>
+            <span class="theme-tooltip">Normal Mode</span>
         </button>
     </div>
 
@@ -978,13 +1124,31 @@
             <div class="indices-grid" id="marketIndices"></div>
         </section>
 
-        <!-- Sector Analysis -->
-        <section class="sectors-section">
-            <div class="sectors-header">
-                <h2><i class="fas fa-industry"></i> Sector Performance Analysis</h2>
-                <div class="sectors-tabs" id="sectorTabs"></div>
+        <!-- Portfolio Performance Bar Chart -->
+        <section class="performance-chart-container">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-bar"></i> Portfolio Performance</h3>
+                <div class="performance-tabs" id="performanceTabs">
+                    <button class="performance-tab active" data-period="1D">1 Day</button>
+                    <button class="performance-tab" data-period="1W">1 Week</button>
+                    <button class="performance-tab" data-period="1M">1 Month</button>
+                    <button class="performance-tab" data-period="3M">3 Months</button>
+                    <button class="performance-tab" data-period="6M">6 Months</button>
+                    <button class="performance-tab" data-period="1Y">1 Year</button>
+                    <button class="performance-tab" data-period="3Y">3 Years</button>
+                    <button class="performance-tab" data-period="5Y">5 Years</button>
+                </div>
             </div>
-            <div class="sectors-grid" id="sectorsGrid"></div>
+            
+            <div class="chart-wrapper">
+                <div class="chart-grid" id="chartGrid">
+                    <!-- Grid lines will be added by JavaScript -->
+                </div>
+                <div class="bar-chart" id="barChart">
+                    <!-- Bars will be added by JavaScript -->
+                </div>
+                <div class="y-axis-label">Returns (%)</div>
+            </div>
         </section>
 
         <!-- Stats Cards -->
@@ -1028,6 +1192,15 @@
             </div>
         </section>
 
+        <!-- Sector Analysis -->
+        <section class="sectors-section">
+            <div class="sectors-header">
+                <h2><i class="fas fa-industry"></i> Sector Performance Analysis</h2>
+                <div class="sectors-tabs" id="sectorTabs"></div>
+            </div>
+            <div class="sectors-grid" id="sectorsGrid"></div>
+        </section>
+
         <!-- Top Gainers & Losers -->
         <section class="stocks-section">
             <div class="section-header">
@@ -1045,106 +1218,61 @@
             <div class="stocks-table" id="stocksTable"></div>
         </section>
 
-        <!-- Charts Section -->
-        <section class="charts-section">
-            <div class="chart-container">
-                <div class="chart-header">
-                    <h3><i class="fas fa-chart-line"></i> Portfolio Performance</h3>
-                    <select class="chart-period" id="chartPeriod">
-                        <option value="1M">1 Month</option>
-                        <option value="6M" selected>6 Months</option>
-                        <option value="1Y">1 Year</option>
-                        <option value="3Y">3 Years</option>
-                        <option value="5Y">5 Years</option>
-                    </select>
-                </div>
-                <div class="chart-placeholder" id="performanceChart">
-                    <p class="chart-note"><i class="fas fa-chart-line"></i> Interactive portfolio growth chart will be displayed here</p>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <div class="chart-header">
-                    <h3><i class="fas fa-chart-pie"></i> Asset Allocation</h3>
-                    <span class="chart-info" title="Your portfolio distribution across different fund types"><i class="fas fa-info-circle"></i></span>
-                </div>
-                <div class="allocation-chart" id="assetAllocation"></div>
-            </div>
-        </section>
-
-        <!-- Recent Transactions -->
+        <!-- Asset Allocation -->
         <section class="stocks-section">
             <div class="section-header">
-                <h3><i class="fas fa-exchange-alt"></i> Recent Transactions</h3>
-                <a href="transactions.html" class="view-all">View All →</a>
+                <h3><i class="fas fa-chart-pie"></i> Asset Allocation</h3>
+                <a href="reports.html" class="view-all">View Details →</a>
             </div>
             <div class="stocks-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Fund Name</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Status</th>
+                            <th>Asset Class</th>
+                            <th>Allocation %</th>
+                            <th>Value</th>
+                            <th>Performance</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Dec 29, 2024</td>
                             <td>
-                                <div class="stock-name">SBI Bluechip Fund</div>
-                                <div class="stock-symbol">Equity - Large Cap</div>
+                                <div class="stock-name">Equity Funds</div>
+                                <div class="stock-symbol">Large, Mid & Small Cap</div>
                             </td>
-                            <td>SIP</td>
-                            <td>₹10,000</td>
-                            <td><span class="status completed">Completed</span></td>
+                            <td>65%</td>
+                            <td>₹16,11,064</td>
+                            <td><span class="status completed">+18.4%</span></td>
                         </tr>
                         <tr>
-                            <td>Dec 28, 2024</td>
                             <td>
-                                <div class="stock-name">HDFC Balanced Advantage Fund</div>
-                                <div class="stock-symbol">Hybrid</div>
+                                <div class="stock-name">Debt Funds</div>
+                                <div class="stock-symbol">Bonds & Fixed Income</div>
                             </td>
-                            <td>Lump Sum</td>
-                            <td>₹50,000</td>
-                            <td><span class="status completed">Completed</span></td>
+                            <td>25%</td>
+                            <td>₹6,19,640</td>
+                            <td><span class="status completed">+7.2%</span></td>
                         </tr>
                         <tr>
-                            <td>Dec 27, 2024</td>
                             <td>
-                                <div class="stock-name">ICICI Prudential Bond Fund</div>
-                                <div class="stock-symbol">Debt</div>
+                                <div class="stock-name">Hybrid Funds</div>
+                                <div class="stock-symbol">Balanced Advantage</div>
                             </td>
-                            <td>Redemption</td>
-                            <td>₹25,000</td>
-                            <td><span class="status pending">Processing</span></td>
+                            <td>8%</td>
+                            <td>₹1,98,285</td>
+                            <td><span class="status completed">+12.1%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="stock-name">Money Market</div>
+                                <div class="stock-symbol">Liquid & Overnight</div>
+                            </td>
+                            <td>2%</td>
+                            <td>₹49,571</td>
+                            <td><span class="status completed">+5.4%</span></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </section>
-
-        <!-- Quick Actions -->
-        <section class="quick-actions">
-            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
-            <div class="action-buttons">
-                <button class="action-btn" onclick="location.href='invest.html'">
-                    <span class="action-icon"><i class="fas fa-plus-circle"></i></span>
-                    <span>Add Investment</span>
-                </button>
-                <button class="action-btn" onclick="location.href='import.html'">
-                    <span class="action-icon"><i class="fas fa-file-import"></i></span>
-                    <span>Import Statement</span>
-                </button>
-                <button class="action-btn" onclick="location.href='reports.html'">
-                    <span class="action-icon"><i class="fas fa-file-pdf"></i></span>
-                    <span>Generate Report</span>
-                </button>
-                <button class="action-btn" onclick="location.href='goals.html'">
-                    <span class="action-icon"><i class="fas fa-bullseye"></i></span>
-                    <span>Set Goal</span>
-                </button>
             </div>
         </section>
     </main>
@@ -1162,11 +1290,76 @@
                     btn.classList.add('active');
                 }
             });
+            
+            // Update chart colors if chart exists
+            if (window.currentPerformanceData) {
+                updatePerformanceChart(window.currentPerformanceData.period);
+            }
         }
 
         // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
+
+        // Portfolio performance data for different time periods
+        const performanceData = {
+            '1D': {
+                labels: ['9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'],
+                values: [0.1, 0.3, 0.5, 0.8, 0.6, 0.4, 0.2, 0.1, -0.1, 0.2, 0.4, 0.3, 0.33],
+                maxValue: 1,
+                unit: '%',
+                title: 'Intraday Performance'
+            },
+            '1W': {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                values: [0.8, 1.2, 0.9, 1.5, 1.8, 1.6],
+                maxValue: 2,
+                unit: '%',
+                title: 'Weekly Performance'
+            },
+            '1M': {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                values: [2.4, 3.1, 1.8, 2.9],
+                maxValue: 4,
+                unit: '%',
+                title: 'Monthly Performance'
+            },
+            '3M': {
+                labels: ['Month 1', 'Month 2', 'Month 3'],
+                values: [4.2, 5.8, 6.5],
+                maxValue: 8,
+                unit: '%',
+                title: '3-Month Performance'
+            },
+            '6M': {
+                labels: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'],
+                values: [6.2, 7.8, 9.1, 10.5, 12.3, 14.2],
+                maxValue: 16,
+                unit: '%',
+                title: '6-Month Performance'
+            },
+            '1Y': {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                values: [8.5, 12.3, 14.7, 16.4],
+                maxValue: 20,
+                unit: '%',
+                title: 'Yearly Performance'
+            },
+            '3Y': {
+                labels: ['Year 1', 'Year 2', 'Year 3'],
+                values: [18.5, 22.3, 25.7],
+                maxValue: 30,
+                unit: '%',
+                title: '3-Year Performance'
+            },
+            '5Y': {
+                labels: ['Y1', 'Y2', 'Y3', 'Y4', 'Y5'],
+                values: [15.2, 18.7, 22.4, 25.9, 28.3],
+                maxValue: 35,
+                unit: '%',
+                title: '5-Year Performance'
+            }
+        };
 
         // Mock data for market indices
         const marketIndicesData = [
@@ -1317,14 +1510,6 @@
             { name: "Reliance Power", symbol: "RPOWER", price: "₹28.90", volume: "54.8M", value: "₹158Cr" }
         ];
 
-        // Asset allocation data
-        const assetAllocationData = [
-            { category: "Equity Funds", percentage: 65, color: "var(--equity-color)" },
-            { category: "Debt Funds", percentage: 25, color: "var(--debt-color)" },
-            { category: "Hybrid Funds", percentage: 8, color: "var(--hybrid-color)" },
-            { category: "Money Market Funds", percentage: 2, color: "var(--money-market-color)" }
-        ];
-
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date
@@ -1339,8 +1524,8 @@
             // Load sectors
             loadSectors();
             
-            // Load asset allocation
-            loadAssetAllocation();
+            // Load performance chart
+            updatePerformanceChart('1D');
             
             // Load stocks data
             loadStocksData('gainers');
@@ -1470,22 +1655,71 @@
             });
         }
 
-        // Load asset allocation
-        function loadAssetAllocation() {
-            const container = document.getElementById('assetAllocation');
-            container.innerHTML = '';
+        // Update performance chart
+        function updatePerformanceChart(period) {
+            const data = performanceData[period];
+            window.currentPerformanceData = { period, ...data };
             
-            assetAllocationData.forEach(item => {
-                const allocationItem = document.createElement('div');
-                allocationItem.className = 'allocation-item';
+            const barChart = document.getElementById('barChart');
+            const chartGrid = document.getElementById('chartGrid');
+            
+            // Update active tab
+            document.querySelectorAll('.performance-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-period') === period) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Clear previous chart
+            barChart.innerHTML = '';
+            chartGrid.innerHTML = '';
+            
+            // Create grid lines
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const value = (i * data.maxValue / gridLines).toFixed(1);
+                const gridLine = document.createElement('div');
+                gridLine.className = 'grid-line';
+                gridLine.style.top = `${(i * 100 / gridLines)}%`;
                 
-                allocationItem.innerHTML = `
-                    <div class="allocation-color" style="background-color: ${item.color}"></div>
-                    <span class="allocation-label">${item.category}</span>
-                    <span class="allocation-value">${item.percentage}%</span>
-                `;
+                const gridValue = document.createElement('span');
+                gridValue.className = 'grid-value';
+                gridValue.textContent = `${value}${data.unit}`;
                 
-                container.appendChild(allocationItem);
+                gridLine.appendChild(gridValue);
+                chartGrid.appendChild(gridLine);
+            }
+            
+            // Create bars
+            const maxBarHeight = 180; // Max height in pixels
+            data.values.forEach((value, index) => {
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
+                
+                const barHeight = Math.abs(value) / data.maxValue * maxBarHeight;
+                const isPositive = value >= 0;
+                
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${barHeight}px`;
+                bar.style.background = isPositive 
+                    ? 'linear-gradient(to top, var(--primary-color), var(--secondary-color))'
+                    : 'linear-gradient(to top, var(--danger-color), #f97316)';
+                
+                const barValue = document.createElement('div');
+                barValue.className = 'bar-value';
+                barValue.textContent = `${value > 0 ? '+' : ''}${value.toFixed(1)}${data.unit}`;
+                barValue.style.color = isPositive ? 'var(--success-color)' : 'var(--danger-color)';
+                
+                const barLabel = document.createElement('div');
+                barLabel.className = 'bar-label';
+                barLabel.textContent = data.labels[index];
+                
+                bar.appendChild(barValue);
+                barContainer.appendChild(bar);
+                barContainer.appendChild(barLabel);
+                barChart.appendChild(barContainer);
             });
         }
 
@@ -1558,6 +1792,14 @@
 
         // Setup event listeners
         function setupEventListeners() {
+            // Performance chart tabs
+            document.querySelectorAll('.performance-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    updatePerformanceChart(period);
+                });
+            });
+            
             // Refresh button
             document.getElementById('refreshButton').addEventListener('click', function() {
                 this.classList.add('live-update');
@@ -1590,21 +1832,9 @@
                 });
             });
             
-            // Chart period selector
-            document.getElementById('chartPeriod').addEventListener('change', function() {
-                // In a real app, this would fetch new chart data
-                const chartNote = document.querySelector('.chart-note');
-                chartNote.innerHTML = `<i class="fas fa-chart-line"></i> Loading ${this.options[this.selectedIndex].text} data...`;
-                
-                setTimeout(() => {
-                    chartNote.innerHTML = `<i class="fas fa-chart-line"></i> ${this.options[this.selectedIndex].text} portfolio performance chart`;
-                }, 1000);
-            });
-            
             // Logout button
             document.getElementById('logoutButton').addEventListener('click', function() {
                 if (confirm('Are you sure you want to logout?')) {
-                    // In a real app, this would redirect to logout
                     alert('Logged out successfully');
                     // window.location.href = 'login.html';
                 }
