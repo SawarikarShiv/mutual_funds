@@ -4,408 +4,224 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Infinity Mutual Funds</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Portfolio Specific Styles -->
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success-gradient: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
-            --danger-gradient: linear-gradient(135deg, #ff5858 0%, #f09819 100%);
-            --warning-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        /* Dynamic Date Display */
-        .date-display {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 15px 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .date-display .day {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1;
-        }
-        
-        .date-display .month-year {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .date-display .day-name {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #667eea;
-        }
-        
-        /* Background Themes */
-        .background-theme {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -2;
-            transition: all 1s ease;
-        }
-        
-        /* Theme 1: Blue Gradient (Default) */
-        .theme-blue {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
-        }
-        
-        /* Theme 2: Green Wealth */
-        .theme-green {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(11, 163, 96, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(60, 186, 146, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #0a2e1a 0%, #1a4e35 100%);
-        }
-        
-        /* Theme 3: Dark Professional */
-        .theme-dark {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
-        
-        /* Theme 4: Purple Premium */
-        .theme-purple {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(155, 89, 182, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(142, 68, 173, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%);
-        }
-        
-        /* Theme 5: Sunrise */
-        .theme-sunrise {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(246, 211, 101, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(253, 160, 133, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #2e1a0a 0%, #4e2d1b 100%);
-        }
-        
-        /* Theme 6: Ocean */
-        .theme-ocean {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(86, 204, 242, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(47, 128, 237, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #0a1a2e 0%, #1b2d4e 100%);
-        }
-        
-        /* Animated Particles */
-        .particles {
+        /* Theme Background Styles */
+        .theme-background {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: -1;
-            pointer-events: none;
+            opacity: 0.1;
+            transition: all 0.5s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         
-        .particle {
-            position: absolute;
+        /* Theme-specific backgrounds */
+        .theme-bg-light {
+            background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070');
+        }
+        
+        .theme-bg-dark {
+            background-image: url('https://images.unsplash.com/photo-1614854262318-831574f15f1f?q=80&w=2070');
+        }
+        
+        .theme-bg-blue {
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070');
+        }
+        
+        .theme-bg-green {
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074');
+        }
+        
+        /* Live Chat Banner */
+        .live-chat-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .live-chat-banner .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Date Display */
+        .date-display {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Enhanced Portfolio Cards */
-        .portfolio-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
-        .summary-card {
-            background: var(--glass-bg);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
         }
         
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
+        /* Online Users Counter */
+        .online-users {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
         }
         
-        .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .summary-card h3 {
-            margin: 0 0 15px 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .summary-card .amount {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .summary-card .change {
-            font-size: 1rem;
-            font-weight: 500;
-            margin: 0;
-        }
-        
-        .summary-card .change.positive {
-            color: #0ba360;
-        }
-        
-        .summary-card .change.negative {
-            color: #ff5858;
-        }
-        
-        /* Theme Selection Bar */
-        .theme-bar {
+        /* Live Chat Panel */
+        .live-chat-panel {
             position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        .theme-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+        .live-chat-panel.active {
+            display: block;
+            animation: slideIn 0.3s ease;
         }
         
-        .theme-option:hover {
-            transform: scale(1.2);
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
-        .theme-option.active {
-            border-color: white;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        
-        /* Portfolio Grid View */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
-        .fund-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .fund-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
-        }
-        
-        .fund-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .fund-header {
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 16px 16px 0 0;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
+            align-items: center;
         }
         
-        .fund-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 0;
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.8);
         }
         
-        .fund-amc {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin: 5px 0 0 0;
+        .chat-input {
+            padding: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 8px;
         }
         
-        .fund-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            outline: none;
         }
         
-        .metric {
-            text-align: center;
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 80%;
         }
         
-        .metric-label {
-            font-size: 0.85rem;
-            opacity: 0.7;
-            margin-bottom: 5px;
+        .message.sent {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
         }
         
-        .metric-value {
-            font-size: 1.2rem;
-            font-weight: 600;
+        .message.received {
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .date-display {
-                position: relative;
-                top: 0;
-                right: 0;
-                width: 100%;
-                margin: 20px 0;
-                border-radius: 10px;
-            }
-            
-            .theme-bar {
-                position: fixed;
-                bottom: 20px;
-                top: auto;
-                left: 50%;
-                transform: translateX(-50%);
-                flex-direction: row;
-                padding: 10px 20px;
-            }
-            
-            .theme-option {
-                width: 25px;
-                height: 25px;
-            }
-            
-            .portfolio-summary {
-                grid-template-columns: 1fr;
-            }
+        /* View Counter */
+        .view-counter {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Background Theme -->
-    <div class="background-theme theme-blue" id="backgroundTheme"></div>
+    <!-- Theme Background -->
+    <div class="theme-background" id="themeBackground"></div>
     
-    <!-- Animated Particles -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Date Display -->
-    <div class="date-display" id="dateDisplay">
-        <div class="day">02</div>
-        <div class="month-year">Jan 2026</div>
-        <div class="day-name">Friday</div>
-    </div>
-    
-    <!-- Theme Selection Bar -->
-    <div class="theme-bar" id="themeBar">
-        <div class="theme-option theme-blue active" data-theme="blue" title="Blue Gradient"></div>
-        <div class="theme-option theme-green" data-theme="green" title="Green Wealth"></div>
-        <div class="theme-option theme-dark" data-theme="dark" title="Dark Professional"></div>
-        <div class="theme-option theme-purple" data-theme="purple" title="Purple Premium"></div>
-        <div class="theme-option theme-sunrise" data-theme="sunrise" title="Sunrise"></div>
-        <div class="theme-option theme-ocean" data-theme="ocean" title="Ocean Blue"></div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar glass-nav">
+    <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <div class="logo">∞</div>
                 <span class="brand-name">Infinity Mutual Funds</span>
+                
+                <!-- Live Chat Indicator -->
+                <span class="live-chat-banner" id="liveChatToggle">
+                    <span class="live-dot"></span>
+                    <span>LIVE CHAT</span>
+                    <span class="online-users">
+                        <i class="fas fa-users"></i>
+                        <span id="onlineCount">245</span>
+                    </span>
+                </span>
+                
+                <!-- Today's Date -->
+                <span class="date-display">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="currentDate">Monday, 02 January 2026</span>
+                </span>
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link">Dashboard</a>
@@ -413,517 +229,390 @@
                 <a href="transactions.html" class="nav-link">Transactions</a>
                 <a href="reports.html" class="nav-link">Reports</a>
                 <a href="settings.html" class="nav-link">Settings</a>
-                <button class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                
+                <!-- View Counter -->
+                <span class="view-counter">
+                    <i class="fas fa-eye"></i>
+                    <span id="viewCount">1,234</span>
+                </span>
+                
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-palette"></i>
                 </button>
+                
+                <button class="logout-btn">Logout</button>
             </div>
         </div>
     </nav>
 
     <main class="container">
-        <!-- Page Header -->
         <div class="page-header">
-            <h1>My Investment Portfolio</h1>
-            <p>Track and manage your mutual fund investments in real-time</p>
+            <h1>My Portfolio</h1>
+            <p>Manage and track all your mutual fund investments</p>
+            
+            <!-- Real-time update indicator -->
             <div class="last-updated">
-                <span id="lastUpdateTime">Last updated: Today, 02 Jan 2026 09:45 AM</span>
+                <span id="lastUpdateTime">Last updated: Just now</span>
                 <button class="refresh-btn" id="refreshPortfolio">
-                    <i class="fas fa-sync-alt"></i> Refresh Now
+                    <i class="fas fa-sync-alt"></i> Refresh
                 </button>
+                
+                <!-- Live Update Indicator -->
+                <span class="live-chat-banner" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
+                    <i class="fas fa-bolt"></i>
+                    <span>REAL-TIME UPDATES ACTIVE</span>
+                </span>
             </div>
         </div>
 
-        <!-- Market Status -->
+        <!-- Live Market Status -->
         <div class="market-status" id="marketStatus">
             <div class="status-indicator live">
                 <i class="fas fa-circle"></i>
-                <span>Market Open • Live Updates Active</span>
+                <span>Live Market Data</span>
             </div>
             <div class="market-time">
                 <i class="far fa-clock"></i>
-                <span id="marketTime">Trading Hours: 09:15 AM - 03:30 PM IST</span>
+                <span id="marketTime">Market Open: 09:15 AM - 03:30 PM</span>
+            </div>
+            <div class="market-date">
+                <i class="far fa-calendar-check"></i>
+                <span>Today: 02 Jan 2026 • Friday</span>
             </div>
         </div>
 
-        <!-- Portfolio Summary -->
         <div class="portfolio-summary">
             <div class="summary-card">
-                <h3>Total Portfolio Value</h3>
+                <h3>Total Value</h3>
                 <p class="amount" id="totalValue">₹24,78,560</p>
-                <p class="change positive" id="todayChange">+ ₹58,200 (+2.4%) today</p>
+                <p class="change positive" id="todayChange">+2.4% today</p>
                 <div class="live-indicator">
-                    <i class="fas fa-bolt"></i>
-                    <span>Live Pricing</span>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Live</span>
                 </div>
             </div>
-            
             <div class="summary-card">
-                <h3>Total Gains</h3>
+                <h3>Total Gain</h3>
                 <p class="amount" id="totalGain">₹2,15,400</p>
-                <p class="change positive" id="overallChange">+15.8% overall return</p>
-                <div class="metric-breakdown">
-                    <small>Realized: ₹45,200 | Unrealized: ₹1,70,200</small>
+                <p class="change positive" id="overallChange">+15.8% overall</p>
+                <div class="date-info">
+                    <i class="far fa-calendar"></i>
+                    <span>Since 2024</span>
                 </div>
             </div>
-            
             <div class="summary-card">
-                <h3>Holdings Summary</h3>
-                <p class="amount" id="fundsCount">12 Funds</p>
-                <p class="info" id="amcCount">Across 4 AMCs • 3 Sectors</p>
-                <div class="diversity-score">
-                    <small>Diversity Score: 8.5/10</small>
-                    <div class="score-bar">
-                        <div class="score-fill" style="width: 85%;"></div>
-                    </div>
+                <h3>Funds Held</h3>
+                <p class="amount" id="fundsCount">12</p>
+                <p class="info" id="amcCount">across 4 AMCs</p>
+                <div class="viewers-info">
+                    <i class="fas fa-eye"></i>
+                    <span id="portfolioViews">1.2K views</span>
                 </div>
             </div>
         </div>
 
-        <!-- Portfolio Actions -->
         <div class="portfolio-actions">
-            <button class="btn btn-primary-gradient" id="addInvestment">
-                <i class="fas fa-plus-circle"></i>
-                <span>Add New Investment</span>
+            <button class="btn btn-primary" id="addInvestment">
+                <i class="fas fa-plus"></i>
+                <span>Add Investment</span>
             </button>
-            <button class="btn btn-glass" id="importCAS">
+            <button class="btn btn-outline" id="importCAS">
                 <i class="fas fa-file-import"></i>
-                <span>Import CAS File</span>
+                <span>Import CAS</span>
             </button>
-            <button class="btn btn-glass" id="rebalancePortfolio">
-                <i class="fas fa-balance-scale-right"></i>
-                <span>Rebalance Portfolio</span>
+            <button class="btn btn-outline" id="rebalancePortfolio">
+                <i class="fas fa-balance-scale"></i>
+                <span>Rebalance</span>
             </button>
-            <button class="btn btn-glass" id="exportReport">
-                <i class="fas fa-download"></i>
-                <span>Export Report</span>
+            <button class="btn btn-outline" id="liveUpdateToggle">
+                <i class="fas fa-bolt"></i>
+                <span>Live Updates: ON</span>
             </button>
-        </div>
-
-        <!-- View Toggle -->
-        <div class="view-toggle">
-            <button class="view-btn active" data-view="grid">
-                <i class="fas fa-th-large"></i> Grid View
-            </button>
-            <button class="view-btn" data-view="table">
-                <i class="fas fa-table"></i> Table View
-            </button>
-            <button class="view-btn" data-view="chart">
-                <i class="fas fa-chart-pie"></i> Chart View
+            <button class="btn btn-chat" id="openChat">
+                <i class="fas fa-comments"></i>
+                <span>Join Chat</span>
             </button>
         </div>
 
-        <!-- Portfolio Grid View -->
-        <div class="portfolio-grid" id="portfolioGrid">
-            <!-- Fund cards will be populated here -->
-        </div>
-
-        <!-- Portfolio Table View (Hidden by default) -->
-        <div class="portfolio-table-container" id="portfolioTable" style="display: none;">
+        <div class="portfolio-table-container">
             <div class="table-header">
-                <h3>Detailed Holdings</h3>
+                <h3>Your Holdings</h3>
                 <div class="table-filters">
-                    <input type="text" placeholder="Search funds, AMC, or sector..." id="searchFunds">
-                    <select id="filterCategory">
-                        <option value="">All Categories</option>
-                        <option value="equity">Equity</option>
-                        <option value="debt">Debt</option>
-                        <option value="hybrid">Hybrid</option>
-                    </select>
+                    <input type="text" placeholder="Search funds..." id="searchFunds">
                     <select id="sortFunds">
-                        <option value="value">Highest Value</option>
-                        <option value="gain">Best Performers</option>
-                        <option value="risk">Lowest Risk</option>
+                        <option value="value">Sort by Value</option>
+                        <option value="gain">Sort by Gain</option>
+                        <option value="name">Sort by Name</option>
                     </select>
                 </div>
+                <div class="table-stats">
+                    <span class="live-update">
+                        <i class="fas fa-sync-alt fa-spin"></i>
+                        <span>Auto-refresh every 30s</span>
+                    </span>
+                </div>
             </div>
-            <table class="portfolio-table">
+            <table class="portfolio-table" id="portfolioTable">
                 <thead>
                     <tr>
                         <th>Fund Name</th>
-                        <th>Category</th>
+                        <th>AMC</th>
                         <th>Units</th>
                         <th>Avg. Cost</th>
                         <th>Current NAV</th>
                         <th>Current Value</th>
                         <th>Gain/Loss</th>
-                        <th>XIRR</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="portfolioTbody">
-                    <!-- Table data will be populated here -->
+                    <!-- Data will be populated dynamically -->
                 </tbody>
             </table>
+            <div class="table-footer">
+                <div class="pagination">
+                    <button class="page-btn" id="prevPage">← Previous</button>
+                    <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">3</span></span>
+                    <button class="page-btn" id="nextPage">Next →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Chat Activity Feed -->
+        <div class="chat-activity">
+            <h3><i class="fas fa-comment-dots"></i> Live Portfolio Chat</h3>
+            <div class="activity-feed" id="activityFeed">
+                <div class="activity-item">
+                    <span class="user">John D.</span>
+                    <span class="action">updated portfolio value</span>
+                    <span class="time">2 min ago</span>
+                </div>
+                <div class="activity-item">
+                    <span class="user">Sarah M.</span>
+                    <span class="action">added a new fund</span>
+                    <span class="time">5 min ago</span>
+                </div>
+                <div class="activity-item">
+                    <span class="user">You</span>
+                    <span class="action">are currently viewing</span>
+                    <span class="time">Just now</span>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- JavaScript -->
+    <!-- Live Chat Panel -->
+    <div class="live-chat-panel" id="liveChatPanel">
+        <div class="chat-header">
+            <div>
+                <h4>Live Portfolio Chat</h4>
+                <small><i class="fas fa-users"></i> <span id="chatOnlineCount">245</span> investors online</small>
+            </div>
+            <button class="close-chat" id="closeChat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message..." id="chatInput">
+            <button class="btn btn-primary" id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Theme Selection Modal -->
+    <div class="modal" id="themeModal">
+        <div class="modal-content">
+            <h2>Choose Theme</h2>
+            <div class="theme-options">
+                <div class="theme-option" data-theme="light">
+                    <div class="theme-preview light-theme"></div>
+                    <span>Light</span>
+                </div>
+                <div class="theme-option" data-theme="dark">
+                    <div class="theme-preview dark-theme"></div>
+                    <span>Dark</span>
+                </div>
+                <div class="theme-option" data-theme="blue">
+                    <div class="theme-preview blue-theme"></div>
+                    <span>Blue</span>
+                </div>
+                <div class="theme-option" data-theme="green">
+                    <div class="theme-preview green-theme"></div>
+                    <span>Green</span>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="closeThemeModal">Close</button>
+        </div>
+    </div>
+
+    <!-- Live Update Toast -->
+    <div class="toast" id="updateToast">
+        <div class="toast-content">
+            <i class="fas fa-sync-alt"></i>
+            <span>Portfolio updated with latest NAVs</span>
+        </div>
+    </div>
+
     <script src="assets/js/portfolio.js"></script>
+    <script src="assets/js/theme-manager.js"></script>
+    <script src="assets/js/chat.js"></script>
+    <script src="assets/js/main.js"></script>
+    
     <script>
-        // Initialize date display for 02 Jan 2026
+        // Initialize Date Display
+        const currentDateElement = document.getElementById('currentDate');
+        const updateDateTime = () => {
+            const now = new Date('2026-01-02'); // Fixed date as per requirement
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+            
+            // Update last update time
+            document.getElementById('lastUpdateTime').textContent = 
+                `Last updated: ${now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+        };
+        
+        // Initialize theme
+        const themeBackground = document.getElementById('themeBackground');
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+        themeBackground.className = `theme-background theme-bg-${savedTheme}`;
+        
+        // Theme Manager
         document.addEventListener('DOMContentLoaded', function() {
-            // Set today's date (02 Jan 2026)
-            const today = new Date(2026, 0, 2); // January is 0 in JavaScript
-            const dateDisplay = document.getElementById('dateDisplay');
+            updateDateTime();
             
-            const day = today.getDate();
-            const month = today.toLocaleString('default', { month: 'short' });
-            const year = today.getFullYear();
-            const dayName = today.toLocaleString('default', { weekday: 'long' });
+            // Update time every second
+            setInterval(updateDateTime, 1000);
             
-            dateDisplay.querySelector('.day').textContent = day.toString().padStart(2, '0');
-            dateDisplay.querySelector('.month-year').textContent = `${month} ${year}`;
-            dateDisplay.querySelector('.day-name').textContent = dayName;
+            // Live counter animation
+            let onlineCount = 245;
+            let viewCount = 1234;
             
-            // Update time every minute
-            function updateTime() {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('en-IN', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                });
-                document.getElementById('lastUpdateTime').textContent = 
-                    `Last updated: Today, 02 Jan 2026 ${timeString}`;
-            }
-            
-            updateTime();
-            setInterval(updateTime, 60000); // Update every minute
-            
-            // Create animated particles
-            function createParticles() {
-                const particlesContainer = document.getElementById('particles');
-                const particleCount = 50;
+            setInterval(() => {
+                onlineCount = Math.max(200, onlineCount + Math.floor(Math.random() * 5) - 2);
+                viewCount += Math.floor(Math.random() * 3);
                 
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    
-                    // Random properties
-                    const size = Math.random() * 5 + 2;
-                    const posX = Math.random() * 100;
-                    const delay = Math.random() * 20;
-                    const duration = Math.random() * 10 + 20;
-                    
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    particle.style.left = `${posX}%`;
-                    particle.style.animationDelay = `${delay}s`;
-                    particle.style.animationDuration = `${duration}s`;
-                    particle.style.opacity = Math.random() * 0.3 + 0.1;
-                    
-                    particlesContainer.appendChild(particle);
-                }
-            }
+                document.getElementById('onlineCount').textContent = onlineCount;
+                document.getElementById('chatOnlineCount').textContent = onlineCount;
+                document.getElementById('viewCount').textContent = viewCount.toLocaleString();
+                document.getElementById('portfolioViews').textContent = (viewCount/1000).toFixed(1) + 'K views';
+            }, 5000);
             
-            // Theme switching functionality
+            // Theme Selection
             const themeOptions = document.querySelectorAll('.theme-option');
-            const backgroundTheme = document.getElementById('backgroundTheme');
-            
             themeOptions.forEach(option => {
                 option.addEventListener('click', function() {
                     const theme = this.getAttribute('data-theme');
-                    
-                    // Update active theme
-                    themeOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Change background theme
-                    backgroundTheme.className = 'background-theme';
-                    backgroundTheme.classList.add(`theme-${theme}`);
-                    
-                    // Save theme preference
-                    localStorage.setItem('portfolioTheme', theme);
-                    
-                    // Update CSS variables based on theme
-                    updateThemeVariables(theme);
+                    themeBackground.className = `theme-background theme-bg-${theme}`;
+                    localStorage.setItem('portfolio-theme', theme);
+                    document.getElementById('themeModal').style.display = 'none';
                 });
             });
             
-            // Load saved theme
-            const savedTheme = localStorage.getItem('portfolioTheme') || 'blue';
-            document.querySelector(`[data-theme="${savedTheme}"]`).classList.add('active');
-            backgroundTheme.className = 'background-theme';
-            backgroundTheme.classList.add(`theme-${savedTheme}`);
-            updateThemeVariables(savedTheme);
-            
-            // View toggle functionality
-            const viewButtons = document.querySelectorAll('.view-btn');
-            const portfolioGrid = document.getElementById('portfolioGrid');
-            const portfolioTable = document.getElementById('portfolioTable');
-            
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const view = this.getAttribute('data-view');
-                    
-                    // Update active button
-                    viewButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show selected view
-                    if (view === 'grid') {
-                        portfolioGrid.style.display = 'grid';
-                        portfolioTable.style.display = 'none';
-                    } else if (view === 'table') {
-                        portfolioGrid.style.display = 'none';
-                        portfolioTable.style.display = 'block';
-                    } else if (view === 'chart') {
-                        portfolioGrid.style.display = 'none';
-                        portfolioTable.style.display = 'none';
-                        // Show chart view (implement as needed)
-                        alert('Chart view will be implemented in the next update');
-                    }
-                });
+            // Toggle theme modal
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                document.getElementById('themeModal').style.display = 'block';
             });
             
-            // Initialize particles
-            createParticles();
-            
-            // Load portfolio data
-            loadPortfolioData();
-            
-            // Refresh button
-            document.getElementById('refreshPortfolio').addEventListener('click', function() {
-                this.classList.add('refreshing');
-                setTimeout(() => {
-                    loadPortfolioData();
-                    this.classList.remove('refreshing');
-                    showToast('Portfolio updated successfully!');
-                }, 1000);
+            document.getElementById('closeThemeModal').addEventListener('click', function() {
+                document.getElementById('themeModal').style.display = 'none';
             });
-        });
-        
-        function updateThemeVariables(theme) {
-            const root = document.documentElement;
             
-            switch(theme) {
-                case 'green':
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #0ba360 0%, #3cba92 100%)');
-                    break;
-                case 'dark':
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #434343 0%, #000000 100%)');
-                    break;
-                case 'purple':
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%)');
-                    break;
-                case 'sunrise':
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)');
-                    break;
-                case 'ocean':
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%)');
-                    break;
-                default: // blue
-                    root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)');
-            }
-        }
-        
-        function loadPortfolioData() {
-            // Sample portfolio data
-            const portfolioData = [
-                {
-                    name: "HDFC Top 100 Fund",
-                    amc: "HDFC Mutual Fund",
-                    category: "Large Cap Equity",
-                    units: 500,
-                    avgCost: 450.25,
-                    currentNAV: 520.80,
-                    currentValue: 260400,
-                    gainLoss: 35275,
-                    gainPercent: 15.6,
-                    xirr: 18.2,
-                    risk: "Moderate",
-                    rating: 4.5
-                },
-                {
-                    name: "ICICI Pru Bluechip Fund",
-                    amc: "ICICI Prudential",
-                    category: "Large & Mid Cap",
-                    units: 750,
-                    avgCost: 320.50,
-                    currentNAV: 385.20,
-                    currentValue: 288900,
-                    gainLoss: 48525,
-                    gainPercent: 20.1,
-                    xirr: 22.5,
-                    risk: "Moderately High",
-                    rating: 4.3
-                },
-                {
-                    name: "SBI Magnum Tax Gain",
-                    amc: "SBI Mutual Fund",
-                    category: "ELSS",
-                    units: 300,
-                    avgCost: 180.75,
-                    currentNAV: 215.40,
-                    currentValue: 64620,
-                    gainLoss: 10395,
-                    gainPercent: 19.2,
-                    xirr: 21.8,
-                    risk: "High",
-                    rating: 4.7
-                },
-                {
-                    name: "Axis Liquid Fund",
-                    amc: "Axis Mutual Fund",
-                    category: "Liquid",
-                    units: 1000,
-                    avgCost: 1000.00,
-                    currentNAV: 1012.50,
-                    currentValue: 1012500,
-                    gainLoss: 12500,
-                    gainPercent: 1.25,
-                    xirr: 6.8,
-                    risk: "Low",
-                    rating: 4.2
-                },
-                {
-                    name: "Mirae Asset Emerging Bluechip",
-                    amc: "Mirae Asset",
-                    category: "Large & Mid Cap",
-                    units: 400,
-                    avgCost: 275.80,
-                    currentNAV: 325.60,
-                    currentValue: 130240,
-                    gainLoss: 19920,
-                    gainPercent: 18.1,
-                    xirr: 20.4,
-                    risk: "High",
-                    rating: 4.6
-                },
-                {
-                    name: "Nippon India Small Cap Fund",
-                    amc: "Nippon India",
-                    category: "Small Cap",
-                    units: 200,
-                    avgCost: 150.25,
-                    currentNAV: 185.80,
-                    currentValue: 37160,
-                    gainLoss: 7110,
-                    gainPercent: 23.7,
-                    xirr: 26.3,
-                    risk: "Very High",
-                    rating: 4.4
-                }
+            // Chat functionality
+            const chatPanel = document.getElementById('liveChatPanel');
+            const chatToggle = document.getElementById('liveChatToggle');
+            const openChatBtn = document.getElementById('openChat');
+            const closeChatBtn = document.getElementById('closeChat');
+            const chatInput = document.getElementById('chatInput');
+            const sendMessageBtn = document.getElementById('sendMessage');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            chatToggle.addEventListener('click', () => {
+                chatPanel.classList.toggle('active');
+            });
+            
+            openChatBtn.addEventListener('click', () => {
+                chatPanel.classList.add('active');
+            });
+            
+            closeChatBtn.addEventListener('click', () => {
+                chatPanel.classList.remove('active');
+            });
+            
+            // Sample chat messages
+            const sampleMessages = [
+                { user: "Market Expert", message: "Welcome to today's live portfolio chat! Happy New Year 2026!", time: "09:00 AM" },
+                { user: "John D.", message: "Great start to the year! My portfolio is up 2.4% already!", time: "09:15 AM" },
+                { user: "Sarah M.", message: "Anyone investing in tech funds today?", time: "09:30 AM" },
+                { user: "Alex R.", message: "Just rebalanced my portfolio for the new year", time: "10:00 AM" },
+                { user: "You", message: "Hello everyone! Glad to be here", time: "Now" }
             ];
             
-            // Populate grid view
-            const portfolioGrid = document.getElementById('portfolioGrid');
-            portfolioGrid.innerHTML = '';
-            
-            portfolioData.forEach(fund => {
-                const gainClass = fund.gainPercent >= 0 ? 'positive' : 'negative';
-                const gainSign = fund.gainPercent >= 0 ? '+' : '';
-                
-                const fundCard = document.createElement('div');
-                fundCard.className = 'fund-card';
-                fundCard.innerHTML = `
-                    <div class="fund-header">
-                        <div>
-                            <h3 class="fund-name">${fund.name}</h3>
-                            <p class="fund-amc">${fund.amc}</p>
-                        </div>
-                        <div class="fund-rating">
-                            <i class="fas fa-star"></i> ${fund.rating}
-                        </div>
-                    </div>
-                    <div class="fund-metrics">
-                        <div class="metric">
-                            <div class="metric-label">Current Value</div>
-                            <div class="metric-value">₹${fund.currentValue.toLocaleString()}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Gain/Loss</div>
-                            <div class="metric-value ${gainClass}">
-                                ${gainSign}₹${fund.gainLoss.toLocaleString()}
-                                <small>(${gainSign}${fund.gainPercent}%)</small>
-                            </div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Units</div>
-                            <div class="metric-value">${fund.units}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">XIRR</div>
-                            <div class="metric-value">${fund.xirr}%</div>
-                        </div>
-                    </div>
-                    <div class="fund-footer">
-                        <div class="risk-badge risk-${fund.risk.toLowerCase().replace(' ', '-')}">
-                            ${fund.risk} Risk
-                        </div>
-                        <button class="btn-action">
-                            <i class="fas fa-chart-line"></i> Details
-                        </button>
-                    </div>
+            // Populate sample messages
+            sampleMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.user === "You" ? "sent" : "received"}`;
+                messageDiv.innerHTML = `
+                    <strong>${msg.user}:</strong> ${msg.message}
+                    <small>${msg.time}</small>
                 `;
-                
-                portfolioGrid.appendChild(fundCard);
+                chatMessages.appendChild(messageDiv);
             });
             
-            // Populate table view
-            const tableBody = document.getElementById('portfolioTbody');
-            tableBody.innerHTML = '';
+            // Send message
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message sent';
+                    const now = new Date();
+                    const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                    messageDiv.innerHTML = `
+                        <strong>You:</strong> ${message}
+                        <small>${time}</small>
+                    `;
+                    chatMessages.appendChild(messageDiv);
+                    chatInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
             
-            portfolioData.forEach(fund => {
-                const gainClass = fund.gainPercent >= 0 ? 'positive' : 'negative';
-                const gainSign = fund.gainPercent >= 0 ? '+' : '';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <strong>${fund.name}</strong><br>
-                        <small>${fund.category}</small>
-                    </td>
-                    <td>${fund.category}</td>
-                    <td>${fund.units}</td>
-                    <td>₹${fund.avgCost.toFixed(2)}</td>
-                    <td>₹${fund.currentNAV.toFixed(2)}</td>
-                    <td>₹${fund.currentValue.toLocaleString()}</td>
-                    <td class="${gainClass}">
-                        ${gainSign}₹${fund.gainLoss.toLocaleString()}<br>
-                        <small>(${gainSign}${fund.gainPercent}%)</small>
-                    </td>
-                    <td>${fund.xirr}%</td>
-                    <td>
-                        <button class="btn-icon" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-icon" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
+            sendMessageBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
             });
             
-            // Update summary statistics
-            const totalValue = portfolioData.reduce((sum, fund) => sum + fund.currentValue, 0);
-            const totalGain = portfolioData.reduce((sum, fund) => sum + fund.gainLoss, 0);
-            const totalGainPercent = ((totalGain / (totalValue - totalGain)) * 100).toFixed(1);
-            
-            document.getElementById('totalValue').textContent = `₹${totalValue.toLocaleString()}`;
-            document.getElementById('totalGain').textContent = `₹${totalGain.toLocaleString()}`;
-            document.getElementById('overallChange').textContent = `+${totalGainPercent}% overall return`;
-        }
-        
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast show';
-            toast.innerHTML = `
-                <div class="toast-content">
-                    <i class="fas fa-check-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
+            // Auto-refresh simulation
+            setInterval(() => {
+                const toast = document.getElementById('updateToast');
+                toast.style.display = 'block';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+                
+                // Simulate portfolio value change
+                const totalValue = document.getElementById('totalValue');
+                const currentValue = parseFloat(totalValue.textContent.replace(/[^0-9.]/g, ''));
+                const change = (Math.random() - 0.5) * 0.2; // Random change between -0.1% to 0.1%
+                const newValue = currentValue * (1 + change/100);
+                totalValue.textContent = `₹${newValue.toLocaleString('en-IN', {maximumFractionDigits: 0})}`;
+                
+                const todayChange = document.getElementById('todayChange');
+                todayChange.textContent = `${change > 0 ? '+' : ''}${change.toFixed(2)}% today`;
+            }, 30000);
+        });
     </script>
 </body>
 </html>
