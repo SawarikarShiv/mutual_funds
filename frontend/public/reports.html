@@ -3,44 +3,1547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports | Infinity Mutual Funds</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Reports & Analytics Dashboard</title>
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+            --sidebar: #1e293b;
+            --sidebar-light: #334155;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--sidebar);
+            color: white;
+            padding: 25px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 0 25px 30px;
+            border-bottom: 1px solid var(--sidebar-light);
+            margin-bottom: 25px;
+        }
+
+        .logo h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--sidebar-light);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin: 30px 0 15px;
+            padding: 0 25px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 25px;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 180px;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            border-left: 5px solid var(--primary);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .kpi-card.revenue { border-left-color: var(--secondary); }
+        .kpi-card.users { border-left-color: var(--info); }
+        .kpi-card.conversion { border-left-color: var(--warning); }
+        .kpi-card.growth { border-left-color: var(--danger); }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .kpi-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .kpi-revenue .kpi-icon { background: #d1fae5; color: var(--secondary); }
+        .kpi-users .kpi-icon { background: #cffafe; color: var(--info); }
+        .kpi-conversion .kpi-icon { background: #fef3c7; color: var(--warning); }
+        .kpi-growth .kpi-icon { background: #fee2e2; color: var(--danger); }
+
+        .kpi-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .trend-up { color: var(--secondary); }
+        .trend-down { color: var(--danger); }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .kpi-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .chart-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Tables */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .tables-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .table-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--primary-light);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active { background: #d1fae5; color: var(--secondary); }
+        .status-pending { background: #fef3c7; color: var(--warning); }
+        .status-inactive { background: #fee2e2; color: var(--danger); }
+
+        /* Report List */
+        .reports-list {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .report-item {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .report-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .report-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .type-financial { background: #dbeafe; color: var(--primary); }
+        .type-sales { background: #dcfce7; color: var(--secondary); }
+        .type-analytics { background: #f3e8ff; color: #8b5cf6; }
+        .type-operational { background: #ffedd5; color: #f97316; }
+
+        .report-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Export Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .export-option {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .export-option i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Date Range Picker */
+        .date-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-input {
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Time Period Selector */
+        .time-period {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .period-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .period-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid, .tables-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kpi-card, .chart-card, .table-card {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: var(--gray);
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">∞</div>
-                <span class="brand-name">Infinity Mutual Funds</span>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>
+                    <span>📊</span>
+                    Analytics Pro
+                </h2>
             </div>
-            <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="portfolio.html" class="nav-link">Portfolio</a>
-                <a href="transactions.html" class="nav-link">Transactions</a>
-                <a href="reports.html" class="nav-link active">Reports</a>
-                <button class="logout-btn">Logout</button>
+            
+            <div class="nav-section">Main</div>
+            <a href="#" class="nav-item active">
+                <i>📈</i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>📊</i>
+                <span>Reports</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>📉</i>
+                <span>Analytics</span>
+            </a>
+            
+            <div class="nav-section">Reports</div>
+            <a href="#" class="nav-item">
+                <i>💰</i>
+                <span>Financial</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>🛒</i>
+                <span>Sales</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>👥</i>
+                <span>User Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>⚙️</i>
+                <span>Operations</span>
+            </a>
+            
+            <div class="nav-section">Settings</div>
+            <a href="#" class="nav-item">
+                <i>⚙️</i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i>🔄</i>
+                <span>Scheduled Reports</span>
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>
+                    <span>📊</span>
+                    Reports & Analytics Dashboard
+                </h1>
+                <div class="header-actions">
+                    <div class="date-range">
+                        <input type="date" class="date-input" id="startDate" value="2024-01-01">
+                        <span>to</span>
+                        <input type="date" class="date-input" id="endDate" value="2024-12-31">
+                    </div>
+                    <button class="btn btn-outline" onclick="refreshData()">
+                        <span>🔄</span>
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary" onclick="openExportModal()">
+                        <span>📤</span>
+                        Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">Report Type</label>
+                    <select class="filter-select" id="reportType">
+                        <option value="all">All Reports</option>
+                        <option value="financial">Financial</option>
+                        <option value="sales">Sales</option>
+                        <option value="user">User Analytics</option>
+                        <option value="operations">Operations</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Time Period</label>
+                    <div class="time-period">
+                        <button class="period-btn active" onclick="setPeriod('day')">Day</button>
+                        <button class="period-btn" onclick="setPeriod('week')">Week</button>
+                        <button class="period-btn" onclick="setPeriod('month')">Month</button>
+                        <button class="period-btn" onclick="setPeriod('year')">Year</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Department</label>
+                    <select class="filter-select" id="department">
+                        <option value="all">All Departments</option>
+                        <option value="sales">Sales</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="finance">Finance</option>
+                        <option value="operations">Operations</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Metrics</label>
+                    <select class="filter-select" id="metrics">
+                        <option value="overview">Overview</option>
+                        <option value="revenue">Revenue</option>
+                        <option value="users">User Growth</option>
+                        <option value="conversion">Conversion</option>
+                        <option value="performance">Performance</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card kpi-revenue revenue">
+                    <div class="kpi-header">
+                        <div class="kpi-icon">💰</div>
+                        <div class="kpi-trend trend-up">
+                            <span>↑</span>
+                            <span>12.5%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value">$124,580</div>
+                    <div class="kpi-label">Total Revenue</div>
+                </div>
+                
+                <div class="kpi-card kpi-users users">
+                    <div class="kpi-header">
+                        <div class="kpi-icon">👥</div>
+                        <div class="kpi-trend trend-up">
+                            <span>↑</span>
+                            <span>8.2%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value">3,245</div>
+                    <div class="kpi-label">Active Users</div>
+                </div>
+                
+                <div class="kpi-card kpi-conversion conversion">
+                    <div class="kpi-header">
+                        <div class="kpi-icon">📊</div>
+                        <div class="kpi-trend trend-down">
+                            <span>↓</span>
+                            <span>2.1%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value">24.3%</div>
+                    <div class="kpi-label">Conversion Rate</div>
+                </div>
+                
+                <div class="kpi-card kpi-growth growth">
+                    <div class="kpi-header">
+                        <div class="kpi-icon">📈</div>
+                        <div class="kpi-trend trend-up">
+                            <span>↑</span>
+                            <span>15.7%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value">45.2%</div>
+                    <div class="kpi-label">Growth Rate</div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Revenue Trend</h3>
+                        <select class="filter-select" style="width: auto;">
+                            <option>Monthly</option>
+                            <option>Quarterly</option>
+                            <option>Yearly</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>User Acquisition</h3>
+                        <select class="filter-select" style="width: auto;">
+                            <option>By Channel</option>
+                            <option>By Region</option>
+                            <option>By Device</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="userChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tables Section -->
+            <div class="tables-grid">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Top Performing Products</h3>
+                        <button class="btn btn-outline" style="padding: 8px 16px;">View All</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Revenue</th>
+                                    <th>Growth</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Premium Subscription</td>
+                                    <td>Services</td>
+                                    <td>$45,200</td>
+                                    <td class="trend-up">+24.5%</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Enterprise License</td>
+                                    <td>Software</td>
+                                    <td>$38,500</td>
+                                    <td class="trend-up">+18.2%</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile App Pro</td>
+                                    <td>Mobile</td>
+                                    <td>$22,300</td>
+                                    <td class="trend-up">+12.7%</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Cloud Storage</td>
+                                    <td>Infrastructure</td>
+                                    <td>$18,900</td>
+                                    <td class="trend-down">-3.2%</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Analytics Add-on</td>
+                                    <td>Services</td>
+                                    <td>$12,500</td>
+                                    <td class="trend-up">+8.9%</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Recent Reports</h3>
+                        <button class="btn btn-outline" style="padding: 8px 16px;" onclick="generateNewReport()">Generate New</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Type</th>
+                                    <th>Generated</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Q4 Financial Report</td>
+                                    <td><span class="type-financial">Financial</span></td>
+                                    <td>2024-12-15</td>
+                                    <td><span class="status-badge status-active">Ready</span></td>
+                                    <td>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="downloadReport()">📥</button>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="shareReport()">↗️</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Monthly Sales Analysis</td>
+                                    <td><span class="type-sales">Sales</span></td>
+                                    <td>2024-12-10</td>
+                                    <td><span class="status-badge status-active">Ready</span></td>
+                                    <td>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="downloadReport()">📥</button>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="shareReport()">↗️</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>User Growth Report</td>
+                                    <td><span class="type-analytics">Analytics</span></td>
+                                    <td>2024-12-05</td>
+                                    <td><span class="status-badge status-pending">Processing</span></td>
+                                    <td>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" disabled>⏳</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Operational Efficiency</td>
+                                    <td><span class="type-operational">Operational</span></td>
+                                    <td>2024-11-30</td>
+                                    <td><span class="status-badge status-active">Ready</span></td>
+                                    <td>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="downloadReport()">📥</button>
+                                        <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" onclick="shareReport()">↗️</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Reports -->
+            <div class="reports-list">
+                <div class="chart-header">
+                    <h3>Saved Reports</h3>
+                    <button class="btn btn-outline" onclick="saveCurrentView()">
+                        <span>💾</span>
+                        Save Current View
+                    </button>
+                </div>
+                <div class="reports-grid">
+                    <div class="report-item" onclick="openReport('financial')">
+                        <div class="report-header">
+                            <span class="report-type type-financial">Financial</span>
+                            <span>💰</span>
+                        </div>
+                        <h4 class="report-title">Annual Financial Report 2024</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem; line-height: 1.5;">
+                            Comprehensive financial analysis including revenue, expenses, and profit margins.
+                        </p>
+                        <div class="report-meta">
+                            <span>Updated: 2 days ago</span>
+                            <span>📊 15 charts</span>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item" onclick="openReport('sales')">
+                        <div class="report-header">
+                            <span class="report-type type-sales">Sales</span>
+                            <span>🛒</span>
+                        </div>
+                        <h4 class="report-title">Q4 Sales Performance</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem; line-height: 1.5;">
+                            Sales trends, top performers, and regional breakdown for Q4 2024.
+                        </p>
+                        <div class="report-meta">
+                            <span>Updated: 1 week ago</span>
+                            <span>📈 8 charts</span>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item" onclick="openReport('analytics')">
+                        <div class="report-header">
+                            <span class="report-type type-analytics">Analytics</span>
+                            <span>📊</span>
+                        </div>
+                        <h4 class="report-title">User Behavior Analysis</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem; line-height: 1.5;">
+                            Detailed analysis of user engagement, retention, and conversion patterns.
+                        </p>
+                        <div class="report-meta">
+                            <span>Updated: 3 days ago</span>
+                            <span>👥 12 metrics</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <main class="container">
-        <h1>Reports & Analytics</h1>
-        <p>Generate detailed reports and analytics for your portfolio</p>
-        
-        <div class="reports-grid">
-            <div class="report-card">
-                <h3>Portfolio Performance</h3>
-                <p>View detailed performance metrics</p>
-                <button class="btn">Generate</button>
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Report</h2>
+                <button class="close-modal" onclick="closeExportModal()">×</button>
             </div>
-            <div class="report-card">
-                <h3>Tax Report</h3>
-                <p>Capital gains statement for ITR</p>
-                <button class="btn">Generate</button>
+            <div class="export-options">
+                <div class="export-option" onclick="exportReport('pdf')">
+                    <i>📄</i>
+                    <div>PDF</div>
+                    <small>High quality print</small>
+                </div>
+                <div class="export-option" onclick="exportReport('excel')">
+                    <i>📊</i>
+                    <div>Excel</div>
+                    <small>Data analysis</small>
+                </div>
+                <div class="export-option" onclick="exportReport('csv')">
+                    <i>📈</i>
+                    <div>CSV</div>
+                    <small>Raw data</small>
+                </div>
+                <div class="export-option" onclick="exportReport('image')">
+                    <i>🖼️</i>
+                    <div>Image</div>
+                    <small>Charts & graphs</small>
+                </div>
+            </div>
+            <div style="margin-top: 30px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Include Sections:</label>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <label><input type="checkbox" checked> KPI Metrics</label>
+                    <label><input type="checkbox" checked> Charts & Graphs</label>
+                    <label><input type="checkbox" checked> Data Tables</label>
+                    <label><input type="checkbox"> Raw Data</label>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-top: 30px; display: flex; gap: 15px;">
+                <button class="btn btn-primary" onclick="confirmExport()">Export Now</button>
+                <button class="btn btn-secondary" onclick="closeExportModal()">Cancel</button>
             </div>
         </div>
-    </main>
+    </div>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+        // Chart instances
+        let revenueChart, userChart;
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            updateFilterCounts();
+            
+            // Set current date as default end date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('endDate').value = today;
+            
+            // Set start date as 30 days ago
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        });
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [65000, 72000, 81000, 89000, 95000, 102000, 112000, 105000, 115000, 120000, 125000, 124580],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // User Acquisition Chart
+            const userCtx = document.getElementById('userChart').getContext('2d');
+            userChart = new Chart(userCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Organic', 'Paid Ads', 'Social Media', 'Email', 'Referral', 'Direct'],
+                    datasets: [{
+                        label: 'New Users',
+                        data: [1200, 800, 450, 300, 250, 150],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgb(59, 130, 246)',
+                            'rgb(16, 185, 129)',
+                            'rgb(245, 158, 11)',
+                            'rgb(239, 68, 68)',
+                            'rgb(139, 92, 246)',
+                            'rgb(6, 182, 212)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Filter functions
+        function setPeriod(period) {
+            // Update active button
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update date range based on period
+            const endDate = new Date();
+            const startDate = new Date();
+            
+            switch(period) {
+                case 'day':
+                    startDate.setDate(endDate.getDate() - 1);
+                    break;
+                case 'week':
+                    startDate.setDate(endDate.getDate() - 7);
+                    break;
+                case 'month':
+                    startDate.setMonth(endDate.getMonth() - 1);
+                    break;
+                case 'year':
+                    startDate.setFullYear(endDate.getFullYear() - 1);
+                    break;
+            }
+            
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+            
+            refreshData();
+        }
+
+        function refreshData() {
+            // Show loading state
+            showLoading();
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Update KPI values with random variation
+                updateKPIValues();
+                
+                // Update charts with new data
+                updateChartData();
+                
+                // Hide loading
+                hideLoading();
+                
+                // Show success message
+                showNotification('Data refreshed successfully!', 'success');
+            }, 1000);
+        }
+
+        function updateKPIValues() {
+            // Add slight random variation to KPI values
+            const kpis = ['revenue', 'users', 'conversion', 'growth'];
+            kpis.forEach(kpi => {
+                const currentValue = parseFloat(document.querySelector(`.kpi-${kpi} .kpi-value`).textContent.replace(/[^0-9.-]+/g, ''));
+                const variation = (Math.random() * 5) - 2.5; // -2.5% to +2.5%
+                const newValue = currentValue * (1 + variation / 100);
+                
+                // Update value
+                document.querySelector(`.kpi-${kpi} .kpi-value`).textContent = 
+                    kpi === 'revenue' ? `$${Math.round(newValue).toLocaleString()}` :
+                    kpi === 'conversion' || kpi === 'growth' ? `${newValue.toFixed(1)}%` :
+                    Math.round(newValue).toLocaleString();
+                
+                // Update trend
+                const trendElement = document.querySelector(`.kpi-${kpi} .kpi-trend`);
+                const trendClass = variation >= 0 ? 'trend-up' : 'trend-down';
+                const trendIcon = variation >= 0 ? '↑' : '↓';
+                
+                trendElement.className = `kpi-trend ${trendClass}`;
+                trendElement.innerHTML = `<span>${trendIcon}</span><span>${Math.abs(variation).toFixed(1)}%</span>`;
+            });
+        }
+
+        function updateChartData() {
+            // Update revenue chart with slight random variation
+            const revenueData = revenueChart.data.datasets[0].data;
+            const newRevenueData = revenueData.map(value => {
+                const variation = (Math.random() * 10) - 5; // -5% to +5%
+                return value * (1 + variation / 100);
+            });
+            revenueChart.data.datasets[0].data = newRevenueData;
+            revenueChart.update();
+            
+            // Update user chart with slight random variation
+            const userData = userChart.data.datasets[0].data;
+            const newUserData = userData.map(value => {
+                const variation = (Math.random() * 15) - 7.5; // -7.5% to +7.5%
+                return Math.max(0, Math.round(value * (1 + variation / 100)));
+            });
+            userChart.data.datasets[0].data = newUserData;
+            userChart.update();
+        }
+
+        function updateFilterCounts() {
+            // This would typically come from API
+            const counts = {
+                financial: 8,
+                sales: 12,
+                user: 15,
+                operations: 7
+            };
+            
+            // Update filter counts in UI
+            // Implementation depends on your UI structure
+        }
+
+        // Modal functions
+        function openExportModal() {
+            document.getElementById('exportModal').classList.add('active');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        function confirmExport() {
+            const format = document.querySelector('.export-option:hover')?.querySelector('div')?.textContent.toLowerCase() || 'pdf';
+            const sections = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                sections.push(cb.parentElement.textContent.trim());
+            });
+            
+            closeExportModal();
+            
+            // Simulate export process
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showNotification(`Report exported as ${format.toUpperCase()} successfully!`, 'success');
+                
+                // In real app, this would trigger download
+                if (format === 'pdf') {
+                    simulateDownload('report.pdf', 'application/pdf');
+                } else if (format === 'excel') {
+                    simulateDownload('report.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                } else if (format === 'csv') {
+                    simulateDownload('report.csv', 'text/csv');
+                } else if (format === 'image') {
+                    simulateDownload('report.png', 'image/png');
+                }
+            }, 2000);
+        }
+
+        // Report functions
+        function generateNewReport() {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showNotification('New report generated successfully!', 'success');
+                
+                // Add to recent reports table
+                addNewReportToTable();
+            }, 1500);
+        }
+
+        function addNewReportToTable() {
+            const table = document.querySelector('.table-container table tbody');
+            const newRow = document.createElement('tr');
+            const reportName = `Report_${new Date().getTime()}`;
+            const reportType = document.getElementById('reportType').value;
+            
+            newRow.innerHTML = `
+                <td>${reportName}</td>
+                <td><span class="type-${reportType}">${reportType.charAt(0).toUpperCase() + reportType.slice(1)}</span></td>
+                <td>${new Date().toISOString().split('T')[0]}</td>
+                <td><span class="status-badge status-pending">Processing</span></td>
+                <td>
+                    <button class="btn-icon" style="font-size: 0.9rem; padding: 5px 10px;" disabled>⏳</button>
+                </td>
+            `;
+            
+            table.insertBefore(newRow, table.firstChild);
+            
+            // Update status after 3 seconds
+            setTimeout(() => {
+                newRow.querySelector('.status-badge').className = 'status-badge status-active';
+                newRow.querySelector('.status-badge').textContent = 'Ready';
+                newRow.querySelector('button').disabled = false;
+                newRow.querySelector('button').innerHTML = '📥';
+                newRow.querySelector('button').onclick = () => downloadReport();
+                
+                // Add share button
+                const shareBtn = document.createElement('button');
+                shareBtn.className = 'btn-icon';
+                shareBtn.style.cssText = 'font-size: 0.9rem; padding: 5px 10px; margin-left: 5px;';
+                shareBtn.innerHTML = '↗️';
+                shareBtn.onclick = () => shareReport();
+                newRow.querySelector('td:last-child').appendChild(shareBtn);
+            }, 3000);
+        }
+
+        function openReport(type) {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showNotification(`Opening ${type} report...`, 'info');
+                // In real app, this would navigate to the detailed report page
+            }, 1000);
+        }
+
+        function saveCurrentView() {
+            const viewName = prompt('Enter a name for this view:');
+            if (viewName) {
+                const filters = {
+                    reportType: document.getElementById('reportType').value,
+                    department: document.getElementById('department').value,
+                    metrics: document.getElementById('metrics').value,
+                    dateRange: {
+                        start: document.getElementById('startDate').value,
+                        end: document.getElementById('endDate').value
+                    }
+                };
+                
+                // Save to localStorage (in real app, save to backend)
+                const savedViews = JSON.parse(localStorage.getItem('savedViews') || '[]');
+                savedViews.push({
+                    name: viewName,
+                    filters: filters,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('savedViews', JSON.stringify(savedViews));
+                
+                showNotification('View saved successfully!', 'success');
+            }
+        }
+
+        function downloadReport() {
+            showNotification('Downloading report...', 'info');
+            simulateDownload('report.pdf', 'application/pdf');
+        }
+
+        function shareReport() {
+            const email = prompt('Enter email address to share this report:');
+            if (email) {
+                showNotification(`Report shared with ${email}`, 'success');
+            }
+        }
+
+        function exportReport(format) {
+            // This function is called when export option is clicked
+            // The actual export happens in confirmExport()
+            document.querySelectorAll('.export-option').forEach(opt => {
+                opt.style.borderColor = 'var(--border)';
+                opt.style.background = 'white';
+            });
+            event.currentTarget.style.borderColor = 'var(--primary)';
+            event.currentTarget.style.background = 'var(--primary-light)';
+        }
+
+        // Utility functions
+        function showLoading() {
+            // Create loading overlay if it doesn't exist
+            if (!document.getElementById('loadingOverlay')) {
+                const overlay = document.createElement('div');
+                overlay.id = 'loadingOverlay';
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(255, 255, 255, 0.9);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                `;
+                overlay.innerHTML = `
+                    <div class="loading"></div>
+                `;
+                document.body.appendChild(overlay);
+            }
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 10px;
+                color: white;
+                font-weight: 600;
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+                background: ${type === 'success' ? 'var(--secondary)' : 
+                           type === 'error' ? 'var(--danger)' : 'var(--info)'};
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function simulateDownload(filename, contentType) {
+            const blob = new Blob(['Simulated report content'], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add some interactivity to filter bar
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                // Add visual feedback
+                this.style.borderColor = 'var(--primary)';
+                setTimeout(() => {
+                    this.style.borderColor = 'var(--border)';
+                }, 500);
+                
+                // In real app, this would trigger data reload
+                refreshData();
+            });
+        });
+
+        // Make KPI cards clickable
+        document.querySelectorAll('.kpi-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function() {
+                const metric = this.classList[1].replace('kpi-', '');
+                alert(`Showing detailed analysis for ${metric}`);
+                // In real app, this would open detailed view
+            });
+        });
+    </script>
 </body>
 </html>
