@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutual Funds | Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/funds.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <i class="fas fa-infinity"></i>
+                    <span>Infinity Mutual Funds</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="funds.html" class="active"><i class="fas fa-chart-line"></i> Funds</a>
+                <a href="portfolio.html"><i class="fas fa-briefcase"></i> Portfolio</a>
+                <a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                <a href="sip.html"><i class="fas fa-calendar-alt"></i> SIP Plans</a>
+            </div>
+            
+            <div class="nav-user">
+                <div class="user-dropdown">
+                    <div class="user-avatar">
+                        <span id="userAvatar">DU</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-chart-line"></i> Explore Mutual Funds</h1>
+            <p>Discover top-performing mutual funds across categories. Compare, analyze, and invest.</p>
+            
+            <div class="header-stats">
+                <div class="stat-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <div>
+                        <h3>1,200+</h3>
+                        <span>Funds Available</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-arrow-up"></i>
+                    <div>
+                        <h3>18.5%</h3>
+                        <span>Avg. Returns (3Y)</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h3>4.8★</h3>
+                        <span>Fund Rating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="funds-controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="fundSearch" placeholder="Search funds by name, category, or AMC...">
+            </div>
+            
+            <div class="filter-controls">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="equity">Equity Funds</option>
+                    <option value="debt">Debt Funds</option>
+                    <option value="hybrid">Hybrid Funds</option>
+                    <option value="index">Index Funds</option>
+                    <option value="sectoral">Sectoral/Thematic</option>
+                    <option value="tax">Tax Saving (ELSS)</option>
+                </select>
+                
+                <select id="riskFilter">
+                    <option value="">All Risk Levels</option>
+                    <option value="low">Low Risk</option>
+                    <option value="moderate">Moderate Risk</option>
+                    <option value="high">High Risk</option>
+                </select>
+                
+                <select id="sortFilter">
+                    <option value="returns_high">Highest Returns</option>
+                    <option value="returns_low">Lowest Returns</option>
+                    <option value="rating">Highest Rating</option>
+                    <option value="aum">Largest AUM</option>
+                    <option value="expense">Lowest Expense</option>
+                </select>
+                
+                <button class="btn-primary" id="applyFilters">
+                    <i class="fas fa-filter"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Categories -->
+        <div class="quick-categories">
+            <h3>Browse by Category</h3>
+            <div class="category-chips">
+                <button class="category-chip active" data-category="all">All Funds</button>
+                <button class="category-chip" data-category="equity">
+                    <i class="fas fa-chart-bar"></i> Equity
+                </button>
+                <button class="category-chip" data-category="debt">
+                    <i class="fas fa-shield-alt"></i> Debt
+                </button>
+                <button class="category-chip" data-category="hybrid">
+                    <i class="fas fa-balance-scale"></i> Hybrid
+                </button>
+                <button class="category-chip" data-category="index">
+                    <i class="fas fa-copy"></i> Index
+                </button>
+                <button class="category-chip" data-category="sectoral">
+                    <i class="fas fa-industry"></i> Sectoral
+                </button>
+                <button class="category-chip" data-category="tax">
+                    <i class="fas fa-file-invoice-dollar"></i> ELSS
+                </button>
+                <button class="category-chip" data-category="trending">
+                    <i class="fas fa-fire"></i> Trending
+                </button>
+            </div>
+        </div>
+
+        <!-- Funds Grid -->
+        <div class="funds-grid" id="fundsGrid">
+            <!-- Funds will be dynamically loaded here -->
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loadingIndicator">
+            <i class="fas fa-spinner fa-spin"></i> Loading funds...
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>No Funds Found</h3>
+            <p>Try adjusting your filters or search terms.</p>
+        </div>
+
+        <!-- Fund Details Modal -->
+        <div class="modal" id="fundModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalFundName">Fund Name</h2>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="fund-detail-header">
+                        <div class="fund-detail-rating">
+                            <span class="rating-stars">★★★★★</span>
+                            <span class="rating-value">4.8</span>
+                        </div>
+                        <div class="fund-detail-category">
+                            <span class="category-tag" id="modalCategory">Equity</span>
+                            <span class="risk-tag" id="modalRisk">High Risk</span>
+                        </div>
+                    </div>
+                    
+                    <div class="fund-detail-stats">
+                        <div class="stat">
+                            <label>1Y Returns</label>
+                            <h3 class="positive" id="modalReturns1Y">18.5%</h3>
+                        </div>
+                        <div class="stat">
+                            <label>3Y Returns</label>
+                            <h3 class="positive" id="modalReturns3Y">15.2%</h3>
+                        </div>
+                        <div class="stat">
+                            <label>Expense Ratio</label>
+                            <h3 id="modalExpense">0.65%</h3>
+                        </div>
+                        <div class="stat">
+                            <label>Minimum SIP</label>
+                            <h3 id="modalMinSIP">₹500</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="fund-detail-info">
+                        <h4>Fund Details</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Fund House</label>
+                                <span id="modalFundHouse">SBI Mutual Fund</span>
+                            </div>
+                            <div class="info-item">
+                                <label>AUM</label>
+                                <span id="modalAUM">₹25,400 Cr</span>
+                            </div>
+                            <div class="info-item">
+                                <label>NAV</label>
+                                <span id="modalNAV">₹245.67</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Launch Date</label>
+                                <span id="modalLaunchDate">Jan 2010</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="fund-detail-description">
+                        <h4>About this Fund</h4>
+                        <p id="modalDescription">This fund primarily invests in large-cap stocks with a focus on long-term growth. Suitable for investors with high risk appetite and investment horizon of 5+ years.</p>
+                    </div>
+                    
+                    <div class="fund-detail-performance">
+                        <h4>Performance Chart</h4>
+                        <div class="performance-chart">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-outline" id="addToWatchlist">
+                            <i class="far fa-star"></i> Watchlist
+                        </button>
+                        <button class="btn-primary" id="investNow">
+                            <i class="fas fa-rupee-sign"></i> Invest Now
+                        </button>
+                        <button class="btn-secondary" id="startSIP">
+                            <i class="fas fa-calendar-alt"></i> Start SIP
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <i class="fas fa-infinity"></i>
+                <h3>Infinity Mutual Funds</h3>
+                <p>Your trusted partner in wealth creation</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-column">
+                    <h4>Products</h4>
+                    <a href="#">Mutual Funds</a>
+                    <a href="#">SIP Plans</a>
+                    <a href="#">Portfolio Services</a>
+                    <a href="#">Research Tools</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Blog</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 Infinity Mutual Funds. All rights reserved. | Mutual fund investments are subject to market risks, read all scheme related documents carefully.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/funds.js"></script>
+</body>
+</html>
