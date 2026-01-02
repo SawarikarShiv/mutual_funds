@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Infinity Mutual Funds</title>
     
+    <!-- Live Clock in Title -->
+    <script>
+        function updateTitleTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'});
+            document.title = `📊 ${timeStr} | Portfolio | Infinity Mutual Funds`;
+        }
+        setInterval(updateTitleTime, 60000);
+        updateTitleTime();
+    </script>
+    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
@@ -24,6 +35,12 @@
             --background-gradient: linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
         }
         
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--background-gradient);
@@ -31,6 +48,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            padding-top: 40px; /* Space for fixed navbar */
         }
         
         /* Animated Background */
@@ -104,9 +122,9 @@
             }
         }
         
-        /* NEW: Enhanced Live Status Bar - Your Format */
+        /* ====== FIXED: Enhanced Live Status Bar ====== */
         .live-status-bar {
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.95);
             color: white;
             padding: 8px 20px;
             display: flex;
@@ -119,7 +137,9 @@
             z-index: 1000;
             border-bottom: 2px solid #00d2ff;
             backdrop-filter: blur(10px);
-            font-family: 'Courier New', monospace, 'Segoe UI';
+            font-family: 'Courier New', monospace;
+            height: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
         
         .live-status-left {
@@ -135,7 +155,7 @@
         }
         
         .live-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #00d2ff;
             letter-spacing: 1px;
@@ -143,7 +163,7 @@
         }
         
         .live-value {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: #ffffff;
         }
@@ -157,9 +177,9 @@
         .live-badge {
             background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
             color: white;
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
             letter-spacing: 0.5px;
         }
@@ -171,15 +191,15 @@
         }
         
         .nifty-value {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #ffffff;
         }
         
         .nifty-change {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            padding: 1px 6px;
+            padding: 1px 5px;
             border-radius: 3px;
         }
         
@@ -212,35 +232,32 @@
         
         .sentiment-icon {
             color: #96c93d;
-            font-size: 12px;
+            font-size: 11px;
         }
         
         .sentiment-text {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             color: #96c93d;
         }
         
-        /* Live pulse animation */
-        @keyframes livePulse {
-            0%, 100% { 
-                box-shadow: 0 0 5px rgba(0, 210, 255, 0.5),
-                           inset 0 0 10px rgba(0, 210, 255, 0.2);
-            }
-            50% { 
-                box-shadow: 0 0 15px rgba(0, 210, 255, 0.8),
-                           inset 0 0 20px rgba(0, 210, 255, 0.4);
-            }
+        /* ====== FIXED: Navbar - Now correctly positioned ====== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            position: fixed;
+            top: 40px; /* Below the live status bar */
+            left: 0;
+            width: 100%;
+            z-index: 999;
         }
         
-        /* Navbar adjustment for live bar */
-        .navbar {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0 0 15px 15px;
-            padding: 15px 0;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         .nav-brand {
@@ -260,6 +277,7 @@
             font-size: 24px;
             font-weight: 700;
             color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
         .brand-name {
@@ -274,14 +292,19 @@
         .current-date {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
-            margin-left: 10px;
+            margin-left: 15px;
             font-weight: 400;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
+            margin-left: auto;
         }
         
         .nav-link {
@@ -289,41 +312,122 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 8px;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
+            transform: translateY(-2px);
         }
         
         .nav-link.active {
             background: var(--primary-gradient);
             color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
         .theme-toggle, .logout-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .theme-toggle:hover, .logout-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* ====== Main Content Area ====== */
+        main {
+            margin-top: 120px; /* Space for live bar + navbar */
+            padding-bottom: 50px;
+        }
+        
+        .page-header {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .last-updated {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #lastUpdateTime {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .refresh-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .live-connection {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00d2ff;
+            font-size: 14px;
         }
         
         /* Enhanced Portfolio Cards */
         .portfolio-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 25px;
             margin: 30px 0;
         }
         
@@ -333,14 +437,15 @@
             border-radius: 20px;
             padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
         .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
         
         .summary-card::before {
@@ -361,40 +466,208 @@
             background: var(--live-gradient);
         }
         
+        .summary-card h3 {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+        
+        .amount {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+            color: white;
+        }
+        
+        .change {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .change.positive {
+            background: rgba(0, 176, 155, 0.2);
+            color: #00b09b;
+        }
+        
+        .change.negative {
+            background: rgba(255, 65, 108, 0.2);
+            color: #ff416c;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .value-trend {
+            margin-top: 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .gain-breakdown {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .gain-breakdown small {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .info {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+        
+        .funds-status {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .status.active {
+            background: rgba(0, 210, 255, 0.2);
+            color: #00d2ff;
+        }
+        
+        .status.sip {
+            background: rgba(0, 176, 155, 0.2);
+            color: #00b09b;
+        }
+        
         /* SIP Live Indicators */
         .sip-indicators {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .sip-indicators h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: white;
         }
         
         .sip-indicator-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin-top: 15px;
         }
         
         .sip-indicator {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sip-indicator:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .sip-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: rgba(0, 210, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #00d2ff;
+            font-size: 20px;
+        }
+        
+        .sip-name {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .sip-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        
+        /* Portfolio Actions */
+        .portfolio-actions {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .btn-chat {
+            background: var(--live-gradient);
+            color: white;
+        }
+        
+        .btn-chat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.4);
         }
         
         /* Enhanced Table */
@@ -404,6 +677,43 @@
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .table-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .table-filters {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .table-filters input,
+        .table-filters select {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .table-filters input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
         
         .portfolio-table {
@@ -413,42 +723,179 @@
         
         .portfolio-table th {
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
+            padding: 18px;
             text-align: left;
             font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         
         .portfolio-table td {
-            padding: 15px;
+            padding: 18px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
         }
         
         .portfolio-table tr:hover {
             background: rgba(255, 255, 255, 0.03);
         }
         
+        .fund-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
         .live-nav-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: #00ff88;
             border-radius: 50%;
-            margin-right: 8px;
             animation: navPulse 1.5s infinite;
         }
         
         @keyframes navPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+            }
+            50% { 
+                opacity: 0.7; 
+                transform: scale(1.1);
+                box-shadow: 0 0 0 4px rgba(0, 255, 136, 0);
+            }
+        }
+        
+        .sip-badge {
+            background: rgba(0, 210, 255, 0.2);
+            color: #00d2ff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .live-nav {
+            font-weight: 600;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+        
+        .page-info {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .table-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        
+        .table-stats span {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .update-frequency {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Live Market Status */
+        .market-status {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-indicator.live .fa-circle {
+            color: #00ff88;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .market-time, .market-updates {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         /* Today's Special Section */
         .today-special {
             background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 193, 7, 0.1));
             border-left: 4px solid #ff6b6b;
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 15px;
             margin: 20px 0;
             display: flex;
             align-items: center;
@@ -458,8 +905,8 @@
         /* Live Chat Widget */
         .live-chat-widget {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 1000;
         }
         
@@ -474,48 +921,91 @@
             color: white;
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .chat-toggle:hover {
             transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
         }
         
-        /* Date Display */
-        .current-date {
-            font-size: 0.9em;
-            opacity: 0.8;
-            margin-left: 10px;
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         /* Responsive Design */
         @media (max-width: 1200px) {
-            .live-status-bar {
-                flex-direction: column;
-                padding: 10px;
-                gap: 10px;
-            }
-            
             .live-status-left {
                 flex-wrap: wrap;
-                justify-content: center;
                 gap: 15px;
             }
             
-            .live-status-section {
-                min-width: 150px;
+            .portfolio-summary {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-top: 60px; /* More space for stacked elements */
+            }
+            
+            .navbar {
+                top: 60px;
+            }
+            
+            main {
+                margin-top: 140px;
+            }
+            
+            .live-status-bar {
+                height: 60px;
+                flex-direction: column;
+                padding: 8px 15px;
+            }
+            
             .live-status-left {
                 flex-direction: column;
-                gap: 10px;
-                text-align: center;
+                gap: 5px;
+                width: 100%;
             }
             
             .live-status-section {
-                min-width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                gap: 10px;
+            }
+            
+            .live-label {
+                min-width: 60px;
+            }
+            
+            .live-status-right {
+                display: none;
+            }
+            
+            .portfolio-summary {
+                grid-template-columns: 1fr;
             }
             
             .nav-menu {
@@ -524,6 +1014,32 @@
             
             .mobile-menu-toggle {
                 display: block;
+                margin-left: auto;
+            }
+            
+            .portfolio-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .table-filters {
+                flex-direction: column;
+            }
+            
+            .table-footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
     </style>
@@ -534,7 +1050,7 @@
     <div class="data-grid-overlay"></div>
     <div class="floating-numbers" id="floatingNumbers"></div>
     
-    <!-- NEW: Formatted Live Status Bar -->
+    <!-- ====== FIXED: Live Status Bar ====== -->
     <div class="live-status-bar" id="liveStatusBar">
         <div class="live-status-left">
             <div class="live-status-section">
@@ -553,8 +1069,8 @@
             <div class="live-status-section">
                 <div class="live-label">NIFTY</div>
                 <div class="nifty-container">
-                    <span class="nifty-value" id="niftyValue">22411.12</span>
-                    <span class="nifty-change negative" id="niftyChange">-0.01%</span>
+                    <span class="nifty-value" id="niftyValue">22416.07</span>
+                    <span class="nifty-change positive" id="niftyChange">+0.00%</span>
                 </div>
             </div>
             
@@ -575,32 +1091,53 @@
         </div>
     </div>
 
+    <!-- ====== FIXED: Navbar ====== -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <div class="logo">∞</div>
-                <span class="brand-name">Infinity Mutual Funds</span>
-                <span class="current-date" id="currentDate">Friday, 2 January 2026</span>
+                <div>
+                    <div class="brand-name">Infinity Mutual Funds</div>
+                    <div class="current-date" id="currentDate">Friday, 2 January 2026</div>
+                </div>
             </div>
             <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="portfolio.html" class="nav-link active">Portfolio</a>
-                <a href="transactions.html" class="nav-link">Transactions</a>
-                <a href="reports.html" class="nav-link">Reports</a>
-                <a href="settings.html" class="nav-link">Settings</a>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="portfolio.html" class="nav-link active">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Portfolio</span>
+                </a>
+                <a href="transactions.html" class="nav-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </a>
+                <a href="reports.html" class="nav-link">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
                 
                 <!-- Theme Toggle Button -->
                 <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-palette"></i> Theme
+                    <i class="fas fa-palette"></i>
+                    <span>Theme</span>
                 </button>
                 
                 <button class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </button>
             </div>
         </div>
     </nav>
 
+    <!-- ====== Main Content ====== -->
     <main class="container">
         <!-- Today's Special Announcement -->
         <div class="today-special">
@@ -610,6 +1147,7 @@
             </div>
         </div>
 
+        <!-- Page Header -->
         <div class="page-header">
             <h1>My Portfolio</h1>
             <p>Manage and track all your mutual fund investments in real-time</p>
@@ -642,6 +1180,7 @@
             </div>
         </div>
 
+        <!-- Portfolio Summary Cards -->
         <div class="portfolio-summary">
             <div class="summary-card">
                 <h3>Total Value</h3>
@@ -683,6 +1222,7 @@
             </div>
         </div>
 
+        <!-- Portfolio Actions -->
         <div class="portfolio-actions">
             <button class="btn btn-primary" id="addInvestment">
                 <i class="fas fa-plus"></i>
@@ -706,6 +1246,7 @@
             </button>
         </div>
 
+        <!-- Portfolio Table -->
         <div class="portfolio-table-container">
             <div class="table-header">
                 <h3>Your Holdings <span class="live-badge">LIVE</span></h3>
@@ -749,51 +1290,12 @@
                 </div>
             </div>
         </div>
-
-        <!-- Live Chat Feed -->
-        <div class="live-chat-feed" id="liveChatFeed">
-            <div class="chat-feed-header">
-                <h4><i class="fas fa-comments"></i> Live Portfolio Chat</h4>
-                <small>02 Jan 2026 - 1232 investors online</small>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-                <!-- Chat messages will appear here -->
-            </div>
-            <div class="chat-input">
-                <input type="text" placeholder="Share your portfolio insight..." id="chatInput">
-                <button id="sendChatMessage">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
     </main>
 
     <!-- Live Chat Widget -->
     <div class="live-chat-widget">
         <div class="chat-toggle" id="chatToggle">
             <i class="fas fa-comments"></i>
-        </div>
-    </div>
-
-    <!-- Live Chat Modal -->
-    <div class="modal" id="liveChatModal">
-        <div class="modal-content chat-modal">
-            <div class="chat-header">
-                <h3><i class="fas fa-comments"></i> Live Portfolio Discussion</h3>
-                <div class="chat-info">
-                    <span class="online-count">👥 1232 investors online</span>
-                    <span class="chat-date">📅 02 Jan 2026</span>
-                </div>
-            </div>
-            <div class="chat-body" id="liveChatBody">
-                <!-- Chat messages here -->
-            </div>
-            <div class="chat-input-container">
-                <input type="text" placeholder="Type your message..." id="liveChatInput">
-                <button id="sendLiveMessage">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
         </div>
     </div>
 
@@ -831,14 +1333,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/portfolio.js"></script>
-    <script src="assets/js/theme-manager.js"></script>
-    <script src="assets/js/chat-system.js"></script>
-    <script src="assets/js/live-updates.js"></script>
-    <script src="assets/js/main.js"></script>
-    
-    <!-- Inline JavaScript for Immediate Functionality -->
+    <!-- Inline JavaScript -->
     <script>
         // Floating numbers animation
         function createFloatingNumbers() {
@@ -858,9 +1353,7 @@
 
         // Live date-time updater
         function updateDateTime() {
-            const now = new Date(2026, 0, 2, 12, 21, 39); // Fixed to 02 Jan 2026, 12:21:39 pm
-            
-            // Add 1 second each update
+            const now = new Date(2026, 0, 2, 12, 21, 39);
             now.setSeconds(now.getSeconds() + 1);
             
             const dateStr = now.toLocaleDateString('en-IN', {
@@ -879,15 +1372,12 @@
             
             document.getElementById('currentDate').textContent = dateStr;
             document.getElementById('currentDateTime').textContent = `${dateStr}, ${timeStr}`;
+            document.getElementById('lastUpdateTime').textContent = `Last updated: ${timeStr}`;
             
-            // Update last update time
-            const lastUpdate = document.getElementById('lastUpdateTime');
-            lastUpdate.textContent = `Last updated: ${timeStr}`;
-            
-            // Update NIFTY value with slight variation
+            // Update NIFTY value
             const niftyValue = document.getElementById('niftyValue');
             const currentValue = parseFloat(niftyValue.textContent.replace(/,/g, ''));
-            const change = (Math.random() - 0.5) * 2; // Small variation
+            const change = (Math.random() - 0.5) * 2;
             const newValue = currentValue + change;
             
             niftyValue.textContent = newValue.toFixed(2);
@@ -897,31 +1387,21 @@
             niftyChange.textContent = `${changePercent >= 0 ? '+' : ''}${changePercent}%`;
             niftyChange.className = changePercent >= 0 ? 'positive' : 'negative';
             
-            // Update online users with slight variation
+            // Update online users
             const users = document.getElementById('activeUsers');
             const chatCount = document.getElementById('chatCount');
             const baseUsers = 1232;
-            const fluctuation = Math.floor(Math.random() * 20) - 10; // Small fluctuation
+            const fluctuation = Math.floor(Math.random() * 20) - 10;
             const currentUsers = baseUsers + fluctuation;
             
             users.textContent = `${currentUsers} investors online`;
             chatCount.textContent = `${currentUsers} investors`;
             
-            // Update next NAV update counter
+            // Update NAV counter
             const nextUpdate = document.getElementById('nextNavUpdate');
             let seconds = parseInt(nextUpdate.textContent);
             seconds = seconds === 0 ? 30 : seconds - 1;
             nextUpdate.textContent = `${seconds}s`;
-            
-            // Auto-refresh portfolio every 30 seconds
-            if (seconds === 0) {
-                // Show toast notification
-                const toast = document.getElementById('updateToast');
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000);
-            }
         }
 
         // Initialize portfolio data
@@ -1052,7 +1532,7 @@
             updateDateTime();
             initializePortfolioData();
             
-            // Update date-time every second
+            // Update every second
             setInterval(updateDateTime, 1000);
             
             // Theme toggle
@@ -1060,21 +1540,18 @@
                 document.getElementById('themeModal').style.display = 'block';
             });
             
-            // Refresh portfolio button
+            // Refresh button
             document.getElementById('refreshPortfolio').addEventListener('click', function() {
                 this.classList.add('rotating');
                 setTimeout(() => {
                     this.classList.remove('rotating');
-                    // Show update toast
                     const toast = document.getElementById('updateToast');
                     toast.style.display = 'block';
-                    setTimeout(() => {
-                        toast.style.display = 'none';
-                    }, 2000);
+                    setTimeout(() => toast.style.display = 'none', 2000);
                 }, 1000);
             });
             
-            // Add CSS for rotating animation
+            // Add rotating animation
             const style = document.createElement('style');
             style.textContent = `
                 .rotating {
