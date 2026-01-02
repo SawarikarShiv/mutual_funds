@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-summary {
+            grid-column: span 2;
+        }
+
+        .portfolio-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
+
+        .investment-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-invest {
+            background-color: #27ae60;
+        }
+
+        .btn-invest:hover {
+            background-color: #219653;
+        }
+
+        .total-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 1rem 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .portfolio-summary {
+                grid-column: span 1;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">InvestPro</div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/invest.html">Invest</a>
+            <a href="#">Portfolio</a>
+            <a href="#">Markets</a>
+            <a href="#">Account</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Investment Portfolio</h1>
+            <p>Manage your investments and track your portfolio performance</p>
+        </div>
+
+        <div class="dashboard">
+            <div class="card portfolio-summary">
+                <h3>Portfolio Summary</h3>
+                <div class="total-value">$125,430.85</div>
+                <div class="positive">+$2,845.23 (+2.32%) today</div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$85,230</div>
+                        <div>Stocks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">$25,400</div>
+                        <div>Bonds</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">$14,800</div>
+                        <div>Crypto</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Recent Investments</h3>
+                <div class="portfolio-item">
+                    <div>
+                        <strong>AAPL</strong>
+                        <div>Apple Inc.</div>
+                    </div>
+                    <div class="positive">+1.5%</div>
+                </div>
+                <div class="portfolio-item">
+                    <div>
+                        <strong>GOOGL</strong>
+                        <div>Alphabet Inc.</div>
+                    </div>
+                    <div class="positive">+0.8%</div>
+                </div>
+                <div class="portfolio-item">
+                    <div>
+                        <strong>TSLA</strong>
+                        <div>Tesla Inc.</div>
+                    </div>
+                    <div class="negative">-2.1%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Market Trends</h3>
+                <div class="portfolio-item">
+                    <div>S&P 500</div>
+                    <div class="positive">+0.7%</div>
+                </div>
+                <div class="portfolio-item">
+                    <div>NASDAQ</div>
+                    <div class="positive">+1.2%</div>
+                </div>
+                <div class="portfolio-item">
+                    <div>DOW JONES</div>
+                    <div class="negative">-0.3%</div>
+                </div>
+                <div class="portfolio-item">
+                    <div>BTC/USD</div>
+                    <div class="positive">+3.5%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="investment-form">
+            <h3>Make New Investment</h3>
+            <div class="form-group">
+                <label for="asset">Select Asset</label>
+                <select id="asset">
+                    <option value="">Choose an asset...</option>
+                    <option value="AAPL">Apple Inc. (AAPL)</option>
+                    <option value="GOOGL">Alphabet Inc. (GOOGL)</option>
+                    <option value="MSFT">Microsoft (MSFT)</option>
+                    <option value="TSLA">Tesla Inc. (TSLA)</option>
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="amount">Investment Amount ($)</label>
+                <input type="number" id="amount" placeholder="Enter amount" min="100" step="100">
+            </div>
+            
+            <div class="form-group">
+                <label for="type">Investment Type</label>
+                <select id="type">
+                    <option value="market">Market Order</option>
+                    <option value="limit">Limit Order</option>
+                    <option value="stop">Stop Loss</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-invest" onclick="makeInvestment()">Invest Now</button>
+        </div>
+    </div>
+
+    <script>
+        function makeInvestment() {
+            const asset = document.getElementById('asset').value;
+            const amount = document.getElementById('amount').value;
+            const type = document.getElementById('type').value;
+            
+            if (!asset || !amount || amount < 100) {
+                alert('Please select an asset and enter an amount (minimum $100)');
+                return;
+            }
+            
+            // In a real application, you would send this data to your backend
+            console.log('Investment data:', { asset, amount, type });
+            
+            // Show success message
+            alert(`Successfully invested $${amount} in ${asset} using ${type} order!`);
+            
+            // Reset form
+            document.getElementById('asset').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('type').value = 'market';
+            
+            // In a real app, you would refresh the portfolio data here
+        }
+
+        // Simulate live updates
+        function updateMarketData() {
+            const changes = document.querySelectorAll('.portfolio-item div:last-child');
+            changes.forEach(change => {
+                const currentValue = parseFloat(change.textContent);
+                const randomChange = (Math.random() - 0.5) * 0.5;
+                const newValue = currentValue + randomChange;
+                
+                if (newValue > 0) {
+                    change.textContent = `+${newValue.toFixed(1)}%`;
+                    change.className = 'positive';
+                } else {
+                    change.textContent = `${newValue.toFixed(1)}%`;
+                    change.className = 'negative';
+                }
+            });
+        }
+
+        // Update market data every 5 seconds
+        setInterval(updateMarketData, 5000);
+    </script>
+</body>
+</html>
