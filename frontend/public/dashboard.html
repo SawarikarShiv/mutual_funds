@@ -275,29 +275,6 @@
             color: #94a3b8;
         }
 
-        .logout-btn {
-            width: 100%;
-            background-color: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .logout-btn:hover {
-            background-color: rgba(239, 68, 68, 0.2);
-        }
-
-        .logout-icon {
-            margin-right: 8px;
-        }
-
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -1077,10 +1054,10 @@
         
         <div class="sidebar-footer">
             <div class="user-profile">
-                <div class="user-avatar">AS</div>
+                <div class="user-avatar" id="userAvatar">AS</div>
                 <div class="user-info">
-                    <h4>Amit Sharma</h4>
-                    <p>amit@example.com</p>
+                    <h4 id="userName">Amit Sharma</h4>
+                    <p id="userEmail">amit@example.com</p>
                 </div>
             </div>
             <button class="logout-btn" id="logoutButton">
@@ -1096,7 +1073,7 @@
         <header class="top-header">
             <div class="header-left">
                 <h1>Dashboard Overview</h1>
-                <p class="welcome-message">Welcome back, Amit! Here's your portfolio summary and live market updates.</p>
+                <p class="welcome-message" id="welcomeMessage">Welcome back! Here's your portfolio summary and live market updates.</p>
             </div>
             <div class="header-right">
                 <div class="date-display" id="currentDate"></div>
@@ -1159,7 +1136,7 @@
                         <h3>Portfolio Value</h3>
                         <span class="stat-trend positive"><i class="fas fa-arrow-up"></i> 2.4%</span>
                     </div>
-                    <div class="stat-value">₹24,78,560</div>
+                    <div class="stat-value" id="portfolioValue">₹24,78,560</div>
                     <div class="stat-subtext">Total investments across all funds</div>
                 </div>
                 
@@ -1168,7 +1145,7 @@
                         <h3>Total Returns</h3>
                         <span class="stat-trend positive"><i class="fas fa-arrow-up"></i> 15.8%</span>
                     </div>
-                    <div class="stat-value">₹2,15,400</div>
+                    <div class="stat-value" id="totalReturns">₹2,15,400</div>
                     <div class="stat-subtext">Overall returns since inception</div>
                 </div>
                 
@@ -1177,7 +1154,7 @@
                         <h3>Today's Change</h3>
                         <span class="stat-trend positive"><i class="fas fa-arrow-up"></i> ₹8,240</span>
                     </div>
-                    <div class="stat-value">+0.33%</div>
+                    <div class="stat-value" id="todaysChange">+0.33%</div>
                     <div class="stat-subtext">Market performance impact</div>
                 </div>
                 
@@ -1186,7 +1163,7 @@
                         <h3>XIRR</h3>
                         <span class="stat-trend positive"><i class="fas fa-arrow-up"></i> 18.2%</span>
                     </div>
-                    <div class="stat-value">16.4%</div>
+                    <div class="stat-value" id="xirrValue">16.4%</div>
                     <div class="stat-subtext">Annualized returns (CAGR)</div>
                 </div>
             </div>
@@ -1278,6 +1255,78 @@
     </main>
 
     <script>
+        // Check authentication
+        function checkAuthentication() {
+            // Try to get current user from localStorage (using your auth system)
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                // Redirect to login page if not authenticated
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            return currentUser;
+        }
+
+        // Update user info in sidebar
+        function updateUserInfo() {
+            const currentUser = checkAuthentication();
+            if (!currentUser) return;
+            
+            // Update user avatar
+            const userAvatar = document.getElementById('userAvatar');
+            if (currentUser.avatar) {
+                userAvatar.textContent = currentUser.avatar;
+            } else if (currentUser.name) {
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase() + 
+                                        (currentUser.name.split(' ')[1] ? currentUser.name.split(' ')[1].charAt(0).toUpperCase() : '');
+            }
+            
+            // Update user name
+            const userName = document.getElementById('userName');
+            if (currentUser.name) {
+                userName.textContent = currentUser.name;
+            }
+            
+            // Update user email
+            const userEmail = document.getElementById('userEmail');
+            if (currentUser.email) {
+                userEmail.textContent = currentUser.email;
+            }
+            
+            // Update welcome message
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (currentUser.name) {
+                welcomeMessage.textContent = `Welcome back, ${currentUser.name.split(' ')[0]}! Here's your portfolio summary and live market updates.`;
+            }
+            
+            // Update portfolio data if available
+            if (currentUser.portfolio) {
+                const portfolioValue = document.getElementById('portfolioValue');
+                const totalReturns = document.getElementById('totalReturns');
+                
+                if (currentUser.portfolio.value) {
+                    portfolioValue.textContent = formatCurrency(currentUser.portfolio.value);
+                }
+                
+                if (currentUser.portfolio.returns) {
+                    totalReturns.textContent = formatCurrency(currentUser.portfolio.returns);
+                }
+            }
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            if (amount >= 10000000) {
+                return '₹' + (amount / 10000000).toFixed(2) + ' Cr';
+            } else if (amount >= 100000) {
+                return '₹' + (amount / 100000).toFixed(2) + ' L';
+            } else {
+                return '₹' + amount.toLocaleString('en-IN');
+            }
+        }
+
         // Theme management
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
@@ -1296,10 +1345,6 @@
                 updatePerformanceChart(window.currentPerformanceData.period);
             }
         }
-
-        // Initialize theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(savedTheme);
 
         // Portfolio performance data for different time periods
         const performanceData = {
@@ -1512,6 +1557,14 @@
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!checkAuthentication()) {
+                return;
+            }
+            
+            // Update user info
+            updateUserInfo();
+            
             // Set current date
             updateCurrentDate();
             
@@ -1535,6 +1588,10 @@
             
             // Start live updates
             startLiveUpdates();
+            
+            // Initialize theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
         });
 
         // Theme switcher event listeners
@@ -1832,11 +1889,16 @@
                 });
             });
             
-            // Logout button
+            // Logout button - Fixed to use your auth system
             document.getElementById('logoutButton').addEventListener('click', function() {
                 if (confirm('Are you sure you want to logout?')) {
-                    alert('Logged out successfully');
-                    // window.location.href = 'login.html';
+                    // Clear auth data
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('infinity_auth');
+                    localStorage.removeItem('infinity_user');
+                    
+                    // Redirect to login page
+                    window.location.href = 'index.html';
                 }
             });
         }
