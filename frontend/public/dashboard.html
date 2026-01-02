@@ -35,13 +35,90 @@
             --etf-color: #ec4899;
             --sensex-color: #2563eb;
             --nifty-color: #7c3aed;
+            --background-color: #f3f4f6;
+            --banking-color: #3b82f6;
+            --it-color: #10b981;
+            --pharma-color: #8b5cf6;
+            --auto-color: #f59e0b;
+            --fmcg-color: #ec4899;
+            --industry-color: #6b7280;
+            --energy-color: #ef4444;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --primary-dark: #3b82f6;
+            --secondary-color: #a78bfa;
+            --sidebar-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --hover-color: #2d3748;
+            --background-color: #0f172a;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Night Theme */
+        [data-theme="night"] {
+            --primary-color: #818cf8;
+            --primary-dark: #6366f1;
+            --secondary-color: #c084fc;
+            --sidebar-bg: #111827;
+            --card-bg: #1f2937;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --hover-color: #374151;
+            --background-color: #111827;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
         }
 
         body {
-            background-color: #f3f4f6;
+            background-color: var(--background-color);
             color: var(--text-primary);
             display: flex;
             min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 5px;
+        }
+
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover {
+            background: var(--hover-color);
+            color: var(--primary-color);
+        }
+
+        .theme-btn.active {
+            background: var(--primary-color);
+            color: white;
         }
 
         /* Sidebar Styles */
@@ -54,6 +131,7 @@
             flex-direction: column;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            z-index: 100;
         }
 
         .sidebar-header {
@@ -217,7 +295,7 @@
         }
 
         .date-display {
-            background-color: white;
+            background-color: var(--card-bg);
             padding: 8px 16px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -264,6 +342,7 @@
             cursor: pointer;
             font-size: 20px;
             padding: 8px;
+            color: var(--text-primary);
         }
 
         .notification-badge {
@@ -283,7 +362,7 @@
 
         /* Market Indices Section */
         .market-indices {
-            background: linear-gradient(135deg, #1e293b, #334155);
+            background: linear-gradient(135deg, var(--sidebar-bg), #334155);
             color: white;
             border-radius: 12px;
             padding: 20px;
@@ -385,6 +464,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
         .stat-header {
@@ -411,172 +491,132 @@
             color: var(--text-secondary);
         }
 
-        /* Mutual Fund Categories */
-        .funds-section {
+        /* Sector Analysis Section */
+        .sectors-section {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 24px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
-        .section-header {
+        .sectors-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .section-header h2 {
+        .sectors-header h2 {
             font-size: 18px;
             font-weight: 600;
         }
 
-        .view-all {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
+        .sectors-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .sector-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            cursor: pointer;
             font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .funds-grid {
+        .sector-tab:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .sector-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .sectors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
         }
 
-        .fund-card {
+        .sector-card {
+            padding: 16px;
             border-radius: 8px;
-            padding: 20px;
-            border-left: 4px solid var(--equity-color);
+            border-left: 4px solid;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
         }
 
-        .fund-card.debt {
-            border-left-color: var(--debt-color);
+        .sector-card.banking {
+            border-left-color: var(--banking-color);
         }
 
-        .fund-card.hybrid {
-            border-left-color: var(--hybrid-color);
+        .sector-card.it {
+            border-left-color: var(--it-color);
         }
 
-        .fund-card.money-market {
-            border-left-color: var(--money-market-color);
+        .sector-card.pharma {
+            border-left-color: var(--pharma-color);
         }
 
-        .fund-card.etf {
-            border-left-color: var(--etf-color);
+        .sector-card.auto {
+            border-left-color: var(--auto-color);
         }
 
-        .fund-header {
+        .sector-card.fmcg {
+            border-left-color: var(--fmcg-color);
+        }
+
+        .sector-card.industry {
+            border-left-color: var(--industry-color);
+        }
+
+        .sector-card.energy {
+            border-left-color: var(--energy-color);
+        }
+
+        .sector-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
-        .fund-name {
+        .sector-name {
             font-weight: 600;
             font-size: 16px;
         }
 
-        .fund-nav {
+        .sector-change {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        .fund-details {
+        .sector-stocks {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .fund-label {
+            margin-top: 12px;
             font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .fund-value {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .fund-performance {
-            display: flex;
-            gap: 16px;
-            margin-top: 12px;
-        }
-
-        .performance-item {
-            text-align: center;
-        }
-
-        .performance-value {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .performance-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-        }
-
-        /* Charts Section */
-        .charts-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .chart-container {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .chart-header h3 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .chart-period {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: white;
-            font-size: 14px;
-        }
-
-        .chart-placeholder {
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8fafc;
-            border-radius: 8px;
-            border: 2px dashed var(--border-color);
-        }
-
-        .chart-note {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Top Gainers/Losers */
+        /* Stocks Section */
         .stocks-section {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 24px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
         .stocks-tabs {
@@ -664,49 +704,85 @@
             color: #f59e0b;
         }
 
-        /* Quick Actions */
-        .quick-actions {
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-container {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 24px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
-        .quick-actions h3 {
-            font-size: 16px;
-            font-weight: 600;
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+        .chart-header h3 {
+            font-size: 16px;
+            font-weight: 600;
         }
 
-        .action-btn {
+        .chart-period {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .chart-placeholder {
+            height: 300px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid var(--border-color);
+            background-color: var(--hover-color);
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            gap: 8px;
+            border: 2px dashed var(--border-color);
+            color: var(--text-secondary);
         }
 
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-            border-color: var(--primary-color);
+        .chart-note {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-align: center;
         }
 
-        .action-icon {
-            font-size: 24px;
+        /* Asset Allocation */
+        .allocation-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
             margin-bottom: 8px;
+            background-color: var(--hover-color);
+            border-radius: 6px;
+        }
+
+        .allocation-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .allocation-label {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .allocation-value {
+            font-weight: 600;
+            font-size: 14px;
         }
 
         /* Responsive Design */
@@ -719,6 +795,11 @@
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
+            }
+            
+            .theme-switcher {
+                top: 10px;
+                right: 10px;
             }
             
             .sidebar {
@@ -754,7 +835,7 @@
                 justify-content: space-between;
             }
             
-            .stats-grid, .funds-grid {
+            .stats-grid, .sectors-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -764,8 +845,8 @@
                 grid-template-columns: 1fr;
             }
             
-            .action-buttons {
-                grid-template-columns: 1fr;
+            .sectors-tabs {
+                justify-content: center;
             }
         }
 
@@ -780,21 +861,32 @@
             animation: pulse 1s ease-in-out;
         }
 
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 4px;
+        /* Real-time blinking effect */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .real-time {
+            animation: blink 2s infinite;
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="light" title="Light Mode">
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="theme-btn" data-theme="dark" title="Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="theme-btn" data-theme="night" title="Night Mode">
+            <i class="fas fa-star"></i>
+        </button>
+    </div>
+
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
         <div class="sidebar-header">
@@ -811,7 +903,6 @@
                 <span class="menu-icon">💰</span>
                 <span class="menu-text">Portfolio</span>
             </a>
-            <!-- Market link added in sidebar -->
             <a href="market.html" class="menu-item">
                 <span class="menu-icon">📈</span>
                 <span class="menu-text">Market</span>
@@ -819,6 +910,10 @@
             <a href="funds.html" class="menu-item">
                 <span class="menu-icon">🏦</span>
                 <span class="menu-text">Funds</span>
+            </a>
+            <a href="sectors.html" class="menu-item">
+                <span class="menu-icon">🏭</span>
+                <span class="menu-text">Sector Analysis</span>
             </a>
             <a href="transactions.html" class="menu-item">
                 <span class="menu-icon">📝</span>
@@ -858,10 +953,7 @@
                 <p class="welcome-message">Welcome back, Amit! Here's your portfolio summary and live market updates.</p>
             </div>
             <div class="header-right">
-                <div class="date-display" id="currentDate">
-                    <!-- Date will be set by JavaScript -->
-                </div>
-                <!-- Market quick link added here -->
+                <div class="date-display" id="currentDate"></div>
                 <a href="market.html" class="btn btn-market">
                     <i class="fas fa-chart-line"></i> Market
                 </a>
@@ -878,14 +970,21 @@
         <!-- Live Market Indices -->
         <section class="market-indices">
             <div class="market-header">
-                <h2><i class="fas fa-chart-line"></i> Live Market Updates - BSE</h2>
+                <h2><i class="fas fa-chart-line real-time"></i> Live Market Updates - BSE & NSE</h2>
                 <div class="market-time">
                     <i class="fas fa-clock"></i> <span id="marketTime">Last Updated: --:--</span>
                 </div>
             </div>
-            <div class="indices-grid" id="marketIndices">
-                <!-- Market indices will be populated by JavaScript -->
+            <div class="indices-grid" id="marketIndices"></div>
+        </section>
+
+        <!-- Sector Analysis -->
+        <section class="sectors-section">
+            <div class="sectors-header">
+                <h2><i class="fas fa-industry"></i> Sector Performance Analysis</h2>
+                <div class="sectors-tabs" id="sectorTabs"></div>
             </div>
+            <div class="sectors-grid" id="sectorsGrid"></div>
         </section>
 
         <!-- Stats Cards -->
@@ -929,15 +1028,21 @@
             </div>
         </section>
 
-        <!-- Mutual Fund Categories -->
-        <section class="funds-section">
+        <!-- Top Gainers & Losers -->
+        <section class="stocks-section">
             <div class="section-header">
-                <h2><i class="fas fa-chart-pie"></i> Mutual Fund Categories Performance</h2>
-                <a href="funds.html" class="view-all">View All Funds →</a>
+                <h2><i class="fas fa-trophy"></i> Top BSE & NSE Performers</h2>
+                <div class="market-time">Real-time Updates</div>
             </div>
-            <div class="funds-grid" id="fundCategories">
-                <!-- Fund categories will be populated by JavaScript -->
+            
+            <div class="stocks-tabs">
+                <button class="tab active" data-tab="gainers">Top Gainers</button>
+                <button class="tab" data-tab="losers">Top Losers</button>
+                <button class="tab" data-tab="active">Most Active</button>
+                <button class="tab" data-tab="volume">By Volume</button>
             </div>
+            
+            <div class="stocks-table" id="stocksTable"></div>
         </section>
 
         <!-- Charts Section -->
@@ -954,16 +1059,6 @@
                     </select>
                 </div>
                 <div class="chart-placeholder" id="performanceChart">
-                    <div class="chart-mock">
-                        <div class="chart-line"></div>
-                        <div class="chart-points">
-                            <div class="point" style="left: 10%;"></div>
-                            <div class="point" style="left: 30%;"></div>
-                            <div class="point" style="left: 50%;"></div>
-                            <div class="point" style="left: 70%;"></div>
-                            <div class="point" style="left: 90%;"></div>
-                        </div>
-                    </div>
                     <p class="chart-note"><i class="fas fa-chart-line"></i> Interactive portfolio growth chart will be displayed here</p>
                 </div>
             </div>
@@ -973,27 +1068,7 @@
                     <h3><i class="fas fa-chart-pie"></i> Asset Allocation</h3>
                     <span class="chart-info" title="Your portfolio distribution across different fund types"><i class="fas fa-info-circle"></i></span>
                 </div>
-                <div class="allocation-chart" id="assetAllocation">
-                    <!-- Asset allocation will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Top Gainers & Losers -->
-        <section class="stocks-section">
-            <div class="section-header">
-                <h2><i class="fas fa-trophy"></i> Top BSE Performers</h2>
-                <div class="market-time">Real-time Updates</div>
-            </div>
-            
-            <div class="stocks-tabs">
-                <button class="tab active" data-tab="gainers">Top Gainers</button>
-                <button class="tab" data-tab="losers">Top Losers</button>
-                <button class="tab" data-tab="active">Most Active</button>
-            </div>
-            
-            <div class="stocks-table" id="stocksTable">
-                <!-- Stocks data will be populated by JavaScript -->
+                <div class="allocation-chart" id="assetAllocation"></div>
             </div>
         </section>
 
@@ -1075,7 +1150,25 @@
     </main>
 
     <script>
-        // Mock data for market indices (In production, this would come from API)
+        // Theme management
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Update active theme button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-theme') === theme) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        // Mock data for market indices
         const marketIndicesData = [
             {
                 name: "BSE SENSEX",
@@ -1105,71 +1198,93 @@
                 color: "var(--warning-color)"
             },
             {
-                name: "BSE MIDCAP",
-                symbol: "MIDCAP",
-                value: "40,123.67",
-                change: "-125.45",
-                changePercent: "-0.31%",
-                trend: "negative",
-                color: "var(--text-secondary)"
+                name: "NIFTY BANK",
+                symbol: "BANKNIFTY",
+                value: "48,123.67",
+                change: "+745.32",
+                changePercent: "+1.57%",
+                trend: "positive",
+                color: "var(--banking-color)"
             }
         ];
 
-        // Mock data for mutual fund categories
-        const fundCategoriesData = [
+        // Sector data
+        const sectorsData = [
             {
-                name: "Equity Funds",
-                type: "equity",
-                nav: "₹245.67",
-                dayChange: "+1.45%",
-                monthChange: "+4.23%",
-                yearChange: "+18.45%",
-                color: "var(--equity-color)",
-                description: "Growth-oriented funds investing in stocks"
+                id: "all",
+                name: "All Sectors",
+                color: "var(--primary-color)",
+                performance: "+1.45%",
+                topGainer: "RELIANCE",
+                topLoser: "ITC",
+                marketCap: "₹250.4L Cr"
             },
             {
-                name: "Debt Funds",
-                type: "debt",
-                nav: "₹1,245.80",
-                dayChange: "+0.25%",
-                monthChange: "+0.89%",
-                yearChange: "+7.34%",
-                color: "var(--debt-color)",
-                description: "Income-oriented funds investing in bonds"
+                id: "banking",
+                name: "Banking",
+                color: "var(--banking-color)",
+                performance: "+1.64%",
+                topGainer: "HDFCBANK",
+                topLoser: "AXISBANK",
+                marketCap: "₹78.2L Cr"
             },
             {
-                name: "Hybrid Funds",
-                type: "hybrid",
-                nav: "₹345.25",
-                dayChange: "+0.78%",
-                monthChange: "+2.45%",
-                yearChange: "+12.67%",
-                color: "var(--hybrid-color)",
-                description: "Balanced mix of equity and debt"
+                id: "it",
+                name: "IT",
+                color: "var(--it-color)",
+                performance: "+2.34%",
+                topGainer: "TCS",
+                topLoser: "INFY",
+                marketCap: "₹45.6L Cr"
             },
             {
-                name: "Money Market Funds",
-                type: "money-market",
-                nav: "₹1,000.00",
-                dayChange: "+0.08%",
-                monthChange: "+0.45%",
-                yearChange: "+5.23%",
-                color: "var(--money-market-color)",
-                description: "Low-risk, short-term debt instruments"
+                id: "pharma",
+                name: "Pharma",
+                color: "var(--pharma-color)",
+                performance: "+0.89%",
+                topGainer: "SUNPHARMA",
+                topLoser: "DRREDDY",
+                marketCap: "₹32.1L Cr"
             },
             {
-                name: "Index Funds & ETFs",
-                type: "etf",
-                nav: "₹185.45",
-                dayChange: "+1.73%",
-                monthChange: "+3.89%",
-                yearChange: "+15.78%",
-                color: "var(--etf-color)",
-                description: "Passive funds tracking market indices"
+                id: "auto",
+                name: "Auto",
+                color: "var(--auto-color)",
+                performance: "-0.45%",
+                topGainer: "TATAMOTORS",
+                topLoser: "MARUTI",
+                marketCap: "₹28.7L Cr"
+            },
+            {
+                id: "fmcg",
+                name: "FMCG",
+                color: "var(--fmcg-color)",
+                performance: "+0.78%",
+                topGainer: "HINDUNILVR",
+                topLoser: "ITC",
+                marketCap: "₹24.3L Cr"
+            },
+            {
+                id: "industry",
+                name: "Industry",
+                color: "var(--industry-color)",
+                performance: "+1.12%",
+                topGainer: "L&T",
+                topLoser: "ULTRACEMCO",
+                marketCap: "₹36.8L Cr"
+            },
+            {
+                id: "energy",
+                name: "Energy",
+                color: "var(--energy-color)",
+                performance: "+1.89%",
+                topGainer: "RELIANCE",
+                topLoser: "ONGC",
+                marketCap: "₹42.5L Cr"
             }
         ];
 
-        // Mock data for top gainers
+        // Stocks data
         const topGainers = [
             { name: "Reliance Industries", symbol: "RELIANCE", price: "₹2,845.60", change: "+4.25%", changeValue: "+₹115.80" },
             { name: "TCS", symbol: "TCS", price: "₹3,845.25", change: "+3.78%", changeValue: "+₹140.25" },
@@ -1178,7 +1293,6 @@
             { name: "ICICI Bank", symbol: "ICICIBANK", price: "₹1,045.25", change: "+2.89%", changeValue: "+₹29.35" }
         ];
 
-        // Mock data for top losers
         const topLosers = [
             { name: "ITC Ltd", symbol: "ITC", price: "₹425.60", change: "-2.45%", changeValue: "-₹10.70" },
             { name: "Bharti Airtel", symbol: "BHARTIARTL", price: "₹1,125.40", change: "-1.89%", changeValue: "-₹21.65" },
@@ -1187,13 +1301,20 @@
             { name: "Maruti Suzuki", symbol: "MARUTI", price: "₹10,245.60", change: "-0.89%", changeValue: "-₹92.15" }
         ];
 
-        // Mock data for most active
         const mostActive = [
             { name: "Reliance Industries", symbol: "RELIANCE", price: "₹2,845.60", volume: "25.4M", value: "₹7,234Cr" },
             { name: "HDFC Bank", symbol: "HDFCBANK", price: "₹1,645.80", volume: "18.7M", value: "₹3,078Cr" },
             { name: "Infosys", symbol: "INFY", price: "₹1,525.40", volume: "15.2M", value: "₹2,319Cr" },
             { name: "ICICI Bank", symbol: "ICICIBANK", price: "₹1,045.25", volume: "12.8M", value: "₹1,338Cr" },
             { name: "TCS", symbol: "TCS", price: "₹3,845.25", volume: "8.9M", value: "₹3,422Cr" }
+        ];
+
+        const volumeLeaders = [
+            { name: "Yes Bank", symbol: "YESBANK", price: "₹24.85", volume: "145.2M", value: "₹361Cr" },
+            { name: "Suzlon Energy", symbol: "SUZLON", price: "₹38.45", volume: "98.7M", value: "₹379Cr" },
+            { name: "Vodafone Idea", symbol: "IDEA", price: "₹14.25", volume: "87.3M", value: "₹124Cr" },
+            { name: "Tata Motors", symbol: "TATAMOTORS", price: "₹845.60", volume: "65.4M", value: "₹553Cr" },
+            { name: "Reliance Power", symbol: "RPOWER", price: "₹28.90", volume: "54.8M", value: "₹158Cr" }
         ];
 
         // Asset allocation data
@@ -1215,20 +1336,28 @@
             // Load market indices
             loadMarketIndices();
             
-            // Load fund categories
-            loadFundCategories();
+            // Load sectors
+            loadSectors();
             
             // Load asset allocation
             loadAssetAllocation();
             
-            // Load stocks data (default: gainers)
+            // Load stocks data
             loadStocksData('gainers');
             
             // Setup event listeners
             setupEventListeners();
             
-            // Simulate live updates every 30 seconds
-            setInterval(simulateLiveUpdates, 30000);
+            // Start live updates
+            startLiveUpdates();
+        });
+
+        // Theme switcher event listeners
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                setTheme(theme);
+            });
         });
 
         // Update current date
@@ -1249,9 +1378,10 @@
             const timeString = now.toLocaleTimeString('en-IN', { 
                 hour: '2-digit', 
                 minute: '2-digit',
+                second: '2-digit',
                 hour12: false 
             });
-            document.getElementById('marketTime').textContent = `Last Updated: ${timeString}`;
+            document.getElementById('marketTime').textContent = `Live: ${timeString}`;
         }
 
         // Load market indices
@@ -1261,7 +1391,7 @@
             
             marketIndicesData.forEach(index => {
                 const indexCard = document.createElement('div');
-                indexCard.className = `index-card ${index.name === 'NIFTY 50' ? 'nifty' : ''} ${index.name === 'BSE BANKEX' ? 'bank-nifty' : ''}`;
+                indexCard.className = `index-card ${index.symbol === 'NIFTY' ? 'nifty' : ''} ${index.symbol.includes('BANK') ? 'bank-nifty' : ''}`;
                 indexCard.style.borderLeftColor = index.color;
                 
                 indexCard.innerHTML = `
@@ -1277,48 +1407,66 @@
             });
         }
 
-        // Load fund categories
-        function loadFundCategories() {
-            const container = document.getElementById('fundCategories');
+        // Load sectors
+        function loadSectors() {
+            const tabsContainer = document.getElementById('sectorTabs');
+            const gridContainer = document.getElementById('sectorsGrid');
+            
+            // Create tabs
+            tabsContainer.innerHTML = '';
+            sectorsData.forEach((sector, index) => {
+                const tab = document.createElement('button');
+                tab.className = `sector-tab ${index === 0 ? 'active' : ''}`;
+                tab.textContent = sector.name;
+                tab.setAttribute('data-sector', sector.id);
+                
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    document.querySelectorAll('.sector-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Load sector details
+                    loadSectorDetails(sector.id);
+                });
+                
+                tabsContainer.appendChild(tab);
+            });
+            
+            // Load initial sector grid
+            loadSectorDetails('all');
+        }
+
+        // Load sector details
+        function loadSectorDetails(sectorId) {
+            const container = document.getElementById('sectorsGrid');
             container.innerHTML = '';
             
-            fundCategoriesData.forEach(fund => {
-                const fundCard = document.createElement('div');
-                fundCard.className = `fund-card ${fund.type}`;
-                fundCard.style.borderLeftColor = fund.color;
+            let sectorsToShow = sectorsData;
+            if (sectorId !== 'all') {
+                sectorsToShow = sectorsData.filter(s => s.id === sectorId);
+            }
+            
+            sectorsToShow.forEach(sector => {
+                const isPositive = sector.performance.startsWith('+');
                 
-                fundCard.innerHTML = `
-                    <div class="fund-header">
-                        <div class="fund-name">${fund.name}</div>
-                        <div class="fund-nav">${fund.nav}</div>
+                const sectorCard = document.createElement('div');
+                sectorCard.className = `sector-card ${sector.id}`;
+                
+                sectorCard.innerHTML = `
+                    <div class="sector-header">
+                        <div class="sector-name">${sector.name}</div>
+                        <div class="sector-change ${isPositive ? 'positive' : 'negative'}">${sector.performance}</div>
                     </div>
-                    <div class="fund-details">
-                        <div>
-                            <div class="fund-label">Day Change</div>
-                            <div class="fund-value ${fund.dayChange.startsWith('+') ? 'positive' : 'negative'}">${fund.dayChange}</div>
-                        </div>
-                        <div>
-                            <div class="fund-label">YTD Return</div>
-                            <div class="fund-value positive">${fund.yearChange}</div>
-                        </div>
+                    <div class="sector-info">
+                        <div>Market Cap: ${sector.marketCap}</div>
                     </div>
-                    <div class="fund-performance">
-                        <div class="performance-item">
-                            <div class="performance-value">1M</div>
-                            <div class="performance-label">${fund.monthChange}</div>
-                        </div>
-                        <div class="performance-item">
-                            <div class="performance-value">3M</div>
-                            <div class="performance-label">+${(parseFloat(fund.monthChange) * 2.5).toFixed(2)}%</div>
-                        </div>
-                        <div class="performance-item">
-                            <div class="performance-value">1Y</div>
-                            <div class="performance-label">${fund.yearChange}</div>
-                        </div>
+                    <div class="sector-stocks">
+                        <div>Top Gainer: <strong>${sector.topGainer}</strong></div>
+                        <div>Top Loser: <strong>${sector.topLoser}</strong></div>
                     </div>
                 `;
                 
-                container.appendChild(fundCard);
+                container.appendChild(sectorCard);
             });
         }
 
@@ -1356,6 +1504,9 @@
                 case 'active':
                     data = mostActive;
                     break;
+                case 'volume':
+                    data = volumeLeaders;
+                    break;
                 default:
                     data = topGainers;
             }
@@ -1367,7 +1518,7 @@
                             <th>Company</th>
                             <th>Symbol</th>
                             <th>Price</th>
-                            ${type !== 'active' ? '<th>Change</th><th>Change %</th>' : '<th>Volume</th><th>Value</th>'}
+                            ${type !== 'active' && type !== 'volume' ? '<th>Change</th><th>Change %</th>' : '<th>Volume</th><th>Value</th>'}
                         </tr>
                     </thead>
                     <tbody>
@@ -1387,7 +1538,7 @@
                         <td>
                             <div class="stock-price">${stock.price}</div>
                         </td>
-                        ${type !== 'active' ? 
+                        ${type !== 'active' && type !== 'volume' ? 
                             `<td class="${isPositive ? 'positive' : 'negative'}">${stock.changeValue}</td>
                              <td class="${isPositive ? 'positive' : 'negative'}">${stock.change}</td>` :
                             `<td>${stock.volume}</td>
@@ -1460,16 +1611,15 @@
             });
         }
 
-        // Simulate live updates (in production, this would be real-time via WebSocket)
+        // Simulate live updates
         function simulateLiveUpdates() {
             // Update market indices with small random changes
             marketIndicesData.forEach(index => {
-                const change = (Math.random() - 0.5) * 0.3; // Random change between -0.15% to +0.15%
+                const change = (Math.random() - 0.5) * 0.3;
                 const currentValue = parseFloat(index.value.replace(/,/g, ''));
                 const newValue = currentValue * (1 + change/100);
                 const newChange = change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`;
                 
-                // Only update if significant change
                 if (Math.abs(change) > 0.05) {
                     index.value = newValue.toLocaleString('en-IN', { 
                         minimumFractionDigits: 2, 
@@ -1486,7 +1636,7 @@
             // Update market time
             updateMarketTime();
             
-            // Reload indices with animation
+            // Update with animation
             const indices = document.querySelectorAll('.index-card');
             indices.forEach(card => {
                 card.classList.add('live-update');
@@ -1501,17 +1651,27 @@
             }, 500);
         }
 
-        // Initialize live market updates
-        function initializeLiveUpdates() {
-            // In a real application, you would connect to a WebSocket or use Server-Sent Events
-            console.log('Live market updates initialized');
+        // Start live updates
+        function startLiveUpdates() {
+            // Update time every second
+            setInterval(updateMarketTime, 1000);
             
-            // For demo purposes, update every 60 seconds
-            setInterval(simulateLiveUpdates, 60000);
+            // Simulate market updates every 10 seconds
+            setInterval(simulateLiveUpdates, 10000);
         }
 
-        // Initialize live updates on load
-        window.addEventListener('load', initializeLiveUpdates);
+        // Auto-detect system theme
+        if (window.matchMedia) {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            const updateTheme = (e) => {
+                if (localStorage.getItem('theme') === 'auto' || !localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            };
+            
+            prefersDark.addEventListener('change', updateTheme);
+        }
     </script>
 </body>
 </html>
