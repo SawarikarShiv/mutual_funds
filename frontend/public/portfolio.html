@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Infinity Mutual Funds</title>
     
-    <!-- Live Clock in Title -->
-    <script>
-        function updateTitleTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'});
-            document.title = `🔄 ${timeStr} | Portfolio | Infinity Mutual Funds`;
-        }
-        setInterval(updateTitleTime, 60000);
-        updateTitleTime();
-    </script>
-    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
@@ -115,9 +104,9 @@
             }
         }
         
-        /* Live Status Bar */
+        /* NEW: Enhanced Live Status Bar - Your Format */
         .live-status-bar {
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5, #667eea);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
             padding: 8px 20px;
             display: flex;
@@ -128,43 +117,206 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 210, 255, 0.3);
-            animation: livePulse 2s infinite;
+            border-bottom: 2px solid #00d2ff;
+            backdrop-filter: blur(10px);
+            font-family: 'Courier New', monospace, 'Segoe UI';
         }
         
-        @keyframes livePulse {
-            0%, 100% { box-shadow: 0 2px 10px rgba(0, 210, 255, 0.3); }
-            50% { box-shadow: 0 2px 20px rgba(0, 210, 255, 0.6); }
-        }
-        
-        .live-stats {
+        .live-status-left {
             display: flex;
-            gap: 30px;
             align-items: center;
+            gap: 25px;
         }
         
-        .live-stat {
+        .live-status-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .live-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #00d2ff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .live-value {
+            font-size: 12px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        
+        .live-data {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-badge {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        
+        .nifty-container {
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .live-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            animation: blink 2s infinite;
+        .nifty-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
         }
         
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .nifty-change {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 3px;
+        }
+        
+        .nifty-change.positive {
+            background: rgba(0, 176, 155, 0.2);
+            color: #00b09b;
+        }
+        
+        .nifty-change.negative {
+            background: rgba(255, 65, 108, 0.2);
+            color: #ff416c;
+        }
+        
+        .investors-online {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #96c93d;
+        }
+        
+        .market-sentiment {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            background: rgba(0, 176, 155, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 176, 155, 0.3);
+        }
+        
+        .sentiment-icon {
+            color: #96c93d;
+            font-size: 12px;
+        }
+        
+        .sentiment-text {
+            font-size: 11px;
+            font-weight: 500;
+            color: #96c93d;
+        }
+        
+        /* Live pulse animation */
+        @keyframes livePulse {
+            0%, 100% { 
+                box-shadow: 0 0 5px rgba(0, 210, 255, 0.5),
+                           inset 0 0 10px rgba(0, 210, 255, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.8),
+                           inset 0 0 20px rgba(0, 210, 255, 0.4);
+            }
         }
         
         /* Navbar adjustment for live bar */
         .navbar {
             margin-top: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0 0 15px 15px;
+            padding: 15px 0;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .current-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 10px;
+            font-weight: 400;
+        }
+        
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .theme-toggle, .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover, .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         /* Enhanced Portfolio Cards */
@@ -336,15 +488,43 @@
             margin-left: 10px;
         }
         
-        /* Market Mood */
-        .market-mood {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px;
-            background: rgba(0, 210, 255, 0.1);
-            border-radius: 20px;
-            margin-left: 15px;
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .live-status-bar {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+            
+            .live-status-left {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .live-status-section {
+                min-width: 150px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .live-status-left {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .live-status-section {
+                min-width: 100%;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -354,33 +534,44 @@
     <div class="data-grid-overlay"></div>
     <div class="floating-numbers" id="floatingNumbers"></div>
     
-    <!-- Live Status Bar -->
+    <!-- NEW: Formatted Live Status Bar -->
     <div class="live-status-bar" id="liveStatusBar">
-        <div class="live-stats">
-            <div class="live-stat">
-                <i class="fas fa-satellite-dish"></i>
-                <span>LIVE DATA</span>
-                <span class="live-badge">REALTIME</span>
+        <div class="live-status-left">
+            <div class="live-status-section">
+                <div class="live-label">LIVE DATA</div>
+                <div class="live-data">
+                    <span class="live-value">REALTIME</span>
+                    <span class="live-badge">LIVE</span>
+                </div>
             </div>
-            <div class="live-stat">
-                <i class="fas fa-clock"></i>
-                <span id="currentDateTime">02 Jan 2026, 10:15:45 AM</span>
+            
+            <div class="live-status-section">
+                <div class="live-label">TIME</div>
+                <div class="live-value" id="currentDateTime">Friday, 2 January 2026, 12:21:39 pm</div>
             </div>
-            <div class="live-stat">
-                <i class="fas fa-chart-line"></i>
-                <span>NIFTY: <span id="niftyValue">22,415.30</span></span>
-                <span id="niftyChange" class="positive">+0.85%</span>
+            
+            <div class="live-status-section">
+                <div class="live-label">NIFTY</div>
+                <div class="nifty-container">
+                    <span class="nifty-value" id="niftyValue">22411.12</span>
+                    <span class="nifty-change negative" id="niftyChange">-0.01%</span>
+                </div>
             </div>
-            <div class="live-stat">
-                <i class="fas fa-users"></i>
-                <span id="activeUsers">1,247 investors online</span>
+            
+            <div class="live-status-section">
+                <div class="live-label">ONLINE</div>
+                <div class="investors-online">
+                    <i class="fas fa-users"></i>
+                    <span class="live-value" id="activeUsers">1232 investors online</span>
+                </div>
             </div>
         </div>
-        <div class="live-indicators">
-            <span class="market-mood">
-                <i class="fas fa-smile"></i>
-                <span>Bullish Sentiment</span>
-            </span>
+        
+        <div class="live-status-right">
+            <div class="market-sentiment">
+                <i class="fas fa-chart-line sentiment-icon"></i>
+                <span class="sentiment-text">Bullish Sentiment</span>
+            </div>
         </div>
     </div>
 
@@ -389,7 +580,7 @@
             <div class="nav-brand">
                 <div class="logo">∞</div>
                 <span class="brand-name">Infinity Mutual Funds</span>
-                <span class="current-date" id="currentDate"></span>
+                <span class="current-date" id="currentDate">Friday, 2 January 2026</span>
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link">Dashboard</a>
@@ -400,10 +591,12 @@
                 
                 <!-- Theme Toggle Button -->
                 <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-palette"></i> Theme
                 </button>
                 
-                <button class="logout-btn">Logout</button>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
         </div>
     </nav>
@@ -413,7 +606,7 @@
         <div class="today-special">
             <i class="fas fa-bullhorn fa-lg" style="color: #ff6b6b;"></i>
             <div>
-                <strong>Today's Live Chat (02 Jan 2026):</strong> Join our portfolio discussion! <span id="chatCount">1,247 investors</span> are currently viewing portfolios. Share your insights!
+                <strong>Today's Live Chat (02 Jan 2026):</strong> Join our portfolio discussion! <span id="chatCount">1232 investors</span> are currently viewing portfolios. Share your insights!
             </div>
         </div>
 
@@ -422,9 +615,9 @@
             <p>Manage and track all your mutual fund investments in real-time</p>
             <!-- Real-time update indicator -->
             <div class="last-updated">
-                <span id="lastUpdateTime">Last updated: Just now</span>
+                <span id="lastUpdateTime">Last updated: 12:21:39 pm</span>
                 <button class="refresh-btn" id="refreshPortfolio">
-                    <i class="fas fa-sync-alt"></i> Refresh
+                    <i class="fas fa-sync-alt"></i> Refresh Now
                 </button>
                 <span class="live-connection">
                     <i class="fas fa-plug"></i>
@@ -561,7 +754,7 @@
         <div class="live-chat-feed" id="liveChatFeed">
             <div class="chat-feed-header">
                 <h4><i class="fas fa-comments"></i> Live Portfolio Chat</h4>
-                <small>02 Jan 2026 - 1,247 investors online</small>
+                <small>02 Jan 2026 - 1232 investors online</small>
             </div>
             <div class="chat-messages" id="chatMessages">
                 <!-- Chat messages will appear here -->
@@ -588,7 +781,7 @@
             <div class="chat-header">
                 <h3><i class="fas fa-comments"></i> Live Portfolio Discussion</h3>
                 <div class="chat-info">
-                    <span class="online-count">👥 1,247 investors online</span>
+                    <span class="online-count">👥 1232 investors online</span>
                     <span class="chat-date">📅 02 Jan 2026</span>
                 </div>
             </div>
@@ -665,17 +858,23 @@
 
         // Live date-time updater
         function updateDateTime() {
-            const now = new Date();
+            const now = new Date(2026, 0, 2, 12, 21, 39); // Fixed to 02 Jan 2026, 12:21:39 pm
+            
+            // Add 1 second each update
+            now.setSeconds(now.getSeconds() + 1);
+            
             const dateStr = now.toLocaleDateString('en-IN', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
+            
             const timeStr = now.toLocaleTimeString('en-IN', {
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit'
+                second: '2-digit',
+                hour12: true
             });
             
             document.getElementById('currentDate').textContent = dateStr;
@@ -684,14 +883,11 @@
             // Update last update time
             const lastUpdate = document.getElementById('lastUpdateTime');
             lastUpdate.textContent = `Last updated: ${timeStr}`;
-        }
-
-        // Simulate live data updates
-        function simulateLiveUpdates() {
-            // Update NIFTY value
+            
+            // Update NIFTY value with slight variation
             const niftyValue = document.getElementById('niftyValue');
             const currentValue = parseFloat(niftyValue.textContent.replace(/,/g, ''));
-            const change = (Math.random() - 0.5) * 10;
+            const change = (Math.random() - 0.5) * 2; // Small variation
             const newValue = currentValue + change;
             
             niftyValue.textContent = newValue.toFixed(2);
@@ -701,20 +897,31 @@
             niftyChange.textContent = `${changePercent >= 0 ? '+' : ''}${changePercent}%`;
             niftyChange.className = changePercent >= 0 ? 'positive' : 'negative';
             
-            // Update online users
+            // Update online users with slight variation
             const users = document.getElementById('activeUsers');
-            const baseUsers = 1247;
-            const fluctuation = Math.floor(Math.random() * 50) - 25;
-            users.textContent = `${baseUsers + fluctuation} investors online`;
+            const chatCount = document.getElementById('chatCount');
+            const baseUsers = 1232;
+            const fluctuation = Math.floor(Math.random() * 20) - 10; // Small fluctuation
+            const currentUsers = baseUsers + fluctuation;
             
-            // Update chat count
-            document.getElementById('chatCount').textContent = `${baseUsers + fluctuation} investors`;
+            users.textContent = `${currentUsers} investors online`;
+            chatCount.textContent = `${currentUsers} investors`;
             
             // Update next NAV update counter
             const nextUpdate = document.getElementById('nextNavUpdate');
             let seconds = parseInt(nextUpdate.textContent);
             seconds = seconds === 0 ? 30 : seconds - 1;
             nextUpdate.textContent = `${seconds}s`;
+            
+            // Auto-refresh portfolio every 30 seconds
+            if (seconds === 0) {
+                // Show toast notification
+                const toast = document.getElementById('updateToast');
+                toast.style.display = 'block';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            }
         }
 
         // Initialize portfolio data
@@ -839,75 +1046,46 @@
             });
         }
 
-        // Chat system
-        function initializeChat() {
-            const chatToggle = document.getElementById('chatToggle');
-            const chatModal = document.getElementById('liveChatModal');
-            
-            chatToggle.addEventListener('click', () => {
-                chatModal.style.display = 'block';
-            });
-            
-            // Sample chat messages
-            const messages = [
-                { user: "Investor_123", message: "Just added more units of HDFC Top 100! Bullish on large caps." },
-                { user: "Finance_Guru", message: "SBI Small Cap showing strong momentum today!" },
-                { user: "WealthBuilder", message: "Anyone else using the auto-rebalance feature? Thoughts?" },
-                { user: "NewInvestor_456", message: "First time seeing live NAV updates. This is amazing!" },
-                { user: "PortfolioPro", message: "Market sentiment seems positive for 2026. Great time to SIP!" }
-            ];
-            
-            const chatBody = document.getElementById('liveChatBody');
-            messages.forEach(msg => {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'chat-message';
-                messageDiv.innerHTML = `
-                    <div class="chat-user">${msg.user}:</div>
-                    <div class="chat-text">${msg.message}</div>
-                    <div class="chat-time">Just now</div>
-                `;
-                chatBody.appendChild(messageDiv);
-            });
-            
-            // Auto-scroll to bottom
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             createFloatingNumbers();
             updateDateTime();
             initializePortfolioData();
-            initializeChat();
             
             // Update date-time every second
             setInterval(updateDateTime, 1000);
-            
-            // Simulate live updates every 3 seconds
-            setInterval(simulateLiveUpdates, 3000);
-            
-            // Auto-refresh portfolio every 30 seconds
-            setInterval(() => {
-                // Show toast notification
-                const toast = document.getElementById('updateToast');
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000);
-                
-                // Trigger portfolio refresh
-                document.getElementById('refreshPortfolio').click();
-            }, 30000);
             
             // Theme toggle
             document.getElementById('themeToggle').addEventListener('click', () => {
                 document.getElementById('themeModal').style.display = 'block';
             });
             
-            // Live chat open button
-            document.getElementById('openLiveChat').addEventListener('click', () => {
-                document.getElementById('liveChatModal').style.display = 'block';
+            // Refresh portfolio button
+            document.getElementById('refreshPortfolio').addEventListener('click', function() {
+                this.classList.add('rotating');
+                setTimeout(() => {
+                    this.classList.remove('rotating');
+                    // Show update toast
+                    const toast = document.getElementById('updateToast');
+                    toast.style.display = 'block';
+                    setTimeout(() => {
+                        toast.style.display = 'none';
+                    }, 2000);
+                }, 1000);
             });
+            
+            // Add CSS for rotating animation
+            const style = document.createElement('style');
+            style.textContent = `
+                .rotating {
+                    animation: rotate 1s linear;
+                }
+                @keyframes rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
