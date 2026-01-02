@@ -234,6 +234,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
+            text-decoration: none;
         }
 
         .btn-primary {
@@ -243,6 +244,16 @@
 
         .btn-primary:hover {
             background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-market {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-market:hover {
+            background-color: #6d28d9;
             transform: translateY(-2px);
         }
 
@@ -800,6 +811,7 @@
                 <span class="menu-icon">💰</span>
                 <span class="menu-text">Portfolio</span>
             </a>
+            <!-- Market link added in sidebar -->
             <a href="market.html" class="menu-item">
                 <span class="menu-icon">📈</span>
                 <span class="menu-text">Market</span>
@@ -849,6 +861,10 @@
                 <div class="date-display" id="currentDate">
                     <!-- Date will be set by JavaScript -->
                 </div>
+                <!-- Market quick link added here -->
+                <a href="market.html" class="btn btn-market">
+                    <i class="fas fa-chart-line"></i> Market
+                </a>
                 <button class="btn btn-primary" id="refreshButton">
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
