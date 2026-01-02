@@ -332,7 +332,7 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
-        .theme-toggle, .logout-btn {
+        .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
@@ -346,7 +346,7 @@
             gap: 8px;
         }
         
-        .theme-toggle:hover, .logout-btn:hover {
+        .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
@@ -549,7 +549,7 @@
         
         .status.sip {
             background: rgba(0, 176, 155, 0.2);
-            color: #00b09b;
+            color: #00b981;
         }
         
         /* SIP Live Indicators */
@@ -1133,11 +1133,6 @@
                     <i class="fas fa-palette"></i>
                     <span>Theme</span>
                 </button>
-                
-                <button class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -1340,6 +1335,56 @@
 
     <!-- Inline JavaScript -->
     <script>
+        // Authentication check
+        function checkAuthentication() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            return currentUser;
+        }
+
+        // Initialize user data if available
+        function initializeUserData() {
+            const currentUser = checkAuthentication();
+            if (!currentUser) return;
+
+            // Update user info if needed
+            console.log('User authenticated:', currentUser.name);
+            
+            // Update portfolio data from user if available
+            if (currentUser.portfolio) {
+                const totalValue = document.getElementById('totalValue');
+                const totalGain = document.getElementById('totalGain');
+                const fundsCount = document.getElementById('fundsCount');
+                
+                if (currentUser.portfolio.value) {
+                    totalValue.textContent = formatCurrency(currentUser.portfolio.value);
+                }
+                
+                // Calculate gain if investments data available
+                if (currentUser.portfolio.investments) {
+                    const invested = currentUser.portfolio.investments.reduce((sum, inv) => sum + inv.amount, 0);
+                    const currentValue = currentUser.portfolio.value || 0;
+                    const gain = currentValue - invested;
+                    totalGain.textContent = formatCurrency(gain);
+                    fundsCount.textContent = currentUser.portfolio.investments.length;
+                }
+            }
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            if (amount >= 10000000) {
+                return '₹' + (amount / 10000000).toFixed(2) + ' Cr';
+            } else if (amount >= 100000) {
+                return '₹' + (amount / 100000).toFixed(2) + ' L';
+            } else {
+                return '₹' + amount.toLocaleString('en-IN');
+            }
+        }
+
         // Floating numbers animation
         function createFloatingNumbers() {
             const container = document.getElementById('floatingNumbers');
@@ -1533,6 +1578,13 @@
 
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication first
+            checkAuthentication();
+            
+            // Initialize user data
+            initializeUserData();
+            
+            // Create visual effects
             createFloatingNumbers();
             updateDateTime();
             initializePortfolioData();
