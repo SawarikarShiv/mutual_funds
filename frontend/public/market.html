@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Dashboard | Infinity Mutual Funds</title>
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Live Clock in Title -->
     <script>
         function updateTitleTime() {
@@ -12,15 +18,11 @@
             const timeStr = now.toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'});
             document.title = `📊 ${timeStr} | Market Dashboard | Infinity Mutual Funds`;
         }
-        setInterval(updateTitleTime, 60000);
+        // Initialize immediately
         updateTitleTime();
+        // Update every minute
+        setInterval(updateTitleTime, 60000);
     </script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Theme System -->
     <style>
@@ -97,13 +99,20 @@
             --re-gradient: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
             background-color: var(--primary-bg);
             color: var(--text-primary);
             min-height: 100vh;
             margin: 0;
             transition: all 0.3s ease;
+            overflow-x: hidden;
         }
 
         /* Theme Switcher */
@@ -161,6 +170,7 @@
             transition: all 0.3s;
             border: 1px solid var(--border-color);
             box-shadow: var(--card-shadow);
+            pointer-events: none;
         }
 
         .theme-btn:hover .theme-tooltip {
@@ -183,8 +193,9 @@
             z-index: 1000;
             border-bottom: 2px solid var(--accent-color);
             backdrop-filter: blur(10px);
-            font-family: 'Courier New', monospace, 'Segoe UI';
+            font-family: 'Courier New', monospace;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 40px;
         }
 
         .live-status-left {
@@ -221,13 +232,19 @@
         }
 
         .live-badge {
-            background: linear-gradient(135deg, var(--loss-color), #ff4b2b);
+            background: var(--loss-color);
             color: white;
             padding: 2px 8px;
             border-radius: 4px;
             font-size: 10px;
             font-weight: bold;
             letter-spacing: 0.5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .nifty-container {
@@ -300,6 +317,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-brand {
@@ -341,6 +359,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .nav-link {
@@ -351,6 +370,7 @@
             padding: 8px 15px;
             border-radius: 8px;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -372,6 +392,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .theme-toggle:hover, .logout-btn:hover {
@@ -382,6 +403,7 @@
         main.container {
             margin-top: 120px;
             padding-bottom: 40px;
+            min-height: calc(100vh - 120px);
         }
 
         /* Page Header */
@@ -405,6 +427,7 @@
             font-size: 16px;
             color: var(--text-secondary);
             margin: 0 0 20px 0;
+            line-height: 1.5;
         }
 
         /* Market Filters */
@@ -426,6 +449,7 @@
             transition: all 0.3s ease;
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .filter-btn:hover, .filter-btn.active {
@@ -472,11 +496,13 @@
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
         }
 
         .indicator-details {
             font-size: 12px;
             color: var(--text-secondary);
+            line-height: 1.4;
         }
 
         .indicator-change {
@@ -501,6 +527,9 @@
             font-weight: 600;
             margin: 0 0 20px 0;
             color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .heatmap-grid {
@@ -516,6 +545,7 @@
             text-align: center;
             transition: transform 0.3s ease;
             border: 1px solid var(--border-color);
+            cursor: pointer;
         }
 
         .heatmap-item:hover {
@@ -531,6 +561,7 @@
             border: 1px solid var(--border-color);
             height: 400px;
             box-shadow: var(--card-shadow);
+            position: relative;
         }
 
         /* Sectors Grid */
@@ -621,11 +652,15 @@
 
         .stock-info {
             flex: 1;
+            min-width: 0;
         }
 
         .stock-name {
             font-weight: 500;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .stock-symbol {
@@ -637,12 +672,14 @@
         .stock-price {
             text-align: right;
             margin-right: 15px;
+            min-width: 100px;
         }
 
         .current-price {
             font-weight: 600;
             font-size: 16px;
             color: var(--text-primary);
+            font-family: 'Courier New', monospace;
         }
 
         .price-change {
@@ -654,6 +691,8 @@
         .stock-volume {
             font-size: 11px;
             color: var(--text-secondary);
+            min-width: 50px;
+            text-align: right;
         }
 
         /* Toast Notification */
@@ -666,10 +705,10 @@
             border-radius: 10px;
             padding: 15px 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            display: none;
             align-items: center;
             gap: 10px;
             z-index: 1001;
+            display: none;
         }
 
         .toast-content {
@@ -704,16 +743,21 @@
                 padding: 8px 12px;
                 font-size: 13px;
             }
+            
+            .live-status-left {
+                gap: 15px;
+            }
         }
 
         @media (max-width: 768px) {
             .live-status-left {
-                gap: 15px;
+                gap: 10px;
             }
             
             .nav-content {
                 flex-direction: column;
                 gap: 15px;
+                text-align: center;
             }
             
             .nav-menu {
@@ -743,13 +787,28 @@
                 right: 10px;
                 flex-direction: row;
             }
+            
+            .chart-container {
+                height: 300px;
+            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
+            .live-status-bar {
+                padding: 8px 10px;
+                height: auto;
+                min-height: 40px;
+            }
+            
             .live-status-left {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 8px;
+                width: 100%;
+            }
+            
+            .live-status-section {
+                width: 100%;
             }
             
             .market-filters {
@@ -763,6 +822,20 @@
             
             .heatmap-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sector-card {
+                padding: 15px;
+            }
+            
+            .theme-switcher {
+                position: relative;
+                top: auto;
+                right: auto;
+                flex-direction: row;
+                justify-content: center;
+                margin: 10px auto;
+                width: fit-content;
             }
         }
 
@@ -822,7 +895,7 @@
                 <div class="live-label">SENSEX</div>
                 <div class="nifty-container">
                     <span class="nifty-value" id="sensexValue">73,842.15</span>
-                    <span class="nifty-change positive">+0.92%</span>
+                    <span class="nifty-change positive" id="sensexChange">+0.92%</span>
                 </div>
             </div>
         </div>
@@ -856,7 +929,7 @@
                         <i class="fas fa-palette"></i> Theme
                     </button>
                     
-                    <button class="logout-btn">
+                    <button class="logout-btn" id="logoutBtn">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
@@ -1302,6 +1375,10 @@
 
     <!-- JavaScript -->
     <script>
+        // Global variables
+        let marketChart = null;
+        let autoRefreshInterval = null;
+        
         // Theme management
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
@@ -1316,22 +1393,26 @@
             });
             
             // Update chart colors if chart exists
-            if (window.marketChart) {
+            if (marketChart) {
                 updateChartTheme(theme);
             }
         }
 
         // Initialize theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(savedTheme);
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+        }
 
         // Theme switcher event listeners
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const theme = this.getAttribute('data-theme');
-                setTheme(theme);
+        function initializeThemeSwitcher() {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    setTheme(theme);
+                });
             });
-        });
+        }
 
         // Update date-time
         function updateDateTime() {
@@ -1354,9 +1435,6 @@
             
             document.getElementById('currentDate').textContent = dateStr;
             document.getElementById('currentDateTime').textContent = `${dateStr}, ${timeStr}`;
-            
-            // Update market values with slight variations
-            updateMarketValues();
         }
 
         // Update market values
@@ -1371,17 +1449,19 @@
             
             indicators.forEach(indicator => {
                 const element = document.getElementById(indicator.id);
-                const currentValue = parseFloat(element.textContent.replace(/,/g, ''));
-                const change = (Math.random() - 0.5) * 10;
-                const newValue = currentValue + change;
-                element.textContent = newValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                if (element) {
+                    const currentValue = parseFloat(element.textContent.replace(/,/g, ''));
+                    const change = (Math.random() - 0.5) * 10;
+                    const newValue = currentValue + change;
+                    element.textContent = newValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             });
         }
 
         // Initialize market chart
-        let marketChart;
         function initializeMarketChart() {
             const ctx = document.getElementById('marketChart').getContext('2d');
+            if (!ctx) return;
             
             // Get theme for chart colors
             const currentTheme = document.body.getAttribute('data-theme');
@@ -1398,6 +1478,11 @@
                 '#1abc9c', '#e74c3c', '#f1c40f', '#95a5a6'
             ];
             
+            // Destroy existing chart if it exists
+            if (marketChart) {
+                marketChart.destroy();
+            }
+            
             marketChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -1405,9 +1490,9 @@
                     datasets: [{
                         label: 'Sector Performance (%)',
                         data: performance,
-                        backgroundColor: colors,
+                        backgroundColor: colors.map(color => color + '80'),
                         borderColor: colors,
-                        borderWidth: 1,
+                        borderWidth: 2,
                         borderRadius: 8
                     }]
                 },
@@ -1479,6 +1564,16 @@
             }
         }
 
+        // Hex to RGB conversion
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+
         // Initialize heatmap
         function initializeHeatmap() {
             const heatmapData = [
@@ -1493,32 +1588,33 @@
             ];
             
             const container = document.getElementById('sectorHeatmap');
+            if (!container) return;
+            
             container.innerHTML = '';
             
             heatmapData.forEach(item => {
                 const heatItem = document.createElement('div');
                 heatItem.className = 'heatmap-item';
+                const rgb = hexToRgb(item.color);
+                heatItem.style.background = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`;
+                heatItem.style.border = `1px solid rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.3)`;
                 heatItem.innerHTML = `
                     <div style="font-size: 12px; margin-bottom: 5px; color: var(--text-primary);">${item.sector}</div>
                     <div style="font-size: 16px; font-weight: bold; color: ${item.change >= 0 ? 'var(--profit-color)' : 'var(--loss-color)'}">
                         ${item.change >= 0 ? '+' : ''}${item.change}%
                     </div>
                 `;
-                const rgb = hexToRgb(item.color);
-                heatItem.style.background = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`;
-                heatItem.style.border = `1px solid rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.3)`;
+                
+                // Add click event to filter by sector
+                heatItem.addEventListener('click', () => {
+                    const filterBtn = document.querySelector(`.filter-btn[data-filter="${item.sector.toLowerCase().replace(' ', '')}"]`);
+                    if (filterBtn) {
+                        filterBtn.click();
+                    }
+                });
+                
                 container.appendChild(heatItem);
             });
-        }
-
-        // Hex to RGB conversion
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : { r: 0, g: 0, b: 0 };
         }
 
         // Filter sectors
@@ -1539,8 +1635,11 @@
                     sectorCards.forEach(card => {
                         if (filter === 'all' || card.dataset.sector === filter) {
                             card.style.display = 'block';
-                            card.classList.add('fade-in');
+                            setTimeout(() => {
+                                card.classList.add('fade-in');
+                            }, 10);
                         } else {
+                            card.classList.remove('fade-in');
                             card.style.display = 'none';
                         }
                     });
@@ -1548,49 +1647,71 @@
             });
         }
 
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('updateToast');
+            const toastText = toast.querySelector('span');
+            
+            toastText.textContent = message;
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        // Update stock prices
+        function updateStockPrices() {
+            document.querySelectorAll('.current-price').forEach(priceElement => {
+                const currentPrice = parseFloat(priceElement.textContent.replace(/[₹,]/g, ''));
+                const change = (Math.random() - 0.5) * 2;
+                const newPrice = currentPrice + change;
+                priceElement.textContent = `₹${newPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+                
+                // Update change indicator
+                const changeElement = priceElement.nextElementSibling;
+                if (changeElement && changeElement.classList.contains('price-change')) {
+                    const changePercent = (change / currentPrice * 100).toFixed(2);
+                    changeElement.textContent = `${parseFloat(changePercent) >= 0 ? '+' : ''}${changePercent}%`;
+                    changeElement.className = `price-change ${parseFloat(changePercent) >= 0 ? 'positive' : 'negative'}`;
+                }
+            });
+        }
+
         // Auto-refresh market data
         function startAutoRefresh() {
-            setInterval(() => {
+            // Clear existing interval
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            
+            autoRefreshInterval = setInterval(() => {
                 updateMarketValues();
-                
-                // Show toast notification
-                const toast = document.getElementById('updateToast');
-                toast.style.display = 'flex';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 2000);
-                
-                // Update all stock prices slightly
-                document.querySelectorAll('.current-price').forEach(priceElement => {
-                    const currentPrice = parseFloat(priceElement.textContent.replace(/[₹,]/g, ''));
-                    const change = (Math.random() - 0.5) * 2;
-                    const newPrice = currentPrice + change;
-                    priceElement.textContent = `₹${newPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-                    
-                    // Update change indicator
-                    const changeElement = priceElement.nextElementSibling;
-                    if (changeElement && changeElement.classList.contains('price-change')) {
-                        const changePercent = (change / currentPrice * 100).toFixed(2);
-                        changeElement.textContent = `${parseFloat(changePercent) >= 0 ? '+' : ''}${changePercent}%`;
-                        changeElement.className = `price-change ${parseFloat(changePercent) >= 0 ? 'positive' : 'negative'}`;
-                    }
-                });
-                
+                updateStockPrices();
+                showToast('Market data updated!');
             }, 10000); // Update every 10 seconds
         }
 
+        // Stop auto-refresh
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+
         // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
+        function initializeApp() {
+            // Initialize components
+            initializeTheme();
+            initializeThemeSwitcher();
             updateDateTime();
             initializeMarketChart();
             initializeHeatmap();
             initializeFilters();
             startAutoRefresh();
             
-            // Update date-time every second
-            setInterval(updateDateTime, 1000);
-            
-            // Theme toggle button
+            // Set up event listeners
             document.getElementById('themeToggle').addEventListener('click', function() {
                 const currentTheme = document.body.getAttribute('data-theme');
                 const themes = ['light', 'normal', 'dark'];
@@ -1599,14 +1720,45 @@
                 setTheme(nextTheme);
             });
             
-            // Logout button
-            document.querySelector('.logout-btn').addEventListener('click', function() {
+            document.getElementById('logoutBtn').addEventListener('click', function() {
                 if (confirm('Are you sure you want to logout?')) {
+                    stopAutoRefresh();
                     alert('Logged out successfully');
+                    // In a real app, you would redirect to login page
                     // window.location.href = 'login.html';
                 }
             });
-        });
+            
+            // Update date-time every second
+            setInterval(updateDateTime, 1000);
+            
+            // Handle page visibility change
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    stopAutoRefresh();
+                } else {
+                    startAutoRefresh();
+                }
+            });
+            
+            // Handle window resize
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    if (marketChart) {
+                        marketChart.resize();
+                    }
+                }, 250);
+            });
+        }
+
+        // Initialize when DOM is fully loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
     </script>
 </body>
 </html>
