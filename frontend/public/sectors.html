@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sector Analysis | Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sectors.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <i class="fas fa-infinity"></i>
+                    <span>Infinity Mutual Funds</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="funds.html"><i class="fas fa-chart-line"></i> Funds</a>
+                <a href="sectors.html" class="active"><i class="fas fa-industry"></i> Sectors</a>
+                <a href="portfolio.html"><i class="fas fa-briefcase"></i> Portfolio</a>
+                <a href="market.html"><i class="fas fa-chart-bar"></i> Market</a>
+            </div>
+            
+            <div class="nav-user">
+                <div class="user-dropdown">
+                    <div class="user-avatar">
+                        <span id="userAvatar">DU</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-industry"></i> Sector Analysis</h1>
+                <p>Explore sector-wise mutual funds, performance metrics, and investment opportunities</p>
+            </div>
+            
+            <div class="market-indicator">
+                <div class="indicator">
+                    <span class="label">Nifty 50</span>
+                    <span class="value">21,856.50</span>
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 0.85%</span>
+                </div>
+                <div class="indicator">
+                    <span class="label">Sensex</span>
+                    <span class="value">72,405.76</span>
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 0.72%</span>
+                </div>
+                <div class="indicator">
+                    <span class="label">Sector Performance</span>
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 2.3%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sector Overview Cards -->
+        <div class="overview-section">
+            <h2 class="section-title"><i class="fas fa-chart-pie"></i> Sector Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card total">
+                    <div class="overview-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>15</h3>
+                        <p>Sectors Covered</p>
+                    </div>
+                </div>
+                <div class="overview-card best">
+                    <div class="overview-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>IT Sector</h3>
+                        <p>Best Performer +12.5%</p>
+                    </div>
+                </div>
+                <div class="overview-card worst">
+                    <div class="overview-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Real Estate</h3>
+                        <p>Under Performer -3.2%</p>
+                    </div>
+                </div>
+                <div class="overview-card funds">
+                    <div class="overview-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>85</h3>
+                        <p>Sectoral Funds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sector Performance Grid -->
+        <div class="sectors-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-bar"></i> Sector Performance</h2>
+                <div class="time-filter">
+                    <button class="time-btn active" data-period="1M">1M</button>
+                    <button class="time-btn" data-period="3M">3M</button>
+                    <button class="time-btn" data-period="6M">6M</button>
+                    <button class="time-btn" data-period="1Y">1Y</button>
+                    <button class="time-btn" data-period="3Y">3Y</button>
+                </div>
+            </div>
+
+            <div class="sectors-grid" id="sectorsGrid">
+                <!-- Sectors will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Sector Comparison -->
+        <div class="comparison-section">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i> Sector Comparison</h2>
+            <div class="comparison-container">
+                <div class="comparison-chart">
+                    <canvas id="sectorComparisonChart"></canvas>
+                </div>
+                <div class="comparison-info">
+                    <h3>Key Insights</h3>
+                    <div class="insights-list">
+                        <div class="insight-item">
+                            <i class="fas fa-check-circle positive"></i>
+                            <div>
+                                <h4>Technology Leads</h4>
+                                <p>IT sector showing 12.5% growth due to digital transformation</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <i class="fas fa-chart-line warning"></i>
+                            <div>
+                                <h4>Banking Stable</h4>
+                                <p>Banking sector maintains steady 6.8% growth</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <i class="fas fa-exclamation-triangle negative"></i>
+                            <div>
+                                <h4>Real Estate Down</h4>
+                                <p>Real estate facing -3.2% decline due to market conditions</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <i class="fas fa-bolt info"></i>
+                            <div>
+                                <h4>Renewable Energy Up</h4>
+                                <p>Clean energy sector growing at 9.2% annually</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Sectoral Funds -->
+        <div class="funds-section">
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Top Sectoral Funds</h2>
+                <select id="sectorFundFilter">
+                    <option value="all">All Sectors</option>
+                    <option value="technology">Technology</option>
+                    <option value="banking">Banking & Finance</option>
+                    <option value="pharma">Pharmaceuticals</option>
+                    <option value="energy">Energy</option>
+                    <option value="auto">Automobile</option>
+                    <option value="fmcg">FMCG</option>
+                    <option value="infrastructure">Infrastructure</option>
+                </select>
+            </div>
+
+            <div class="funds-table-container">
+                <table class="funds-table">
+                    <thead>
+                        <tr>
+                            <th>Fund Name</th>
+                            <th>Sector</th>
+                            <th>1Y Return</th>
+                            <th>3Y Return</th>
+                            <th>Risk</th>
+                            <th>AUM (Cr)</th>
+                            <th>Rating</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fundsTableBody">
+                        <!-- Funds will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sector News & Updates -->
+        <div class="news-section">
+            <h2 class="section-title"><i class="fas fa-newspaper"></i> Sector News & Updates</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-category technology">Technology</div>
+                    <h3>AI Revolution Drives Tech Stocks</h3>
+                    <p>Artificial intelligence adoption boosts tech sector performance by 15% this quarter.</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> 2 hours ago</span>
+                        <span><i class="fas fa-trend-up positive"></i> +5.2%</span>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-category banking">Banking</div>
+                    <h3>RBI Policy Boosts Banking Sector</h3>
+                    <p>Reserve Bank's stable policy rates strengthen banking sector outlook.</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> 1 day ago</span>
+                        <span><i class="fas fa-trend-up positive"></i> +3.8%</span>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-category pharma">Pharma</div>
+                    <h3>Healthcare Innovation Spurs Growth</h3>
+                    <p>New drug approvals and healthcare investments drive pharmaceutical sector.</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> 2 days ago</span>
+                        <span><i class="fas fa-trend-up positive"></i> +4.1%</span>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-category energy">Energy</div>
+                    <h3>Renewable Energy Gets Policy Push</h3>
+                    <p>Government initiatives boost renewable energy sector investments.</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> 3 days ago</span>
+                        <span><i class="fas fa-trend-up positive"></i> +7.2%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Strategies -->
+        <div class="strategies-section">
+            <h2 class="section-title"><i class="fas fa-chess-knight"></i> Sector Investment Strategies</h2>
+            <div class="strategies-grid">
+                <div class="strategy-card">
+                    <div class="strategy-icon aggressive">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Aggressive Growth</h3>
+                    <p>Focus on high-growth sectors like Technology, Renewable Energy</p>
+                    <ul>
+                        <li>High Risk, High Return</li>
+                        <li>Suitable for long-term</li>
+                        <li>Market timing important</li>
+                    </ul>
+                    <button class="strategy-btn">Explore Funds</button>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon balanced">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Balanced Approach</h3>
+                    <p>Mix of growth and defensive sectors for stability</p>
+                    <ul>
+                        <li>Moderate Risk</li>
+                        <li>Steady returns</li>
+                        <li>Diversified exposure</li>
+                    </ul>
+                    <button class="strategy-btn">View Portfolio</button>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon defensive">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Defensive Strategy</h3>
+                    <p>Focus on stable sectors like FMCG, Healthcare</p>
+                    <ul>
+                        <li>Low Risk</li>
+                        <li>Stable dividends</li>
+                        <li>Recession resistant</li>
+                    </ul>
+                    <button class="strategy-btn">Safe Funds</button>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon cyclical">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Cyclical Rotation</h3>
+                    <p>Rotate between sectors based on economic cycles</p>
+                    <ul>
+                        <li>Active management</li>
+                        <li>Timing based</li>
+                        <li>Professional guidance</li>
+                    </ul>
+                    <button class="strategy-btn">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <i class="fas fa-infinity"></i>
+                <h3>Infinity Mutual Funds</h3>
+                <p>Smart Sector Investing</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-column">
+                    <h4>Research</h4>
+                    <a href="funds.html">Funds Analysis</a>
+                    <a href="sectors.html">Sector Research</a>
+                    <a href="market.html">Market Trends</a>
+                    <a href="#">Research Reports</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Tools</h4>
+                    <a href="#">Sector Screener</a>
+                    <a href="#">Portfolio Builder</a>
+                    <a href="#">Risk Analyzer</a>
+                    <a href="#">Tax Calculator</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Resources</h4>
+                    <a href="#">Sector Guides</a>
+                    <a href="#">Investment Strategies</a>
+                    <a href="#">Market Updates</a>
+                    <a href="#">Educational Content</a>
+                </div>
+                
+                <div class="link-column">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 Infinity Mutual Funds. Sector investing involves higher risk. Past performance is not indicative of future results.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/sectors.js"></script>
+</body>
+</html>
