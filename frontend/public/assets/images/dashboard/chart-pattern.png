@@ -1,0 +1,40 @@
+// Create chart pattern
+const patternCanvas = createCanvas(400, 300);
+const patternCtx = patternCanvas.getContext('2d');
+
+patternCtx.fillStyle = '#1E40AF';
+patternCtx.fillRect(0, 0, 400, 300);
+
+// Create pattern
+patternCtx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+patternCtx.lineWidth = 2;
+
+// Horizontal lines
+for (let i = 0; i < 300; i += 20) {
+  patternCtx.beginPath();
+  patternCtx.moveTo(0, i);
+  patternCtx.lineTo(400, i);
+  patternCtx.stroke();
+}
+
+// Vertical lines
+for (let j = 0; j < 400; j += 20) {
+  patternCtx.beginPath();
+  patternCtx.moveTo(j, 0);
+  patternCtx.lineTo(j, 300);
+  patternCtx.stroke();
+}
+
+// Add intersection points
+patternCtx.fillStyle = '#3B82F6';
+for (let i = 0; i < 300; i += 20) {
+  for (let j = 0; j < 400; j += 20) {
+    patternCtx.beginPath();
+    patternCtx.arc(j, i, 1, 0, Math.PI * 2);
+    patternCtx.fill();
+  }
+}
+
+const patternBuffer = patternCanvas.toBuffer('image/png');
+fs.writeFileSync('public/assets/images/dashboard/chart-pattern.png', patternBuffer);
+console.log('Created chart-pattern.png');
