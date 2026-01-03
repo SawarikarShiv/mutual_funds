@@ -1,0 +1,32 @@
+// Equity funds image
+const equityCanvas = createCanvas(300, 200);
+const equityCtx = equityCanvas.getContext('2d');
+
+const equityGradient = equityCtx.createLinearGradient(0, 0, 300, 200);
+equityGradient.addColorStop(0, '#DC2626');
+equityGradient.addColorStop(1, '#F87171');
+equityCtx.fillStyle = equityGradient;
+equityCtx.fillRect(0, 0, 300, 200);
+
+// Add upward trend chart
+equityCtx.strokeStyle = 'white';
+equityCtx.lineWidth = 3;
+equityCtx.beginPath();
+equityCtx.moveTo(50, 150);
+equityCtx.lineTo(100, 100);
+equityCtx.lineTo(150, 120);
+equityCtx.lineTo(200, 70);
+equityCtx.lineTo(250, 90);
+equityCtx.stroke();
+
+// Add title
+equityCtx.fillStyle = 'white';
+equityCtx.font = 'bold 24px Inter';
+equityCtx.textAlign = 'center';
+equityCtx.fillText('EQUITY', 150, 50);
+
+// Add subtitle
+equityCtx.font = '16px Inter';
+equityCtx.fillText('High Risk, High Return', 150, 180);
+
+fs.writeFileSync('public/assets/images/funds/equity.png', equityCanvas.toBuffer('image/png'));

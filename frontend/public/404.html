@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(rgba(135, 206, 235, 0.9), rgba(176, 224, 230, 0.9)), url('assets/images/dashboard/hero-bg.png');">
+    <div class="card" style="max-width: 600px; text-align: center; padding: 40px;">
+        <img src="assets/images/misc/error-404.png" alt="404 Error" style="width: 300px; height: auto; margin: 0 auto 30px; display: block;">
+        
+        <h1 style="color: var(--danger); margin-bottom: 20px;">Page Not Found</h1>
+        <p style="color: var(--gray); margin-bottom: 30px; font-size: 1.1rem;">
+            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        </p>
+        
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go to Dashboard
+            </a>
+            <a href="docs.html" class="btn btn-outline">
+                <i class="fas fa-book"></i> View Documentation
+            </a>
+            <button class="btn btn-outline" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+        </div>
+    </div>
+</body>
+</html>
