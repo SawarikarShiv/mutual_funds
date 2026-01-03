@@ -1,0 +1,25 @@
+// Logo icon
+const iconCanvas = createCanvas(200, 200);
+const iconCtx = iconCanvas.getContext('2d');
+
+const iconGradient = iconCtx.createLinearGradient(0, 0, 200, 200);
+iconGradient.addColorStop(0, '#7C3AED');
+iconGradient.addColorStop(1, '#A78BFA');
+iconCtx.fillStyle = iconGradient;
+iconCtx.fillRect(0, 0, 200, 200);
+
+// Infinity symbol in center
+iconCtx.strokeStyle = 'white';
+iconCtx.lineWidth = 8;
+
+iconCtx.beginPath();
+iconCtx.arc(70, 100, 40, 0.5 * Math.PI, 1.5 * Math.PI);
+iconCtx.arc(130, 100, 40, 1.5 * Math.PI, 0.5 * Math.PI);
+iconCtx.stroke();
+
+// Add check mark
+iconCtx.beginPath();
+iconCtx.moveTo(150, 60);
+iconCtx.lineTo(170, 80);
+iconCtx.lineTo(190, 40);
+iconCtx.stroke();
