@@ -124,32 +124,26 @@
             pointer-events: none;
         }
 
-        /* Theme Switcher - Left Side Top Corner */
-        .theme-switcher-container {
+        /* Theme Switcher - Left Side Bottom Corner */
+        .theme-switcher {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             left: 20px;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background: var(--card-bg);
             border-radius: 50px;
-            padding: 8px 12px;
+            padding: 10px 15px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
-        }
-
-        .theme-switcher-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
         }
 
         .theme-btn {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
@@ -160,6 +154,7 @@
             color: var(--text-secondary);
             transition: all 0.3s;
             position: relative;
+            font-size: 18px;
         }
 
         .theme-btn:hover {
@@ -175,26 +170,27 @@
 
         .theme-tooltip {
             position: absolute;
-            top: -30px;
+            top: -40px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--card-bg);
             color: var(--text-primary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
             white-space: nowrap;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow);
+            z-index: 1001;
         }
 
         .theme-btn:hover .theme-tooltip {
             opacity: 1;
             visibility: visible;
-            top: -35px;
+            top: -45px;
         }
 
         /* Sidebar Styles */
@@ -342,13 +338,36 @@
             color: #94a3b8;
         }
 
+        /* Logout Button in Sidebar */
+        .logout-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
         /* Main Content Styles */
         .main-content {
             flex: 1;
             padding: 24px;
             overflow-y: auto;
             position: relative;
-            margin-left: 20px; /* Space for theme switcher */
         }
 
         .main-content::before {
@@ -357,7 +376,7 @@
             top: 0;
             right: 0;
             bottom: 0;
-            left: 280px; /* Adjusted for theme switcher */
+            left: 260px;
             background-image: url('assets/images/dashboard/grid-pattern.png');
             background-size: 400px;
             opacity: 0.02;
@@ -680,7 +699,7 @@
             color: var(--text-secondary);
         }
 
-        /* Portfolio Performance Bar Chart - Fixed */
+        /* Portfolio Performance Bar Chart */
         .performance-chart-container {
             background: 
                 linear-gradient(135deg, var(--card-bg), rgba(255, 255, 255, 0.9)),
@@ -692,8 +711,6 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
-            position: relative;
-            min-height: 400px;
         }
 
         .chart-header {
@@ -745,59 +762,10 @@
             margin-top: 24px;
             position: relative;
             height: 300px;
-            padding: 20px;
+            padding: 20px 40px 20px 60px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        /* Fixed Y-axis positioning */
-        .y-axis-container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 10px;
-            border-right: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.05);
-            z-index: 2;
-        }
-
-        .y-axis-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-align: center;
-            transform: rotate(-90deg);
-            width: 100px;
-            position: absolute;
-            left: -20px;
-            top: 50%;
-        }
-
-        .y-axis-values {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .y-axis-value {
-            text-align: right;
-            padding-right: 8px;
-        }
-
-        .chart-content {
-            margin-left: 60px;
-            height: 100%;
-            position: relative;
         }
 
         .bar-chart {
@@ -853,9 +821,6 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
-            min-width: 50px;
-            text-align: center;
-            z-index: 10;
         }
 
         .chart-grid {
@@ -877,7 +842,7 @@
 
         .grid-value {
             position: absolute;
-            right: -40px;
+            left: -40px;
             top: -10px;
             font-size: 12px;
             color: var(--text-secondary);
@@ -885,6 +850,17 @@
             padding: 2px 6px;
             border-radius: 4px;
             border: 1px solid var(--border-color);
+        }
+
+        .y-axis-label {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: rotate(-90deg);
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            white-space: nowrap;
         }
 
         /* Sector Analysis Section */
@@ -1207,12 +1183,18 @@
                 flex-direction: column;
             }
             
-            .theme-switcher-container {
+            .theme-switcher {
                 position: fixed;
-                bottom: 20px;
-                left: 20px;
-                top: auto;
-                z-index: 1000;
+                bottom: 10px;
+                left: 10px;
+                padding: 8px;
+                gap: 6px;
+            }
+            
+            .theme-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
             }
             
             .sidebar {
@@ -1247,11 +1229,13 @@
                 border-top: none;
                 padding: 0;
                 margin-left: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             
             .main-content {
                 padding: 16px;
-                margin-left: 0;
             }
             
             .main-content::before {
@@ -1282,19 +1266,6 @@
             .indices-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .chart-wrapper {
-                padding: 10px;
-            }
-            
-            .y-axis-container {
-                width: 40px;
-                padding: 10px 5px;
-            }
-            
-            .chart-content {
-                margin-left: 40px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1302,7 +1273,7 @@
                 justify-content: center;
             }
             
-            .theme-switcher-container {
+            .theme-switcher {
                 padding: 6px;
                 gap: 4px;
             }
@@ -1313,10 +1284,6 @@
                 font-size: 14px;
             }
             
-            .theme-switcher-label {
-                display: none;
-            }
-            
             .btn {
                 padding: 8px 16px;
                 font-size: 13px;
@@ -1325,15 +1292,6 @@
             .date-display {
                 padding: 8px 12px;
                 font-size: 13px;
-            }
-            
-            .performance-tabs {
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-            
-            .performance-tab {
-                flex-shrink: 0;
             }
         }
 
@@ -1412,9 +1370,8 @@
     </style>
 </head>
 <body data-theme="light">
-    <!-- Theme Switcher - Left Side Top Corner -->
-    <div class="theme-switcher-container">
-        <span class="theme-switcher-label">Theme:</span>
+    <!-- Theme Switcher - Left Side Bottom Corner -->
+    <div class="theme-switcher">
         <button class="theme-btn active" data-theme="light" title="Light Mode">
             <i class="fas fa-sun"></i>
             <span class="theme-tooltip">Light Mode</span>
@@ -1479,6 +1436,10 @@
                     <p id="userEmail">amit@example.com</p>
                 </div>
             </div>
+            <button class="logout-btn" id="logoutButton">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
         </div>
     </nav>
 
@@ -1516,7 +1477,7 @@
             <div class="indices-grid" id="marketIndices"></div>
         </section>
 
-        <!-- Portfolio Performance Bar Chart - Fixed -->
+        <!-- Portfolio Performance Bar Chart -->
         <section class="performance-chart-container fade-in">
             <div class="chart-header">
                 <h3><i class="fas fa-chart-bar"></i> Portfolio Performance</h3>
@@ -1533,20 +1494,13 @@
             </div>
             
             <div class="chart-wrapper">
-                <div class="y-axis-container">
-                    <div class="y-axis-values" id="yAxisValues">
-                        <!-- Y-axis values will be added by JavaScript -->
-                    </div>
+                <div class="chart-grid" id="chartGrid">
+                    <!-- Grid lines will be added by JavaScript -->
                 </div>
-                <div class="chart-content">
-                    <div class="chart-grid" id="chartGrid">
-                        <!-- Grid lines will be added by JavaScript -->
-                    </div>
-                    <div class="bar-chart" id="barChart">
-                        <!-- Bars will be added by JavaScript -->
-                    </div>
-                    <div class="y-axis-label">Returns (%)</div>
+                <div class="bar-chart" id="barChart">
+                    <!-- Bars will be added by JavaScript -->
                 </div>
+                <div class="y-axis-label">Returns (%)</div>
             </div>
         </section>
 
@@ -2148,14 +2102,13 @@
             });
         }
 
-        // Update performance chart with proper y-axis
+        // Update performance chart
         function updatePerformanceChart(period) {
             const data = performanceData[period];
             window.currentPerformanceData = { period, ...data };
             
             const barChart = document.getElementById('barChart');
             const chartGrid = document.getElementById('chartGrid');
-            const yAxisValues = document.getElementById('yAxisValues');
             
             // Update active tab
             document.querySelectorAll('.performance-tab').forEach(tab => {
@@ -2168,23 +2121,20 @@
             // Clear previous chart
             barChart.innerHTML = '';
             chartGrid.innerHTML = '';
-            yAxisValues.innerHTML = '';
-            
-            // Create y-axis values
-            const gridLines = 5;
-            for (let i = gridLines; i >= 0; i--) {
-                const value = (i * data.maxValue / gridLines).toFixed(1);
-                const yAxisValue = document.createElement('div');
-                yAxisValue.className = 'y-axis-value';
-                yAxisValue.textContent = `${value}${data.unit}`;
-                yAxisValues.appendChild(yAxisValue);
-            }
             
             // Create grid lines
+            const gridLines = 5;
             for (let i = 0; i <= gridLines; i++) {
+                const value = (i * data.maxValue / gridLines).toFixed(1);
                 const gridLine = document.createElement('div');
                 gridLine.className = 'grid-line';
                 gridLine.style.top = `${(i * 100 / gridLines)}%`;
+                
+                const gridValue = document.createElement('span');
+                gridValue.className = 'grid-value';
+                gridValue.textContent = `${value}${data.unit}`;
+                
+                gridLine.appendChild(gridValue);
                 chartGrid.appendChild(gridLine);
             }
             
@@ -2335,6 +2285,19 @@
             // Notification button
             document.getElementById('notificationButton').addEventListener('click', function() {
                 alert('Notifications:\n1. Market update available\n2. New funds added\n3. Portfolio review due');
+            });
+            
+            // Logout button
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear authentication data
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('infinity_auth');
+                    localStorage.removeItem('infinity_user');
+                    
+                    // Redirect to login page
+                    window.location.href = 'index.html';
+                }
             });
         }
 
