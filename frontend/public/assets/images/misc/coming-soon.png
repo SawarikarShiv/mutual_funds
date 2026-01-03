@@ -1,0 +1,20 @@
+// Coming soon image
+const comingCanvas = createCanvas(400, 300);
+const comingCtx = comingCanvas.getContext('2d');
+
+comingCtx.fillStyle = '#6B7280';
+comingCtx.fillRect(0, 0, 400, 300);
+
+comingCtx.fillStyle = '#9CA3AF';
+comingCtx.beginPath();
+comingCtx.arc(200, 150, 100, 0, Math.PI * 2);
+comingCtx.fill();
+
+comingCtx.fillStyle = 'white';
+comingCtx.font = 'bold 32px Inter';
+comingCtx.textAlign = 'center';
+comingCtx.fillText('🚧', 200, 100);
+comingCtx.font = 'bold 24px Inter';
+comingCtx.fillText('COMING SOON', 200, 160);
+comingCtx.font = '16px Inter';
+comingCtx.fillText('Feature under development', 200, 200);
