@@ -1,0 +1,23 @@
+// Default user avatar
+const avatarCanvas = createCanvas(200, 200);
+const avatarCtx = avatarCanvas.getContext('2d');
+
+// Create circular gradient
+const avatarGradient = avatarCtx.createRadialGradient(100, 100, 0, 100, 100, 100);
+avatarGradient.addColorStop(0, '#6B7280');
+avatarGradient.addColorStop(1, '#9CA3AF');
+avatarCtx.fillStyle = avatarGradient;
+avatarCtx.beginPath();
+avatarCtx.arc(100, 100, 100, 0, Math.PI * 2);
+avatarCtx.fill();
+
+// User icon
+avatarCtx.fillStyle = 'white';
+avatarCtx.font = 'bold 80px Inter';
+avatarCtx.textAlign = 'center';
+avatarCtx.textBaseline = 'middle';
+avatarCtx.fillText('👤', 100, 100);
+
+// Alternative: Initials
+// const initials = 'U';
+// avatarCtx.fillText(initials, 100, 100);
