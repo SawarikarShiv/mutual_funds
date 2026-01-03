@@ -1,0 +1,32 @@
+// Full logo image
+const logoCanvas = createCanvas(400, 150);
+const logoCtx = logoCanvas.getContext('2d');
+
+const logoGradient = logoCtx.createLinearGradient(0, 0, 400, 150);
+logoGradient.addColorStop(0, '#2563EB');
+logoGradient.addColorStop(1, '#3B82F6');
+logoCtx.fillStyle = logoGradient;
+logoCtx.fillRect(0, 0, 400, 150);
+
+// Infinity symbol
+logoCtx.strokeStyle = 'white';
+logoCtx.lineWidth = 4;
+
+// First loop
+logoCtx.beginPath();
+logoCtx.arc(100, 75, 30, 0.5 * Math.PI, 1.5 * Math.PI);
+logoCtx.arc(140, 75, 30, 1.5 * Math.PI, 0.5 * Math.PI);
+logoCtx.stroke();
+
+// Second loop
+logoCtx.beginPath();
+logoCtx.arc(180, 75, 30, 0.5 * Math.PI, 1.5 * Math.PI);
+logoCtx.arc(220, 75, 30, 1.5 * Math.PI, 0.5 * Math.PI);
+logoCtx.stroke();
+
+// Company name
+logoCtx.fillStyle = 'white';
+logoCtx.font = 'bold 32px Inter';
+logoCtx.fillText('INFINITY', 260, 70);
+logoCtx.font = '20px Inter';
+logoCtx.fillText('MUTUAL FUNDS', 260, 100);
