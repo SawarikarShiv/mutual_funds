@@ -46,612 +46,6 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-        }
-        
-        .background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -2;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
-        }
-        
-        .background-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 2px, transparent 2px),
-                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 100px 100px, 50px 50px;
-            opacity: 0.5;
-        }
-    </style>
-</head>
-<body>
-    <!-- Background Effects -->
-    <div class="background-overlay"></div>
-    <div class="background-particles"></div>
-    
-    <!-- Floating Animations -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar glass-nav">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">∞</div>
-                <span class="brand-name">Infinity Mutual Funds</span>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#pricing" class="nav-link">Pricing</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="login.html" class="nav-link btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                <a href="register.html" class="nav-link btn-primary-gradient">
-                    <i class="fas fa-rocket"></i> Get Started
-                </a>
-            </div>
-            <button class="menu-toggle" id="mobileMenuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span>✨ Trusted by 10,000+ Investors</span>
-                </div>
-                <h1 class="hero-title">
-                    Smart <span class="gradient-text">Wealth Management</span> 
-                    for Modern Investors
-                </h1>
-                <p class="hero-subtitle">
-                    Track, analyze, and optimize your mutual fund investments with AI-powered insights. 
-                    Professional portfolio management platform with real-time analytics, smart recommendations, 
-                    and comprehensive reporting.
-                </p>
-                <div class="hero-actions">
-                    <a href="register.html" class="btn btn-primary-gradient btn-large btn-sparkle">
-                        <i class="fas fa-play-circle"></i> Start Free Trial
-                    </a>
-                    <a href="#demo" class="btn btn-glass btn-large">
-                        <i class="fas fa-play"></i> Watch Demo
-                    </a>
-                </div>
-                <div class="hero-stats glass-card">
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div>
-                            <h3>10,000+</h3>
-                            <p>Active Investors</p>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-rupee-sign"></i>
-                        </div>
-                        <div>
-                            <h3>₹500Cr+</h3>
-                            <p>Assets Managed</p>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div>
-                            <h3>15.8%</h3>
-                            <p>Avg. Annual Returns</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-trust">
-                    <p>Trusted by leading investors and advisors</p>
-                    <div class="trust-logos">
-                        <span>💰 SEBI Registered</span>
-                        <span>🔒 Bank-Level Security</span>
-                        <span>📈 Real-time Data</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="dashboard-preview glass-card">
-                    <div class="dashboard-header">
-                        <div class="header-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span>Infinity Dashboard</span>
-                    </div>
-                    <div class="dashboard-content">
-                        <div class="metric-chart">
-                            <div class="chart-line" style="height: 80%;"></div>
-                            <div class="chart-line" style="height: 60%;"></div>
-                            <div class="chart-line" style="height: 90%;"></div>
-                            <div class="chart-line" style="height: 70%;"></div>
-                            <div class="chart-line" style="height: 85%;"></div>
-                        </div>
-                        <div class="dashboard-stats">
-                            <div class="dashboard-stat">
-                                <small>Total Value</small>
-                                <h4>₹24.78L</h4>
-                            </div>
-                            <div class="dashboard-stat">
-                                <small>Today's Gain</small>
-                                <h4 class="positive">+2.4%</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="gradient-text">Powerful Features</span> for Smart Investors
-                </h2>
-                <p class="section-subtitle">
-                    Everything you need to manage your mutual fund portfolio effectively
-                </p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-card glass-card">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3>Portfolio Analytics</h3>
-                    <p>Advanced analytics with interactive charts, performance metrics, and risk assessment tools.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Real-time performance tracking</li>
-                        <li><i class="fas fa-check-circle"></i> XIRR calculation</li>
-                        <li><i class="fas fa-check-circle"></i> Asset allocation analysis</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <h3>Auto Reconciliation</h3>
-                    <p>Automatically sync with 40+ AMCs and update your portfolio values in real-time.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> CAS file import</li>
-                        <li><i class="fas fa-check-circle"></i> Email statement parsing</li>
-                        <li><i class="fas fa-check-circle"></i> Manual entry option</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>AI Recommendations</h3>
-                    <p>Get personalized fund recommendations based on your risk profile and financial goals.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Risk assessment</li>
-                        <li><i class="fas fa-check-circle"></i> Goal planning</li>
-                        <li><i class="fas fa-check-circle"></i> Rebalancing alerts</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                    <h3>Tax Optimization</h3>
-                    <p>Generate capital gains reports and tax harvesting suggestions for better tax efficiency.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Capital gains statement</li>
-                        <li><i class="fas fa-check-circle"></i> Tax harvesting alerts</li>
-                        <li><i class="fas fa-check-circle"></i> 80C tracker</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-        <div class="container">
-            <div class="demo-content">
-                <h2 class="section-title">See Infinity in Action</h2>
-                <p class="section-subtitle">Watch how Infinity transforms your investment management experience</p>
-                <div class="video-container glass-card">
-                    <div class="video-placeholder">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                        <img src="assets/images/dashboard-preview.jpg" alt="Dashboard Preview">
-                    </div>
-                </div>
-                <div class="demo-features">
-                    <div class="demo-feature">
-                        <i class="fas fa-bolt"></i>
-                        <span>Real-time Updates</span>
-                    </div>
-                    <div class="demo-feature">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Bank-Level Security</span>
-                    </div>
-                    <div class="demo-feature">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Mobile Responsive</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    Simple, <span class="gradient-text">Transparent Pricing</span>
-                </h2>
-                <p class="section-subtitle">
-                    Choose the plan that fits your investment needs
-                </p>
-            </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card glass-card">
-                    <div class="pricing-header">
-                        <h3>Basic</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">499</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For individual investors</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Up to 10 funds</li>
-                        <li><i class="fas fa-check"></i> Basic portfolio tracking</li>
-                        <li><i class="fas fa-check"></i> Email support</li>
-                        <li><i class="fas fa-times"></i> Advanced analytics</li>
-                        <li><i class="fas fa-times"></i> Tax reports</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block">Get Started</a>
-                </div>
-                
-                <div class="pricing-card glass-card featured">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="pricing-header">
-                        <h3>Professional</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">999</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For serious investors</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Unlimited funds</li>
-                        <li><i class="fas fa-check"></i> Advanced analytics</li>
-                        <li><i class="fas fa-check"></i> Tax reports</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                        <li><i class="fas fa-check"></i> AI recommendations</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-primary-gradient btn-block">Get Started</a>
-                </div>
-                
-                <div class="pricing-card glass-card">
-                    <div class="pricing-header">
-                        <h3>Family</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">1,999</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For families & small groups</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Up to 5 family members</li>
-                        <li><i class="fas fa-check"></i> All Pro features</li>
-                        <li><i class="fas fa-check"></i> Consolidated reports</li>
-                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
-                        <li><i class="fas fa-check"></i> Custom integrations</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block">Get Started</a>
-                </div>
-            </div>
-            
-            <div class="pricing-note">
-                <p><i class="fas fa-info-circle"></i> All plans include a 14-day free trial. No credit card required.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content glass-card">
-                <h2>Start Your Investment Journey Today</h2>
-                <p>Join 10,000+ investors who trust Infinity for their portfolio management. Get started with our 14-day free trial.</p>
-                <div class="cta-actions">
-                    <a href="register.html" class="btn btn-primary-gradient btn-xlarge">
-                        <i class="fas fa-rocket"></i> Start Free Trial
-                    </a>
-                    <a href="login.html" class="btn btn-glass btn-xlarge">
-                        <i class="fas fa-sign-in-alt"></i> Login to Account
-                    </a>
-                </div>
-                <div class="cta-benefits">
-                    <div class="benefit">
-                        <i class="fas fa-clock"></i>
-                        <span>No credit card required</span>
-                    </div>
-                    <div class="benefit">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>256-bit encryption</span>
-                    </div>
-                    <div class="benefit">
-                        <i class="fas fa-headset"></i>
-                        <span>24/7 customer support</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="logo">∞</div>
-                    <h3>Infinity Mutual Funds</h3>
-                    <p>Smart Investment Management Platform</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="link-group">
-                        <h4>Product</h4>
-                        <a href="#features">Features</a>
-                        <a href="#pricing">Pricing</a>
-                        <a href="#demo">Demo</a>
-                        <a href="#api">API</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Company</h4>
-                        <a href="#about">About</a>
-                        <a href="#careers">Careers</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#blog">Blog</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Resources</h4>
-                        <a href="#help">Help Center</a>
-                        <a href="#docs">Documentation</a>
-                        <a href="#privacy">Privacy Policy</a>
-                        <a href="#terms">Terms of Service</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Contact</h4>
-                        <a href="mailto:contact@infinityfunds.com">
-                            <i class="fas fa-envelope"></i> contact@infinityfunds.com
-                        </a>
-                        <a href="tel:+911234567890">
-                            <i class="fas fa-phone"></i> +91 12345 67890
-                        </a>
-                        <a href="#">
-                            <i class="fas fa-map-marker-alt"></i> Mumbai, India
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="regulatory-info">
-                    <p>
-                        <i class="fas fa-shield-alt"></i> 
-                        SEBI Registered Investment Advisor | 
-                        <i class="fas fa-lock"></i> 
-                        256-bit SSL Encryption | 
-                        <i class="fas fa-certificate"></i> 
-                        ISO 27001 Certified
-                    </p>
-                </div>
-                <div class="disclaimer">
-                    <p>
-                        <strong>Disclaimer:</strong> Mutual fund investments are subject to market risks. 
-                        Please read all scheme related documents carefully before investing. 
-                        Past performance is not indicative of future returns.
-                    </p>
-                </div>
-                <div class="copyright">
-                    <p>&copy; 2024 Infinity Financial Services Pvt. Ltd. All rights reserved.</p>
-                    <div class="footer-apps">
-                        <a href="#" class="app-link">
-                            <i class="fab fa-apple"></i> App Store
-                        </a>
-                        <a href="#" class="app-link">
-                            <i class="fab fa-google-play"></i> Google Play
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Action Button -->
-    <div class="fab">
-        <button class="fab-button" id="chatButton">
-            <i class="fas fa-comment-alt"></i>
-        </button>
-        <div class="fab-tooltip">Need help? Chat with us!</div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/main.js"></script>
-    <script>
-        // Interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const menuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                });
-            }
-            
-            // Chat button
-            const chatButton = document.getElementById('chatButton');
-            if (chatButton) {
-                chatButton.addEventListener('click', function() {
-                    alert('Chat feature coming soon! In the meantime, email us at contact@infinityfunds.com');
-                });
-            }
-            
-            // Animate stats
-            const stats = document.querySelectorAll('.stat h3');
-            stats.forEach(stat => {
-                const finalValue = stat.textContent;
-                stat.textContent = '0';
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            animateValue(stat, 0, parseFloat(finalValue.replace(/[^0-9.]/g, '')), 2000);
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                });
-                
-                observer.observe(stat);
-            });
-            
-            function animateValue(element, start, end, duration) {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    const current = Math.floor(progress * (end - start) + start);
-                    
-                    if (element.textContent.includes('Cr')) {
-                        element.textContent = '₹' + current.toLocaleString() + 'Cr+';
-                    } else if (element.textContent.includes('%')) {
-                        element.textContent = current.toFixed(1) + '%';
-                    } else {
-                        element.textContent = current.toLocaleString() + '+';
-                    }
-                    
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-            
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements to animate
-            document.querySelectorAll('.feature-card, .pricing-card, .demo-feature').forEach(el => {
-                observer.observe(el);
-            });
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Mutual Funds | Smart Investment Management</title>
-    <meta name="description" content="Professional mutual fund portfolio management platform with advanced analytics and reporting">
-    <meta name="keywords" content="mutual funds, portfolio management, investment, SIP, lumpsum">
-    <meta name="author" content="Infinity Financial Services">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    
-    <!-- Favicon & Meta -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Infinity Mutual Funds">
-    <meta property="og:description" content="Professional mutual fund portfolio management">
-    <meta property="og:image" content="og-image.jpg">
-    <meta property="og:url" content="https://infinitymutualfunds.com">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <style>
-        /* Additional inline styles for background effects */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --dark-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
             /* Added background image */
             background: linear-gradient(rgba(10, 15, 46, 0.95), rgba(26, 31, 78, 0.95)), url('assets/images/dashboard/hero-bg.png');
             background-size: cover;
@@ -759,6 +153,16 @@
                         url('assets/images/dashboard/chart-pattern.png');
             background-size: cover;
             background-blend-mode: overlay;
+        }
+
+        /* CSS animations for logout message */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
     </style>
 </head>
@@ -1228,792 +632,179 @@
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script>
-        // Interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const menuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.getElementById('navMenu');
+        // SINGLE authentication check on page load - Prevent multiple loads
+        (function() {
+            // Check if already initialized
+            if (window.pageAlreadyInitialized) return;
+            window.pageAlreadyInitialized = true;
             
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                });
+            console.log('Main page loaded - Single load check');
+            
+            // Check if we're coming from logout
+            const urlParams = new URLSearchParams(window.location.search);
+            const isLogout = urlParams.get('logout');
+            
+            // If coming from logout, clean up URL
+            if (isLogout === 'true') {
+                // Remove the query parameters from URL without reloading
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Show logout success message
+                showLogoutMessage();
             }
             
-            // Chat button
-            const chatButton = document.getElementById('chatButton');
-            if (chatButton) {
-                chatButton.addEventListener('click', function() {
-                    alert('Chat feature coming soon! In the meantime, email us at contact@infinityfunds.com');
-                });
+            // Check if user is already logged in
+            const authToken = localStorage.getItem('auth_token') || 
+                             sessionStorage.getItem('auth_token') ||
+                             getCookie('auth_token');
+            
+            // If user is logged in and NOT on logout path, redirect to dashboard
+            if (authToken && !isLogout) {
+                // Single redirect to dashboard using replace to prevent history stack
+                window.location.replace('/dashboard.html');
+                return;
             }
             
-            // Animate stats
-            const stats = document.querySelectorAll('.stat h3');
-            stats.forEach(stat => {
-                const finalValue = stat.textContent;
-                stat.textContent = '0';
+            // Initialize page only once
+            initializeMainPage();
+            
+            // Helper function to get cookie
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+            
+            // Show logout message
+            function showLogoutMessage() {
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 9999;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    animation: slideIn 0.5s ease;
+                `;
+                message.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-check-circle" style="font-size: 1.2em;"></i>
+                        <span>You have been successfully logged out</span>
+                    </div>
+                `;
+                document.body.appendChild(message);
+                
+                // Remove message after 5 seconds
+                setTimeout(() => {
+                    message.style.animation = 'slideOut 0.5s ease';
+                    setTimeout(() => message.remove(), 500);
+                }, 5000);
+            }
+            
+            // Initialize main page functions
+            function initializeMainPage() {
+                console.log('Initializing main page - Single time');
+                
+                // Your existing page initialization code
+                setupEventListeners();
+                setupAnimations();
+            }
+            
+            // Setup event listeners
+            function setupEventListeners() {
+                // Mobile menu toggle
+                const menuToggle = document.getElementById('mobileMenuToggle');
+                const navMenu = document.getElementById('navMenu');
+                
+                if (menuToggle && !menuToggle.dataset.listenerAdded) {
+                    menuToggle.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                    menuToggle.dataset.listenerAdded = 'true';
+                }
+                
+                // Chat button
+                const chatButton = document.getElementById('chatButton');
+                if (chatButton && !chatButton.dataset.listenerAdded) {
+                    chatButton.addEventListener('click', function() {
+                        alert('Chat feature coming soon! In the meantime, email us at contact@infinityfunds.com');
+                    }, { once: true });
+                    chatButton.dataset.listenerAdded = 'true';
+                }
+            }
+            
+            // Setup animations
+            function setupAnimations() {
+                // Animate stats
+                const stats = document.querySelectorAll('.stat h3');
+                stats.forEach(stat => {
+                    if (stat.dataset.animated) return;
+                    const finalValue = stat.textContent;
+                    stat.textContent = '0';
+                    
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                animateValue(stat, 0, parseFloat(finalValue.replace(/[^0-9.]/g, '')), 2000);
+                                observer.unobserve(entry.target);
+                                stat.dataset.animated = 'true';
+                            }
+                        });
+                    });
+                    
+                    observer.observe(stat);
+                });
+                
+                function animateValue(element, start, end, duration) {
+                    let startTimestamp = null;
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        const current = Math.floor(progress * (end - start) + start);
+                        
+                        if (element.textContent.includes('Cr')) {
+                            element.textContent = '₹' + current.toLocaleString() + 'Cr+';
+                        } else if (element.textContent.includes('%')) {
+                            element.textContent = current.toFixed(1) + '%';
+                        } else {
+                            element.textContent = current.toLocaleString() + '+';
+                        }
+                        
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                }
+                
+                // Add scroll animations
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
                 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            animateValue(stat, 0, parseFloat(finalValue.replace(/[^0-9.]/g, '')), 2000);
-                            observer.unobserve(entry.target);
+                        if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                            entry.target.classList.add('animated');
                         }
                     });
-                });
+                }, observerOptions);
                 
-                observer.observe(stat);
-            });
-            
-            function animateValue(element, start, end, duration) {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    const current = Math.floor(progress * (end - start) + start);
-                    
-                    if (element.textContent.includes('Cr')) {
-                        element.textContent = '₹' + current.toLocaleString() + 'Cr+';
-                    } else if (element.textContent.includes('%')) {
-                        element.textContent = current.toFixed(1) + '%';
-                    } else {
-                        element.textContent = current.toLocaleString() + '+';
+                // Observe elements to animate
+                document.querySelectorAll('.feature-card, .pricing-card, .demo-feature').forEach(el => {
+                    if (!el.dataset.observed) {
+                        observer.observe(el);
+                        el.dataset.observed = 'true';
                     }
-                    
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-            
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements to animate
-            document.querySelectorAll('.feature-card, .pricing-card, .demo-feature').forEach(el => {
-                observer.observe(el);
-            });
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Mutual Funds | Smart Investment Management</title>
-    <meta name="description" content="Professional mutual fund portfolio management platform with advanced analytics and reporting">
-    <meta name="keywords" content="mutual funds, portfolio management, investment, SIP, lumpsum">
-    <meta name="author" content="Infinity Financial Services">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    
-    <!-- Favicon & Meta -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Infinity Mutual Funds">
-    <meta property="og:description" content="Professional mutual fund portfolio management">
-    <meta property="og:image" content="og-image.jpg">
-    <meta property="og:url" content="https://infinitymutualfunds.com">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <style>
-        /* Additional inline styles for background effects */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --dark-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            /* Added background image */
-            background: linear-gradient(rgba(10, 15, 46, 0.95), rgba(26, 31, 78, 0.95)), url('assets/images/dashboard/hero-bg.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
-        
-        /* Adjust existing background effects for better visibility with new background */
-        .background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -2;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.25) 0%, transparent 50%);
-        }
-        
-        .background-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
-                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 100px 100px, 50px 50px;
-            opacity: 0.5;
-        }
-
-        /* Style for logo in navigation */
-        .logo-with-image {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            object-fit: contain;
-        }
-
-        /* User profile section styles */
-        .user-profile-section {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            border: 3px solid #667eea;
-            object-fit: cover;
-        }
-
-        .user-name {
-            color: white;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .user-email {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-
-        /* Enhanced KPI card with pattern */
-        .kpi-card.pattern-bg {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kpi-card.pattern-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('assets/images/dashboard/chart-pattern.png');
-            background-size: cover;
-            opacity: 0.1;
-            z-index: 0;
-        }
-
-        .kpi-card.pattern-bg > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Pattern backgrounds for feature cards */
-        .feature-card.pattern-bg {
-            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
-                        url('assets/images/dashboard/chart-pattern.png');
-            background-size: cover;
-            background-blend-mode: overlay;
-        }
-    </style>
-</head>
-<body>
-    <!-- Background Effects -->
-    <div class="background-overlay"></div>
-    <div class="background-particles"></div>
-    
-    <!-- Floating Animations -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar glass-nav">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo-with-image">
-                    <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image">
-                    <span class="brand-name">Infinity Mutual Funds</span>
-                </div>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#pricing" class="nav-link">Pricing</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="login.html" class="nav-link btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                <a href="register.html" class="nav-link btn-primary-gradient">
-                    <i class="fas fa-rocket"></i> Get Started
-                </a>
-            </div>
-            <button class="menu-toggle" id="mobileMenuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span>✨ Trusted by 10,000+ Investors</span>
-                </div>
-                <h1 class="hero-title">
-                    Smart <span class="gradient-text">Wealth Management</span> 
-                    for Modern Investors
-                </h1>
-                <p class="hero-subtitle">
-                    Track, analyze, and optimize your mutual fund investments with AI-powered insights. 
-                    Professional portfolio management platform with real-time analytics, smart recommendations, 
-                    and comprehensive reporting.
-                </p>
-                <div class="hero-actions">
-                    <a href="register.html" class="btn btn-primary-gradient btn-large btn-sparkle">
-                        <i class="fas fa-play-circle"></i> Start Free Trial
-                    </a>
-                    <a href="#demo" class="btn btn-glass btn-large">
-                        <i class="fas fa-play"></i> Watch Demo
-                    </a>
-                </div>
-                <div class="hero-stats glass-card">
-                    <!-- Add pattern background to revenue stat -->
-                    <div class="stat pattern-bg" style="border-radius: 12px;">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div>
-                            <h3>10,000+</h3>
-                            <p>Active Investors</p>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="stat pattern-bg" style="border-radius: 12px;">
-                        <div class="stat-icon">
-                            <i class="fas fa-rupee-sign"></i>
-                        </div>
-                        <div>
-                            <h3>₹500Cr+</h3>
-                            <p>Assets Managed</p>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="stat pattern-bg" style="border-radius: 12px;">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div>
-                            <h3>15.8%</h3>
-                            <p>Avg. Annual Returns</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-trust">
-                    <p>Trusted by leading investors and advisors</p>
-                    <div class="trust-logos">
-                        <span>💰 SEBI Registered</span>
-                        <span>🔒 Bank-Level Security</span>
-                        <span>📈 Real-time Data</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="dashboard-preview glass-card">
-                    <div class="dashboard-header">
-                        <div class="header-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span>Infinity Dashboard</span>
-                    </div>
-                    <div class="dashboard-content">
-                        <!-- User profile section inside dashboard preview -->
-                        <div class="user-profile-section">
-                            <img src="assets/images/users/default-avatar.png" alt="User" class="user-avatar">
-                            <h4 class="user-name">Demo User</h4>
-                            <p class="user-email">demo@infinityfunds.com</p>
-                        </div>
-                        <div class="metric-chart">
-                            <div class="chart-line" style="height: 80%;"></div>
-                            <div class="chart-line" style="height: 60%;"></div>
-                            <div class="chart-line" style="height: 90%;"></div>
-                            <div class="chart-line" style="height: 70%;"></div>
-                            <div class="chart-line" style="height: 85%;"></div>
-                        </div>
-                        <div class="dashboard-stats">
-                            <div class="dashboard-stat pattern-bg" style="border-radius: 8px;">
-                                <small>Total Value</small>
-                                <h4>₹24.78L</h4>
-                            </div>
-                            <div class="dashboard-stat pattern-bg" style="border-radius: 8px;">
-                                <small>Today's Gain</small>
-                                <h4 class="positive">+2.4%</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="gradient-text">Powerful Features</span> for Smart Investors
-                </h2>
-                <p class="section-subtitle">
-                    Everything you need to manage your mutual fund portfolio effectively
-                </p>
-            </div>
-            
-            <div class="features-grid">
-                <!-- Add pattern background to feature cards -->
-                <div class="feature-card glass-card pattern-bg">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3>Portfolio Analytics</h3>
-                    <p>Advanced analytics with interactive charts, performance metrics, and risk assessment tools.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Real-time performance tracking</li>
-                        <li><i class="fas fa-check-circle"></i> XIRR calculation</li>
-                        <li><i class="fas fa-check-circle"></i> Asset allocation analysis</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card pattern-bg">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <h3>Auto Reconciliation</h3>
-                    <p>Automatically sync with 40+ AMCs and update your portfolio values in real-time.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> CAS file import</li>
-                        <li><i class="fas fa-check-circle"></i> Email statement parsing</li>
-                        <li><i class="fas fa-check-circle"></i> Manual entry option</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card pattern-bg">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>AI Recommendations</h3>
-                    <p>Get personalized fund recommendations based on your risk profile and financial goals.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Risk assessment</li>
-                        <li><i class="fas fa-check-circle"></i> Goal planning</li>
-                        <li><i class="fas fa-check-circle"></i> Rebalancing alerts</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card glass-card pattern-bg">
-                    <div class="feature-icon gradient-bg">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                    <h3>Tax Optimization</h3>
-                    <p>Generate capital gains reports and tax harvesting suggestions for better tax efficiency.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Capital gains statement</li>
-                        <li><i class="fas fa-check-circle"></i> Tax harvesting alerts</li>
-                        <li><i class="fas fa-check-circle"></i> 80C tracker</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-        <div class="container">
-            <div class="demo-content">
-                <h2 class="section-title">See Infinity in Action</h2>
-                <p class="section-subtitle">Watch how Infinity transforms your investment management experience</p>
-                <div class="video-container glass-card">
-                    <div class="video-placeholder">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                        <!-- Add user profile to video placeholder -->
-                        <div class="video-user-profile">
-                            <img src="assets/images/users/default-avatar.png" alt="User">
-                            <div>
-                                <h5>Live Demo Session</h5>
-                                <p>Hosted by Investment Expert</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="demo-features">
-                    <div class="demo-feature pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-bolt"></i>
-                        <span>Real-time Updates</span>
-                    </div>
-                    <div class="demo-feature pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Bank-Level Security</span>
-                    </div>
-                    <div class="demo-feature pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Mobile Responsive</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    Simple, <span class="gradient-text">Transparent Pricing</span>
-                </h2>
-                <p class="section-subtitle">
-                    Choose the plan that fits your investment needs
-                </p>
-            </div>
-            
-            <div class="pricing-grid">
-                <!-- Add pattern background to pricing cards -->
-                <div class="pricing-card glass-card pattern-bg">
-                    <div class="pricing-header">
-                        <h3>Basic</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">499</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For individual investors</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Up to 10 funds</li>
-                        <li><i class="fas fa-check"></i> Basic portfolio tracking</li>
-                        <li><i class="fas fa-check"></i> Email support</li>
-                        <li><i class="fas fa-times"></i> Advanced analytics</li>
-                        <li><i class="fas fa-times"></i> Tax reports</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block">Get Started</a>
-                </div>
-                
-                <div class="pricing-card glass-card featured pattern-bg">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="pricing-header">
-                        <h3>Professional</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">999</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For serious investors</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Unlimited funds</li>
-                        <li><i class="fas fa-check"></i> Advanced analytics</li>
-                        <li><i class="fas fa-check"></i> Tax reports</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                        <li><i class="fas fa-check"></i> AI recommendations</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-primary-gradient btn-block">Get Started</a>
-                </div>
-                
-                <div class="pricing-card glass-card pattern-bg">
-                    <div class="pricing-header">
-                        <h3>Family</h3>
-                        <div class="price">
-                            <span class="currency">₹</span>
-                            <span class="amount">1,999</span>
-                            <span class="period">/month</span>
-                        </div>
-                        <p class="price-description">For families & small groups</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Up to 5 family members</li>
-                        <li><i class="fas fa-check"></i> All Pro features</li>
-                        <li><i class="fas fa-check"></i> Consolidated reports</li>
-                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
-                        <li><i class="fas fa-check"></i> Custom integrations</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block">Get Started</a>
-                </div>
-            </div>
-            
-            <div class="pricing-note">
-                <p><i class="fas fa-info-circle"></i> All plans include a 14-day free trial. No credit card required.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content glass-card pattern-bg">
-                <h2>Start Your Investment Journey Today</h2>
-                <p>Join 10,000+ investors who trust Infinity for their portfolio management. Get started with our 14-day free trial.</p>
-                <div class="cta-actions">
-                    <a href="register.html" class="btn btn-primary-gradient btn-xlarge">
-                        <i class="fas fa-rocket"></i> Start Free Trial
-                    </a>
-                    <a href="login.html" class="btn btn-glass btn-xlarge">
-                        <i class="fas fa-sign-in-alt"></i> Login to Account
-                    </a>
-                </div>
-                <div class="cta-benefits">
-                    <div class="benefit pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-clock"></i>
-                        <span>No credit card required</span>
-                    </div>
-                    <div class="benefit pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>256-bit encryption</span>
-                    </div>
-                    <div class="benefit pattern-bg" style="border-radius: 12px;">
-                        <i class="fas fa-headset"></i>
-                        <span>24/7 customer support</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="logo-with-image" style="justify-content: center; margin-bottom: 15px;">
-                        <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image">
-                    </div>
-                    <h3>Infinity Mutual Funds</h3>
-                    <p>Smart Investment Management Platform</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="link-group">
-                        <h4>Product</h4>
-                        <a href="#features">Features</a>
-                        <a href="#pricing">Pricing</a>
-                        <a href="#demo">Demo</a>
-                        <a href="#api">API</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Company</h4>
-                        <a href="#about">About</a>
-                        <a href="#careers">Careers</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#blog">Blog</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Resources</h4>
-                        <a href="#help">Help Center</a>
-                        <a href="#docs">Documentation</a>
-                        <a href="#privacy">Privacy Policy</a>
-                        <a href="#terms">Terms of Service</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Contact</h4>
-                        <a href="mailto:contact@infinityfunds.com">
-                            <i class="fas fa-envelope"></i> contact@infinityfunds.com
-                        </a>
-                        <a href="tel:+911234567890">
-                            <i class="fas fa-phone"></i> +91 12345 67890
-                        </a>
-                        <a href="#">
-                            <i class="fas fa-map-marker-alt"></i> Mumbai, India
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="regulatory-info">
-                    <p>
-                        <i class="fas fa-shield-alt"></i> 
-                        SEBI Registered Investment Advisor | 
-                        <i class="fas fa-lock"></i> 
-                        256-bit SSL Encryption | 
-                        <i class="fas fa-certificate"></i> 
-                        ISO 27001 Certified
-                    </p>
-                </div>
-                <div class="disclaimer">
-                    <p>
-                        <strong>Disclaimer:</strong> Mutual fund investments are subject to market risks. 
-                        Please read all scheme related documents carefully before investing. 
-                        Past performance is not indicative of future returns.
-                    </p>
-                </div>
-                <div class="copyright">
-                    <p>&copy; 2024 Infinity Financial Services Pvt. Ltd. All rights reserved.</p>
-                    <div class="footer-apps">
-                        <a href="#" class="app-link">
-                            <i class="fab fa-apple"></i> App Store
-                        </a>
-                        <a href="#" class="app-link">
-                            <i class="fab fa-google-play"></i> Google Play
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Action Button -->
-    <div class="fab">
-        <button class="fab-button" id="chatButton">
-            <i class="fas fa-comment-alt"></i>
-        </button>
-        <div class="fab-tooltip">Need help? Chat with us!</div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/main.js"></script>
-    <script>
-        // Interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const menuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    navMenu.classList.toggle('active');
                 });
             }
-            
-            // Chat button
-            const chatButton = document.getElementById('chatButton');
-            if (chatButton) {
-                chatButton.addEventListener('click', function() {
-                    alert('Chat feature coming soon! In the meantime, email us at contact@infinityfunds.com');
-                });
-            }
-            
-            // Animate stats
-            const stats = document.querySelectorAll('.stat h3');
-            stats.forEach(stat => {
-                const finalValue = stat.textContent;
-                stat.textContent = '0';
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            animateValue(stat, 0, parseFloat(finalValue.replace(/[^0-9.]/g, '')), 2000);
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                });
-                
-                observer.observe(stat);
-            });
-            
-            function animateValue(element, start, end, duration) {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    const current = Math.floor(progress * (end - start) + start);
-                    
-                    if (element.textContent.includes('Cr')) {
-                        element.textContent = '₹' + current.toLocaleString() + 'Cr+';
-                    } else if (element.textContent.includes('%')) {
-                        element.textContent = current.toFixed(1) + '%';
-                    } else {
-                        element.textContent = current.toLocaleString() + '+';
-                    }
-                    
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-            
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements to animate
-            document.querySelectorAll('.feature-card, .pricing-card, .demo-feature').forEach(el => {
-                observer.observe(el);
-            });
-        });
+        })();
     </script>
 </body>
 </html>
