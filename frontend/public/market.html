@@ -729,6 +729,75 @@
             color: var(--accent-color);
         }
 
+        /* Logout Modal */
+        .logout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .logout-modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .logout-modal h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .logout-modal p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .logout-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .logout-modal-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-modal-cancel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .logout-modal-confirm {
+            background: var(--loss-color);
+            border: none;
+            color: white;
+        }
+
+        .logout-modal-cancel:hover {
+            background: var(--border-color);
+        }
+
+        .logout-modal-confirm:hover {
+            opacity: 0.9;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .sectors-grid {
@@ -836,6 +905,10 @@
             
             .sector-card {
                 padding: 15px;
+            }
+            
+            .logout-modal-content {
+                padding: 20px;
             }
         }
 
@@ -1372,12 +1445,51 @@
         </div>
     </div>
 
+    <!-- Logout Modal -->
+    <div class="logout-modal" id="logoutModal">
+        <div class="logout-modal-content">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout from Infinity Mutual Funds?</p>
+            <div class="logout-modal-buttons">
+                <button class="logout-modal-btn logout-modal-cancel" id="cancelLogout">Cancel</button>
+                <button class="logout-modal-btn logout-modal-confirm" id="confirmLogout">Logout</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
         // Global variables
         let marketChart = null;
         let autoRefreshInterval = null;
         
+        // Check if user is logged in
+        function checkAuthentication() {
+            const currentUser = localStorage.getItem('currentUser');
+            const sessionTimestamp = localStorage.getItem('sessionTimestamp');
+            
+            if (!currentUser || !sessionTimestamp) {
+                // Not logged in, redirect to login page
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            const sessionTime = parseInt(sessionTimestamp);
+            const currentTime = new Date().getTime();
+            const sessionAge = currentTime - sessionTime;
+            
+            // Session is valid for 24 hours (86400000 milliseconds)
+            if (sessionAge > 86400000) {
+                // Session expired
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('sessionTimestamp');
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            return true;
+        }
+
         // Theme management
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
@@ -1699,55 +1811,76 @@
             }
         }
 
-        // Improved logout function
-        function logout() {
-            // Clear any user data from localStorage
-            localStorage.removeItem('userSession');
+        // Show logout modal
+        function showLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.style.display = 'flex';
+        }
+
+        // Hide logout modal
+        function hideLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.style.display = 'none';
+        }
+
+        // Perform logout
+        function performLogout() {
+            // Clear all session data
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionTimestamp');
+            localStorage.removeItem('rememberedEmail');
             
-            // Show logout confirmation
-            const logoutConfirm = document.createElement('div');
-            logoutConfirm.innerHTML = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 2000;">
-                    <div style="background: var(--card-bg); padding: 30px; border-radius: 15px; max-width: 400px; width: 90%; border: 1px solid var(--border-color);">
-                        <h3 style="margin-bottom: 15px; color: var(--text-primary);">Confirm Logout</h3>
-                        <p style="margin-bottom: 20px; color: var(--text-secondary);">Are you sure you want to logout from Infinity Mutual Funds?</p>
-                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                            <button id="cancelLogout" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); border-radius: 8px; cursor: pointer;">Cancel</button>
-                            <button id="confirmLogout" style="padding: 8px 20px; background: var(--loss-color); color: white; border: none; border-radius: 8px; cursor: pointer;">Logout</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            // Stop auto-refresh
+            stopAutoRefresh();
             
-            document.body.appendChild(logoutConfirm);
+            // Hide modal
+            hideLogoutModal();
             
-            // Add event listeners to modal buttons
-            document.getElementById('cancelLogout').addEventListener('click', () => {
-                document.body.removeChild(logoutConfirm);
-            });
+            // Show logout success toast
+            showToast('Logged out successfully!');
             
-            document.getElementById('confirmLogout').addEventListener('click', () => {
-                // Stop auto-refresh
-                stopAutoRefresh();
-                
-                // Remove modal
-                document.body.removeChild(logoutConfirm);
-                
-                // Show success message
-                showToast('Logged out successfully!');
-                
-                // In a real application, you would redirect to login page
-                // window.location.href = 'login.html';
-                
-                // For demo purposes, just show a message
-                setTimeout(() => {
-                    alert('You have been logged out successfully. In a real application, you would be redirected to the login page.');
-                }, 500);
-            });
+            // Redirect to login page after a short delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1000);
+        }
+
+        // Setup logout functionality
+        function setupLogout() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            const cancelBtn = document.getElementById('cancelLogout');
+            const confirmBtn = document.getElementById('confirmLogout');
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', showLogoutModal);
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', hideLogoutModal);
+            }
+            
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', performLogout);
+            }
+            
+            // Close modal when clicking outside
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideLogoutModal();
+                    }
+                });
+            }
         }
 
         // Initialize everything
         function initializeApp() {
+            // Check authentication first
+            if (!checkAuthentication()) {
+                return; // Redirect will happen in checkAuthentication
+            }
+            
             // Initialize components
             initializeTheme();
             initializeThemeSwitcher();
@@ -1755,10 +1888,8 @@
             initializeMarketChart();
             initializeHeatmap();
             initializeFilters();
+            setupLogout();
             startAutoRefresh();
-            
-            // Set up event listeners
-            document.getElementById('logoutBtn').addEventListener('click', logout);
             
             // Update date-time every second
             setInterval(updateDateTime, 1000);
