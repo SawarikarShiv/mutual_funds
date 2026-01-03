@@ -8,8 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Axios for API calls -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -114,28 +112,6 @@
             letter-spacing: 1px;
         }
 
-        /* Database Status */
-        .db-status {
-            margin: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid var(--secondary);
-        }
-
-        .db-status h4 {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .db-status p {
-            font-size: 0.8rem;
-            color: #cbd5e1;
-        }
-
         /* Main Content */
         .main-content {
             padding: 25px;
@@ -224,14 +200,232 @@
             background: #0da271;
         }
 
-        .btn-danger {
-            background: var(--danger);
-            color: white;
+        /* Settings Page Styles */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
-        .btn-danger:hover {
-            background: #dc2626;
+        .settings-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .settings-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h4 {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--secondary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .select-input {
+            padding: 8px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            min-width: 150px;
+        }
+
+        /* Scheduled Reports Page Styles */
+        .scheduled-reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .scheduled-report-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .scheduled-report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .scheduled-report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .report-frequency {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .frequency-daily { background: #dbeafe; color: var(--primary); }
+        .frequency-weekly { background: #f3e8ff; color: #8b5cf6; }
+        .frequency-monthly { background: #dcfce7; color: var(--secondary); }
+        .frequency-quarterly { background: #ffedd5; color: #f97316; }
+
+        .scheduled-report-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .scheduled-report-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .recipients-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .recipient-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .btn-icon:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-edit:hover { color: var(--primary); }
+        .btn-delete:hover { color: var(--danger); }
+        .btn-run:hover { color: var(--secondary); }
 
         /* Filter Bar */
         .filter-bar {
@@ -422,476 +616,184 @@
             transform: rotate(180deg);
         }
 
-        /* Database Management Page */
-        .db-management-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .db-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid var(--primary);
-        }
-
-        .db-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--dark);
-        }
-
-        .db-stats {
+        /* Charts Grid */
+        .charts-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
-        .db-stat {
-            text-align: center;
-            padding: 15px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 10px;
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .db-stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .db-stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        .db-tables-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-
-        .db-table-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background: rgba(0, 0, 0, 0.02);
-            border-radius: 8px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .db-table-info h4 {
-            font-size: 0.95rem;
-            color: var(--dark);
-            margin-bottom: 3px;
-        }
-
-        .db-table-info p {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .db-table-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* Data Explorer */
-        .data-explorer {
+        .chart-card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
         }
 
-        .data-explorer-header {
+        .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
         }
 
-        .data-explorer-header h3 {
+        .chart-header h3 {
             font-size: 1.3rem;
             color: var(--dark);
         }
 
-        .query-editor {
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Tables */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .tables-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .table-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
         }
 
-        .query-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.95rem;
-            min-height: 100px;
-            resize: vertical;
+        .table-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
         }
 
-        .query-input:focus {
-            outline: none;
-            border-color: var(--primary);
+        .table-container {
+            overflow-x: auto;
         }
 
-        .query-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .results-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-        }
-
-        .results-table {
+        table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .results-table th {
-            background: var(--primary-light);
-            padding: 12px 15px;
+        thead {
+            background: rgba(219, 234, 254, 0.7);
+        }
+
+        th {
+            padding: 15px;
             text-align: left;
             font-weight: 600;
             color: var(--dark);
-            position: sticky;
-            top: 0;
-        }
-
-        .results-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--border);
-            color: var(--gray);
-        }
-
-        .results-table tr:hover {
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        /* Backup Management */
-        .backup-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .backup-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .backup-list {
-            margin-top: 20px;
-        }
-
-        .backup-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: rgba(0, 0, 0, 0.02);
-            border-radius: 10px;
-            border-left: 4px solid var(--secondary);
-        }
-
-        .backup-info h4 {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            color: var(--dark);
-        }
-
-        .backup-info p {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .backup-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* Sample Data Manager */
-        .sample-data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .sample-data-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid var(--border);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .sample-data-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .sample-data-card h4 {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .sample-data-card p {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        /* Settings Grid */
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .settings-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
             border-bottom: 2px solid var(--border);
         }
 
-        .settings-header h3 {
-            font-size: 1.3rem;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
+        td {
+            padding: 15px;
             border-bottom: 1px solid var(--border);
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .setting-info h4 {
-            font-size: 1rem;
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .setting-info p {
-            font-size: 0.9rem;
             color: var(--gray);
         }
 
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
+        tr:hover {
+            background: rgba(249, 250, 251, 0.7);
         }
 
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--secondary);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-
-        .select-input {
-            padding: 8px 15px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            background: white;
-            min-width: 150px;
-        }
-
-        /* Scheduled Reports */
-        .scheduled-reports-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .scheduled-report-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .scheduled-report-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .scheduled-report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .report-frequency {
-            padding: 5px 12px;
+        .status-badge {
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             display: inline-block;
         }
 
-        .frequency-daily { background: #dbeafe; color: var(--primary); }
-        .frequency-weekly { background: #f3e8ff; color: #8b5cf6; }
-        .frequency-monthly { background: #dcfce7; color: var(--secondary); }
-        .frequency-quarterly { background: #ffedd5; color: #f97316; }
+        .status-active { background: #d1fae5; color: var(--secondary); }
+        .status-pending { background: #fef3c7; color: var(--warning); }
+        .status-inactive { background: #fee2e2; color: var(--danger); }
 
-        .scheduled-report-title {
-            font-size: 1.2rem;
+        /* Report List */
+        .reports-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .report-item {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .report-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            background: white;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .report-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .type-financial { background: #dbeafe; color: var(--primary); }
+        .type-sales { background: #dcfce7; color: var(--secondary); }
+        .type-analytics { background: #f3e8ff; color: #8b5cf6; }
+        .type-operational { background: #ffedd5; color: #f97316; }
+
+        .report-title {
             font-weight: 600;
             margin-bottom: 10px;
             color: var(--dark);
         }
 
-        .scheduled-report-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .detail-item {
+        .report-meta {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .detail-label {
-            font-size: 0.85rem;
+            justify-content: space-between;
             color: var(--gray);
-            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 15px;
         }
-
-        .detail-value {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .recipients-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .recipient-tag {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .btn-icon {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--gray);
-            transition: color 0.3s ease;
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .btn-icon:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .btn-edit:hover { color: var(--primary); }
-        .btn-delete:hover { color: var(--danger); }
-        .btn-run:hover { color: var(--secondary); }
 
         /* Modal */
         .modal {
@@ -917,7 +819,7 @@
             border-radius: 20px;
             padding: 40px;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -1012,6 +914,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .kpi-card, .chart-card, .table-card, .settings-card, .scheduled-report-card {
+            animation: fadeIn 0.5s ease;
+        }
+
         /* Loading State */
         .loading {
             display: flex;
@@ -1034,32 +940,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        /* Database Connection Status */
-        .connection-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .status-connected {
-            background: #d1fae5;
-            color: var(--secondary);
-        }
-
-        .status-disconnected {
-            background: #fee2e2;
-            color: var(--danger);
-        }
-
-        .status-connecting {
-            background: #fef3c7;
-            color: var(--warning);
-        }
     </style>
 </head>
 <body>
@@ -1071,13 +951,6 @@
                     <i class="fas fa-chart-line"></i>
                     <span>Analytics Pro</span>
                 </h2>
-            </div>
-            
-            <!-- Database Status in Sidebar -->
-            <div class="db-status">
-                <h4><i class="fas fa-database"></i> Database Status</h4>
-                <p id="dbStatusText">Checking connection...</p>
-                <p id="dbLastSync" style="font-size: 0.75rem; margin-top: 5px;">Last sync: --</p>
             </div>
             
             <div class="nav-section">Main</div>
@@ -1094,22 +967,22 @@
                 <span>Analytics</span>
             </a>
             
-            <div class="nav-section">Database</div>
-            <a href="#" class="nav-item" data-page="db-management">
-                <i class="fas fa-database"></i>
-                <span>Database Management</span>
+            <div class="nav-section">Reports</div>
+            <a href="#" class="nav-item" data-page="financial">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Financial</span>
             </a>
-            <a href="#" class="nav-item" data-page="data-explorer">
-                <i class="fas fa-search"></i>
-                <span>Data Explorer</span>
+            <a href="#" class="nav-item" data-page="sales">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Sales</span>
             </a>
-            <a href="#" class="nav-item" data-page="backup-manager">
-                <i class="fas fa-hdd"></i>
-                <span>Backup Manager</span>
+            <a href="#" class="nav-item" data-page="user-analytics">
+                <i class="fas fa-users"></i>
+                <span>User Analytics</span>
             </a>
-            <a href="#" class="nav-item" data-page="sample-data">
-                <i class="fas fa-file-import"></i>
-                <span>Sample Data</span>
+            <a href="#" class="nav-item" data-page="operations">
+                <i class="fas fa-cogs"></i>
+                <span>Operations</span>
             </a>
             
             <div class="nav-section">Settings</div>
@@ -1125,21 +998,27 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Dashboard Page -->
+            <!-- Dashboard Page (Default) -->
             <div class="page-content active" id="dashboard-page">
+                <!-- Header -->
                 <div class="header">
-                    <h1><i class="fas fa-chart-line"></i> Reports & Analytics Dashboard</h1>
+                    <h1>
+                        <i class="fas fa-chart-line"></i>
+                        Reports & Analytics Dashboard
+                    </h1>
                     <div class="header-actions">
                         <div class="date-range">
                             <input type="date" class="date-input" id="startDate" value="2024-01-01">
                             <span>to</span>
                             <input type="date" class="date-input" id="endDate" value="2024-12-31">
                         </div>
-                        <button class="btn btn-outline" onclick="refreshDashboardData()">
-                            <i class="fas fa-sync-alt"></i> Refresh
+                        <button class="btn btn-outline" onclick="refreshData()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
                         </button>
-                        <button class="btn btn-primary" onclick="exportDashboardData()">
-                            <i class="fas fa-file-export"></i> Export
+                        <button class="btn btn-primary" onclick="openExportModal()">
+                            <i class="fas fa-file-export"></i>
+                            Export Report
                         </button>
                     </div>
                 </div>
@@ -1175,11 +1054,195 @@
                             <option value="operations">Operations</option>
                         </select>
                     </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Metrics</label>
+                        <select class="filter-select" id="metrics">
+                            <option value="overview">Overview</option>
+                            <option value="revenue">Revenue</option>
+                            <option value="users">User Growth</option>
+                            <option value="conversion">Conversion</option>
+                            <option value="performance">Performance</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- KPI Cards -->
-                <div class="kpi-grid" id="kpiContainer">
-                    <!-- KPI cards will be loaded from database -->
+                <div class="kpi-grid">
+                    <!-- Revenue Card -->
+                    <div class="kpi-card kpi-revenue revenue" onclick="toggleKPIDetails('revenue')">
+                        <div class="kpi-header">
+                            <div class="kpi-icon"><i class="fas fa-money-bill-wave"></i></div>
+                            <div class="kpi-trend trend-up">
+                                <span>↑</span>
+                                <span>12.5%</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value">$124,580</div>
+                        <div class="kpi-label">Total Revenue</div>
+                        
+                        <!-- Detailed Breakdown -->
+                        <div class="kpi-details" id="revenue-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Product Sales</span>
+                                <span class="detail-value">$68,450</span>
+                                <span class="detail-change positive">+8.2%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Services</span>
+                                <span class="detail-value">$32,120</span>
+                                <span class="detail-change positive">+15.3%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Subscriptions</span>
+                                <span class="detail-value">$18,450</span>
+                                <span class="detail-change positive">+5.7%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Other Income</span>
+                                <span class="detail-value">$5,560</span>
+                                <span class="detail-change negative">-2.1%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Avg. Transaction</span>
+                                <span class="detail-value">$245.80</span>
+                                <span class="detail-change positive">+3.4%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="expand-arrow"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    
+                    <!-- Users Card -->
+                    <div class="kpi-card kpi-users users" onclick="toggleKPIDetails('users')">
+                        <div class="kpi-header">
+                            <div class="kpi-icon"><i class="fas fa-users"></i></div>
+                            <div class="kpi-trend trend-up">
+                                <span>↑</span>
+                                <span>8.2%</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value">3,245</div>
+                        <div class="kpi-label">Active Users</div>
+                        
+                        <!-- Detailed Breakdown -->
+                        <div class="kpi-details" id="users-details">
+                            <div class="detail-row">
+                                <span class="detail-label">New Users</span>
+                                <span class="detail-value">324</span>
+                                <span class="detail-change positive">+12.4%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Returning Users</span>
+                                <span class="detail-value">1,845</span>
+                                <span class="detail-change positive">+5.2%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Churned Users</span>
+                                <span class="detail-value">47</span>
+                                <span class="detail-change negative">-1.8%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Avg. Session</span>
+                                <span class="detail-value">4m 32s</span>
+                                <span class="detail-change positive">+15s</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Retention Rate</span>
+                                <span class="detail-value">85.2%</span>
+                                <span class="detail-change positive">+2.1%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="expand-arrow"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    
+                    <!-- Conversion Card -->
+                    <div class="kpi-card kpi-conversion conversion" onclick="toggleKPIDetails('conversion')">
+                        <div class="kpi-header">
+                            <div class="kpi-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="kpi-trend trend-down">
+                                <span>↓</span>
+                                <span>2.1%</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value">24.3%</div>
+                        <div class="kpi-label">Conversion Rate</div>
+                        
+                        <!-- Detailed Breakdown -->
+                        <div class="kpi-details" id="conversion-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Website</span>
+                                <span class="detail-value">3.2%</span>
+                                <span class="detail-change positive">+0.4%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Mobile App</span>
+                                <span class="detail-value">8.5%</span>
+                                <span class="detail-change negative">-1.2%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email Campaign</span>
+                                <span class="detail-value">12.4%</span>
+                                <span class="detail-change positive">+2.1%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Social Media</span>
+                                <span class="detail-value">5.3%</span>
+                                <span class="detail-change negative">-3.4%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Direct Traffic</span>
+                                <span class="detail-value">15.8%</span>
+                                <span class="detail-change positive">+1.5%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="expand-arrow"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    
+                    <!-- Growth Card -->
+                    <div class="kpi-card kpi-growth growth" onclick="toggleKPIDetails('growth')">
+                        <div class="kpi-header">
+                            <div class="kpi-icon"><i class="fas fa-chart-bar"></i></div>
+                            <div class="kpi-trend trend-up">
+                                <span>↑</span>
+                                <span>15.7%</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value">45.2%</div>
+                        <div class="kpi-label">Growth Rate</div>
+                        
+                        <!-- Detailed Breakdown -->
+                        <div class="kpi-details" id="growth-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Monthly Growth</span>
+                                <span class="detail-value">12.4%</span>
+                                <span class="detail-change positive">+1.2%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Quarterly Growth</span>
+                                <span class="detail-value">28.7%</span>
+                                <span class="detail-change positive">+3.5%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Year-over-Year</span>
+                                <span class="detail-value">67.3%</span>
+                                <span class="detail-change positive">+8.9%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Market Share</span>
+                                <span class="detail-value">18.5%</span>
+                                <span class="detail-change positive">+2.3%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Revenue Growth</span>
+                                <span class="detail-value">32.8%</span>
+                                <span class="detail-change positive">+4.1%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="expand-arrow"><i class="fas fa-chevron-down"></i></div>
+                    </div>
                 </div>
 
                 <!-- Charts Section -->
@@ -1187,6 +1250,11 @@
                     <div class="chart-card">
                         <div class="chart-header">
                             <h3>Revenue Trend</h3>
+                            <select class="filter-select" style="width: auto;">
+                                <option>Monthly</option>
+                                <option>Quarterly</option>
+                                <option>Yearly</option>
+                            </select>
                         </div>
                         <div class="chart-container">
                             <canvas id="revenueChart"></canvas>
@@ -1196,359 +1264,14 @@
                     <div class="chart-card">
                         <div class="chart-header">
                             <h3>User Acquisition</h3>
+                            <select class="filter-select" style="width: auto;">
+                                <option>By Channel</option>
+                                <option>By Region</option>
+                                <option>By Device</option>
+                            </select>
                         </div>
                         <div class="chart-container">
                             <canvas id="userChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Data Updates -->
-                <div class="table-card">
-                    <div class="table-header">
-                        <h3><i class="fas fa-history"></i> Recent Data Updates</h3>
-                        <button class="btn btn-outline" onclick="refreshDataUpdates()">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Table</th>
-                                    <th>Operation</th>
-                                    <th>Timestamp</th>
-                                    <th>Records</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dataUpdatesTable">
-                                <!-- Will be populated from database -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Database Management Page -->
-            <div class="page-content" id="db-management-page">
-                <div class="header">
-                    <h1><i class="fas fa-database"></i> Database Management</h1>
-                    <div class="header-actions">
-                        <button class="btn btn-success" onclick="testDatabaseConnection()">
-                            <i class="fas fa-plug"></i> Test Connection
-                        </button>
-                        <button class="btn btn-primary" onclick="optimizeDatabase()">
-                            <i class="fas fa-magic"></i> Optimize
-                        </button>
-                    </div>
-                </div>
-
-                <div class="db-management-grid">
-                    <!-- Database Stats -->
-                    <div class="db-card">
-                        <h3><i class="fas fa-chart-bar"></i> Database Statistics</h3>
-                        <div class="db-stats">
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="totalTables">--</div>
-                                <div class="db-stat-label">Tables</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="totalRows">--</div>
-                                <div class="db-stat-label">Total Rows</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="dbSize">--</div>
-                                <div class="db-stat-label">Database Size</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="lastBackup">--</div>
-                                <div class="db-stat-label">Last Backup</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Database Health -->
-                    <div class="db-card">
-                        <h3><i class="fas fa-heartbeat"></i> Database Health</h3>
-                        <div class="db-stats">
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="connectionStatus">--</div>
-                                <div class="db-stat-label">Status</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="uptime">--</div>
-                                <div class="db-stat-label">Uptime</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="activeConnections">--</div>
-                                <div class="db-stat-label">Active Connections</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="queryPerformance">--</div>
-                                <div class="db-stat-label">Avg Query Time</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tables List -->
-                <div class="db-card">
-                    <div class="db-tables-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3><i class="fas fa-table"></i> Database Tables</h3>
-                        <button class="btn btn-outline" onclick="refreshTablesList()">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="db-tables-list" id="tablesList">
-                        <!-- Tables will be loaded here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Explorer Page -->
-            <div class="page-content" id="data-explorer-page">
-                <div class="header">
-                    <h1><i class="fas fa-search"></i> Data Explorer</h1>
-                    <div class="header-actions">
-                        <button class="btn btn-success" onclick="saveQuery()">
-                            <i class="fas fa-save"></i> Save Query
-                        </button>
-                        <button class="btn btn-primary" onclick="exportQueryResults()">
-                            <i class="fas fa-download"></i> Export Results
-                        </button>
-                    </div>
-                </div>
-
-                <div class="data-explorer">
-                    <div class="data-explorer-header">
-                        <h3>SQL Query Editor</h3>
-                        <div>
-                            <select class="select-input" id="savedQueries" onchange="loadSavedQuery()">
-                                <option value="">Load Saved Query...</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="query-editor">
-                        <textarea class="query-input" id="sqlQuery" placeholder="Enter your SQL query here...">SELECT * FROM users LIMIT 10;</textarea>
-                        <div class="query-actions">
-                            <button class="btn btn-primary" onclick="executeQuery()">
-                                <i class="fas fa-play"></i> Execute Query
-                            </button>
-                            <button class="btn btn-outline" onclick="formatQuery()">
-                                <i class="fas fa-code"></i> Format SQL
-                            </button>
-                            <button class="btn btn-danger" onclick="clearQuery()">
-                                <i class="fas fa-times"></i> Clear
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="query-results">
-                        <h4 style="margin-bottom: 15px;">Results</h4>
-                        <div class="results-container" id="queryResults">
-                            <!-- Results will be displayed here -->
-                            <div style="padding: 40px; text-align: center; color: var(--gray);">
-                                <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                                <p>Enter a SQL query and click "Execute Query" to see results</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Queries -->
-                <div class="filter-bar">
-                    <h4 style="margin-right: 20px;">Quick Queries:</h4>
-                    <button class="btn btn-outline" onclick="runQuickQuery('users')">
-                        <i class="fas fa-users"></i> View Users
-                    </button>
-                    <button class="btn btn-outline" onclick="runQuickQuery('sales')">
-                        <i class="fas fa-shopping-cart"></i> Recent Sales
-                    </button>
-                    <button class="btn btn-outline" onclick="runQuickQuery('metrics')">
-                        <i class="fas fa-chart-line"></i> Daily Metrics
-                    </button>
-                    <button class="btn btn-outline" onclick="runQuickQuery('tables')">
-                        <i class="fas fa-list"></i> List All Tables
-                    </button>
-                </div>
-            </div>
-
-            <!-- Backup Manager Page -->
-            <div class="page-content" id="backup-manager-page">
-                <div class="header">
-                    <h1><i class="fas fa-hdd"></i> Backup Manager</h1>
-                    <div class="header-actions">
-                        <button class="btn btn-success" onclick="createBackup()">
-                            <i class="fas fa-plus"></i> Create Backup
-                        </button>
-                        <button class="btn btn-outline" onclick="refreshBackups()">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-
-                <div class="backup-grid">
-                    <!-- Backup Settings -->
-                    <div class="backup-card">
-                        <h3><i class="fas fa-cog"></i> Backup Settings</h3>
-                        <div class="settings-item">
-                            <div class="setting-info">
-                                <h4>Auto Backup</h4>
-                                <p>Automatically backup database</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="autoBackup" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="settings-item">
-                            <div class="setting-info">
-                                <h4>Backup Frequency</h4>
-                                <p>How often to create backups</p>
-                            </div>
-                            <select class="select-input" id="backupFrequency">
-                                <option value="daily">Daily</option>
-                                <option value="weekly" selected>Weekly</option>
-                                <option value="monthly">Monthly</option>
-                            </select>
-                        </div>
-                        <div class="settings-item">
-                            <div class="setting-info">
-                                <h4>Retention Period</h4>
-                                <p>How long to keep backups</p>
-                            </div>
-                            <select class="select-input" id="backupRetention">
-                                <option value="7">7 days</option>
-                                <option value="30" selected>30 days</option>
-                                <option value="90">90 days</option>
-                                <option value="365">1 year</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Backup Storage -->
-                    <div class="backup-card">
-                        <h3><i class="fas fa-server"></i> Backup Storage</h3>
-                        <div class="db-stats">
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="totalBackups">--</div>
-                                <div class="db-stat-label">Total Backups</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="storageUsed">--</div>
-                                <div class="db-stat-label">Storage Used</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="lastBackupTime">--</div>
-                                <div class="db-stat-label">Last Backup</div>
-                            </div>
-                            <div class="db-stat">
-                                <div class="db-stat-value" id="nextBackup">--</div>
-                                <div class="db-stat-label">Next Backup</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Backup List -->
-                <div class="backup-card">
-                    <h3><i class="fas fa-history"></i> Recent Backups</h3>
-                    <div class="backup-list" id="backupList">
-                        <!-- Backups will be loaded here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sample Data Page -->
-            <div class="page-content" id="sample-data-page">
-                <div class="header">
-                    <h1><i class="fas fa-file-import"></i> Sample Data Manager</h1>
-                    <div class="header-actions">
-                        <button class="btn btn-success" onclick="loadSampleData()">
-                            <i class="fas fa-download"></i> Load Sample Data
-                        </button>
-                        <button class="btn btn-danger" onclick="clearSampleData()">
-                            <i class="fas fa-trash"></i> Clear Sample Data
-                        </button>
-                    </div>
-                </div>
-
-                <div class="data-explorer">
-                    <div class="data-explorer-header">
-                        <h3>Sample Data Sets</h3>
-                        <div class="connection-status status-connected">
-                            <i class="fas fa-check-circle"></i> Connected to Sample Database
-                        </div>
-                    </div>
-
-                    <div class="sample-data-grid">
-                        <!-- Users Sample Data -->
-                        <div class="sample-data-card" onclick="previewSampleData('users')">
-                            <h4><i class="fas fa-users"></i> Users Dataset</h4>
-                            <p>Sample user data with profiles, activities, and engagement metrics. Includes 1,000+ records.</p>
-                            <div class="detail-row">
-                                <span class="detail-label">Records:</span>
-                                <span class="detail-value">1,250</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Fields:</span>
-                                <span class="detail-value">15</span>
-                            </div>
-                        </div>
-
-                        <!-- Sales Sample Data -->
-                        <div class="sample-data-card" onclick="previewSampleData('sales')">
-                            <h4><i class="fas fa-shopping-cart"></i> Sales Dataset</h4>
-                            <p>Sales transactions, product catalog, customer orders, and revenue data. 5,000+ transactions.</p>
-                            <div class="detail-row">
-                                <span class="detail-label">Records:</span>
-                                <span class="detail-value">5,400</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Fields:</span>
-                                <span class="detail-value">22</span>
-                            </div>
-                        </div>
-
-                        <!-- Financial Sample Data -->
-                        <div class="sample-data-card" onclick="previewSampleData('financial')">
-                            <h4><i class="fas fa-money-bill-wave"></i> Financial Dataset</h4>
-                            <p>Financial metrics, revenue streams, expenses, and profit analysis. Quarterly data for 3 years.</p>
-                            <div class="detail-row">
-                                <span class="detail-label">Records:</span>
-                                <span class="detail-value">12</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Fields:</span>
-                                <span class="detail-value">28</span>
-                            </div>
-                        </div>
-
-                        <!-- Analytics Sample Data -->
-                        <div class="sample-data-card" onclick="previewSampleData('analytics')">
-                            <h4><i class="fas fa-chart-line"></i> Analytics Dataset</h4>
-                            <p>Website analytics, user behavior, conversion rates, and marketing metrics. Daily data for 6 months.</p>
-                            <div class="detail-row">
-                                <span class="detail-label">Records:</span>
-                                <span class="detail-value">180</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Fields:</span>
-                                <span class="detail-value">18</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Data Preview -->
-                    <div style="margin-top: 30px;">
-                        <h4 style="margin-bottom: 15px;">Data Preview</h4>
-                        <div class="results-container" id="sampleDataPreview">
-                            <div style="padding: 40px; text-align: center; color: var(--gray);">
-                                <i class="fas fa-table" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                                <p>Click on a dataset above to preview the sample data</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1556,56 +1279,62 @@
 
             <!-- Settings Page -->
             <div class="page-content" id="settings-page">
+                <!-- Header -->
                 <div class="header">
-                    <h1><i class="fas fa-cog"></i> Settings & Configuration</h1>
+                    <h1>
+                        <i class="fas fa-cog"></i>
+                        Settings & Configuration
+                    </h1>
                     <div class="header-actions">
                         <button class="btn btn-primary" onclick="saveSettings()">
-                            <i class="fas fa-save"></i> Save Changes
+                            <i class="fas fa-save"></i>
+                            Save Changes
                         </button>
                         <button class="btn btn-outline" onclick="resetSettings()">
-                            <i class="fas fa-undo"></i> Reset to Default
+                            <i class="fas fa-undo"></i>
+                            Reset to Default
                         </button>
                     </div>
                 </div>
 
                 <!-- Settings Grid -->
                 <div class="settings-grid">
-                    <!-- Database Settings -->
+                    <!-- General Settings -->
                     <div class="settings-card">
                         <div class="settings-header">
-                            <h3><i class="fas fa-database"></i> Database Settings</h3>
+                            <h3><i class="fas fa-sliders-h"></i> General Settings</h3>
                         </div>
                         <div class="settings-item">
                             <div class="setting-info">
-                                <h4>Database Host</h4>
-                                <p>Hostname or IP address</p>
+                                <h4>Auto-refresh Dashboard</h4>
+                                <p>Automatically refresh dashboard data</p>
                             </div>
-                            <input type="text" class="select-input" id="dbHost" value="localhost">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoRefresh" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
                         </div>
                         <div class="settings-item">
                             <div class="setting-info">
-                                <h4>Database Port</h4>
-                                <p>Port number</p>
+                                <h4>Email Notifications</h4>
+                                <p>Receive email alerts for reports</p>
                             </div>
-                            <input type="text" class="select-input" id="dbPort" value="5432">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
                         </div>
                         <div class="settings-item">
                             <div class="setting-info">
-                                <h4>Database Name</h4>
-                                <p>Database schema name</p>
+                                <h4>Data Retention Period</h4>
+                                <p>How long to keep report data</p>
                             </div>
-                            <input type="text" class="select-input" id="dbName" value="analytics_db">
-                        </div>
-                        <div class="settings-item">
-                            <div class="setting-info">
-                                <h4>Connection Pool</h4>
-                                <p>Maximum connections</p>
-                            </div>
-                            <select class="select-input" id="connectionPool">
-                                <option value="5">5 connections</option>
-                                <option value="10" selected>10 connections</option>
-                                <option value="20">20 connections</option>
-                                <option value="50">50 connections</option>
+                            <select class="select-input" id="dataRetention">
+                                <option value="30">30 days</option>
+                                <option value="90" selected>90 days</option>
+                                <option value="180">180 days</option>
+                                <option value="365">1 year</option>
+                                <option value="730">2 years</option>
                             </select>
                         </div>
                     </div>
@@ -1737,14 +1466,20 @@
 
             <!-- Scheduled Reports Page -->
             <div class="page-content" id="scheduled-reports-page">
+                <!-- Header -->
                 <div class="header">
-                    <h1><i class="fas fa-calendar-alt"></i> Scheduled Reports</h1>
+                    <h1>
+                        <i class="fas fa-calendar-alt"></i>
+                        Scheduled Reports
+                    </h1>
                     <div class="header-actions">
                         <button class="btn btn-success" onclick="openNewScheduleModal()">
-                            <i class="fas fa-plus"></i> New Schedule
+                            <i class="fas fa-plus"></i>
+                            New Schedule
                         </button>
                         <button class="btn btn-outline" onclick="refreshScheduledReports()">
-                            <i class="fas fa-sync-alt"></i> Refresh
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
                         </button>
                     </div>
                 </div>
@@ -1844,106 +1579,23 @@
         </div>
     </div>
 
-    <!-- Database Connection Modal -->
-    <div class="modal" id="dbConnectionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Database Connection Settings</h2>
-                <button class="close-modal" onclick="closeDbConnectionModal()">×</button>
-            </div>
-            <form id="dbConnectionForm" onsubmit="updateDbConnection(event)">
-                <div class="form-group">
-                    <label class="form-label">Connection Type</label>
-                    <select class="form-input" id="connectionType" required>
-                        <option value="postgresql" selected>PostgreSQL</option>
-                        <option value="mysql">MySQL</option>
-                        <option value="mongodb">MongoDB</option>
-                        <option value="sqlite">SQLite</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Host</label>
-                    <input type="text" class="form-input" id="connectionHost" value="localhost" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Port</label>
-                    <input type="number" class="form-input" id="connectionPort" value="5432" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Database Name</label>
-                    <input type="text" class="form-input" id="connectionDbName" value="analytics_db" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" id="connectionUsername" value="admin" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="connectionPassword" required>
-                </div>
-                
-                <div class="btn-group" style="margin-top: 30px; display: flex; gap: 15px;">
-                    <button type="submit" class="btn btn-primary">Test & Save Connection</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeDbConnectionModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
-        // Database Configuration
-        const databaseConfig = {
-            host: 'localhost',
-            port: 5432,
-            database: 'analytics_db',
-            username: 'admin',
-            password: 'password',
-            type: 'postgresql',
-            connected: false,
-            lastSync: null
-        };
-
-        // Sample Data for Simulation
-        const sampleDatabase = {
-            tables: [
-                { name: 'users', rows: 1250, size: '2.1 MB', description: 'User accounts and profiles' },
-                { name: 'sales', rows: 5400, size: '4.8 MB', description: 'Sales transactions and orders' },
-                { name: 'products', rows: 250, size: '0.8 MB', description: 'Product catalog and inventory' },
-                { name: 'metrics', rows: 180, size: '1.2 MB', description: 'Daily performance metrics' },
-                { name: 'reports', rows: 85, size: '0.5 MB', description: 'Generated reports history' },
-                { name: 'schedules', rows: 12, size: '0.1 MB', description: 'Report schedules' }
-            ],
-            backups: [
-                { name: 'backup_2024_01_15.sql', size: '15.2 MB', date: '2024-01-15 02:00', status: 'completed' },
-                { name: 'backup_2024_01_14.sql', size: '14.8 MB', date: '2024-01-14 02:00', status: 'completed' },
-                { name: 'backup_2024_01_13.sql', size: '14.9 MB', date: '2024-01-13 02:00', status: 'completed' },
-                { name: 'backup_2024_01_12.sql', size: '14.7 MB', date: '2024-01-12 02:00', status: 'completed' }
-            ],
-            sampleData: {
-                users: [
-                    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active', last_login: '2024-01-15 09:30' },
-                    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Active', last_login: '2024-01-15 10:15' },
-                    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Manager', status: 'Active', last_login: '2024-01-14 14:20' }
-                ],
-                sales: [
-                    { id: 1001, product: 'Premium Plan', amount: 299.99, customer: 'Acme Corp', date: '2024-01-15', status: 'Completed' },
-                    { id: 1002, product: 'Basic Plan', amount: 99.99, customer: 'XYZ Inc', date: '2024-01-15', status: 'Completed' },
-                    { id: 1003, product: 'Enterprise Plan', amount: 999.99, customer: 'Global Co', date: '2024-01-14', status: 'Pending' }
-                ]
-            }
-        };
-
-        // Initialize on page load
+        // Page Navigation
         document.addEventListener('DOMContentLoaded', function() {
-            initializeDashboard();
+            // Initialize charts
+            initializeCharts();
+            
+            // Setup navigation
             setupNavigation();
-            checkDatabaseConnection();
-            loadDashboardData();
+            
+            // Load scheduled reports
+            loadScheduledReports();
+            
+            // Load recent executions
+            loadRecentExecutions();
+            
+            // Setup KPI click handlers
+            setupKPIClickHandlers();
         });
 
         // Navigation Setup
@@ -1952,642 +1604,480 @@
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
                     
+                    // Remove active class from all nav items
                     document.querySelectorAll('.nav-item').forEach(nav => {
                         nav.classList.remove('active');
                     });
                     
+                    // Add active class to clicked item
                     this.classList.add('active');
                     
+                    // Get page name
                     const pageName = this.getAttribute('data-page');
                     
+                    // Hide all pages
                     document.querySelectorAll('.page-content').forEach(page => {
                         page.classList.remove('active');
                     });
                     
+                    // Show selected page
                     const pageElement = document.getElementById(`${pageName}-page`);
                     if (pageElement) {
                         pageElement.classList.add('active');
-                        
-                        // Load page-specific data
-                        switch(pageName) {
-                            case 'db-management':
-                                loadDatabaseStats();
-                                break;
-                            case 'data-explorer':
-                                loadSavedQueries();
-                                break;
-                            case 'backup-manager':
-                                loadBackupList();
-                                break;
-                            case 'scheduled-reports':
-                                loadScheduledReports();
-                                loadRecentExecutions();
-                                break;
-                        }
+                    } else {
+                        // Default to dashboard if page not found
+                        document.getElementById('dashboard-page').classList.add('active');
                     }
                 });
             });
         }
 
-        // Database Connection Functions
-        function checkDatabaseConnection() {
-            document.getElementById('dbStatusText').innerHTML = 
-                `<i class="fas fa-sync-alt fa-spin"></i> Checking connection...`;
-            
-            // Simulate API call
-            setTimeout(() => {
-                databaseConfig.connected = true;
-                databaseConfig.lastSync = new Date().toISOString();
-                
-                const statusElement = document.getElementById('dbStatusText');
-                const lastSyncElement = document.getElementById('dbLastSync');
-                
-                statusElement.innerHTML = 
-                    `<span class="connection-status status-connected">
-                        <i class="fas fa-check-circle"></i> Connected
-                    </span>`;
-                
-                lastSyncElement.textContent = `Last sync: ${formatDate(new Date())}`;
-                
-                showNotification('Database connection established successfully', 'success');
-            }, 1500);
-        }
+        // Scheduled Reports Data
+        const scheduledReportsData = [
+            {
+                id: 1,
+                name: "Daily Sales Summary",
+                type: "Sales Report",
+                frequency: "daily",
+                nextRun: "Tomorrow, 08:00 AM",
+                lastRun: "Today, 08:00 AM",
+                recipients: ["sales@company.com", "manager@company.com", "ceo@company.com"],
+                format: "PDF",
+                status: "active"
+            },
+            {
+                id: 2,
+                name: "Weekly Financial Report",
+                type: "Financial Report",
+                frequency: "weekly",
+                nextRun: "Monday, 09:00 AM",
+                lastRun: "Last Monday, 09:00 AM",
+                recipients: ["finance@company.com", "director@company.com"],
+                format: "Excel",
+                status: "active"
+            },
+            {
+                id: 3,
+                name: "Monthly User Analytics",
+                type: "User Analytics",
+                frequency: "monthly",
+                nextRun: "1st of next month, 10:00 AM",
+                lastRun: "December 1, 10:00 AM",
+                recipients: ["analytics@company.com", "product@company.com"],
+                format: "PDF & Excel",
+                status: "active"
+            },
+            {
+                id: 4,
+                name: "Quarterly Operations Review",
+                type: "Operations Report",
+                frequency: "quarterly",
+                nextRun: "April 1, 11:00 AM",
+                lastRun: "January 1, 11:00 AM",
+                recipients: ["ops@company.com", "coo@company.com"],
+                format: "PDF",
+                status: "pending"
+            },
+            {
+                id: 5,
+                name: "Annual Performance Review",
+                type: "Financial Report",
+                frequency: "yearly",
+                nextRun: "January 15, 2025, 09:00 AM",
+                lastRun: "January 15, 2024, 09:00 AM",
+                recipients: ["board@company.com", "all_managers@company.com"],
+                format: "PDF & Excel",
+                status: "active"
+            },
+            {
+                id: 6,
+                name: "Weekly Marketing Metrics",
+                type: "Analytics Report",
+                frequency: "weekly",
+                nextRun: "Friday, 03:00 PM",
+                lastRun: "Last Friday, 03:00 PM",
+                recipients: ["marketing@company.com"],
+                format: "Excel",
+                status: "inactive"
+            }
+        ];
 
-        function testDatabaseConnection() {
-            showLoading();
+        // Recent Executions Data
+        const recentExecutionsData = [
+            {
+                reportName: "Daily Sales Summary",
+                scheduledTime: "Today, 08:00 AM",
+                actualTime: "Today, 08:01 AM",
+                status: "success",
+                recipients: 3,
+                fileSize: "2.4 MB"
+            },
+            {
+                reportName: "Weekly Financial Report",
+                scheduledTime: "Last Monday, 09:00 AM",
+                actualTime: "Last Monday, 09:00 AM",
+                status: "success",
+                recipients: 2,
+                fileSize: "5.1 MB"
+            },
+            {
+                reportName: "Monthly User Analytics",
+                scheduledTime: "December 1, 10:00 AM",
+                actualTime: "December 1, 10:05 AM",
+                status: "success",
+                recipients: 2,
+                fileSize: "3.8 MB"
+            },
+            {
+                reportName: "Weekly Marketing Metrics",
+                scheduledTime: "Last Friday, 03:00 PM",
+                actualTime: "Last Friday, 03:15 PM",
+                status: "delayed",
+                recipients: 1,
+                fileSize: "1.2 MB"
+            },
+            {
+                reportName: "Daily Operations Check",
+                scheduledTime: "Yesterday, 11:00 AM",
+                actualTime: "N/A",
+                status: "failed",
+                recipients: 0,
+                fileSize: "N/A"
+            }
+        ];
+
+        // Load Scheduled Reports
+        function loadScheduledReports() {
+            const container = document.getElementById('scheduledReportsContainer');
+            container.innerHTML = '';
             
-            setTimeout(() => {
-                hideLoading();
+            scheduledReportsData.forEach(report => {
+                const frequencyClass = `frequency-${report.frequency}`;
+                const statusClass = `status-${report.status}`;
                 
-                if (databaseConfig.connected) {
-                    showNotification('Database connection test successful!', 'success');
+                const reportCard = document.createElement('div');
+                reportCard.className = 'scheduled-report-card';
+                reportCard.innerHTML = `
+                    <div class="scheduled-report-header">
+                        <span class="report-frequency ${frequencyClass}">
+                            ${report.frequency.charAt(0).toUpperCase() + report.frequency.slice(1)}
+                        </span>
+                        <span class="status-badge ${statusClass}">
+                            ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                        </span>
+                    </div>
+                    <h3 class="scheduled-report-title">${report.name}</h3>
+                    <p style="color: var(--gray); margin-bottom: 15px;">${report.type}</p>
                     
-                    // Update connection status
-                    document.getElementById('connectionStatus').textContent = 'Connected';
-                    document.getElementById('connectionStatus').style.color = 'var(--secondary)';
-                } else {
-                    showNotification('Failed to connect to database', 'error');
+                    <div class="scheduled-report-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Next Run</span>
+                            <span class="detail-value">${report.nextRun}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Last Run</span>
+                            <span class="detail-value">${report.lastRun}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Format</span>
+                            <span class="detail-value">${report.format}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value">
+                                <span class="status-badge ${statusClass}" style="font-size: 0.8rem;">
+                                    ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Recipients</span>
+                        <div class="recipients-list">
+                            ${report.recipients.map(email => 
+                                `<span class="recipient-tag">
+                                    <i class="fas fa-envelope"></i>
+                                    ${email}
+                                </span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="report-actions">
+                        <button class="btn-icon btn-run" onclick="runScheduleNow(${report.id})" 
+                                ${report.status === 'inactive' ? 'disabled' : ''}>
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="btn-icon btn-edit" onclick="editSchedule(${report.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="deleteSchedule(${report.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(reportCard);
+            });
+        }
+
+        // Load Recent Executions
+        function loadRecentExecutions() {
+            const container = document.getElementById('recentExecutions');
+            container.innerHTML = '';
+            
+            recentExecutionsData.forEach(execution => {
+                let statusBadge = '';
+                switch(execution.status) {
+                    case 'success':
+                        statusBadge = '<span class="status-badge status-active">Success</span>';
+                        break;
+                    case 'delayed':
+                        statusBadge = '<span class="status-badge status-pending">Delayed</span>';
+                        break;
+                    case 'failed':
+                        statusBadge = '<span class="status-badge status-inactive">Failed</span>';
+                        break;
                 }
-            }, 2000);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${execution.reportName}</td>
+                    <td>${execution.scheduledTime}</td>
+                    <td>${execution.actualTime}</td>
+                    <td>${statusBadge}</td>
+                    <td>${execution.recipients} recipient${execution.recipients !== 1 ? 's' : ''}</td>
+                    <td>
+                        <button class="btn-icon" onclick="viewExecutionDetails('${execution.reportName}')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-icon" onclick="resendReport('${execution.reportName}')" title="Resend Report">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </td>
+                `;
+                
+                container.appendChild(row);
+            });
         }
 
-        // Dashboard Functions
-        function initializeDashboard() {
-            // Initialize charts
-            initializeCharts();
-            
-            // Load KPI data
-            loadKPIData();
-            
-            // Load recent data updates
-            loadDataUpdates();
+        // Modal Functions
+        function openNewScheduleModal() {
+            document.getElementById('newScheduleModal').classList.add('active');
         }
 
-        function loadDashboardData() {
-            // Simulate loading data from database
+        function closeNewScheduleModal() {
+            document.getElementById('newScheduleModal').classList.remove('active');
+            document.getElementById('scheduleForm').reset();
+        }
+
+        function saveNewSchedule(event) {
+            event.preventDefault();
+            
+            const newSchedule = {
+                id: scheduledReportsData.length + 1,
+                name: document.getElementById('scheduleName').value,
+                type: document.getElementById('scheduleReportType').value,
+                frequency: document.getElementById('scheduleFrequency').value,
+                nextRun: getNextRunTime(document.getElementById('scheduleFrequency').value, 
+                                      document.getElementById('scheduleTime').value),
+                lastRun: "Never",
+                recipients: document.getElementById('scheduleRecipients').value.split(',').map(email => email.trim()),
+                format: document.getElementById('scheduleFormat').value,
+                status: "active"
+            };
+            
+            scheduledReportsData.unshift(newSchedule);
+            loadScheduledReports();
+            
+            showNotification('New schedule created successfully!', 'success');
+            closeNewScheduleModal();
+        }
+
+        function getNextRunTime(frequency, time) {
+            const now = new Date();
+            const [hours, minutes] = time.split(':').map(Number);
+            
+            let nextRun = new Date();
+            nextRun.setHours(hours, minutes, 0, 0);
+            
+            switch(frequency) {
+                case 'daily':
+                    if (nextRun <= now) {
+                        nextRun.setDate(nextRun.getDate() + 1);
+                    }
+                    return `Tomorrow, ${formatTime(nextRun)}`;
+                    
+                case 'weekly':
+                    // Next Monday
+                    const daysUntilMonday = (8 - now.getDay()) % 7 || 7;
+                    nextRun.setDate(now.getDate() + daysUntilMonday);
+                    return `Monday, ${formatDate(nextRun)} at ${formatTime(nextRun)}`;
+                    
+                case 'monthly':
+                    // 1st of next month
+                    nextRun = new Date(now.getFullYear(), now.getMonth() + 1, 1, hours, minutes);
+                    return `1st of next month, ${formatTime(nextRun)}`;
+                    
+                case 'quarterly':
+                    // Next quarter
+                    const currentQuarter = Math.floor(now.getMonth() / 3);
+                    const nextQuarterMonth = (currentQuarter + 1) * 3;
+                    nextRun = new Date(now.getFullYear(), nextQuarterMonth, 1, hours, minutes);
+                    return `${getMonthName(nextQuarterMonth)} 1, ${formatTime(nextRun)}`;
+                    
+                case 'yearly':
+                    nextRun = new Date(now.getFullYear() + 1, 0, 1, hours, minutes);
+                    return `January 1, ${nextRun.getFullYear()}, ${formatTime(nextRun)}`;
+            }
+            
+            return "Soon";
+        }
+
+        function formatTime(date) {
+            let hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            return `${hours}:${minutes} ${ampm}`;
+        }
+
+        function formatDate(date) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const month = months[date.getMonth()];
+            const day = date.getDate();
+            return `${month} ${day}`;
+        }
+
+        function getMonthName(monthIndex) {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            return months[monthIndex];
+        }
+
+        // Schedule Actions
+        function runScheduleNow(scheduleId) {
+            const schedule = scheduledReportsData.find(r => r.id === scheduleId);
+            if (schedule) {
+                showNotification(`Running "${schedule.name}" now...`, 'info');
+                // Simulate report generation
+                setTimeout(() => {
+                    showNotification(`Report "${schedule.name}" generated and sent to ${schedule.recipients.length} recipients`, 'success');
+                }, 2000);
+            }
+        }
+
+        function editSchedule(scheduleId) {
+            const schedule = scheduledReportsData.find(r => r.id === scheduleId);
+            if (schedule) {
+                document.getElementById('scheduleName').value = schedule.name;
+                document.getElementById('scheduleReportType').value = schedule.type.toLowerCase();
+                document.getElementById('scheduleFrequency').value = schedule.frequency;
+                document.getElementById('scheduleRecipients').value = schedule.recipients.join(', ');
+                document.getElementById('scheduleFormat').value = schedule.format.toLowerCase();
+                
+                showNotification(`Editing "${schedule.name}"`, 'info');
+                openNewScheduleModal();
+            }
+        }
+
+        function deleteSchedule(scheduleId) {
+            if (confirm('Are you sure you want to delete this schedule?')) {
+                const index = scheduledReportsData.findIndex(r => r.id === scheduleId);
+                if (index !== -1) {
+                    const scheduleName = scheduledReportsData[index].name;
+                    scheduledReportsData.splice(index, 1);
+                    loadScheduledReports();
+                    showNotification(`Schedule "${scheduleName}" deleted`, 'success');
+                }
+            }
+        }
+
+        function refreshScheduledReports() {
+            showLoading();
             setTimeout(() => {
-                updateDashboardStats();
-                showNotification('Dashboard data loaded successfully', 'success');
+                loadScheduledReports();
+                loadRecentExecutions();
+                hideLoading();
+                showNotification('Scheduled reports refreshed', 'success');
             }, 1000);
         }
 
-        function refreshDashboardData() {
-            showLoading();
-            
-            setTimeout(() => {
-                loadKPIData();
-                updateDashboardStats();
-                refreshCharts();
-                loadDataUpdates();
-                hideLoading();
-                showNotification('Dashboard data refreshed', 'success');
-            }, 1500);
+        function viewExecutionDetails(reportName) {
+            showNotification(`Viewing details for "${reportName}"`, 'info');
+            // In a real app, this would open a detailed view
         }
 
-        function loadKPIData() {
-            const kpiContainer = document.getElementById('kpiContainer');
-            
-            // Simulate KPI data from database
-            const kpis = [
-                {
-                    id: 'revenue',
-                    title: 'Total Revenue',
-                    value: '$124,580',
-                    trend: '+12.5%',
-                    trendDirection: 'up',
-                    icon: 'money-bill-wave',
-                    color: 'secondary',
-                    details: [
-                        { label: 'Product Sales', value: '$68,450', change: '+8.2%' },
-                        { label: 'Services', value: '$32,120', change: '+15.3%' },
-                        { label: 'Subscriptions', value: '$18,450', change: '+5.7%' }
-                    ]
-                },
-                {
-                    id: 'users',
-                    title: 'Active Users',
-                    value: '3,245',
-                    trend: '+8.2%',
-                    trendDirection: 'up',
-                    icon: 'users',
-                    color: 'info',
-                    details: [
-                        { label: 'New Users', value: '324', change: '+12.4%' },
-                        { label: 'Returning Users', value: '1,845', change: '+5.2%' },
-                        { label: 'Churned Users', value: '47', change: '-1.8%' }
-                    ]
-                },
-                {
-                    id: 'conversion',
-                    title: 'Conversion Rate',
-                    value: '24.3%',
-                    trend: '-2.1%',
-                    trendDirection: 'down',
-                    icon: 'chart-line',
-                    color: 'warning',
-                    details: [
-                        { label: 'Website', value: '3.2%', change: '+0.4%' },
-                        { label: 'Mobile App', value: '8.5%', change: '-1.2%' },
-                        { label: 'Email Campaign', value: '12.4%', change: '+2.1%' }
-                    ]
-                },
-                {
-                    id: 'growth',
-                    title: 'Growth Rate',
-                    value: '45.2%',
-                    trend: '+15.7%',
-                    trendDirection: 'up',
-                    icon: 'chart-bar',
-                    color: 'danger',
-                    details: [
-                        { label: 'Monthly Growth', value: '12.4%', change: '+1.2%' },
-                        { label: 'Quarterly Growth', value: '28.7%', change: '+3.5%' },
-                        { label: 'Year-over-Year', value: '67.3%', change: '+8.9%' }
-                    ]
-                }
-            ];
-            
-            kpiContainer.innerHTML = kpis.map(kpi => `
-                <div class="kpi-card kpi-${kpi.id} ${kpi.id}" onclick="toggleKPIDetails('${kpi.id}')">
-                    <div class="kpi-header">
-                        <div class="kpi-icon"><i class="fas fa-${kpi.icon}"></i></div>
-                        <div class="kpi-trend trend-${kpi.trendDirection}">
-                            <span>${kpi.trendDirection === 'up' ? '↑' : '↓'}</span>
-                            <span>${kpi.trend}</span>
-                        </div>
-                    </div>
-                    <div class="kpi-value">${kpi.value}</div>
-                    <div class="kpi-label">${kpi.title}</div>
-                    
-                    <div class="kpi-details" id="${kpi.id}-details">
-                        ${kpi.details.map(detail => `
-                            <div class="detail-row">
-                                <span class="detail-label">${detail.label}</span>
-                                <span class="detail-value">${detail.value}</span>
-                                <span class="detail-change ${detail.change.startsWith('+') ? 'positive' : 'negative'}">
-                                    ${detail.change}
-                                </span>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="expand-arrow"><i class="fas fa-chevron-down"></i></div>
-                </div>
-            `).join('');
+        function resendReport(reportName) {
+            if (confirm(`Resend "${reportName}" to all recipients?`)) {
+                showNotification(`Resending "${reportName}"...`, 'info');
+                setTimeout(() => {
+                    showNotification(`"${reportName}" resent successfully`, 'success');
+                }, 1500);
+            }
         }
 
-        function toggleKPIDetails(kpiId) {
-            const card = document.querySelector(`.kpi-${kpiId}`);
+        // Settings Functions
+        function saveSettings() {
+            // Collect all settings
+            const settings = {
+                autoRefresh: document.getElementById('autoRefresh').checked,
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                dataRetention: document.getElementById('dataRetention').value,
+                defaultExportFormat: document.getElementById('defaultExportFormat').value,
+                includeCharts: document.getElementById('includeCharts').checked,
+                compressFiles: document.getElementById('compressFiles').checked,
+                cacheDuration: document.getElementById('cacheDuration').value,
+                dashboardTheme: document.getElementById('dashboardTheme').value,
+                defaultDateRange: document.getElementById('defaultDateRange').value,
+                resultsPerPage: document.getElementById('resultsPerPage').value
+            };
+            
+            // Save to localStorage (in real app, save to backend)
+            localStorage.setItem('dashboardSettings', JSON.stringify(settings));
+            
+            showNotification('Settings saved successfully!', 'success');
+        }
+
+        function resetSettings() {
+            if (confirm('Reset all settings to default values?')) {
+                // Reset all toggles and selects to default
+                document.getElementById('autoRefresh').checked = true;
+                document.getElementById('emailNotifications').checked = true;
+                document.getElementById('dataRetention').value = '90';
+                document.getElementById('defaultExportFormat').value = 'excel';
+                document.getElementById('includeCharts').checked = true;
+                document.getElementById('compressFiles').checked = false;
+                document.getElementById('cacheDuration').value = '15';
+                document.getElementById('dashboardTheme').value = 'auto';
+                document.getElementById('defaultDateRange').value = 'month';
+                document.getElementById('resultsPerPage').value = '25';
+                
+                localStorage.removeItem('dashboardSettings');
+                showNotification('Settings reset to default values', 'success');
+            }
+        }
+
+        // Dashboard Functions (from previous implementation)
+        function setupKPIClickHandlers() {
+            document.querySelectorAll('.kpi-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.expand-arrow')) {
+                        toggleKPIDetails(this.classList[1].replace('kpi-', ''));
+                    }
+                });
+            });
+        }
+
+        function toggleKPIDetails(kpiType) {
+            const card = document.querySelector(`.kpi-${kpiType}`);
             const arrow = card.querySelector('.expand-arrow i');
             
             card.classList.toggle('expanded');
             arrow.style.transform = card.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
         }
 
-        function updateDashboardStats() {
-            // Update various dashboard statistics
-            const totalTables = sampleDatabase.tables.length;
-            const totalRows = sampleDatabase.tables.reduce((sum, table) => sum + table.rows, 0);
-            
-            document.getElementById('totalTables').textContent = totalTables;
-            document.getElementById('totalRows').textContent = totalRows.toLocaleString();
-            document.getElementById('dbSize').textContent = '9.5 MB';
-            document.getElementById('lastBackup').textContent = '2 hours ago';
-            document.getElementById('uptime').textContent = '99.8%';
-            document.getElementById('activeConnections').textContent = '8';
-            document.getElementById('queryPerformance').textContent = '45ms';
-        }
-
-        function loadDataUpdates() {
-            const updates = [
-                { table: 'users', operation: 'INSERT', timestamp: '2 minutes ago', records: 5, status: 'success' },
-                { table: 'sales', operation: 'UPDATE', timestamp: '15 minutes ago', records: 12, status: 'success' },
-                { table: 'metrics', operation: 'INSERT', timestamp: '1 hour ago', records: 1, status: 'success' },
-                { table: 'products', operation: 'DELETE', timestamp: '3 hours ago', records: 2, status: 'success' },
-                { table: 'reports', operation: 'INSERT', timestamp: '5 hours ago', records: 3, status: 'success' }
-            ];
-            
-            const tableBody = document.getElementById('dataUpdatesTable');
-            tableBody.innerHTML = updates.map(update => `
-                <tr>
-                    <td><strong>${update.table}</strong></td>
-                    <td><span class="status-badge status-${update.status}">${update.operation}</span></td>
-                    <td>${update.timestamp}</td>
-                    <td>${update.records} record${update.records !== 1 ? 's' : ''}</td>
-                    <td><span class="connection-status status-connected">Success</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function refreshDataUpdates() {
-            showLoading();
-            setTimeout(() => {
-                loadDataUpdates();
-                hideLoading();
-                showNotification('Data updates refreshed', 'success');
-            }, 1000);
-        }
-
-        // Database Management Functions
-        function loadDatabaseStats() {
-            // Load tables list
-            const tablesList = document.getElementById('tablesList');
-            tablesList.innerHTML = sampleDatabase.tables.map(table => `
-                <div class="db-table-item">
-                    <div class="db-table-info">
-                        <h4>${table.name}</h4>
-                        <p>${table.description}</p>
-                        <small>${table.rows.toLocaleString()} rows • ${table.size}</small>
-                    </div>
-                    <div class="db-table-actions">
-                        <button class="btn-icon" onclick="previewTableData('${table.name}')" title="Preview Data">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-icon" onclick="exportTableData('${table.name}')" title="Export Data">
-                            <i class="fas fa-download"></i>
-                        </button>
-                        <button class="btn-icon" onclick="optimizeTable('${table.name}')" title="Optimize Table">
-                            <i class="fas fa-magic"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Update stats
-            updateDashboardStats();
-        }
-
-        function refreshTablesList() {
-            showLoading();
-            setTimeout(() => {
-                loadDatabaseStats();
-                hideLoading();
-                showNotification('Tables list refreshed', 'success');
-            }, 1000);
-        }
-
-        function previewTableData(tableName) {
-            showNotification(`Previewing data from ${tableName} table`, 'info');
-            // In a real app, this would fetch and display table data
-        }
-
-        function exportTableData(tableName) {
-            showNotification(`Exporting ${tableName} table data...`, 'info');
-            setTimeout(() => {
-                showNotification(`${tableName} data exported successfully`, 'success');
-            }, 1500);
-        }
-
-        function optimizeTable(tableName) {
-            showNotification(`Optimizing ${tableName} table...`, 'info');
-            setTimeout(() => {
-                showNotification(`${tableName} table optimized successfully`, 'success');
-            }, 2000);
-        }
-
-        function optimizeDatabase() {
-            showNotification('Optimizing database...', 'info');
-            setTimeout(() => {
-                showNotification('Database optimization completed successfully', 'success');
-            }, 3000);
-        }
-
-        // Data Explorer Functions
-        function executeQuery() {
-            const query = document.getElementById('sqlQuery').value.trim();
-            if (!query) {
-                showNotification('Please enter a SQL query', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            // Simulate query execution
-            setTimeout(() => {
-                const resultsContainer = document.getElementById('queryResults');
-                
-                // For demo purposes, show sample results
-                if (query.toLowerCase().includes('select') && query.toLowerCase().includes('users')) {
-                    displayQueryResults(sampleDatabase.sampleData.users, 'Users Query Results');
-                } else if (query.toLowerCase().includes('select') && query.toLowerCase().includes('sales')) {
-                    displayQueryResults(sampleDatabase.sampleData.sales, 'Sales Query Results');
-                } else {
-                    // Generic result display
-                    displayQueryResults([
-                        { id: 1, message: 'Query executed successfully', rows_affected: 'N/A', execution_time: '0.045s' }
-                    ], 'Query Results');
-                }
-                
-                hideLoading();
-                showNotification('Query executed successfully', 'success');
-            }, 1500);
-        }
-
-        function displayQueryResults(data, title) {
-            const resultsContainer = document.getElementById('queryResults');
-            
-            if (!data || data.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div style="padding: 40px; text-align: center; color: var(--gray);">
-                        <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>No results found for the query</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Get column names from first object
-            const columns = Object.keys(data[0]);
-            
-            let html = `
-                <div style="padding: 15px; background: var(--primary-light); border-radius: 8px 8px 0 0;">
-                    <strong>${title}</strong> • ${data.length} row${data.length !== 1 ? 's' : ''} returned
-                </div>
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            ${columns.map(col => `<th>${col.replace(/_/g, ' ').toUpperCase()}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map(row => `
-                            <tr>
-                                ${columns.map(col => `<td>${row[col]}</td>`).join('')}
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            resultsContainer.innerHTML = html;
-        }
-
-        function formatQuery() {
-            const queryInput = document.getElementById('sqlQuery');
-            let query = queryInput.value;
-            
-            // Simple SQL formatting for demo
-            query = query
-                .replace(/SELECT/gi, '\nSELECT')
-                .replace(/FROM/gi, '\nFROM')
-                .replace(/WHERE/gi, '\nWHERE')
-                .replace(/GROUP BY/gi, '\nGROUP BY')
-                .replace(/ORDER BY/gi, '\nORDER BY')
-                .replace(/LIMIT/gi, '\nLIMIT');
-            
-            queryInput.value = query.trim();
-            showNotification('SQL query formatted', 'success');
-        }
-
-        function clearQuery() {
-            document.getElementById('sqlQuery').value = '';
-        }
-
-        function saveQuery() {
-            const query = document.getElementById('sqlQuery').value.trim();
-            if (!query) {
-                showNotification('Please enter a query to save', 'error');
-                return;
-            }
-            
-            // Save to localStorage
-            const savedQueries = JSON.parse(localStorage.getItem('savedQueries') || '[]');
-            const queryName = prompt('Enter a name for this query:');
-            
-            if (queryName) {
-                savedQueries.push({
-                    name: queryName,
-                    query: query,
-                    timestamp: new Date().toISOString()
-                });
-                
-                localStorage.setItem('savedQueries', JSON.stringify(savedQueries));
-                loadSavedQueries();
-                showNotification('Query saved successfully', 'success');
-            }
-        }
-
-        function loadSavedQueries() {
-            const savedQueries = JSON.parse(localStorage.getItem('savedQueries') || '[]');
-            const select = document.getElementById('savedQueries');
-            
-            // Clear existing options except the first one
-            while (select.options.length > 1) {
-                select.remove(1);
-            }
-            
-            // Add saved queries
-            savedQueries.forEach((item, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = `${item.name} (${formatDate(new Date(item.timestamp))})`;
-                select.appendChild(option);
-            });
-        }
-
-        function loadSavedQuery() {
-            const select = document.getElementById('savedQueries');
-            const index = select.value;
-            
-            if (index) {
-                const savedQueries = JSON.parse(localStorage.getItem('savedQueries') || '[]');
-                if (savedQueries[index]) {
-                    document.getElementById('sqlQuery').value = savedQueries[index].query;
-                    showNotification(`Loaded query: ${savedQueries[index].name}`, 'success');
-                }
-            }
-        }
-
-        function runQuickQuery(type) {
-            let query = '';
-            
-            switch(type) {
-                case 'users':
-                    query = 'SELECT id, name, email, role, status, last_login FROM users ORDER BY last_login DESC LIMIT 10;';
-                    break;
-                case 'sales':
-                    query = 'SELECT id, product, amount, customer, date, status FROM sales ORDER BY date DESC LIMIT 10;';
-                    break;
-                case 'metrics':
-                    query = 'SELECT date, revenue, users, conversion_rate, bounce_rate FROM daily_metrics ORDER BY date DESC LIMIT 30;';
-                    break;
-                case 'tables':
-                    query = "SELECT table_name, row_count, table_size FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;";
-                    break;
-            }
-            
-            document.getElementById('sqlQuery').value = query;
-            executeQuery();
-        }
-
-        function exportQueryResults() {
-            showNotification('Exporting query results...', 'info');
-            setTimeout(() => {
-                showNotification('Query results exported successfully as CSV', 'success');
-            }, 1500);
-        }
-
-        // Backup Manager Functions
-        function loadBackupList() {
-            const backupList = document.getElementById('backupList');
-            
-            if (sampleDatabase.backups.length === 0) {
-                backupList.innerHTML = `
-                    <div style="padding: 40px; text-align: center; color: var(--gray);">
-                        <i class="fas fa-hdd" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>No backups found. Create your first backup!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            backupList.innerHTML = sampleDatabase.backups.map(backup => `
-                <div class="backup-item">
-                    <div class="backup-info">
-                        <h4>${backup.name}</h4>
-                        <p>Created: ${backup.date} • Size: ${backup.size}</p>
-                    </div>
-                    <div class="backup-actions">
-                        <button class="btn-icon" onclick="downloadBackup('${backup.name}')" title="Download Backup">
-                            <i class="fas fa-download"></i>
-                        </button>
-                        <button class="btn-icon" onclick="restoreBackup('${backup.name}')" title="Restore Backup">
-                            <i class="fas fa-undo"></i>
-                        </button>
-                        <button class="btn-icon" onclick="deleteBackup('${backup.name}')" title="Delete Backup">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Update backup stats
-            document.getElementById('totalBackups').textContent = sampleDatabase.backups.length;
-            document.getElementById('storageUsed').textContent = '59.6 MB';
-            document.getElementById('lastBackupTime').textContent = '2 hours ago';
-            document.getElementById('nextBackup').textContent = 'Tomorrow, 02:00';
-        }
-
-        function refreshBackups() {
-            showLoading();
-            setTimeout(() => {
-                loadBackupList();
-                hideLoading();
-                showNotification('Backup list refreshed', 'success');
-            }, 1000);
-        }
-
-        function createBackup() {
-            showNotification('Creating database backup...', 'info');
-            
-            setTimeout(() => {
-                // Add new backup to list
-                const now = new Date();
-                const backupName = `backup_${now.getFullYear()}_${(now.getMonth() + 1).toString().padStart(2, '0')}_${now.getDate().toString().padStart(2, '0')}.sql`;
-                
-                sampleDatabase.backups.unshift({
-                    name: backupName,
-                    size: '15.3 MB',
-                    date: `${formatDate(now)} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`,
-                    status: 'completed'
-                });
-                
-                loadBackupList();
-                showNotification('Database backup created successfully', 'success');
-            }, 3000);
-        }
-
-        function downloadBackup(backupName) {
-            showNotification(`Downloading ${backupName}...`, 'info');
-            setTimeout(() => {
-                showNotification(`${backupName} downloaded successfully`, 'success');
-            }, 1500);
-        }
-
-        function restoreBackup(backupName) {
-            if (confirm(`Are you sure you want to restore from ${backupName}? This will replace current data.`)) {
-                showNotification(`Restoring from ${backupName}...`, 'info');
-                setTimeout(() => {
-                    showNotification(`Database restored successfully from ${backupName}`, 'success');
-                }, 3000);
-            }
-        }
-
-        function deleteBackup(backupName) {
-            if (confirm(`Are you sure you want to delete ${backupName}?`)) {
-                const index = sampleDatabase.backups.findIndex(b => b.name === backupName);
-                if (index !== -1) {
-                    sampleDatabase.backups.splice(index, 1);
-                    loadBackupList();
-                    showNotification(`${backupName} deleted successfully`, 'success');
-                }
-            }
-        }
-
-        // Sample Data Functions
-        function previewSampleData(dataset) {
-            const previewContainer = document.getElementById('sampleDataPreview');
-            let data = [];
-            let title = '';
-            
-            switch(dataset) {
-                case 'users':
-                    data = sampleDatabase.sampleData.users;
-                    title = 'Users Sample Data';
-                    break;
-                case 'sales':
-                    data = sampleDatabase.sampleData.sales;
-                    title = 'Sales Sample Data';
-                    break;
-                default:
-                    data = [{ message: 'Sample data preview not available for this dataset' }];
-                    title = 'Sample Data Preview';
-            }
-            
-            displayQueryResults(data, title);
-        }
-
-        function loadSampleData() {
-            if (confirm('Load sample data into the database? This will add demonstration records.')) {
-                showNotification('Loading sample data...', 'info');
-                setTimeout(() => {
-                    showNotification('Sample data loaded successfully', 'success');
-                    // Refresh dashboard to show new data
-                    refreshDashboardData();
-                }, 2500);
-            }
-        }
-
-        function clearSampleData() {
-            if (confirm('Clear all sample data? This will remove demonstration records.')) {
-                showNotification('Clearing sample data...', 'info');
-                setTimeout(() => {
-                    showNotification('Sample data cleared successfully', 'success');
-                }, 2000);
-            }
-        }
-
-        // Chart Functions
         function initializeCharts() {
             // Revenue Chart
             const revenueCtx = document.getElementById('revenueChart').getContext('2d');
@@ -2637,16 +2127,7 @@
             });
         }
 
-        function refreshCharts() {
-            // In a real app, this would fetch new data and update charts
-            showNotification('Charts refreshed with latest data', 'success');
-        }
-
         // Utility Functions
-        function formatDate(date) {
-            return date.toISOString().split('T')[0];
-        }
-
         function showLoading() {
             const overlay = document.createElement('div');
             overlay.id = 'loadingOverlay';
@@ -2665,9 +2146,11 @@
         }
 
         function showNotification(message, type) {
+            // Remove existing notification
             const existing = document.querySelector('.notification');
             if (existing) existing.remove();
             
+            // Create new notification
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.style.cssText = `
@@ -2680,100 +2163,23 @@
             notification.textContent = message;
             document.body.appendChild(notification);
             
+            // Remove after 3 seconds
             setTimeout(() => notification.remove(), 3000);
         }
 
-        // Export Dashboard Data
-        function exportDashboardData() {
-            showNotification('Exporting dashboard data...', 'info');
+        // Export functions (simplified)
+        function openExportModal() {
+            showNotification('Export feature would open here', 'info');
+        }
+
+        function refreshData() {
+            showLoading();
             setTimeout(() => {
-                showNotification('Dashboard data exported successfully as PDF', 'success');
-            }, 2000);
+                hideLoading();
+                showNotification('Dashboard data refreshed', 'success');
+            }, 1000);
         }
 
-        // Settings Functions (from previous implementation)
-        function saveSettings() {
-            const settings = {
-                autoBackup: document.getElementById('autoBackup').checked,
-                backupFrequency: document.getElementById('backupFrequency').value,
-                backupRetention: document.getElementById('backupRetention').value,
-                defaultExportFormat: document.getElementById('defaultExportFormat').value,
-                includeCharts: document.getElementById('includeCharts').checked,
-                compressFiles: document.getElementById('compressFiles').checked,
-                cacheDuration: document.getElementById('cacheDuration').value,
-                dashboardTheme: document.getElementById('dashboardTheme').value,
-                defaultDateRange: document.getElementById('defaultDateRange').value,
-                resultsPerPage: document.getElementById('resultsPerPage').value
-            };
-            
-            localStorage.setItem('dashboardSettings', JSON.stringify(settings));
-            showNotification('Settings saved successfully!', 'success');
-        }
-
-        function resetSettings() {
-            if (confirm('Reset all settings to default values?')) {
-                document.getElementById('autoBackup').checked = true;
-                document.getElementById('backupFrequency').value = 'weekly';
-                document.getElementById('backupRetention').value = '30';
-                document.getElementById('defaultExportFormat').value = 'excel';
-                document.getElementById('includeCharts').checked = true;
-                document.getElementById('compressFiles').checked = false;
-                document.getElementById('cacheDuration').value = '15';
-                document.getElementById('dashboardTheme').value = 'auto';
-                document.getElementById('defaultDateRange').value = 'month';
-                document.getElementById('resultsPerPage').value = '25';
-                
-                localStorage.removeItem('dashboardSettings');
-                showNotification('Settings reset to default values', 'success');
-            }
-        }
-
-        // Database Connection Modal
-        function openDbConnectionModal() {
-            document.getElementById('dbConnectionModal').classList.add('active');
-        }
-
-        function closeDbConnectionModal() {
-            document.getElementById('dbConnectionModal').classList.remove('active');
-        }
-
-        function updateDbConnection(event) {
-            event.preventDefault();
-            
-            showNotification('Updating database connection...', 'info');
-            setTimeout(() => {
-                showNotification('Database connection updated successfully', 'success');
-                closeDbConnectionModal();
-                checkDatabaseConnection();
-            }, 2000);
-        }
-
-        // Scheduled Reports Functions (from previous implementation)
-        const scheduledReportsData = [
-            {
-                id: 1,
-                name: "Daily Sales Summary",
-                type: "Sales Report",
-                frequency: "daily",
-                nextRun: "Tomorrow, 08:00 AM",
-                lastRun: "Today, 08:00 AM",
-                recipients: ["sales@company.com", "manager@company.com", "ceo@company.com"],
-                format: "PDF",
-                status: "active"
-            }
-        ];
-
-        function loadScheduledReports() {
-            const container = document.getElementById('scheduledReportsContainer');
-            // Implementation from previous code
-        }
-
-        function loadRecentExecutions() {
-            const container = document.getElementById('recentExecutions');
-            // Implementation from previous code
-        }
-
-        // Period Selection
         function setPeriod(period) {
             document.querySelectorAll('.period-btn').forEach(btn => {
                 btn.classList.remove('active');
