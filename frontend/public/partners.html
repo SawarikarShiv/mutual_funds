@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners - Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="assets/images/company/logo-icon.png" alt="Logo" style="width: 32px; height: 32px;">
+                <h2>Analytics Pro</h2>
+            </div>
+            
+            <div class="nav-section">Main</div>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            
+            <div class="nav-section">Database</div>
+            <a href="database.html" class="nav-item">
+                <i class="fas fa-database"></i>
+                <span>Database</span>
+            </a>
+            
+            <div class="nav-section">Partners</div>
+            <a href="partners.html" class="nav-item active">
+                <i class="fas fa-handshake"></i>
+                <span>Our Partners</span>
+            </a>
+            
+            <!-- Add to sidebar in all pages -->
+            <div class="nav-section">DevOps</div>
+            <a href="docker.html" class="nav-item">
+                <i class="fab fa-docker"></i>
+                <span>Docker</span>
+            </a>
+            <a href="deployment.html" class="nav-item">
+                <i class="fas fa-rocket"></i>
+                <span>Deployment</span>
+            </a>
+            <a href="docs.html" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Documentation</span>
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>
+                    <i class="fas fa-handshake"></i>
+                    Our Partners & Integrations
+                </h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="addNewPartner()">
+                        <i class="fas fa-plus"></i> Add Partner
+                    </button>
+                </div>
+            </div>
+
+            <!-- Regulatory Partners -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shield-alt"></i> Regulatory Partners</h3>
+                </div>
+                <div class="partners-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px;">
+                    <div class="partner-card">
+                        <img src="assets/images/partners/amfi.png" alt="AMFI" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>AMFI</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Association of Mutual Funds in India</p>
+                        <span class="status-badge status-active">Certified</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <img src="assets/images/partners/sebi.png" alt="SEBI" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>SEBI</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Securities and Exchange Board of India</p>
+                        <span class="status-badge status-active">Registered</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banking Partners -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-university"></i> Banking Partners</h3>
+                </div>
+                <div class="partners-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px;">
+                    <div class="partner-card">
+                        <img src="assets/images/partners/icici.png" alt="ICICI" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>ICICI Bank</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Payment Gateway Integration</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <img src="assets/images/partners/hdfc.png" alt="HDFC" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>HDFC Bank</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Transaction Processing</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <img src="assets/images/partners/sbi.png" alt="SBI" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>State Bank of India</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Corporate Banking</p>
+                        <span class="status-badge status-pending">Processing</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <img src="assets/images/partners/axis.png" alt="AXIS" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>AXIS Bank</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Investment Services</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <img src="assets/images/partners/kotak.png" alt="KOTAK" style="width: 100%; height: 100px; object-fit: contain; margin-bottom: 15px;">
+                        <h4>Kotak Mahindra Bank</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Wealth Management</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Partners -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-microchip"></i> Technology Partners</h3>
+                </div>
+                <div class="partners-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px;">
+                    <div class="partner-card">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #FF6B35, #FFA500); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                            <i class="fab fa-aws" style="font-size: 3rem; color: white;"></i>
+                        </div>
+                        <h4>AWS</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Cloud Infrastructure</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #008744, #0057e7); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                            <i class="fab fa-google" style="font-size: 3rem; color: white;"></i>
+                        </div>
+                        <h4>Google Cloud</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Analytics & AI</p>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #0078D4, #00BCF2); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                            <i class="fab fa-microsoft" style="font-size: 3rem; color: white;"></i>
+                        </div>
+                        <h4>Microsoft Azure</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Enterprise Solutions</p>
+                        <span class="status-badge status-pending">Testing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .partner-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border);
+        }
+        
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .partner-card h4 {
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+    </style>
+
+    <script>
+        function addNewPartner() {
+            alert('Add new partner functionality would open here');
+        }
+    </script>
+</body>
+</html>
