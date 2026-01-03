@@ -1,0 +1,19 @@
+// Success check image
+const successCanvas = createCanvas(200, 200);
+const successCtx = successCanvas.getContext('2d');
+
+const successGradient = successCtx.createRadialGradient(100, 100, 0, 100, 100, 100);
+successGradient.addColorStop(0, '#10B981');
+successGradient.addColorStop(1, '#34D399');
+successCtx.fillStyle = successGradient;
+successCtx.beginPath();
+successCtx.arc(100, 100, 100, 0, Math.PI * 2);
+successCtx.fill();
+
+successCtx.strokeStyle = 'white';
+successCtx.lineWidth = 10;
+successCtx.beginPath();
+successCtx.moveTo(60, 100);
+successCtx.lineTo(90, 130);
+successCtx.lineTo(140, 70);
+successCtx.stroke();
