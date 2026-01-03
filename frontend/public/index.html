@@ -8,32 +8,13 @@
     <meta name="keywords" content="mutual funds, portfolio management, investment, SIP, lumpsum">
     <meta name="author" content="Infinity Financial Services">
     
-    <!-- Essential Social Media Meta Tags -->
-    <meta property="og:title" content="Infinity Mutual Funds | Smart Investment Management">
-    <meta property="og:description" content="Track, analyze, and optimize your mutual fund investments with AI-powered insights">
-    <meta property="og:image" content="https://infinitymutualfunds.com/assets/images/company/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://infinitymutualfunds.com">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Infinity Mutual Funds">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Infinity Mutual Funds | Smart Investment Management">
-    <meta name="twitter:description" content="Track, analyze, and optimize your mutual fund investments with AI-powered insights">
-    <meta name="twitter:image" content="https://infinitymutualfunds.com/assets/images/company/twitter-image.jpg">
-    <meta name="twitter:site" content="@InfinityFunds">
-    <meta name="twitter:creator" content="@InfinityFunds">
-    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome with fallback -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -43,6 +24,13 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Infinity Mutual Funds">
+    <meta property="og:description" content="Professional mutual fund portfolio management">
+    <meta property="og:image" content="og-image.jpg">
+    <meta property="og:url" content="https://infinitymutualfunds.com">
+    <meta name="twitter:card" content="summary_large_image">
     
     <style>
         /* Additional inline styles for background effects */
@@ -63,6 +51,7 @@
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            color: white;
         }
         
         /* Adjust existing background effects for better visibility with new background */
@@ -167,6 +156,98 @@
             background-blend-mode: overlay;
         }
 
+        /* FIXED: Social Media Icons Styles */
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-link:hover {
+            background: var(--primary-gradient);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-link i {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Make all icons visible by default */
+        i {
+            display: inline-block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Fix for Font Awesome icons */
+        .fas, .fab {
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 900 !important;
+        }
+
+        .fab {
+            font-family: "Font Awesome 6 Brands" !important;
+        }
+
+        /* Trust logos in hero section */
+        .trust-logos {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .trust-logos span {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Feature list icons */
+        .feature-list li i {
+            color: #4ade80;
+            margin-right: 10px;
+        }
+
+        /* Pricing features icons */
+        .pricing-features li i.fa-check {
+            color: #4ade80;
+            margin-right: 10px;
+        }
+
+        .pricing-features li i.fa-times {
+            color: #ef4444;
+            margin-right: 10px;
+        }
+
+        /* CTA benefits icons */
+        .benefit i {
+            color: #667eea;
+            margin-right: 10px;
+        }
+
         /* CSS animations for logout message */
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
@@ -176,133 +257,88 @@
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
-        
-        /* Social Media Icons Fix */
-        .footer-social {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+
+        /* Glass card styles */
+        .glass-card {
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1.2rem;
-            position: relative;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        
-        .social-link:hover {
+
+        /* Glass navigation */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Gradient text */
+        .gradient-text {
             background: var(--primary-gradient);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .social-link i {
-            display: inline-block;
-            line-height: 1;
-        }
-        
-        /* Social Media Icons Fallback */
-        .social-link::before {
-            content: attr(data-platform);
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+
+        /* Button styles */
+        .btn-primary-gradient {
+            background: var(--primary-gradient);
             color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            white-space: nowrap;
-            z-index: 100;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
-        
-        .social-link:hover::before {
-            opacity: 1;
+
+        .btn-primary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        
-        /* Fallback for Font Awesome not loading */
-        .social-link.fallback::before {
-            content: attr(data-platform);
-            opacity: 1;
-            position: static;
-            transform: none;
-            background: none;
-            color: inherit;
-            font-size: 1rem;
-            padding: 0;
-        }
-        
-        .social-link.fallback {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-        
-        /* Trust logos fix */
-        .trust-logos {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        
-        .trust-logos span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
+
+        .btn-glass {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.9rem;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
-        
-        .trust-logos i {
-            font-size: 1.1rem;
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
-        
-        /* Feature list icons fix */
-        .feature-list li i {
-            color: #10b981;
-            margin-right: 10px;
-            font-size: 1rem;
-        }
-        
-        /* CTA benefits icons fix */
-        .benefit i {
-            color: #667eea;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        /* Regulatory info icons fix */
-        .regulatory-info i {
-            color: #10b981;
-            margin-right: 5px;
-        }
-        
-        /* Footer contact icons fix */
-        .link-group a i {
-            color: #667eea;
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
+
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .footer-social {
+                justify-content: center;
+            }
+            
+            .social-link {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .trust-logos {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .trust-logos span {
+                width: fit-content;
+            }
         }
     </style>
 </head>
@@ -323,8 +359,7 @@
         <div class="container">
             <div class="nav-brand">
                 <div class="logo-with-image">
-                    <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image" 
-                         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∞</text></svg>'">
+                    <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image">
                     <span class="brand-name">Infinity Mutual Funds</span>
                 </div>
             </div>
@@ -406,9 +441,9 @@
                 <div class="hero-trust">
                     <p>Trusted by leading investors and advisors</p>
                     <div class="trust-logos">
-                        <span><i class="fas fa-money-bill-wave"></i> SEBI Registered</span>
-                        <span><i class="fas fa-shield-alt"></i> Bank-Level Security</span>
-                        <span><i class="fas fa-chart-line"></i> Real-time Data</span>
+                        <span>💰 SEBI Registered</span>
+                        <span>🔒 Bank-Level Security</span>
+                        <span>📈 Real-time Data</span>
                     </div>
                 </div>
             </div>
@@ -425,8 +460,7 @@
                     <div class="dashboard-content">
                         <!-- User profile section inside dashboard preview -->
                         <div class="user-profile-section">
-                            <img src="assets/images/users/default-avatar.png" alt="User" class="user-avatar" 
-                                 onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%23667eea%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2230%22 fill=%22white%22>DU</text></svg>'">
+                            <img src="assets/images/users/default-avatar.png" alt="User" class="user-avatar">
                             <h4 class="user-name">Demo User</h4>
                             <p class="user-email">demo@infinityfunds.com</p>
                         </div>
@@ -535,8 +569,7 @@
                         </div>
                         <!-- Add user profile to video placeholder -->
                         <div class="video-user-profile">
-                            <img src="assets/images/users/default-avatar.png" alt="User"
-                                 onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%23667eea%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2230%22 fill=%22white%22>IE</text></svg>'">
+                            <img src="assets/images/users/default-avatar.png" alt="User">
                             <div>
                                 <h5>Live Demo Session</h5>
                                 <p>Hosted by Investment Expert</p>
@@ -682,26 +715,21 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="logo-with-image" style="justify-content: center; margin-bottom: 15px;">
-                        <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image"
-                             onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∞</text></svg>'">
+                        <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image">
                     </div>
                     <h3>Infinity Mutual Funds</h3>
                     <p>Smart Investment Management Platform</p>
                     <div class="footer-social">
-                        <a href="https://twitter.com/InfinityFunds" class="social-link" target="_blank" rel="noopener noreferrer"
-                           data-platform="Twitter">
+                        <a href="#" class="social-link">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://linkedin.com/company/infinity-funds" class="social-link" target="_blank" rel="noopener noreferrer"
-                           data-platform="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://facebook.com/InfinityFunds" class="social-link" target="_blank" rel="noopener noreferrer"
-                           data-platform="Facebook">
-                            <i class="fab fa-facebook-f"></i>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="https://instagram.com/InfinityFunds" class="social-link" target="_blank" rel="noopener noreferrer"
-                           data-platform="Instagram">
+                        <a href="#" class="social-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -788,47 +816,6 @@
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script>
-        // Check if Font Awesome loaded properly
-        function checkFontAwesomeLoaded() {
-            const testIcon = document.createElement('i');
-            testIcon.className = 'fas fa-check';
-            document.body.appendChild(testIcon);
-            
-            // Check if the icon has proper styling
-            const computedStyle = window.getComputedStyle(testIcon);
-            const isLoaded = computedStyle.fontFamily.includes('Font Awesome') || 
-                           computedStyle.fontFamily.includes('FontAwesome');
-            
-            document.body.removeChild(testIcon);
-            return isLoaded;
-        }
-
-        // Fix for social media icons
-        function fixSocialIcons() {
-            const socialLinks = document.querySelectorAll('.social-link');
-            const fontAwesomeLoaded = checkFontAwesomeLoaded();
-            
-            if (!fontAwesomeLoaded) {
-                console.warn('Font Awesome not loaded properly. Using fallback icons.');
-                
-                // Add fallback classes
-                socialLinks.forEach(link => {
-                    link.classList.add('fallback');
-                    const platform = link.getAttribute('data-platform');
-                    if (platform) {
-                        link.innerHTML = platform.charAt(0); // Use first letter as fallback
-                    }
-                });
-            }
-            
-            // Ensure all icons have proper attributes
-            document.querySelectorAll('i').forEach(icon => {
-                if (icon.classList.contains('fa')) {
-                    icon.setAttribute('aria-hidden', 'true');
-                }
-            });
-        }
-
         // SINGLE authentication check on page load - Prevent multiple loads
         (function() {
             // Check if already initialized
@@ -836,9 +823,6 @@
             window.pageAlreadyInitialized = true;
             
             console.log('Main page loaded - Single load check');
-            
-            // Fix social media icons first
-            setTimeout(fixSocialIcons, 1000);
             
             // Check if we're coming from logout
             const urlParams = new URLSearchParams(window.location.search);
@@ -909,9 +893,81 @@
             function initializeMainPage() {
                 console.log('Initializing main page - Single time');
                 
+                // Force all icons to be visible
+                forceIconsVisibility();
+                
                 // Your existing page initialization code
                 setupEventListeners();
                 setupAnimations();
+                
+                // Add CSS to ensure icons are always visible
+                addIconVisibilityStyles();
+            }
+            
+            // Function to force all icons to be visible
+            function forceIconsVisibility() {
+                // Select all Font Awesome icons
+                const icons = document.querySelectorAll('i.fas, i.fab, i.far, i.fal, i.fad');
+                
+                icons.forEach(icon => {
+                    // Force display and visibility
+                    icon.style.display = 'inline-block !important';
+                    icon.style.opacity = '1 !important';
+                    icon.style.visibility = 'visible !important';
+                    icon.style.fontFamily = 'inherit !important';
+                    
+                    // Also check parent elements
+                    let parent = icon.parentElement;
+                    while (parent) {
+                        if (parent.style) {
+                            parent.style.display = parent.style.display || '';
+                            parent.style.opacity = parent.style.opacity || '';
+                            parent.style.visibility = parent.style.visibility || '';
+                        }
+                        parent = parent.parentElement;
+                    }
+                });
+                
+                console.log(`Forced visibility for ${icons.length} icons`);
+            }
+            
+            // Add CSS styles to ensure icon visibility
+            function addIconVisibilityStyles() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    /* Ensure all icons are always visible */
+                    i.fas, i.fab, i.far, i.fal, i.fad {
+                        display: inline-block !important;
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+                        font-weight: 900 !important;
+                        font-style: normal !important;
+                        font-variant: normal !important;
+                        text-rendering: auto !important;
+                        line-height: 1 !important;
+                        -webkit-font-smoothing: antialiased !important;
+                        -moz-osx-font-smoothing: grayscale !important;
+                    }
+                    
+                    .fab {
+                        font-family: "Font Awesome 6 Brands" !important;
+                    }
+                    
+                    .social-link i {
+                        display: inline-block !important;
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                    }
+                    
+                    /* Force visibility for all icons */
+                    i {
+                        display: inline-block !important;
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                    }
+                `;
+                document.head.appendChild(style);
             }
             
             // Setup event listeners
