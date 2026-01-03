@@ -1,81 +1,80 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-// Theme
-import infinityTheme from './theme/infinityTheme';
-
-// Store
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { NotificationProvider } from './context/NotificationContext';
+import Layout from './components/Layout/Layout';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Funds from './pages/Funds';
+import Portfolio from './pages/Portfolio';
+import Transactions from './pages/Transactions';
+import Reports from './pages/Reports';
+import Settings from './pages/Settings';
+import Admin from './pages/Admin';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import ForgotPassword from './components/Auth/ForgotPassword';
+import KYCForm from './components/Auth/KYCForm';
 import store from './redux/store';
-
-// Layout Components
-import InfinityLayout from './components/layout/InfinityLayout';
-import AuthLayout from './components/layout/AuthLayout';
-
-// Infinity Pages
-import InfinityLogin from './pages/auth/InfinityLogin';
-import InfinityRegister from './pages/auth/InfinityRegister';
-import InfinityDashboard from './pages/dashboard/InfinityDashboard';
-import InfinityFundsExplorer from './pages/funds/InfinityFundsExplorer';
-import InfinityPortfolio from './pages/portfolio/InfinityPortfolio';
-import InfinityTransactions from './pages/transactions/InfinityTransactions';
-import InfinitySIP from './pages/sip/InfinitySIP';
-import InfinityProfile from './pages/profile/InfinityProfile';
-import InfinitySettings from './pages/settings/InfinitySettings';
-
-// Protected Route
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import PrivateRoute from './utils/PrivateRoute';
+import './App.css';
 
 function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={infinityTheme}>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            {/* Auth Routes */}
-            <Route path="/auth" element={<AuthLayout />}>
-              <Route path="login" element={<InfinityLogin />} />
-              <Route path="register" element={<InfinityRegister />} />
-              <Route index element={<Navigate to="/auth/login" />} />
-            </Route>
-
-            {/* Infinity Protected Routes */}
-            <Route path="/" element={
-              <ProtectedRoute>
-                <InfinityLayout />
-              </ProtectedRoute>
-            }>
-              <Route index element={<InfinityDashboard />} />
-              <Route path="dashboard" element={<InfinityDashboard />} />
-              <Route path="funds" element={<InfinityFundsExplorer />} />
-              <Route path="portfolio" element={<InfinityPortfolio />} />
-              <Route path="transactions" element={<InfinityTransactions />} />
-              <Route path="sip" element={<InfinitySIP />} />
-              <Route path="profile" element={<InfinityProfile />} />
-              <Route path="settings" element={<InfinitySettings />} />
-            </Route>
-
-            {/* Redirect unknown routes */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </Router>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+      <ThemeProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/kyc" element={<KYCForm />} />
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Home />} />
+                  <Route path="dashboard" element={
+                    <PrivateRoute>
+                      <Dashboard />
+                    </PrivateRoute>
+                  } />
+                  <Route path="funds" element={
+                    <PrivateRoute>
+                      <Funds />
+                    </PrivateRoute>
+                  } />
+                  <Route path="portfolio" element={
+                    <PrivateRoute>
+                      <Portfolio />
+                    </PrivateRoute>
+                  } />
+                  <Route path="transactions" element={
+                    <PrivateRoute>
+                      <Transactions />
+                    </PrivateRoute>
+                  } />
+                  <Route path="reports" element={
+                    <PrivateRoute>
+                      <Reports />
+                    </PrivateRoute>
+                  } />
+                  <Route path="settings" element={
+                    <PrivateRoute>
+                      <Settings />
+                    </PrivateRoute>
+                  } />
+                  <Route path="admin" element={
+                    <PrivateRoute adminOnly={true}>
+                      <Admin />
+                    </PrivateRoute>
+                  } />
+                </Route>
+              </Routes>
+            </Router>
+          </AuthProvider>
+        </NotificationProvider>
       </ThemeProvider>
     </Provider>
   );
