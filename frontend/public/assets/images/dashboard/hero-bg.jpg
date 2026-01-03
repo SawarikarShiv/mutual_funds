@@ -1,6 +1,55 @@
-/9j/4AAQSkZJRgABAQEASABIAAD/4QCORXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAABJADAAIAAAAUAAAAAJAEAAIAAAAUAAAAAJKRAAIAAAAEMjMzAJKRA
-QkAAAABAAAAtJKSAAIAAAABMjMAAJKSkQACAAAABDMxMQCgAAAABAAAABAAAAABMjAyMzoxMDoyNyAxMzo1NzowMgBJMjA0ADJaWlpaWlpaWlpaWlpaWlpaWlpaWlpa
-WlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpa
-WlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpa
-WlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpa
-// MORE BASE64 DATA CONTINUES...
+// scripts/create-dashboard-images.js
+const fs = require('fs');
+const { createCanvas } = require('canvas');
+
+// Create hero background
+const canvas = createCanvas(1920, 600);
+const ctx = canvas.getContext('2d');
+
+// Create gradient background
+const gradient = ctx.createLinearGradient(0, 0, 1920, 600);
+gradient.addColorStop(0, '#2563EB');
+gradient.addColorStop(1, '#7C3AED');
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 1920, 600);
+
+// Add subtle pattern
+ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+for (let i = 0; i < 1920; i += 40) {
+  for (let j = 0; j < 600; j += 40) {
+    ctx.beginPath();
+    ctx.arc(i, j, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// Add "Infinity Mutual Funds" text
+ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+ctx.font = 'bold 48px Inter';
+ctx.textAlign = 'center';
+ctx.fillText('INFINITY MUTUAL FUNDS', 960, 250);
+
+ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+ctx.font = '24px Inter';
+ctx.fillText('Smart Investments. Infinite Possibilities.', 960, 300);
+
+// Add chart elements
+ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+ctx.lineWidth = 2;
+
+// Chart line 1
+ctx.beginPath();
+ctx.moveTo(600, 400);
+ctx.bezierCurveTo(720, 350, 840, 450, 960, 380);
+ctx.stroke();
+
+// Chart line 2
+ctx.beginPath();
+ctx.moveTo(960, 380);
+ctx.bezierCurveTo(1080, 310, 1200, 420, 1320, 360);
+ctx.stroke();
+
+// Save the image
+const buffer = canvas.toBuffer('image/png');
+fs.writeFileSync('public/assets/images/dashboard/hero-bg.png', buffer);
+console.log('Created hero-bg.png');
