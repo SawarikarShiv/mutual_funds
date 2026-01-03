@@ -1,0 +1,33 @@
+// Sectoral funds image
+const sectoralCanvas = createCanvas(300, 200);
+const sectoralCtx = sectoralCanvas.getContext('2d');
+
+const sectoralGradient = sectoralCtx.createLinearGradient(0, 0, 300, 200);
+sectoralGradient.addColorStop(0, '#F59E0B');
+sectoralGradient.addColorStop(1, '#FBBF24');
+sectoralCtx.fillStyle = sectoralGradient;
+sectoralCtx.fillRect(0, 0, 300, 200);
+
+// Add sector pie chart segments
+sectoralCtx.fillStyle = 'white';
+sectoralCtx.globalAlpha = 0.3;
+
+// Pie segments
+const sectors = ['Tech', 'Finance', 'Health', 'Energy'];
+const colors = ['#3B82F6', '#10B981', '#EF4444', '#8B5CF6'];
+
+sectors.forEach((sector, i) => {
+  sectoralCtx.fillStyle = colors[i];
+  sectoralCtx.beginPath();
+  sectoralCtx.arc(150, 100, 50, (i * Math.PI) / 2, ((i + 1) * Math.PI) / 2);
+  sectoralCtx.lineTo(150, 100);
+  sectoralCtx.fill();
+});
+
+sectoralCtx.globalAlpha = 1;
+sectoralCtx.fillStyle = 'white';
+sectoralCtx.font = 'bold 24px Inter';
+sectoralCtx.textAlign = 'center';
+sectoralCtx.fillText('SECTORAL', 150, 50);
+sectoralCtx.font = '16px Inter';
+sectoralCtx.fillText('Focused Sector Investments', 150, 180);
