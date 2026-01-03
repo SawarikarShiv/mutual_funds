@@ -1,28 +1,98 @@
-import api from './api';
+import { authAPI } from './api';
+import { setUser, clearUser } from '../redux/slices/authSlice';
+import store from '../redux/store';
 
-export const authService = {
-  // User Authentication
-  login: (credentials) => api.post('/auth/login', credentials),
-  register: (userData) => api.post('/auth/register', userData),
-  logout: () => api.post('/auth/logout'),
-  refreshToken: () => api.post('/auth/refresh'),
-  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
-  resetPassword: (token, newPassword) => 
-    api.post('/auth/reset-password', { token, newPassword }),
+class AuthService {
+  static async login(email, password) {
+    try {
+      const response = await authAPI.login({ email, password });
+      const { token, user } = response;
+      
+      // Store token
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      // Update Redux store
+      store.dispatch(setUser({ user, token }));
+      
+      return user;
+    } catch (error) {
+      throw new Error(error.message || 'Login failed');
+    }
+  }
 
-  // User Management
-  getProfile: () => api.get('/users/profile'),
-  updateProfile: (userData) => api.put('/users/profile', userData),
-  changePassword: (data) => api.put('/users/change-password', data),
-  
-  // KYC Management
-  submitKYC: (kycData) => api.post('/users/kyc', kycData),
-  getKYCStatus: () => api.get('/users/kyc/status'),
-  
-  // Admin User Management
-  getAllUsers: (params) => api.get('/admin/users', { params }),
-  getUserById: (userId) => api.get(`/admin/users/${userId}`),
-  updateUserStatus: (userId, status) => 
-    api.put(`/admin/users/${userId}/status`, { status }),
-  deleteUser: (userId) => api.delete(`/admin/users/${userId}`),
-};
+  static async register(userData) {
+    try {
+      const response = await authAPI.register(userData);
+      const { token, user } = response;
+      
+      // Store token
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      // Update Redux store
+      store.dispatch(setUser({ user, token }));
+      
+      return user;
+    } catch (error) {
+      throw new Error(error.message || 'Registration failed');
+    }
+  }
+
+  static async logout() {
+    try {
+      await authAPI.logout();
+    } finally {
+      this.clearAuth();
+    }
+  }
+
+  static clearAuth() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    store.dispatch(clearUser());
+  }
+
+  static getCurrentUser() {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  static getToken() {
+    return localStorage.getItem('token');
+  }
+
+  static isAuthenticated() {
+    return !!this.getToken();
+  }
+
+  static async verifyToken() {
+    try {
+      const response = await authAPI.verifyToken();
+      return response.valid;
+    } catch (error) {
+      this.clearAuth();
+      return false;
+    }
+  }
+
+  static async forgotPassword(email) {
+    try {
+      await authAPI.forgotPassword(email);
+      return true;
+    } catch (error) {
+      throw new Error(error.message || 'Password reset request failed');
+    }
+  }
+
+  static async resetPassword(token, password) {
+    try {
+      await authAPI.resetPassword({ token, password });
+      return true;
+    } catch (error) {
+      throw new Error(error.message || 'Password reset failed');
+    }
+  }
+}
+
+export default AuthService;
