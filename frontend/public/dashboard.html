@@ -124,11 +124,11 @@
             pointer-events: none;
         }
 
-        /* Theme Switcher - Inside Page */
+        /* Theme Switcher - Left Side Top Corner */
         .theme-switcher-container {
             position: fixed;
             top: 20px;
-            right: 20px;
+            left: 20px;
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -348,6 +348,7 @@
             padding: 24px;
             overflow-y: auto;
             position: relative;
+            margin-left: 20px; /* Space for theme switcher */
         }
 
         .main-content::before {
@@ -356,7 +357,7 @@
             top: 0;
             right: 0;
             bottom: 0;
-            left: 260px;
+            left: 280px; /* Adjusted for theme switcher */
             background-image: url('assets/images/dashboard/grid-pattern.png');
             background-size: 400px;
             opacity: 0.02;
@@ -679,7 +680,7 @@
             color: var(--text-secondary);
         }
 
-        /* Portfolio Performance Bar Chart */
+        /* Portfolio Performance Bar Chart - Fixed */
         .performance-chart-container {
             background: 
                 linear-gradient(135deg, var(--card-bg), rgba(255, 255, 255, 0.9)),
@@ -691,6 +692,8 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
+            position: relative;
+            min-height: 400px;
         }
 
         .chart-header {
@@ -746,6 +749,55 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        /* Fixed Y-axis positioning */
+        .y-axis-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 10px;
+            border-right: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2;
+        }
+
+        .y-axis-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-align: center;
+            transform: rotate(-90deg);
+            width: 100px;
+            position: absolute;
+            left: -20px;
+            top: 50%;
+        }
+
+        .y-axis-values {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .y-axis-value {
+            text-align: right;
+            padding-right: 8px;
+        }
+
+        .chart-content {
+            margin-left: 60px;
+            height: 100%;
+            position: relative;
         }
 
         .bar-chart {
@@ -801,6 +853,9 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
+            min-width: 50px;
+            text-align: center;
+            z-index: 10;
         }
 
         .chart-grid {
@@ -830,16 +885,6 @@
             padding: 2px 6px;
             border-radius: 4px;
             border: 1px solid var(--border-color);
-        }
-
-        .y-axis-label {
-            position: absolute;
-            left: -40px;
-            top: 50%;
-            transform: rotate(-90deg);
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
         }
 
         /* Sector Analysis Section */
@@ -1163,13 +1208,11 @@
             }
             
             .theme-switcher-container {
-                position: relative;
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
                 top: auto;
-                right: auto;
-                margin-bottom: 20px;
-                width: 100%;
-                justify-content: center;
-                order: -1;
+                z-index: 1000;
             }
             
             .sidebar {
@@ -1208,6 +1251,7 @@
             
             .main-content {
                 padding: 16px;
+                margin-left: 0;
             }
             
             .main-content::before {
@@ -1237,6 +1281,19 @@
             
             .indices-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .chart-wrapper {
+                padding: 10px;
+            }
+            
+            .y-axis-container {
+                width: 40px;
+                padding: 10px 5px;
+            }
+            
+            .chart-content {
+                margin-left: 40px;
             }
         }
 
@@ -1268,6 +1325,15 @@
             .date-display {
                 padding: 8px 12px;
                 font-size: 13px;
+            }
+            
+            .performance-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .performance-tab {
+                flex-shrink: 0;
             }
         }
 
@@ -1346,7 +1412,7 @@
     </style>
 </head>
 <body data-theme="light">
-    <!-- Theme Switcher - Inside Page -->
+    <!-- Theme Switcher - Left Side Top Corner -->
     <div class="theme-switcher-container">
         <span class="theme-switcher-label">Theme:</span>
         <button class="theme-btn active" data-theme="light" title="Light Mode">
@@ -1450,7 +1516,7 @@
             <div class="indices-grid" id="marketIndices"></div>
         </section>
 
-        <!-- Portfolio Performance Bar Chart -->
+        <!-- Portfolio Performance Bar Chart - Fixed -->
         <section class="performance-chart-container fade-in">
             <div class="chart-header">
                 <h3><i class="fas fa-chart-bar"></i> Portfolio Performance</h3>
@@ -1467,13 +1533,20 @@
             </div>
             
             <div class="chart-wrapper">
-                <div class="chart-grid" id="chartGrid">
-                    <!-- Grid lines will be added by JavaScript -->
+                <div class="y-axis-container">
+                    <div class="y-axis-values" id="yAxisValues">
+                        <!-- Y-axis values will be added by JavaScript -->
+                    </div>
                 </div>
-                <div class="bar-chart" id="barChart">
-                    <!-- Bars will be added by JavaScript -->
+                <div class="chart-content">
+                    <div class="chart-grid" id="chartGrid">
+                        <!-- Grid lines will be added by JavaScript -->
+                    </div>
+                    <div class="bar-chart" id="barChart">
+                        <!-- Bars will be added by JavaScript -->
+                    </div>
+                    <div class="y-axis-label">Returns (%)</div>
                 </div>
-                <div class="y-axis-label">Returns (%)</div>
             </div>
         </section>
 
@@ -2075,13 +2148,14 @@
             });
         }
 
-        // Update performance chart
+        // Update performance chart with proper y-axis
         function updatePerformanceChart(period) {
             const data = performanceData[period];
             window.currentPerformanceData = { period, ...data };
             
             const barChart = document.getElementById('barChart');
             const chartGrid = document.getElementById('chartGrid');
+            const yAxisValues = document.getElementById('yAxisValues');
             
             // Update active tab
             document.querySelectorAll('.performance-tab').forEach(tab => {
@@ -2094,20 +2168,23 @@
             // Clear previous chart
             barChart.innerHTML = '';
             chartGrid.innerHTML = '';
+            yAxisValues.innerHTML = '';
+            
+            // Create y-axis values
+            const gridLines = 5;
+            for (let i = gridLines; i >= 0; i--) {
+                const value = (i * data.maxValue / gridLines).toFixed(1);
+                const yAxisValue = document.createElement('div');
+                yAxisValue.className = 'y-axis-value';
+                yAxisValue.textContent = `${value}${data.unit}`;
+                yAxisValues.appendChild(yAxisValue);
+            }
             
             // Create grid lines
-            const gridLines = 5;
             for (let i = 0; i <= gridLines; i++) {
-                const value = (i * data.maxValue / gridLines).toFixed(1);
                 const gridLine = document.createElement('div');
                 gridLine.className = 'grid-line';
                 gridLine.style.top = `${(i * 100 / gridLines)}%`;
-                
-                const gridValue = document.createElement('span');
-                gridValue.className = 'grid-value';
-                gridValue.textContent = `${value}${data.unit}`;
-                
-                gridLine.appendChild(gridValue);
                 chartGrid.appendChild(gridLine);
             }
             
