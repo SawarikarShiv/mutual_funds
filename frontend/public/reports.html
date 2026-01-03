@@ -30,7 +30,11 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%), 
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-attachment: fixed;
             color: var(--dark);
             min-height: 100vh;
         }
@@ -39,17 +43,19 @@
             display: grid;
             grid-template-columns: 250px 1fr;
             min-height: 100vh;
+            backdrop-filter: blur(10px);
         }
 
         /* Sidebar */
         .sidebar {
-            background: var(--sidebar);
+            background: rgba(30, 41, 59, 0.9);
             color: white;
             padding: 25px 0;
             position: sticky;
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -83,7 +89,7 @@
         }
 
         .nav-item:hover, .nav-item.active {
-            background: var(--sidebar-light);
+            background: rgba(51, 65, 85, 0.8);
             color: white;
         }
 
@@ -121,7 +127,11 @@
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 2px solid rgba(229, 231, 235, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .header h1 {
@@ -149,6 +159,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            backdrop-filter: blur(10px);
         }
 
         .btn-primary {
@@ -163,7 +174,7 @@
         }
 
         .btn-outline {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             color: var(--primary);
             border: 2px solid var(--primary);
         }
@@ -174,7 +185,7 @@
 
         /* Filter Bar */
         .filter-bar {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 30px;
@@ -183,6 +194,7 @@
             flex-wrap: wrap;
             gap: 20px;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         .filter-group {
@@ -212,25 +224,46 @@
             border-color: var(--primary);
         }
 
-        /* KPI Cards */
+        /* KPI Cards - Enhanced */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
         }
 
         .kpi-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
             border-left: 5px solid var(--primary);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .kpi-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .kpi-card:hover::before {
+            opacity: 1;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .kpi-card.revenue { border-left-color: var(--secondary); }
@@ -253,6 +286,11 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover .kpi-icon {
+            transform: scale(1.1);
         }
 
         .kpi-revenue .kpi-icon { background: #d1fae5; color: var(--secondary); }
@@ -266,6 +304,9 @@
             gap: 5px;
             font-size: 0.9rem;
             font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .trend-up { color: var(--secondary); }
@@ -281,6 +322,69 @@
         .kpi-label {
             color: var(--gray);
             font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        /* KPI Details Section */
+        .kpi-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .kpi-card.expanded .kpi-details {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .detail-change {
+            font-size: 0.85rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .detail-change.positive {
+            background: #d1fae5;
+            color: var(--secondary);
+        }
+
+        .detail-change.negative {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Charts Grid */
@@ -298,10 +402,11 @@
         }
 
         .chart-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         .chart-header {
@@ -337,10 +442,11 @@
         }
 
         .table-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         .table-header {
@@ -365,7 +471,7 @@
         }
 
         thead {
-            background: var(--primary-light);
+            background: rgba(219, 234, 254, 0.7);
         }
 
         th {
@@ -383,7 +489,7 @@
         }
 
         tr:hover {
-            background: var(--light);
+            background: rgba(249, 250, 251, 0.7);
         }
 
         .status-badge {
@@ -400,10 +506,11 @@
 
         /* Report List */
         .reports-list {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         .reports-grid {
@@ -419,11 +526,13 @@
             padding: 20px;
             transition: all 0.3s ease;
             cursor: pointer;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .report-item:hover {
             border-color: var(--primary);
             transform: translateY(-3px);
+            background: white;
         }
 
         .report-header {
@@ -485,6 +594,7 @@
             padding: 40px;
             width: 100%;
             max-width: 500px;
+            backdrop-filter: blur(20px);
         }
 
         .modal-header {
@@ -545,6 +655,7 @@
             border: 2px solid var(--border);
             border-radius: 8px;
             font-size: 0.95rem;
+            background: white;
         }
 
         /* Time Period Selector */
@@ -637,6 +748,25 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Expand/Collapse Arrow */
+        .expand-arrow {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card.expanded .expand-arrow {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -762,9 +892,10 @@
                 </div>
             </div>
 
-            <!-- KPI Cards -->
+            <!-- Enhanced KPI Cards -->
             <div class="kpi-grid">
-                <div class="kpi-card kpi-revenue revenue">
+                <!-- Revenue Card -->
+                <div class="kpi-card kpi-revenue revenue" onclick="toggleKPIDetails('revenue')">
                     <div class="kpi-header">
                         <div class="kpi-icon">💰</div>
                         <div class="kpi-trend trend-up">
@@ -774,9 +905,41 @@
                     </div>
                     <div class="kpi-value">$124,580</div>
                     <div class="kpi-label">Total Revenue</div>
+                    
+                    <!-- Detailed Breakdown -->
+                    <div class="kpi-details" id="revenue-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Product Sales</span>
+                            <span class="detail-value">$68,450</span>
+                            <span class="detail-change positive">+8.2%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Services</span>
+                            <span class="detail-value">$32,120</span>
+                            <span class="detail-change positive">+15.3%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Subscriptions</span>
+                            <span class="detail-value">$18,450</span>
+                            <span class="detail-change positive">+5.7%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Other Income</span>
+                            <span class="detail-value">$5,560</span>
+                            <span class="detail-change negative">-2.1%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Avg. Transaction</span>
+                            <span class="detail-value">$245.80</span>
+                            <span class="detail-change positive">+3.4%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="expand-arrow">▼</div>
                 </div>
                 
-                <div class="kpi-card kpi-users users">
+                <!-- Users Card -->
+                <div class="kpi-card kpi-users users" onclick="toggleKPIDetails('users')">
                     <div class="kpi-header">
                         <div class="kpi-icon">👥</div>
                         <div class="kpi-trend trend-up">
@@ -786,9 +949,41 @@
                     </div>
                     <div class="kpi-value">3,245</div>
                     <div class="kpi-label">Active Users</div>
+                    
+                    <!-- Detailed Breakdown -->
+                    <div class="kpi-details" id="users-details">
+                        <div class="detail-row">
+                            <span class="detail-label">New Users</span>
+                            <span class="detail-value">324</span>
+                            <span class="detail-change positive">+12.4%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Returning Users</span>
+                            <span class="detail-value">1,845</span>
+                            <span class="detail-change positive">+5.2%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Churned Users</span>
+                            <span class="detail-value">47</span>
+                            <span class="detail-change negative">-1.8%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Avg. Session</span>
+                            <span class="detail-value">4m 32s</span>
+                            <span class="detail-change positive">+15s</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Retention Rate</span>
+                            <span class="detail-value">85.2%</span>
+                            <span class="detail-change positive">+2.1%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="expand-arrow">▼</div>
                 </div>
                 
-                <div class="kpi-card kpi-conversion conversion">
+                <!-- Conversion Card -->
+                <div class="kpi-card kpi-conversion conversion" onclick="toggleKPIDetails('conversion')">
                     <div class="kpi-header">
                         <div class="kpi-icon">📊</div>
                         <div class="kpi-trend trend-down">
@@ -798,9 +993,41 @@
                     </div>
                     <div class="kpi-value">24.3%</div>
                     <div class="kpi-label">Conversion Rate</div>
+                    
+                    <!-- Detailed Breakdown -->
+                    <div class="kpi-details" id="conversion-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Website</span>
+                            <span class="detail-value">3.2%</span>
+                            <span class="detail-change positive">+0.4%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Mobile App</span>
+                            <span class="detail-value">8.5%</span>
+                            <span class="detail-change negative">-1.2%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Email Campaign</span>
+                            <span class="detail-value">12.4%</span>
+                            <span class="detail-change positive">+2.1%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Social Media</span>
+                            <span class="detail-value">5.3%</span>
+                            <span class="detail-change negative">-3.4%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Direct Traffic</span>
+                            <span class="detail-value">15.8%</span>
+                            <span class="detail-change positive">+1.5%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="expand-arrow">▼</div>
                 </div>
                 
-                <div class="kpi-card kpi-growth growth">
+                <!-- Growth Card -->
+                <div class="kpi-card kpi-growth growth" onclick="toggleKPIDetails('growth')">
                     <div class="kpi-header">
                         <div class="kpi-icon">📈</div>
                         <div class="kpi-trend trend-up">
@@ -810,6 +1037,37 @@
                     </div>
                     <div class="kpi-value">45.2%</div>
                     <div class="kpi-label">Growth Rate</div>
+                    
+                    <!-- Detailed Breakdown -->
+                    <div class="kpi-details" id="growth-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Monthly Growth</span>
+                            <span class="detail-value">12.4%</span>
+                            <span class="detail-change positive">+1.2%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Quarterly Growth</span>
+                            <span class="detail-value">28.7%</span>
+                            <span class="detail-change positive">+3.5%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Year-over-Year</span>
+                            <span class="detail-value">67.3%</span>
+                            <span class="detail-change positive">+8.9%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Market Share</span>
+                            <span class="detail-value">18.5%</span>
+                            <span class="detail-change positive">+2.3%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Revenue Growth</span>
+                            <span class="detail-value">32.8%</span>
+                            <span class="detail-change positive">+4.1%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="expand-arrow">▼</div>
                 </div>
             </div>
 
@@ -1086,7 +1344,48 @@
             const thirtyDaysAgo = new Date();
             thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
             document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+            
+            // Add click handlers for KPI cards
+            setupKPIClickHandlers();
         });
+
+        // Setup KPI card click handlers
+        function setupKPIClickHandlers() {
+            document.querySelectorAll('.kpi-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on expand arrow
+                    if (!e.target.closest('.expand-arrow')) {
+                        toggleKPIDetails(this.classList[1].replace('kpi-', ''));
+                    }
+                });
+            });
+        }
+
+        // Toggle KPI details
+        function toggleKPIDetails(kpiType) {
+            const card = document.querySelector(`.kpi-${kpiType}`);
+            const details = document.getElementById(`${kpiType}-details`);
+            const arrow = card.querySelector('.expand-arrow');
+            
+            // Close all other KPI details
+            document.querySelectorAll('.kpi-card.expanded').forEach(expandedCard => {
+                if (!expandedCard.classList.contains(`kpi-${kpiType}`)) {
+                    expandedCard.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle current KPI
+            card.classList.toggle('expanded');
+            
+            // Update arrow rotation
+            if (card.classList.contains('expanded')) {
+                arrow.style.transform = 'rotate(180deg)';
+                // Show notification about detailed view
+                showNotification(`${kpiType.charAt(0).toUpperCase() + kpiType.slice(1)} details expanded`, 'info');
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
 
         // Initialize Charts
         function initializeCharts() {
@@ -1115,7 +1414,12 @@
                         },
                         tooltip: {
                             mode: 'index',
-                            intersect: false
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Revenue: $${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -1173,6 +1477,13 @@
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Users: ${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -1180,6 +1491,11 @@
                             beginAtZero: true,
                             grid: {
                                 drawBorder: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
                             }
                         },
                         x: {
@@ -1234,6 +1550,9 @@
                 // Update KPI values with random variation
                 updateKPIValues();
                 
+                // Update KPI details with random variation
+                updateKPIDetails();
+                
                 // Update charts with new data
                 updateChartData();
                 
@@ -1267,6 +1586,33 @@
                 trendElement.className = `kpi-trend ${trendClass}`;
                 trendElement.innerHTML = `<span>${trendIcon}</span><span>${Math.abs(variation).toFixed(1)}%</span>`;
             });
+        }
+
+        function updateKPIDetails() {
+            // Update revenue details
+            const revenueDetails = [
+                { label: 'Product Sales', base: 68450 },
+                { label: 'Services', base: 32120 },
+                { label: 'Subscriptions', base: 18450 },
+                { label: 'Other Income', base: 5560 },
+                { label: 'Avg. Transaction', base: 245.80 }
+            ];
+            
+            revenueDetails.forEach((detail, index) => {
+                const variation = (Math.random() * 10) - 5;
+                const newValue = detail.base * (1 + variation / 100);
+                const row = document.querySelectorAll('#revenue-details .detail-row')[index];
+                const changeElement = row.querySelector('.detail-change');
+                
+                row.querySelector('.detail-value').textContent = 
+                    detail.label === 'Avg. Transaction' ? `$${newValue.toFixed(2)}` : `$${Math.round(newValue).toLocaleString()}`;
+                
+                changeElement.textContent = `${variation >= 0 ? '+' : ''}${variation.toFixed(1)}%`;
+                changeElement.className = `detail-change ${variation >= 0 ? 'positive' : 'negative'}`;
+            });
+            
+            // Update other KPI details similarly...
+            // (You can add similar logic for users, conversion, and growth details)
         }
 
         function updateChartData() {
@@ -1462,6 +1808,7 @@
                     justify-content: center;
                     align-items: center;
                     z-index: 9999;
+                    backdrop-filter: blur(10px);
                 `;
                 overlay.innerHTML = `
                     <div class="loading"></div>
@@ -1499,6 +1846,7 @@
                 animation: slideIn 0.3s ease;
                 background: ${type === 'success' ? 'var(--secondary)' : 
                            type === 'error' ? 'var(--danger)' : 'var(--info)'};
+                backdrop-filter: blur(10px);
             `;
             notification.textContent = message;
             document.body.appendChild(notification);
@@ -1532,16 +1880,6 @@
                 
                 // In real app, this would trigger data reload
                 refreshData();
-            });
-        });
-
-        // Make KPI cards clickable
-        document.querySelectorAll('.kpi-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function() {
-                const metric = this.classList[1].replace('kpi-', '');
-                alert(`Showing detailed analysis for ${metric}`);
-                // In real app, this would open detailed view
             });
         });
     </script>
