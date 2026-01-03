@@ -1,0 +1,47 @@
+// Create stats background
+const statsCanvas = createCanvas(800, 400);
+const statsCtx = statsCanvas.getContext('2d');
+
+// Gradient background
+const statsGradient = statsCtx.createLinearGradient(0, 0, 800, 400);
+statsGradient.addColorStop(0, '#0F766E');
+statsGradient.addColorStop(1, '#10B981');
+statsCtx.fillStyle = statsGradient;
+statsCtx.fillRect(0, 0, 800, 400);
+
+// Add grid lines
+statsCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+statsCtx.lineWidth = 1;
+
+for (let i = 0; i <= 800; i += 40) {
+  statsCtx.beginPath();
+  statsCtx.moveTo(i, 0);
+  statsCtx.lineTo(i, 400);
+  statsCtx.stroke();
+}
+
+for (let j = 0; j <= 400; j += 40) {
+  statsCtx.beginPath();
+  statsCtx.moveTo(0, j);
+  statsCtx.lineTo(800, j);
+  statsCtx.stroke();
+}
+
+// Add data visualization
+statsCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+statsCtx.lineWidth = 3;
+statsCtx.beginPath();
+statsCtx.moveTo(50, 300);
+
+const dataPoints = [300, 280, 250, 220, 200, 180, 160, 150, 140, 130];
+dataPoints.forEach((y, i) => {
+  const x = 50 + i * 70;
+  statsCtx.lineTo(x, y);
+  statsCtx.arc(x, y, 4, 0, Math.PI * 2);
+});
+
+statsCtx.stroke();
+
+const statsBuffer = statsCanvas.toBuffer('image/png');
+fs.writeFileSync('public/assets/images/dashboard/stats-bg.png', statsBuffer);
+console.log('Created stats-bg.png');
