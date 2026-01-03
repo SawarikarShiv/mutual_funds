@@ -1,0 +1,17 @@
+{
+  "name": "analytics-dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "generate-images": "node scripts/generate-images.js",
+    "generate-partners": "node scripts/generate-partners.js",
+    "generate-all": "npm run generate-images && npm run generate-partners",
+    "start": "python -m http.server 8000",
+    "dev": "live-server --port=8000"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
