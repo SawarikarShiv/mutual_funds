@@ -1,43 +1,70 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { getProfile, logout } from '../redux/slices/authSlice';
+import { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, clearUser, setLoading, setError } from '../redux/slices/authSlice';
+import AuthService from '../services/auth';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const {
-    user,
-    token,
-    loading,
-    error,
-    isAuthenticated,
-  } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading, error } = useSelector((state) => state.auth);
+  const [authLoading, setAuthLoading] = useState(false);
 
-  useEffect(() => {
-    if (token && !user) {
-      dispatch(getProfile());
+  const login = useCallback(async (email, password) => {
+    setAuthLoading(true);
+    dispatch(setLoading(true));
+    
+    try {
+      const user = await AuthService.login(email, password);
+      dispatch(setUser({ user, token: AuthService.getToken() }));
+      return user;
+    } catch (err) {
+      dispatch(setError(err.message));
+      throw err;
+    } finally {
+      setAuthLoading(false);
     }
-  }, [token, user, dispatch]);
+  }, [dispatch]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  const register = useCallback(async (userData) => {
+    setAuthLoading(true);
+    dispatch(setLoading(true));
+    
+    try {
+      const user = await AuthService.register(userData);
+      dispatch(setUser({ user, token: AuthService.getToken() }));
+      return user;
+    } catch (err) {
+      dispatch(setError(err.message));
+      throw err;
+    } finally {
+      setAuthLoading(false);
+    }
+  }, [dispatch]);
 
-  const hasRole = (role) => {
-    return user?.roles?.includes(role) || user?.isAdmin;
-  };
+  const logout = useCallback(async () => {
+    try {
+      await AuthService.logout();
+    } catch (err) {
+      console.error('Logout error:', err);
+    } finally {
+      dispatch(clearUser());
+    }
+  }, [dispatch]);
 
-  const hasPermission = (permission) => {
-    return user?.permissions?.includes(permission);
-  };
+  const updateProfile = useCallback((updates) => {
+    dispatch(updateUser(updates));
+    // Update localStorage
+    const currentUser = AuthService.getCurrentUser();
+    localStorage.setItem('user', JSON.stringify({ ...currentUser, ...updates }));
+  }, [dispatch]);
 
   return {
     user,
-    token,
-    loading,
-    error,
     isAuthenticated,
-    logout: handleLogout,
-    hasRole,
-    hasPermission,
+    loading: loading || authLoading,
+    error,
+    login,
+    register,
+    logout,
+    updateProfile,
   };
 };
