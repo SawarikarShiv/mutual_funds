@@ -1,0 +1,27 @@
+// Hybrid funds image
+const hybridCanvas = createCanvas(300, 200);
+const hybridCtx = hybridCanvas.getContext('2d');
+
+const hybridGradient = hybridCtx.createLinearGradient(0, 0, 300, 200);
+hybridGradient.addColorStop(0, '#7C3AED');
+hybridGradient.addColorStop(1, '#A78BFA');
+hybridCtx.fillStyle = hybridGradient;
+hybridCtx.fillRect(0, 0, 300, 200);
+
+// Add balanced chart
+hybridCtx.strokeStyle = 'white';
+hybridCtx.lineWidth = 3;
+hybridCtx.beginPath();
+hybridCtx.moveTo(50, 140);
+hybridCtx.lineTo(100, 100);
+hybridCtx.lineTo(150, 130);
+hybridCtx.lineTo(200, 90);
+hybridCtx.lineTo(250, 120);
+hybridCtx.stroke();
+
+hybridCtx.fillStyle = 'white';
+hybridCtx.font = 'bold 24px Inter';
+hybridCtx.textAlign = 'center';
+hybridCtx.fillText('HYBRID', 150, 50);
+hybridCtx.font = '16px Inter';
+hybridCtx.fillText('Balanced Risk & Return', 150, 180);
