@@ -303,42 +303,82 @@
     </div>
 
     <script>
-        // Initialize the login system
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in
-            checkExistingSession();
-            
-            // Setup event listeners
+        // Check if user is already logged in when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            checkSessionAndRedirect();
             setupEventListeners();
-            
-            // Load remembered email if exists
             loadRememberedEmail();
+            initializeDemoData();
         });
 
-        function checkExistingSession() {
-            const currentUser = localStorage.getItem('currentUser');
-            if (currentUser) {
-                // User is already logged in, redirect to dashboard
-                window.location.href = 'dashboard.html';
+        function checkSessionAndRedirect() {
+            try {
+                const currentUser = localStorage.getItem('currentUser');
+                const sessionTimestamp = localStorage.getItem('sessionTimestamp');
+                
+                if (currentUser && sessionTimestamp) {
+                    const sessionTime = parseInt(sessionTimestamp);
+                    const currentTime = new Date().getTime();
+                    const sessionAge = currentTime - sessionTime;
+                    
+                    // Session is valid for 24 hours (86400000 milliseconds)
+                    if (sessionAge < 86400000) {
+                        // Valid session exists, redirect to dashboard
+                        console.log('Valid session found, redirecting...');
+                        window.location.href = 'dashboard.html';
+                        return;
+                    } else {
+                        // Session expired
+                        console.log('Session expired');
+                        localStorage.removeItem('currentUser');
+                        localStorage.removeItem('sessionTimestamp');
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+                // Clear any corrupted data
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('sessionTimestamp');
             }
         }
 
         function setupEventListeners() {
             // Login form submission
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    handleLogin();
+                });
+            }
             
             // Password toggle visibility
-            document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            if (togglePasswordBtn) {
+                togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+            }
             
             // Forgot password link
-            document.getElementById('forgotPassword').addEventListener('click', handleForgotPassword);
+            const forgotPasswordLink = document.getElementById('forgotPassword');
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', handleForgotPassword);
+            }
         }
 
         function loadRememberedEmail() {
-            const rememberedEmail = localStorage.getItem('rememberedEmail');
-            if (rememberedEmail) {
-                document.getElementById('email').value = rememberedEmail;
-                document.getElementById('rememberMe').checked = true;
+            try {
+                const rememberedEmail = localStorage.getItem('rememberedEmail');
+                const emailInput = document.getElementById('email');
+                const rememberCheckbox = document.getElementById('rememberMe');
+                
+                if (rememberedEmail && emailInput) {
+                    emailInput.value = rememberedEmail;
+                    if (rememberCheckbox) {
+                        rememberCheckbox.checked = true;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading remembered email:', error);
             }
         }
 
@@ -346,21 +386,27 @@
             const passwordInput = document.getElementById('password');
             const toggleIcon = document.querySelector('#togglePassword i');
             
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.className = 'fas fa-eye-slash';
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.className = 'fas fa-eye';
+            if (passwordInput && toggleIcon) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.className = 'fas fa-eye-slash';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.className = 'fas fa-eye';
+                }
             }
         }
 
-        function handleLogin(event) {
-            event.preventDefault();
+        function handleLogin() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const rememberCheckbox = document.getElementById('rememberMe');
             
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
+            if (!emailInput || !passwordInput) return;
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const rememberMe = rememberCheckbox ? rememberCheckbox.checked : false;
             
             // Clear previous messages
             hideMessages();
@@ -376,38 +422,51 @@
                 return;
             }
             
-            // Get users from localStorage
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            // Find user
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                // Save current session
-                localStorage.setItem('currentUser', JSON.stringify(user));
+            try {
+                // Get users from localStorage
+                const usersData = localStorage.getItem('users');
+                const users = usersData ? JSON.parse(usersData) : [];
                 
-                // Remember email if checked
-                if (rememberMe) {
-                    localStorage.setItem('rememberedEmail', email);
+                // Find user
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    // Create session
+                    const sessionData = {
+                        ...user,
+                        loginTime: new Date().getTime()
+                    };
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(sessionData));
+                    localStorage.setItem('sessionTimestamp', new Date().getTime().toString());
+                    
+                    // Remember email if checked
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberedEmail');
+                    }
+                    
+                    // Show success message
+                    showSuccess('Login successful! Redirecting...');
+                    
+                    // Redirect to dashboard after delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    
                 } else {
-                    localStorage.removeItem('rememberedEmail');
+                    showError('Invalid email or password. Please try again.');
                 }
-                
-                // Show success message
-                showSuccess('Login successful! Redirecting...');
-                
-                // Redirect to dashboard after delay
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-                
-            } else {
-                showError('Invalid email or password. Please try again.');
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('An error occurred during login. Please try again.');
             }
         }
 
         function handleForgotPassword(event) {
-            event.preventDefault();
+            if (event) event.preventDefault();
+            
             const email = prompt('Enter your email address to reset password:');
             
             if (email && isValidEmail(email)) {
@@ -419,24 +478,31 @@
 
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            
-            // Hide after 5 seconds
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                
+                // Hide after 5 seconds
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
         }
 
         function showSuccess(message) {
             const successDiv = document.getElementById('successMessage');
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
+            if (successDiv) {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+            }
         }
 
         function hideMessages() {
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            if (errorDiv) errorDiv.style.display = 'none';
+            if (successDiv) successDiv.style.display = 'none';
         }
 
         function isValidEmail(email) {
@@ -444,27 +510,31 @@
             return emailRegex.test(email);
         }
 
-        // Demo data for testing (remove in production)
+        // Demo data for testing
         function initializeDemoData() {
-            // Check if demo data already exists
-            if (!localStorage.getItem('users')) {
-                const demoUsers = [
-                    {
-                        id: 'user1',
-                        name: 'Amit Sharma',
-                        email: 'amit@example.com',
-                        password: 'password123',
-                        avatar: 'AS',
-                        createdDate: new Date().toISOString()
-                    }
-                ];
-                localStorage.setItem('users', JSON.stringify(demoUsers));
-                console.log('Demo users initialized');
+            try {
+                // Check if demo data already exists
+                const usersData = localStorage.getItem('users');
+                if (!usersData) {
+                    const demoUsers = [
+                        {
+                            id: 'user_' + Date.now(),
+                            name: 'Amit Sharma',
+                            email: 'amit@example.com',
+                            password: 'password123',
+                            avatar: 'AS',
+                            createdDate: new Date().toISOString(),
+                            accountType: 'premium',
+                            portfolioValue: 125000
+                        }
+                    ];
+                    localStorage.setItem('users', JSON.stringify(demoUsers));
+                    console.log('Demo users initialized');
+                }
+            } catch (error) {
+                console.error('Error initializing demo data:', error);
             }
         }
-
-        // Initialize demo data on page load
-        initializeDemoData();
     </script>
 </body>
 </html>
