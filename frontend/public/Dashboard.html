@@ -3,1647 +3,1474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Infinity Mutual Funds</title>
+    <title>Infinity Mutual Funds</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2d5af1;
+            --primary-light: #f0f3ff;
+            --secondary: #6c5ce7;
+            --success: #2ecc71;
+            --warning: #ff9f43;
+            --danger: #ff4757;
+            --dark: #333;
+            --light: #f5f7fa;
+            --gray: #666;
+            --border: #e8e8e8;
+            --card-bg: #fff;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
-
-        :root {
-            --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary-color: #7c3aed;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --sidebar-bg: #1e293b;
-            --card-bg: #ffffff;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --border-color: #e5e7eb;
-            --hover-color: #f9fafb;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
+        
         body {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
         /* Sidebar */
         .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            color: white;
-            padding: 24px 0;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            position: relative;
+            width: 260px;
+            background-color: var(--card-bg);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
+            padding: 25px 0;
+            z-index: 1000;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
         }
-
-        .sidebar-header {
-            padding: 0 24px;
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        
         .logo {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            padding: 0 25px 30px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .brand-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .sidebar-menu {
-            padding: 0 16px;
-            flex: 1;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #cbd5e1;
-            text-decoration: none;
-        }
-
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .menu-item.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        .menu-icon {
-            margin-right: 12px;
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .menu-text {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .search-container {
-            padding: 16px;
-            margin: 16px 0;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-        }
-
-        .search-box::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .sidebar-footer {
-            padding: 24px 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .help-section {
+            gap: 15px;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.6rem;
+            border-bottom: 1px solid var(--border);
             margin-bottom: 20px;
         }
-
-        .help-link {
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .logo-text {
             display: flex;
-            align-items: center;
-            color: #94a3b8;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: all 0.2s;
+            flex-direction: column;
         }
-
-        .help-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .help-icon {
-            margin-right: 12px;
-            font-size: 16px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .user-profile:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-right: 12px;
-            font-size: 18px;
-        }
-
-        .user-info h4 {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .user-info p {
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
+        
+        .logo-subtitle {
+            font-size: 0.8rem;
             font-weight: 500;
-            cursor: pointer;
-            margin-top: 16px;
+            color: var(--gray);
+            margin-top: 3px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0 15px;
+        }
+        
+        .nav-item {
+            padding: 14px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--gray);
+            font-weight: 500;
             transition: all 0.3s;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 5px;
         }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
+        
+        .nav-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
         }
-
-        .logout-icon {
-            margin-right: 10px;
+        
+        .nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
         }
-
+        
+        .nav-item i {
+            width: 22px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .nav-section {
+            padding: 20px 15px 10px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         /* Main Content */
         .main-content {
             flex: 1;
-            padding: 24px;
-            overflow-y: auto;
+            padding: 30px;
+            margin-left: 260px;
+            width: calc(100% - 260px);
         }
-
-        /* Top Header */
-        .top-header {
+        
+        /* Header */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
         }
-
-        .header-left h1 {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        
+        .welcome-text h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
             margin-bottom: 8px;
         }
-
-        .welcome-message {
-            color: var(--text-secondary);
-            font-size: 14px;
+        
+        .welcome-text p {
+            color: var(--gray);
+            font-size: 1rem;
         }
-
+        
         .header-right {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 25px;
         }
-
+        
         .date-display {
-            background: var(--hover-color);
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .notification-bell {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: var(--text-primary);
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: linear-gradient(135deg, var(--danger-color), #dc2626);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .live-badge {
-            background: linear-gradient(135deg, var(--success-color), #059669);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .stat-change {
-            font-size: 14px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-        }
-
-        .positive {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-
-        .negative {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger-color);
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Investment Statistics */
-        .investment-stats {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .section-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .stats-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .category-card {
-            padding: 20px;
-            border-radius: 12px;
-            background: var(--hover-color);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .category-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .category-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-size: 18px;
-        }
-
-        .category-icon.mutual-funds {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary-color);
-        }
-
-        .category-icon.stocks {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-
-        .category-icon.bonds {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--secondary-color);
-        }
-
-        .category-icon.money-market {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
-        }
-
-        .category-name {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .category-value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .category-change {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Portfolio Performance */
-        .performance-container {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .performance-bars {
-            display: flex;
-            align-items: flex-end;
-            height: 200px;
-            gap: 30px;
-            padding: 20px 0;
-            position: relative;
-        }
-
-        .bar-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-        }
-
-        .bar {
-            width: 40px;
-            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .bar:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-        }
-
-        .bar-value {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card-bg);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-        }
-
-        .bar-label {
-            margin-top: 12px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        /* Recent Transactions */
-        .transactions-container {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .transactions-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .transactions-table th {
-            text-align: left;
-            padding: 16px 20px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 13px;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .transactions-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .transactions-table tr:hover {
-            background: var(--hover-color);
-        }
-
-        .transaction-type {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .type-investment {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary-color);
-        }
-
-        .type-withdrawal {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger-color);
-        }
-
-        .type-dividend {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-
-        .status-pending {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
-        }
-
-        /* Savings Plan */
-        .savings-plan-container {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .plan-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .plan-card {
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s;
-        }
-
-        .plan-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow);
-        }
-
-        .plan-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .plan-name {
-            font-weight: 600;
-        }
-
-        .plan-amount {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .plan-progress {
-            height: 8px;
-            background: var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 4px;
-        }
-
-        /* Right Sidebar */
-        .right-sidebar {
-            width: 350px;
-            background: var(--card-bg);
-            border-left: 1px solid var(--border-color);
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        .right-sidebar-header {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .right-sidebar-header h3 {
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Messages */
-        .messages-container {
-            background: var(--hover-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .message-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .message-item {
-            padding: 12px;
+            background-color: var(--primary-light);
+            padding: 10px 15px;
             border-radius: 8px;
-            margin-bottom: 12px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-        }
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .message-sender {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .message-time {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .message-content {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* Investment Details */
-        .investment-details {
-            background: var(--hover-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .detail-item:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .detail-value {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* Main Layout */
-        .dashboard-layout {
-            display: flex;
-            gap: 30px;
-        }
-
-        .main-dashboard {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 1400px) {
-            .right-sidebar {
-                width: 300px;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .dashboard-layout {
-                flex-direction: column;
-            }
-            
-            .right-sidebar {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid var(--border-color);
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                padding: 16px;
-            }
-            
-            .sidebar-menu {
-                display: flex;
-                overflow-x: auto;
-                padding: 8px;
-            }
-            
-            .menu-item {
-                flex-shrink: 0;
-                margin-right: 8px;
-                margin-bottom: 0;
-            }
-            
-            .main-content {
-                padding: 16px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-categories {
-                grid-template-columns: 1fr;
-            }
-            
-            .plan-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--hover-color);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
-
-        /* Refresh Button */
-        .refresh-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
             font-weight: 500;
-            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        .market-status {
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
+            font-weight: 500;
         }
-
-        .refresh-btn:hover {
-            background: var(--primary-dark);
+        
+        .market-status.up {
+            color: var(--success);
         }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--success-color);
+        
+        .market-status.down {
+            color: var(--danger);
+        }
+        
+        /* Notification System */
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-icon i {
+            font-size: 1.4rem;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .notification-icon:hover i {
+            color: var(--primary);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--danger);
             color: white;
-            padding: 15px 25px;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .notification-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 400px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            z-index: 2000;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .notification-panel.active {
+            display: block;
+        }
+        
+        .notification-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-light);
+        }
+        
+        .notification-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+        
+        .mark-all-read {
+            color: var(--primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .notification-list {
+            max-height: 450px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .notification-item:hover {
+            background-color: var(--light);
+        }
+        
+        .notification-item.unread {
+            background-color: var(--primary-light);
+        }
+        
+        .notification-icon-small {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .notification-icon-small.blue {
+            background-color: #e6eeff;
+            color: var(--primary);
+        }
+        
+        .notification-icon-small.green {
+            background-color: #e7f7ef;
+            color: var(--success);
+        }
+        
+        .notification-icon-small.orange {
+            background-color: #fff4e6;
+            color: var(--warning);
+        }
+        
+        .notification-icon-small.red {
+            background-color: #ffe6e6;
+            color: var(--danger);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .notification-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        
+        .notification-time {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        .notification-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+        
+        .notification-footer {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        
+        .view-all {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .card-change {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .card-change.positive {
+            color: var(--success);
+        }
+        
+        .card-change.negative {
+            color: var(--danger);
+        }
+        
+        /* Market Sectors */
+        .sectors-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .sector-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .sector-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sector-icon {
+            width: 50px;
+            height: 50px;
             border-radius: 10px;
-            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .sector-info {
+            flex: 1;
+        }
+        
+        .sector-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .sector-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .sector-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .sector-change.positive {
+            color: var(--success);
+        }
+        
+        .sector-change.negative {
+            color: var(--danger);
+        }
+        
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+        
+        /* Portfolio Table */
+        .portfolio-table {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background-color: var(--primary-light);
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+        }
+        
+        tr:hover {
+            background-color: var(--light);
+        }
+        
+        .stock-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .stock-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .positive-change {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .negative-change {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        /* User Profile */
+        .user-profile {
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 1000;
-            display: none;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .user-role {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* Transaction List */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-type {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .transaction-type.buy {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
+        .transaction-type.sell {
+            background-color: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+        }
+        
+        .transaction-type.dividend {
+            background-color: rgba(45, 90, 241, 0.1);
+            color: var(--primary);
+        }
+        
+        /* Market Indices */
+        .market-indices {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .index-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px 20px;
+            flex: 1;
+            min-width: 150px;
+            border: 1px solid var(--border);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .index-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .index-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 0;
+            }
+            
+            .logo {
+                padding: 0 20px 20px;
+                justify-content: center;
+            }
+            
+            .logo-text {
+                display: none;
+            }
+            
+            .nav-section, .nav-item span {
+                display: none;
+            }
+            
+            .nav-item {
+                justify-content: center;
+                padding: 18px 0;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                width: calc(100% - 80px);
+            }
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .sectors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .notification-panel {
+                width: 320px;
+                right: -50px;
+            }
+            
+            .market-indices {
+                flex-direction: column;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">∞</div>
-            <div class="brand-name">Infinity Mutual Funds</div>
-        </div>
-
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search investments, funds...">
-        </div>
-
-        <div class="sidebar-menu">
-            <a href="#" class="menu-item active">
-                <span class="menu-icon">📊</span>
-                <span class="menu-text">Dashboard</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">💰</span>
-                <span class="menu-text">Portfolio</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">📈</span>
-                <span class="menu-text">Market</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">🏦</span>
-                <span class="menu-text">Funds</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">💸</span>
-                <span class="menu-text">Transactions</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">📊</span>
-                <span class="menu-text">Reports</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon">📝</span>
-                <span class="menu-text">Saving Plans</span>
-            </a>
-        </div>
-
-        <div class="help-section">
-            <a href="#" class="help-link">
-                <span class="help-icon">❓</span>
-                <span>Help Center</span>
-            </a>
-            <a href="#" class="help-link">
-                <span class="help-icon">📞</span>
-                <span>Customer Care</span>
-            </a>
-            <a href="#" class="help-link">
-                <span class="help-icon">⚙️</span>
-                <span>Settings</span>
-            </a>
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="user-profile" id="userProfile">
-                <div class="user-avatar" id="userAvatar">JM</div>
-                <div class="user-info">
-                    <h4 id="userName">John Marpung</h4>
-                    <p id="userEmail">john@gmail.com</p>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-infinity"></i>
+                <div class="logo-text">
+                    <span>Infinity</span>
+                    <span class="logo-subtitle">Mutual Funds</span>
                 </div>
             </div>
-            <button class="logout-btn" id="logoutButton">
-                <span class="logout-icon">🚪</span>
-                Sign Out
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="dashboard-layout">
-        <div class="main-dashboard">
-            <!-- Top Header -->
-            <header class="top-header fade-in">
-                <div class="header-left">
-                    <h1>Dashboard Overview</h1>
-                    <p class="welcome-message" id="welcomeMessage">Welcome back! Here's your investment summary.</p>
+            
+            <div class="nav-section">Main</div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-page="portfolio">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>My Portfolio</span>
+                </li>
+                <li class="nav-item" data-page="assets">
+                    <i class="fas fa-wallet"></i>
+                    <span>Assets</span>
+                </li>
+                <li class="nav-item" data-page="transactions">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </li>
+                <li class="nav-item" data-page="reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </li>
+            </ul>
+            
+            <div class="nav-section">Markets</div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-page="market">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Market</span>
+                </li>
+                <li class="nav-item" data-page="sectors">
+                    <i class="fas fa-industry"></i>
+                    <span>Sectors</span>
+                </li>
+                <li class="nav-item" data-page="indices">
+                    <i class="fas fa-list-ol"></i>
+                    <span>Indices</span>
+                </li>
+            </ul>
+            
+            <div class="nav-section">Account</div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-page="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="welcome-text">
+                    <h1>Welcome Back, Arthur Sjorgen</h1>
+                    <p>Monitor your investments and stay updated with live market data</p>
                 </div>
+                
                 <div class="header-right">
-                    <div class="date-display" id="currentDate"></div>
-                    <span class="live-badge">
-                        <i class="fas fa-circle"></i>
-                        LIVE
-                    </span>
-                    <button class="refresh-btn" id="refreshData">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh
-                    </button>
-                    <button class="notification-bell" id="notificationButton">
+                    <div class="date-display" id="currentDate">Monday, Jan 5, 2026</div>
+                    <div class="market-status up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>BSE: +1.2% | NSE: +0.8%</span>
+                    </div>
+                    
+                    <!-- Notification System -->
+                    <div class="notification-icon" id="notificationIcon">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-count">3</span>
-                    </button>
+                        <div class="notification-badge">5</div>
+                    </div>
+                    
+                    <!-- Notification Panel -->
+                    <div class="notification-panel" id="notificationPanel">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <span class="mark-all-read" id="markAllRead">Mark all as read</span>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <!-- Notifications loaded by JavaScript -->
+                        </div>
+                        <div class="notification-footer">
+                            <span class="view-all">View all notifications</span>
+                        </div>
+                    </div>
+                    
+                    <!-- User Profile -->
+                    <div class="user-profile">
+                        <div class="user-avatar">AS</div>
+                        <div class="user-info">
+                            <div class="user-name">Arthur Sjorgen</div>
+                            <div class="user-role">Premium Investor</div>
+                        </div>
+                    </div>
                 </div>
             </header>
-
-            <!-- Stats Grid -->
-            <div class="stats-grid fade-in">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <span class="stat-change positive">+12.5%</span>
-                    </div>
-                    <div class="stat-value" id="totalPortfolio">$245,850.75</div>
-                    <div class="stat-label">Total Portfolio Value</div>
+            
+            <!-- Market Indices -->
+            <div class="market-indices">
+                <div class="index-card">
+                    <div class="index-name">BSE SENSEX</div>
+                    <div class="index-value">72,415.30</div>
+                    <div class="positive-change">+1.2% <i class="fas fa-arrow-up"></i></div>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <span class="stat-change positive">+5.2%</span>
-                    </div>
-                    <div class="stat-value" id="totalInvested">$198,500.00</div>
-                    <div class="stat-label">Total Invested</div>
+                <div class="index-card">
+                    <div class="index-name">NIFTY 50</div>
+                    <div class="index-value">21,856.10</div>
+                    <div class="positive-change">+0.8% <i class="fas fa-arrow-up"></i></div>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <span class="stat-change positive">+8.3%</span>
-                    </div>
-                    <div class="stat-value" id="totalReturns">$47,350.75</div>
-                    <div class="stat-label">Total Returns</div>
+                <div class="index-card">
+                    <div class="index-name">BANK NIFTY</div>
+                    <div class="index-value">46,328.75</div>
+                    <div class="positive-change">+1.5% <i class="fas fa-arrow-up"></i></div>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <span class="stat-change">+2</span>
-                    </div>
-                    <div class="stat-value" id="activePlans">8</div>
-                    <div class="stat-label">Active Plans</div>
+                <div class="index-card">
+                    <div class="index-name">NIFTY PHARMA</div>
+                    <div class="index-value">18,642.20</div>
+                    <div class="negative-change">-0.3% <i class="fas fa-arrow-down"></i></div>
                 </div>
             </div>
-
-            <!-- Investment Statistics -->
-            <section class="investment-stats fade-in">
-                <div class="section-header">
-                    <h2><i class="fas fa-chart-pie"></i> Investment Statistics</h2>
-                    <button class="refresh-btn" id="refreshStats">
-                        <i class="fas fa-redo"></i>
-                        Update
-                    </button>
-                </div>
-                
-                <div class="stats-categories">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <div class="category-icon mutual-funds">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <div class="category-name">Mutual Funds</div>
-                        </div>
-                        <div class="category-value" id="mutualFundsValue">$124,500</div>
-                        <div class="category-change positive">+5.2% this month</div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-header">
-                            <div class="category-icon stocks">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="category-name">Stocks</div>
-                        </div>
-                        <div class="category-value" id="stocksValue">$68,300</div>
-                        <div class="category-change positive">+3.1% this month</div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-header">
-                            <div class="category-icon bonds">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                            </div>
-                            <div class="category-name">Bonds</div>
-                        </div>
-                        <div class="category-value" id="bondsValue">$42,750</div>
-                        <div class="category-change positive">+2.8% this month</div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-header">
-                            <div class="category-icon money-market">
-                                <i class="fas fa-piggy-bank"></i>
-                            </div>
-                            <div class="category-name">Money Market</div>
-                        </div>
-                        <div class="category-value" id="moneyMarketValue">$10,300</div>
-                        <div class="category-change negative">-1.2% this month</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Portfolio Performance -->
-            <section class="performance-container fade-in">
-                <div class="section-header">
-                    <h2><i class="fas fa-chart-bar"></i> Portfolio Performance</h2>
-                    <div class="live-badge">
-                        <i class="fas fa-circle"></i>
-                        Real-time Updates
+            
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="card fade-in">
+                    <div class="card-title">My Investment Asset</div>
+                    <div class="card-value">$178,975</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i> +$150 today
                     </div>
                 </div>
                 
-                <div class="performance-bars" id="performanceBars">
-                    <!-- Bars will be generated by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Recent Transactions -->
-            <section class="transactions-container fade-in">
-                <div class="section-header">
-                    <h2><i class="fas fa-exchange-alt"></i> Recent Transactions</h2>
-                    <a href="#" class="refresh-btn">
-                        View All
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
+                <div class="card fade-in">
+                    <div class="card-title">Yearly Profits</div>
+                    <div class="card-value">$88,742</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i> +10% this year
+                    </div>
                 </div>
                 
-                <table class="transactions-table">
+                <div class="card fade-in">
+                    <div class="card-title">Profit Margin</div>
+                    <div class="card-value">$48,632</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i> 4.23% return
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-title">Risk Level</div>
+                    <div class="card-value">Medium</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-chart-line"></i> -2% from last month
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Sectors -->
+            <div class="sectors-section">
+                <div class="section-title">
+                    <span>Market Sectors Performance</span>
+                    <span>Live</span>
+                </div>
+                <div class="sectors-grid">
+                    <div class="sector-card">
+                        <div class="sector-icon" style="background-color: #2d5af1;">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="sector-info">
+                            <div class="sector-name">Banking Sector</div>
+                            <div class="sector-value">+1.5%</div>
+                            <div class="sector-change positive">ICICI, HDFC, SBI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon" style="background-color: #2ecc71;">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="sector-info">
+                            <div class="sector-name">Pharma Sector</div>
+                            <div class="sector-value">-0.3%</div>
+                            <div class="sector-change negative">Sun Pharma, Cipla</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon" style="background-color: #ff9f43;">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="sector-info">
+                            <div class="sector-name">Industry Sector</div>
+                            <div class="sector-value">+0.9%</div>
+                            <div class="sector-change positive">L&T, Tata Steel</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon" style="background-color: #6c5ce7;">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="sector-info">
+                            <div class="sector-name">Technology Sector</div>
+                            <div class="sector-value">+2.1%</div>
+                            <div class="sector-change positive">Infosys, TCS, Wipro</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-title">Portfolio Performance</div>
+                    <div class="chart-wrapper">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Asset Allocation</div>
+                    <div class="chart-wrapper">
+                        <canvas id="allocationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Portfolio Table -->
+            <div class="portfolio-table">
+                <div class="table-header">
+                    <div class="table-title">My Holdings</div>
+                    <div class="table-actions">
+                        <button style="background-color: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">
+                            <i class="fas fa-plus"></i> Add Investment
+                        </button>
+                    </div>
+                </div>
+                <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Transaction</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Status</th>
+                            <th>Stock</th>
+                            <th>Quantity</th>
+                            <th>Avg. Price</th>
+                            <th>Current Price</th>
+                            <th>Change</th>
+                            <th>Value</th>
                         </tr>
                     </thead>
-                    <tbody id="transactionsTable">
-                        <!-- Transactions will be populated by JavaScript -->
+                    <tbody id="portfolioTable">
+                        <!-- Portfolio data loaded by JavaScript -->
                     </tbody>
                 </table>
-            </section>
-
-            <!-- Savings Plan -->
-            <section class="savings-plan-container fade-in">
-                <div class="section-header">
-                    <h2><i class="fas fa-piggy-bank"></i> Active Savings Plans</h2>
-                    <button class="refresh-btn" id="createPlan">
-                        <i class="fas fa-plus"></i>
-                        New Plan
-                    </button>
+            </div>
+            
+            <!-- Investment Details -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-title">Recent Transactions</div>
+                    <div class="transaction-list" id="transactionList">
+                        <!-- Transactions loaded by JavaScript -->
+                    </div>
                 </div>
                 
-                <div class="plan-cards" id="planCards">
-                    <!-- Plan cards will be populated by JavaScript -->
-                </div>
-            </section>
-        </div>
-
-        <!-- Right Sidebar -->
-        <aside class="right-sidebar">
-            <div class="right-sidebar-header">
-                <h3><i class="fas fa-bell"></i> Notifications & Messages</h3>
-            </div>
-
-            <!-- Messages -->
-            <div class="messages-container">
-                <h4 style="margin-bottom: 16px;">Recent Messages</h4>
-                <div class="message-list" id="messageList">
-                    <!-- Messages will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Investment Details -->
-            <div class="investment-details">
-                <h4 style="margin-bottom: 16px;">Investment Details</h4>
-                <div class="detail-item">
-                    <span class="detail-label">Total Investments</span>
-                    <span class="detail-value" id="detailTotalInvestments">12</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Active SIPs</span>
-                    <span class="detail-value" id="detailActiveSIPs">8</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Portfolio XIRR</span>
-                    <span class="detail-value positive" id="detailXIRR">16.4%</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Risk Level</span>
-                    <span class="detail-value" id="detailRisk">Moderate</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Next SIP Date</span>
-                    <span class="detail-value" id="detailNextSIP">Nov 5, 2023</span>
+                <div class="chart-container">
+                    <div class="chart-title">Investment Details</div>
+                    <div class="transaction-list">
+                        <div class="transaction-item">
+                            <div>
+                                <div style="font-weight: 600; color: var(--dark);">Money Market</div>
+                                <div style="font-size: 0.9rem; color: var(--gray);">342,279</div>
+                            </div>
+                            <div class="positive-change">25%</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div>
+                                <div style="font-weight: 600; color: var(--dark);">Stocks</div>
+                                <div style="font-size: 0.9rem; color: var(--gray);">515,389</div>
+                            </div>
+                            <div class="positive-change">18%</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div>
+                                <div style="font-weight: 600; color: var(--dark);">Bonds</div>
+                                <div style="font-size: 0.9rem; color: var(--gray);">319,672</div>
+                            </div>
+                            <div class="positive-change">12%</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div>
+                                <div style="font-weight: 600; color: var(--dark);">Sharia</div>
+                                <div style="font-size: 0.9rem; color: var(--gray);">36,793</div>
+                            </div>
+                            <div class="positive-change">8%</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Quick Actions -->
-            <div class="messages-container" style="margin-top: 24px;">
-                <h4 style="margin-bottom: 16px;">Quick Actions</h4>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="refresh-btn" style="width: 100%; justify-content: center;">
-                        <i class="fas fa-download"></i>
-                        Download Statement
-                    </button>
-                    <button class="refresh-btn" style="width: 100%; justify-content: center; background: var(--secondary-color);">
-                        <i class="fas fa-chart-pie"></i>
-                        Portfolio Analysis
-                    </button>
-                    <button class="refresh-btn" style="width: 100%; justify-content: center; background: var(--success-color);">
-                        <i class="fas fa-plus"></i>
-                        Add Funds
-                    </button>
-                </div>
-            </div>
-        </aside>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="successToast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Data updated successfully!</span>
+        </main>
     </div>
 
     <script>
-        // Mock data
-        const userData = {
-            name: "John Marpung",
-            email: "john@gmail.com",
-            avatar: "JM",
-            portfolio: {
-                total: 245850.75,
-                invested: 198500,
-                returns: 47350.75,
-                plans: 8,
-                mutualFunds: 124500,
-                stocks: 68300,
-                bonds: 42750,
-                moneyMarket: 10300
+        // Current Date
+        const currentDateElement = document.getElementById('currentDate');
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+        
+        // Notification Data
+        const notifications = [
+            {
+                id: 1,
+                title: "Market Alert",
+                text: "Banking sector up by 1.5%. ICICI Bank leading with +2.3%",
+                time: "10 min ago",
+                icon: "fas fa-chart-line",
+                iconClass: "green",
+                unread: true
             },
-            performance: [65, 85, 92, 78, 95, 88, 70],
-            performanceLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-            transactions: [
-                { date: '2023-10-30', description: 'SIP Investment - HDFC Fund', type: 'investment', amount: 2500, status: 'completed' },
-                { date: '2023-10-28', description: 'Dividend Received', type: 'dividend', amount: 1250, status: 'completed' },
-                { date: '2023-10-25', description: 'New Investment - ICICI Fund', type: 'investment', amount: 5000, status: 'completed' },
-                { date: '2023-10-20', description: 'Partial Withdrawal', type: 'withdrawal', amount: 2000, status: 'completed' },
-                { date: '2023-10-15', description: 'SIP Investment - SBI Fund', type: 'investment', amount: 3000, status: 'pending' }
-            ],
-            savingsPlans: [
-                { name: 'Retirement Plan', target: 500000, current: 245850, progress: 49 },
-                { name: 'Emergency Fund', target: 100000, current: 68500, progress: 68 },
-                { name: 'Education Fund', target: 250000, current: 125000, progress: 50 },
-                { name: 'Vacation Fund', target: 50000, current: 25000, progress: 50 }
-            ],
-            messages: [
-                { sender: 'Advisor', time: '2 hours ago', content: 'Market analysis suggests rebalancing your portfolio' },
-                { sender: 'System', time: '1 day ago', content: 'SIP payment of $2,500 scheduled for Nov 5' },
-                { sender: 'Support', time: '2 days ago', content: 'Your KYC verification is complete' }
-            ]
-        };
-
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (!currentUser) {
-                window.location.href = 'index.html';
-                return;
+            {
+                id: 2,
+                title: "Dividend Received",
+                text: "Infosys dividend of $342 credited to your account",
+                time: "2 hours ago",
+                icon: "fas fa-money-bill-wave",
+                iconClass: "blue",
+                unread: true
+            },
+            {
+                id: 3,
+                title: "Portfolio Update",
+                text: "Your portfolio value increased by $150 today",
+                time: "5 hours ago",
+                icon: "fas fa-chart-pie",
+                iconClass: "orange",
+                unread: true
+            },
+            {
+                id: 4,
+                title: "New Investment Opportunity",
+                text: "Tech sector showing strong growth. Consider adding TCS",
+                time: "1 day ago",
+                icon: "fas fa-lightbulb",
+                iconClass: "blue",
+                unread: false
+            },
+            {
+                id: 5,
+                title: "Report Generated",
+                text: "Monthly investment report for Dec 2025 is ready",
+                time: "2 days ago",
+                icon: "fas fa-file-alt",
+                iconClass: "red",
+                unread: false
             }
-
-            // Update user info
-            updateUserInfo(currentUser);
-            
-            // Update date
-            updateCurrentDate();
-            
-            // Load dashboard data
-            loadDashboardData();
-            
-            // Initialize charts
-            initializePerformanceChart();
-            
-            // Load transactions
-            loadTransactions();
-            
-            // Load savings plans
-            loadSavingsPlans();
-            
-            // Load messages
-            loadMessages();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Start live updates
-            startLiveUpdates();
+        ];
+        
+        // Portfolio Data
+        const portfolioData = [
+            { name: "ICICI Bank", symbol: "ICICIBANK", quantity: 50, avgPrice: 950, currentPrice: 1025, logo: "IB" },
+            { name: "HDFC Bank", symbol: "HDFCBANK", quantity: 30, avgPrice: 1450, currentPrice: 1520, logo: "HB" },
+            { name: "Infosys", symbol: "INFY", quantity: 40, avgPrice: 1450, currentPrice: 1580, logo: "INFY" },
+            { name: "Reliance", symbol: "RELIANCE", quantity: 20, avgPrice: 2450, currentPrice: 2520, logo: "RIL" },
+            { name: "TCS", symbol: "TCS", quantity: 25, avgPrice: 3250, currentPrice: 3420, logo: "TCS" },
+            { name: "Sun Pharma", symbol: "SUNPHARMA", quantity: 60, avgPrice: 950, currentPrice: 920, logo: "SUN" },
+            { name: "L&T", symbol: "LT", quantity: 15, avgPrice: 2850, currentPrice: 2920, logo: "L&T" }
+        ];
+        
+        // Transaction Data
+        const transactions = [
+            { type: "buy", stock: "ICICI Bank", quantity: 10, price: 1010, time: "Today, 10:30 AM" },
+            { type: "sell", stock: "HDFC Bank", quantity: 5, price: 1515, time: "Yesterday, 2:15 PM" },
+            { type: "dividend", stock: "Infosys", amount: 342, time: "Jan 3, 2026" },
+            { type: "buy", stock: "TCS", quantity: 8, price: 3380, time: "Jan 2, 2026" },
+            { type: "buy", stock: "Reliance", quantity: 5, price: 2480, time: "Dec 28, 2025" }
+        ];
+        
+        // DOM Elements
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        const notificationList = document.getElementById('notificationList');
+        const markAllReadBtn = document.getElementById('markAllRead');
+        const notificationBadge = document.querySelector('.notification-badge');
+        const portfolioTable = document.getElementById('portfolioTable');
+        const transactionList = document.getElementById('transactionList');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Initialize Charts
+        let performanceChart, allocationChart;
+        
+        // Toggle Notification Panel
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('active');
         });
-
-        // Update user information
-        function updateUserInfo(user) {
-            document.getElementById('userName').textContent = user.name || 'User';
-            document.getElementById('userEmail').textContent = user.email || '';
-            
-            const avatar = document.getElementById('userAvatar');
-            if (user.avatar) {
-                avatar.textContent = user.avatar;
-            } else if (user.name) {
-                avatar.textContent = user.name.charAt(0).toUpperCase() + 
-                    (user.name.split(' ')[1] ? user.name.split(' ')[1].charAt(0).toUpperCase() : '');
+        
+        // Close notification panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('active');
             }
+        });
+        
+        // Render Notifications
+        function renderNotifications() {
+            notificationList.innerHTML = '';
+            let unreadCount = 0;
             
-            // Update welcome message
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            if (user.name) {
-                const firstName = user.name.split(' ')[0];
-                welcomeMessage.textContent = `Welcome back, ${firstName}! Here's your investment summary.`;
-            }
-        }
-
-        // Update current date
-        function updateCurrentDate() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
-        }
-
-        // Load dashboard data
-        function loadDashboardData() {
-            // Update portfolio stats
-            document.getElementById('totalPortfolio').textContent = 
-                `$${userData.portfolio.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('totalInvested').textContent = 
-                `$${userData.portfolio.invested.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('totalReturns').textContent = 
-                `$${userData.portfolio.returns.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('activePlans').textContent = userData.portfolio.plans;
-            
-            // Update investment categories
-            document.getElementById('mutualFundsValue').textContent = 
-                `$${userData.portfolio.mutualFunds.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('stocksValue').textContent = 
-                `$${userData.portfolio.stocks.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('bondsValue').textContent = 
-                `$${userData.portfolio.bonds.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            document.getElementById('moneyMarketValue').textContent = 
-                `$${userData.portfolio.moneyMarket.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            // Update investment details
-            document.getElementById('detailTotalInvestments').textContent = '12';
-            document.getElementById('detailActiveSIPs').textContent = '8';
-            document.getElementById('detailXIRR').textContent = '16.4%';
-            document.getElementById('detailRisk').textContent = 'Moderate';
-            document.getElementById('detailNextSIP').textContent = 'Nov 5, 2023';
-        }
-
-        // Initialize performance chart
-        function initializePerformanceChart() {
-            const container = document.getElementById('performanceBars');
-            container.innerHTML = '';
-            
-            const maxValue = Math.max(...userData.performance);
-            
-            userData.performance.forEach((value, index) => {
-                const barContainer = document.createElement('div');
-                barContainer.className = 'bar-container';
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.unread ? 'unread' : ''}`;
+                notificationItem.setAttribute('data-id', notification.id);
                 
-                const barHeight = (value / maxValue) * 150;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon-small ${notification.iconClass}">
+                        <i class="${notification.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>${notification.title}</span>
+                        </div>
+                        <div class="notification-text">${notification.text}</div>
+                        <div class="notification-time">${notification.time}</div>
+                    </div>
+                    ${notification.unread ? '<div class="notification-dot"></div>' : ''}
+                `;
                 
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.style.height = `${barHeight}px`;
-                bar.style.background = `linear-gradient(to top, var(--primary-color), var(--secondary-color))`;
+                notificationList.appendChild(notificationItem);
                 
-                const barValue = document.createElement('div');
-                barValue.className = 'bar-value';
-                barValue.textContent = `${value}%`;
+                if (notification.unread) unreadCount++;
                 
-                const barLabel = document.createElement('div');
-                barLabel.className = 'bar-label';
-                barLabel.textContent = userData.performanceLabels[index];
-                
-                bar.appendChild(barValue);
-                barContainer.appendChild(bar);
-                barContainer.appendChild(barLabel);
-                container.appendChild(barContainer);
+                // Mark as read when clicked
+                notificationItem.addEventListener('click', function() {
+                    if (notification.unread) {
+                        notification.unread = false;
+                        renderNotifications();
+                    }
+                });
             });
-        }
-
-        // Load transactions
-        function loadTransactions() {
-            const tbody = document.getElementById('transactionsTable');
-            tbody.innerHTML = '';
             
-            userData.transactions.forEach(transaction => {
+            // Update badge count
+            notificationBadge.textContent = unreadCount;
+            if (unreadCount === 0) {
+                notificationBadge.style.display = 'none';
+            } else {
+                notificationBadge.style.display = 'flex';
+            }
+        }
+        
+        // Mark All as Read
+        markAllReadBtn.addEventListener('click', function() {
+            notifications.forEach(notification => {
+                notification.unread = false;
+            });
+            renderNotifications();
+        });
+        
+        // Render Portfolio Table
+        function renderPortfolio() {
+            portfolioTable.innerHTML = '';
+            
+            portfolioData.forEach(stock => {
+                const change = stock.currentPrice - stock.avgPrice;
+                const changePercent = (change / stock.avgPrice * 100).toFixed(2);
+                const value = stock.quantity * stock.currentPrice;
+                const changeClass = change >= 0 ? 'positive-change' : 'negative-change';
+                const changeIcon = change >= 0 ? '<i class="fas fa-arrow-up"></i>' : '<i class="fas fa-arrow-down"></i>';
+                
                 const row = document.createElement('tr');
-                
-                const date = new Date(transaction.date);
-                const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                
                 row.innerHTML = `
-                    <td>${dateStr}</td>
-                    <td>${transaction.description}</td>
-                    <td><span class="transaction-type type-${transaction.type}">${transaction.type}</span></td>
-                    <td><strong>$${transaction.amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></td>
-                    <td><span class="status status-${transaction.status}">${transaction.status}</span></td>
+                    <td>
+                        <div class="stock-name">
+                            <div class="stock-logo">${stock.logo}</div>
+                            <div>
+                                <div>${stock.name}</div>
+                                <div style="font-size: 0.85rem; color: var(--gray);">${stock.symbol}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${stock.quantity}</td>
+                    <td>₹${stock.avgPrice.toLocaleString()}</td>
+                    <td>₹${stock.currentPrice.toLocaleString()}</td>
+                    <td class="${changeClass}">${changeIcon} ${changePercent}%</td>
+                    <td>₹${value.toLocaleString()}</td>
                 `;
-                
-                tbody.appendChild(row);
+                portfolioTable.appendChild(row);
             });
         }
-
-        // Load savings plans
-        function loadSavingsPlans() {
-            const container = document.getElementById('planCards');
-            container.innerHTML = '';
+        
+        // Render Transactions
+        function renderTransactions() {
+            transactionList.innerHTML = '';
             
-            userData.savingsPlans.forEach(plan => {
-                const planCard = document.createElement('div');
-                planCard.className = 'plan-card';
+            transactions.forEach(transaction => {
+                const transactionItem = document.createElement('div');
+                transactionItem.className = 'transaction-item';
                 
-                planCard.innerHTML = `
-                    <div class="plan-header">
-                        <div class="plan-name">${plan.name}</div>
-                        <span class="stat-change positive">${plan.progress}%</span>
-                    </div>
-                    <div class="plan-amount">$${plan.current.toLocaleString('en-US')}</div>
-                    <div>Target: $${plan.target.toLocaleString('en-US')}</div>
-                    <div class="plan-progress">
-                        <div class="progress-bar" style="width: ${plan.progress}%"></div>
-                    </div>
-                    <div style="font-size: 12px; color: var(--text-secondary);">
-                        Remaining: $${(plan.target - plan.current).toLocaleString('en-US')}
-                    </div>
-                `;
+                let content = '';
+                if (transaction.type === 'buy' || transaction.type === 'sell') {
+                    content = `
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark);">${transaction.stock}</div>
+                            <div style="font-size: 0.9rem; color: var(--gray);">${transaction.time}</div>
+                        </div>
+                        <div>
+                            <div class="transaction-type ${transaction.type}">${transaction.type.toUpperCase()}</div>
+                            <div style="font-weight: 600; margin-top: 5px;">${transaction.quantity} shares @ ₹${transaction.price}</div>
+                        </div>
+                    `;
+                } else if (transaction.type === 'dividend') {
+                    content = `
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark);">${transaction.stock} Dividend</div>
+                            <div style="font-size: 0.9rem; color: var(--gray);">${transaction.time}</div>
+                        </div>
+                        <div>
+                            <div class="transaction-type ${transaction.type}">DIVIDEND</div>
+                            <div style="font-weight: 600; margin-top: 5px;">+₹${transaction.amount}</div>
+                        </div>
+                    `;
+                }
                 
-                container.appendChild(planCard);
+                transactionItem.innerHTML = content;
+                transactionList.appendChild(transactionItem);
             });
         }
-
-        // Load messages
-        function loadMessages() {
-            const container = document.getElementById('messageList');
-            container.innerHTML = '';
+        
+        // Initialize Charts
+        function initCharts() {
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            const allocationCtx = document.getElementById('allocationChart').getContext('2d');
             
-            userData.messages.forEach(message => {
-                const messageItem = document.createElement('div');
-                messageItem.className = 'message-item';
-                
-                messageItem.innerHTML = `
-                    <div class="message-header">
-                        <div class="message-sender">${message.sender}</div>
-                        <div class="message-time">${message.time}</div>
-                    </div>
-                    <div class="message-content">${message.content}</div>
-                `;
-                
-                container.appendChild(messageItem);
-            });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Refresh data button
-            document.getElementById('refreshData').addEventListener('click', function() {
-                refreshDashboardData();
-            });
-            
-            // Refresh stats button
-            document.getElementById('refreshStats').addEventListener('click', function() {
-                refreshInvestmentStats();
-            });
-            
-            // Create plan button
-            document.getElementById('createPlan').addEventListener('click', function() {
-                showToast('New savings plan feature coming soon!');
-            });
-            
-            // Notification button
-            document.getElementById('notificationButton').addEventListener('click', function() {
-                showToast('You have 3 unread notifications');
-            });
-            
-            // User profile click
-            document.getElementById('userProfile').addEventListener('click', function() {
-                showToast('Profile options will appear here');
-            });
-            
-            // Logout button
-            document.getElementById('logoutButton').addEventListener('click', function() {
-                if (confirm('Are you sure you want to logout?')) {
-                    localStorage.removeItem('currentUser');
-                    window.location.href = 'index.html';
+            // Performance Chart (Line Chart)
+            performanceChart = new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [150000, 152000, 155000, 157000, 160000, 162000, 165000, 168000, 170000, 172000, 175000, 178975],
+                        borderColor: '#2d5af1',
+                        backgroundColor: 'rgba(45, 90, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    }
                 }
             });
             
-            // Search functionality
-            const searchBox = document.querySelector('.search-box');
-            searchBox.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    showToast(`Searching for: ${this.value}`);
+            // Allocation Chart (Doughnut Chart)
+            allocationChart = new Chart(allocationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Stocks', 'Bonds', 'Money Market', 'Sharia', 'Others'],
+                    datasets: [{
+                        data: [40, 25, 20, 10, 5],
+                        backgroundColor: [
+                            '#2d5af1',
+                            '#2ecc71',
+                            '#ff9f43',
+                            '#6c5ce7',
+                            '#a29bfe'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
                 }
             });
         }
-
-        // Refresh dashboard data
-        function refreshDashboardData() {
-            const refreshBtn = document.getElementById('refreshData');
-            const originalText = refreshBtn.innerHTML;
+        
+        // Update Market Data (Simulating live updates)
+        function updateMarketData() {
+            // Update indices with random changes
+            const indices = document.querySelectorAll('.index-value');
+            indices.forEach(index => {
+                const currentValue = parseFloat(index.textContent.replace(/,/g, ''));
+                const change = (Math.random() - 0.5) * 50;
+                const newValue = currentValue + change;
+                index.textContent = newValue.toFixed(2);
+                
+                // Update change indicator
+                const changeElement = index.nextElementSibling;
+                if (change >= 0) {
+                    changeElement.className = 'positive-change';
+                    changeElement.innerHTML = `+${change.toFixed(2)}% <i class="fas fa-arrow-up"></i>`;
+                } else {
+                    changeElement.className = 'negative-change';
+                    changeElement.innerHTML = `${change.toFixed(2)}% <i class="fas fa-arrow-down"></i>`;
+                }
+            });
             
-            // Show loading
-            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-            refreshBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Update with random changes
-                const change = (Math.random() - 0.5) * 0.02;
-                userData.portfolio.total *= (1 + change);
-                userData.portfolio.returns *= (1 + change);
+            // Update sector values
+            const sectorValues = document.querySelectorAll('.sector-value');
+            sectorValues.forEach(value => {
+                const currentText = value.textContent;
+                const currentPercent = parseFloat(currentText);
+                const change = (Math.random() - 0.5) * 0.5;
+                const newPercent = currentPercent + change;
+                value.textContent = `${newPercent >= 0 ? '+' : ''}${newPercent.toFixed(2)}%`;
                 
-                // Update UI
-                loadDashboardData();
-                
-                // Show success
-                showToast('Dashboard data refreshed successfully!');
-                
-                // Restore button
-                refreshBtn.innerHTML = originalText;
-                refreshBtn.disabled = false;
-            }, 1500);
+                // Update color and icon
+                const sectorCard = value.closest('.sector-card');
+                const changeElement = value.nextElementSibling;
+                if (newPercent >= 0) {
+                    changeElement.className = 'sector-change positive';
+                } else {
+                    changeElement.className = 'sector-change negative';
+                }
+            });
         }
-
-        // Refresh investment stats
-        function refreshInvestmentStats() {
-            const refreshBtn = document.getElementById('refreshStats');
-            const originalText = refreshBtn.innerHTML;
-            
-            // Show loading
-            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-            refreshBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Update with random changes
-                userData.portfolio.mutualFunds *= (1 + (Math.random() - 0.5) * 0.01);
-                userData.portfolio.stocks *= (1 + (Math.random() - 0.5) * 0.01);
-                userData.portfolio.bonds *= (1 + (Math.random() - 0.5) * 0.01);
-                userData.portfolio.moneyMarket *= (1 + (Math.random() - 0.5) * 0.01);
+        
+        // Navigation
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                navItems.forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
                 
-                // Update UI
-                loadDashboardData();
-                
-                // Show success
-                showToast('Investment statistics updated!');
-                
-                // Restore button
-                refreshBtn.innerHTML = originalText;
-                refreshBtn.disabled = false;
-            }, 1500);
-        }
-
-        // Show toast notification
-        function showToast(message) {
-            const toast = document.getElementById('successToast');
-            const messageEl = document.getElementById('toastMessage');
+                const page = this.getAttribute('data-page');
+                // In a real app, you would load different content based on page
+                console.log(`Navigating to ${page} page`);
+            });
+        });
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            renderNotifications();
+            renderPortfolio();
+            renderTransactions();
+            initCharts();
             
-            messageEl.textContent = message;
-            toast.style.display = 'flex';
+            // Update market data every 10 seconds (simulating live data)
+            setInterval(updateMarketData, 10000);
             
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-        }
-
-        // Start live updates
-        function startLiveUpdates() {
-            // Update time every minute
-            setInterval(updateCurrentDate, 60000);
-            
-            // Simulate live market updates every 10 seconds
-            setInterval(simulateMarketUpdate, 10000);
-        }
-
-        // Simulate market update
-        function simulateMarketUpdate() {
-            // Randomly update portfolio value
-            const change = (Math.random() - 0.5) * 0.001;
-            const oldValue = userData.portfolio.total;
-            userData.portfolio.total *= (1 + change);
-            
-            // Update only if change is significant
-            if (Math.abs(change) > 0.0002) {
-                const totalPortfolio = document.getElementById('totalPortfolio');
-                totalPortfolio.textContent = `$${userData.portfolio.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                
-                // Update with animation
-                totalPortfolio.classList.add('positive');
-                setTimeout(() => {
-                    totalPortfolio.classList.remove('positive');
-                }, 1000);
-            }
-        }
-
-        // Add CSS for spinner animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fa-spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            .fa-spin {
-                animation: fa-spin 1s linear infinite;
-            }
-        `;
-        document.head.appendChild(style);
+            // Add some animation to cards
+            const cards = document.querySelectorAll('.card, .sector-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
     </script>
 </body>
 </html>
