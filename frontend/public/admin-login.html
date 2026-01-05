@@ -18,93 +18,70 @@
             --admin-primary: #1e3a8a;
             --admin-secondary: #3b82f6;
             --admin-accent: #8b5cf6;
-            --admin-danger: #ef4444;
             --admin-success: #10b981;
+            --admin-danger: #ef4444;
             --admin-warning: #f59e0b;
             --admin-info: #06b6d4;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: #ffffff;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --border-color: #e5e7eb;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.25);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         body {
+            background: none;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: 
-                var(--bg-gradient),
-                url('assets/images/admin/login-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
         }
 
+        /* Background Image */
         body::before {
             content: '';
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%);
+            width: 100%;
+            height: 100%;
+            background-image: url('sample.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(0.15) contrast(0.8) blur(1px);
+            opacity: 0.15;
             z-index: -1;
         }
 
         .login-container {
             width: 100%;
-            max-width: 420px;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            border-radius: 24px;
+            max-width: 450px;
             padding: 40px;
-            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--admin-primary), var(--admin-accent));
-        }
-
-        .login-header {
             text-align: center;
-            margin-bottom: 40px;
         }
 
         .login-logo {
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
             width: 80px;
             height: 80px;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
+            margin: 0 auto 20px;
+            color: white;
             font-size: 36px;
             font-weight: 700;
-            color: white;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
         .login-header h1 {
@@ -112,25 +89,23 @@
             font-weight: 700;
             background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            color: transparent;
             margin-bottom: 8px;
         }
 
         .login-header p {
             color: var(--text-secondary);
+            margin-bottom: 30px;
             font-size: 14px;
-            max-width: 300px;
-            margin: 0 auto;
-            line-height: 1.6;
         }
 
-        .form-group {
-            margin-bottom: 24px;
-            position: relative;
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
         }
 
-        .form-group label {
+        .login-form label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
@@ -138,607 +113,258 @@
             font-size: 14px;
         }
 
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 18px;
-        }
-
-        .input-with-icon input {
+        .login-form input {
             width: 100%;
-            padding: 16px 16px 16px 52px;
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
             background: rgba(255, 255, 255, 0.9);
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
             transition: all 0.3s;
         }
 
-        .input-with-icon input:focus {
+        .login-form input:focus {
             outline: none;
             border-color: var(--admin-primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .input-with-icon input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
             border: none;
-            color: var(--text-secondary);
             cursor: pointer;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .password-toggle:hover {
-            color: var(--admin-primary);
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            font-size: 14px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            appearance: none;
-            position: relative;
-            transition: all 0.2s;
-        }
-
-        .remember-me input[type="checkbox"]:checked {
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
-            border-color: var(--admin-primary);
-        }
-
-        .remember-me input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .forgot-password {
-            color: var(--admin-primary);
-            text-decoration: none;
             font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .forgot-password:hover {
-            color: var(--admin-accent);
-            text-decoration: underline;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .login-btn.loading {
-            opacity: 0.8;
-            cursor: not-allowed;
-        }
-
-        .login-btn.loading i {
-            animation: spin 1s linear infinite;
-        }
-
         .login-footer {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 24px;
+            margin-top: 25px;
+            padding-top: 20px;
             border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 14px;
+            text-align: center;
         }
 
         .login-footer a {
             color: var(--admin-primary);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
+            font-size: 14px;
         }
 
         .login-footer a:hover {
-            color: var(--admin-accent);
             text-decoration: underline;
         }
 
-        .security-notice {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 24px;
-            font-size: 13px;
-            color: var(--admin-success);
-        }
-
-        .security-notice i {
-            margin-right: 8px;
-        }
-
-        .error-message {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.2));
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--admin-danger);
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .success-message {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--admin-success);
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .back-to-home {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-
-        .back-btn {
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-5px);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--admin-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
-        /* Responsive Design */
+        .demo-credentials {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .demo-credentials p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .demo-box {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .demo-box div {
+            margin-bottom: 4px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            z-index: 9999;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
         @media (max-width: 480px) {
             .login-container {
-                max-width: 100%;
-            }
-            
-            .login-card {
-                padding: 30px 24px;
+                padding: 30px 20px;
             }
             
             .login-logo {
-                width: 70px;
-                height: 70px;
-                font-size: 30px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
             }
             
             .login-header h1 {
                 font-size: 24px;
             }
-            
-            .back-to-home {
-                position: absolute;
-                top: 15px;
-                left: 15px;
-            }
-            
-            .back-btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-        }
-
-        @media (max-height: 700px) {
-            body {
-                align-items: flex-start;
-                padding-top: 40px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Back to Home -->
-    <div class="back-to-home">
-        <a href="index.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
-    </div>
-
-    <!-- Login Container -->
     <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-logo">A</div>
-                <h1>Admin Login</h1>
-                <p>Access the Infinity Mutual Funds administration panel</p>
+        <div class="login-logo">A</div>
+        <div class="login-header">
+            <h1>Admin Login</h1>
+            <p>Sign in to access the administration dashboard</p>
+        </div>
+        
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="admin@infinityfunds.com" required>
             </div>
             
-            <!-- Error Message -->
-            <div class="error-message" id="errorMessage">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorText">Invalid credentials. Please try again.</span>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
             </div>
             
-            <!-- Success Message -->
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle"></i>
-                <span id="successText">Login successful! Redirecting...</span>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="rememberMe" style="width: auto;">
+                    <span>Remember me</span>
+                </label>
             </div>
             
-            <form id="adminLoginForm">
-                <div class="form-group">
-                    <label for="adminEmail">Email Address</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="adminEmail" placeholder="admin@infinityfunds.com" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="adminPassword">Password</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="adminPassword" placeholder="Enter your password" required>
-                        <button type="button" class="password-toggle" id="passwordToggle">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="remember-forgot">
-                    <label class="remember-me">
-                        <input type="checkbox" id="rememberMe">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="#" class="forgot-password" id="forgotPassword">
-                        Forgot Password?
-                    </a>
-                </div>
-                
-                <button type="submit" class="login-btn" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login to Dashboard</span>
-                </button>
-            </form>
-            
-            <div class="security-notice">
-                <i class="fas fa-shield-alt"></i>
-                <span>This is a secured system. All activities are monitored and logged.</span>
-            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
             
             <div class="login-footer">
-                <p>Need help? <a href="mailto:admin-support@infinityfunds.com">Contact System Administrator</a></p>
-                <p style="margin-top: 8px; font-size: 12px; opacity: 0.7;">
-                    <i class="fas fa-clock"></i> Last login: 2 hours ago from 192.168.1.100
-                </p>
+                <a href="#" id="forgotPassword">Forgot password?</a>
+            </div>
+        </form>
+        
+        <!-- Demo Credentials -->
+        <div class="demo-credentials">
+            <p><strong>Demo Credentials:</strong></p>
+            <div class="demo-box">
+                <div><strong>Email:</strong> admin@infinityfunds.com</div>
+                <div><strong>Password:</strong> admin123</div>
             </div>
         </div>
     </div>
 
     <script>
-        // DOM Elements
-        const loginForm = document.getElementById('adminLoginForm');
-        const adminEmail = document.getElementById('adminEmail');
-        const adminPassword = document.getElementById('adminPassword');
-        const passwordToggle = document.getElementById('passwordToggle');
-        const loginBtn = document.getElementById('loginBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const rememberMe = document.getElementById('rememberMe');
-        const forgotPassword = document.getElementById('forgotPassword');
-
-        // Demo admin credentials (In production, this would be handled by backend)
-        const demoAdmins = [
-            {
-                email: 'admin@infinityfunds.com',
-                password: 'Admin@123',
-                name: 'Admin Sharma',
-                role: 'Super Admin',
-                avatar: 'AS'
-            },
-            {
-                email: 'manager@infinityfunds.com',
-                password: 'Manager@123',
-                name: 'Manager Verma',
-                role: 'Portfolio Manager',
-                avatar: 'MV'
-            },
-            {
-                email: 'support@infinityfunds.com',
-                password: 'Support@123',
-                name: 'Support Team',
-                role: 'Support Admin',
-                avatar: 'ST'
-            }
-        ];
-
-        // Check for saved credentials
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedEmail = localStorage.getItem('admin_saved_email');
-            const savedRemember = localStorage.getItem('admin_remember_me');
+        // Show notification function
+        function showNotification(message, type = 'error') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
             
-            if (savedEmail && savedRemember === 'true') {
-                adminEmail.value = savedEmail;
-                rememberMe.checked = true;
-            }
+            document.body.appendChild(notification);
             
-            // Check if already logged in
-            const adminData = localStorage.getItem('admin_data');
-            if (adminData) {
-                try {
-                    const admin = JSON.parse(adminData);
-                    // Redirect if already logged in
-                    window.location.href = 'admin.html';
-                } catch (error) {
-                    // Invalid data, clear it
-                    localStorage.removeItem('admin_data');
-                }
-            }
-        });
-
-        // Password toggle
-        passwordToggle.addEventListener('click', function() {
-            const type = adminPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-            adminPassword.setAttribute('type', type);
-            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-        });
-
-        // Forgot password
-        forgotPassword.addEventListener('click', function(e) {
-            e.preventDefault();
-            const email = adminEmail.value.trim();
-            
-            if (!email) {
-                showError('Please enter your email address first');
-                return;
-            }
-            
-            // In production, this would send a reset email
-            showError('Password reset feature coming soon. Contact system administrator.');
-            
-            // For demo purposes
-            if (email === 'admin@infinityfunds.com') {
-                showSuccess('Password reset link has been sent to admin@infinityfunds.com');
-            }
-        });
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
 
         // Login form submission
-        loginForm.addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = adminEmail.value.trim();
-            const password = adminPassword.value.trim();
-            const remember = rememberMe.checked;
-            
-            // Validate inputs
-            if (!email || !password) {
-                showError('Please fill in all fields');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showError('Please enter a valid email address');
-                return;
-            }
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             
             // Show loading
-            loginBtn.classList.add('loading');
-            loginBtn.innerHTML = '<i class="fas fa-spinner"></i> Authenticating...';
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Signing in...';
+            submitBtn.disabled = true;
             
             // Simulate API call delay
             setTimeout(() => {
-                // Check credentials
-                const admin = demoAdmins.find(a => a.email === email && a.password === password);
-                
-                if (admin) {
-                    // Save remember me preference
-                    if (remember) {
-                        localStorage.setItem('admin_saved_email', email);
-                        localStorage.setItem('admin_remember_me', 'true');
-                    } else {
-                        localStorage.removeItem('admin_saved_email');
-                        localStorage.removeItem('admin_remember_me');
-                    }
+                // Demo authentication
+                if (email === 'admin@infinityfunds.com' && password === 'admin123') {
+                    // Save login state
+                    localStorage.setItem('admin_logged_in', 'true');
+                    localStorage.setItem('admin_email', email);
+                    localStorage.setItem('admin_name', 'Admin Sharma');
                     
-                    // Save admin data (in production, this would be a JWT token)
-                    localStorage.setItem('admin_data', JSON.stringify({
-                        ...admin,
-                        password: undefined, // Don't save password
-                        login_time: Date.now(),
-                        ip_address: generateRandomIP(),
-                        session_id: generateSessionId()
-                    }));
+                    showNotification('Login successful! Redirecting...', 'success');
                     
-                    // Show success and redirect
-                    showSuccess('Login successful! Redirecting to admin panel...');
-                    
-                    // Redirect after delay
+                    // Redirect to dashboard after 1 second
                     setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1500);
-                    
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1000);
                 } else {
-                    // Invalid credentials
-                    showError('Invalid email or password. Please try again.');
-                    
-                    // Shake animation
-                    loginForm.classList.add('shake');
-                    setTimeout(() => {
-                        loginForm.classList.remove('shake');
-                    }, 500);
-                    
-                    // Reset button
-                    resetLoginButton();
+                    showNotification('Invalid email or password. Try: admin@infinityfunds.com / admin123');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
                 }
             }, 1500);
         });
 
-        // Utility functions
-        function showError(message) {
-            errorMessage.querySelector('#errorText').textContent = message;
-            errorMessage.classList.add('show');
-            successMessage.classList.remove('show');
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                errorMessage.classList.remove('show');
-            }, 5000);
-        }
-
-        function showSuccess(message) {
-            successMessage.querySelector('#successText').textContent = message;
-            successMessage.classList.add('show');
-            errorMessage.classList.remove('show');
-        }
-
-        function resetLoginButton() {
-            loginBtn.classList.remove('loading');
-            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
-        }
-
-        function isValidEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function generateRandomIP() {
-            return `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
-        }
-
-        function generateSessionId() {
-            return 'session_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-            
-            .shake {
-                animation: shake 0.5s ease-in-out;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Auto-focus email field
-        adminEmail.focus();
-
-        // Enter key to submit
-        adminPassword.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loginForm.dispatchEvent(new Event('submit'));
-            }
+        // Forgot password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            showNotification('Password reset feature coming soon!', 'success');
         });
     </script>
 </body>
