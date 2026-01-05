@@ -30,6 +30,10 @@
             flex-direction: column;
             flex-shrink: 0;
             transition: all 0.3s ease;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
         }
 
         .logo {
@@ -81,6 +85,7 @@
             text-decoration: none;
             transition: all 0.3s;
             cursor: pointer;
+            border-left: 4px solid transparent;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -100,6 +105,8 @@
             padding: 32px;
             overflow-y: auto;
             transition: all 0.3s ease;
+            margin-left: 280px;
+            width: calc(100% - 280px);
         }
 
         .header {
@@ -170,6 +177,11 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             padding: 24px;
+            transition: transform 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
         }
 
         .dashboard-card h2 {
@@ -197,6 +209,12 @@
             border-radius: 8px;
             padding: 16px;
             text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-3px);
         }
 
         .stat-value {
@@ -220,6 +238,16 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .activity-item:hover {
+            background-color: #f8fafc;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-left: -10px;
+            margin-right: -10px;
+            border-radius: 8px;
         }
 
         .activity-item:last-child {
@@ -268,6 +296,11 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             padding: 28px;
             margin-bottom: 24px;
+            transition: transform 0.3s;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-5px);
         }
 
         .settings-card h2 {
@@ -304,6 +337,7 @@
             font-size: 16px;
             color: #334155;
             transition: border-color 0.3s;
+            background-color: #ffffff;
         }
 
         .form-input:focus, .form-select:focus {
@@ -347,6 +381,7 @@
         .upload-btn:hover {
             border-color: #3b82f6;
             background-color: #eff6ff;
+            transform: translateY(-2px);
         }
 
         .upload-btn i {
@@ -380,6 +415,8 @@
 
         .btn-save:hover {
             background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .btn-save i {
@@ -410,6 +447,12 @@
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .data-item:hover {
+            background-color: #f1f5f9;
+            transform: translateX(5px);
         }
 
         .data-label {
@@ -430,6 +473,16 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .portfolio-item:hover {
+            background-color: #f8fafc;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-left: -10px;
+            margin-right: -10px;
+            border-radius: 8px;
         }
 
         .portfolio-item:last-child {
@@ -507,6 +560,12 @@
         /* Content Area */
         .content-area {
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .content-area.active {
@@ -527,6 +586,12 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             padding: 24px;
             text-align: center;
+            transition: all 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
 
         .summary-icon {
@@ -554,6 +619,67 @@
             color: #64748b;
         }
 
+        /* Other pages content */
+        .page-content {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .page-content h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-content h2 i {
+            margin-right: 12px;
+            color: #3b82f6;
+        }
+
+        .page-content p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .content-item {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .content-item:hover {
+            transform: translateY(-5px);
+            background-color: #f1f5f9;
+        }
+
+        .content-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .content-item p {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 0;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .settings-container, .dashboard-container {
@@ -565,29 +691,46 @@
             }
         }
 
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            
+        @media (max-width: 992px) {
             .sidebar {
-                width: 100%;
-                padding: 16px 0;
+                position: fixed;
+                left: -280px;
+                z-index: 1000;
             }
             
-            .nav-items {
-                display: flex;
-                overflow-x: auto;
-                padding-bottom: 8px;
-            }
-            
-            .nav-item {
-                white-space: nowrap;
-                flex-shrink: 0;
+            .sidebar.active {
+                left: 0;
             }
             
             .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background-color: #3b82f6;
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
                 padding: 24px 16px;
+                padding-top: 70px;
             }
             
             .half-width {
@@ -597,12 +740,26 @@
             .dashboard-summary {
                 grid-template-columns: 1fr;
             }
+            
+            .photo-upload {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .photo-preview {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Toggle -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="logo">
             <div class="logo-icon">IM</div>
             <div class="logo-text">Infinity Mutual Funds</div>
@@ -989,32 +1146,194 @@
             </div>
         </div>
 
-        <!-- Other Content Areas (Empty for now) -->
+        <!-- Task Management Page -->
         <div class="content-area" id="task">
-            <div class="dashboard-card">
+            <div class="page-content">
                 <h2><i class="fas fa-tasks"></i> Task Management</h2>
-                <p>Task management content will appear here.</p>
+                <p>Manage your daily tasks and track progress on your investment activities.</p>
+                
+                <div class="content-grid">
+                    <div class="content-item">
+                        <h3>Pending Tasks</h3>
+                        <p>Review 3 pending investment proposals</p>
+                        <p style="color: #3b82f6; font-size: 12px; margin-top: 10px;">Due: Today</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Completed Tasks</h3>
+                        <p>Monthly portfolio review completed</p>
+                        <p style="color: #10b981; font-size: 12px; margin-top: 10px;">Completed: Today</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Upcoming Tasks</h3>
+                        <p>SIP payment due in 3 days</p>
+                        <p style="color: #f59e0b; font-size: 12px; margin-top: 10px;">Due: Nov 5</p>
+                    </div>
+                </div>
             </div>
         </div>
         
+        <!-- Calendar Page -->
         <div class="content-area" id="calendar">
-            <div class="dashboard-card">
+            <div class="page-content">
                 <h2><i class="far fa-calendar"></i> Calendar</h2>
-                <p>Calendar content will appear here.</p>
+                <p>View and manage your investment schedule and important dates.</p>
+                
+                <div class="content-grid">
+                    <div class="content-item">
+                        <h3>Today's Events</h3>
+                        <p>Portfolio Review Meeting - 2:00 PM</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>This Week</h3>
+                        <p>SIP Payment Due - Nov 5</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>This Month</h3>
+                        <p>Quarterly Performance Review - Nov 15</p>
+                    </div>
+                </div>
             </div>
         </div>
         
+        <!-- Leads Page -->
         <div class="content-area" id="leads">
-            <div class="dashboard-card">
-                <h2><i class="fas fa-user-friends"></i> Leads</h2>
-                <p>Leads management content will appear here.</p>
+            <div class="page-content">
+                <h2><i class="fas fa-user-friends"></i> Leads Management</h2>
+                <p>Track and manage potential investment leads and client inquiries.</p>
+                
+                <div class="content-grid">
+                    <div class="content-item">
+                        <h3>New Leads</h3>
+                        <p>12 new leads this month</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Active Leads</h3>
+                        <p>24 leads in progress</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Converted Leads</h3>
+                        <p>8 leads converted to clients</p>
+                    </div>
+                </div>
             </div>
         </div>
         
+        <!-- Opportunities Page -->
+        <div class="content-area" id="opportunities">
+            <div class="page-content">
+                <h2><i class="fas fa-chart-line"></i> Opportunities</h2>
+                <p>Track investment opportunities and market prospects.</p>
+                <div class="content-grid">
+                    <div class="content-item">
+                        <h3>Equity Opportunities</h3>
+                        <p>High-growth tech stocks showing potential</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Debt Opportunities</</h3>
+                        <p>Corporate bonds with attractive yields</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- App Settings Page -->
         <div class="content-area" id="settings">
-            <div class="dashboard-card">
+            <div class="page-content">
                 <h2><i class="fas fa-sliders-h"></i> App Settings</h2>
-                <p>App settings content will appear here.</p>
+                <p>Configure application preferences and display settings.</p>
+                
+                <div class="content-grid">
+                    <div class="content-item">
+                        <h3>Theme Settings</h3>
+                        <p>Customize your dashboard appearance</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Notification Settings</h3>
+                        <p>Configure alerts and notifications</p>
+                    </div>
+                    <div class="content-item">
+                        <h3>Privacy Settings</h3>
+                        <p>Manage your data privacy preferences</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other pages (simplified for demo) -->
+        <div class="content-area" id="contracts">
+            <div class="page-content">
+                <h2><i class="fas fa-file-contract"></i> Contracts</h2>
+                <p>Manage investment contracts and agreements.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="companies">
+            <div class="page-content">
+                <h2><i class="fas fa-building"></i> Companies</h2>
+                <p>Track companies in your investment portfolio.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="analytics">
+            <div class="page-content">
+                <h2><i class="fas fa-chart-pie"></i> Analytics</h2>
+                <p>Detailed analytics and performance metrics.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="forms">
+            <div class="page-content">
+                <h2><i class="fas fa-list-alt"></i> Forms</h2>
+                <p>Investment forms and documentation.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="emails">
+            <div class="page-content">
+                <h2><i class="fas fa-envelope"></i> Emails</h2>
+                <p>Email communication management.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="ads">
+            <div class="page-content">
+                <h2><i class="fas fa-ad"></i> Social Media Ads</h2>
+                <p>Social media advertising campaigns.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="notifications">
+            <div class="page-content">
+                <h2><i class="fas fa-bell"></i> Notifications</h2>
+                <p>Configure notification preferences.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="language">
+            <div class="page-content">
+                <h2><i class="fas fa-globe"></i> Language & Region</h2>
+                <p>Set language and regional preferences.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="workspace">
+            <div class="page-content">
+                <h2><i class="fas fa-briefcase"></i> Workspace Reference</h2>
+                <p>Workspace settings and references.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="member">
+            <div class="page-content">
+                <h2><i class="fas fa-users"></i> Member Management</h2>
+                <p>Manage team members and permissions.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="billing">
+            <div class="page-content">
+                <h2><i class="fas fa-credit-card"></i> Billing</h2>
+                <p>Billing information and payment history.</p>
             </div>
         </div>
     </div>
@@ -1047,6 +1366,8 @@
             const contentAreas = document.querySelectorAll('.content-area');
             const pageTitle = document.getElementById('pageTitle');
             const userProfile = document.querySelector('.user-profile');
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
             
             // Navigate to dashboard by default
             showContent('dashboard');
@@ -1065,6 +1386,11 @@
                     
                     // Update page title
                     updatePageTitle(target);
+                    
+                    // Close sidebar on mobile after clicking
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
                 });
             });
             
@@ -1081,6 +1407,16 @@
                 
                 // Update page title
                 updatePageTitle(target);
+                
+                // Close sidebar on mobile after clicking
+                if (window.innerWidth < 992) {
+                    sidebar.classList.remove('active');
+                }
+            });
+            
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
             });
             
             // Handle photo upload
@@ -1111,7 +1447,7 @@
                             userData.photo = event.target.result;
                             
                             // Show success message
-                            alert('Profile photo uploaded successfully!');
+                            showNotification('Profile photo uploaded successfully!', 'success');
                         };
                         reader.readAsDataURL(file);
                     }
@@ -1138,7 +1474,7 @@
                 updateDashboardData();
                 
                 // Show success message
-                alert('Personal information updated successfully!');
+                showNotification('Personal information updated successfully!', 'success');
                 
                 // Navigate back to dashboard
                 navItems.forEach(nav => nav.classList.remove('active'));
@@ -1195,7 +1531,7 @@
                     'dashboard': 'Dashboard',
                     'task': 'Task Management',
                     'calendar': 'Calendar',
-                    'leads': 'Leads',
+                    'leads': 'Leads Management',
                     'opportunities': 'Opportunities',
                     'contracts': 'Contracts',
                     'companies': 'Companies',
@@ -1242,6 +1578,58 @@
                 // Calculate profit percentage
                 const profitPercentage = ((userData.totalReturns / userData.totalInvested) * 100).toFixed(1);
                 document.getElementById('profitValue').textContent = `+${profitPercentage}%`;
+            }
+            
+            // Function to show notification
+            function showNotification(message, type) {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    color: white;
+                    font-weight: 500;
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                `;
+                
+                if (type === 'success') {
+                    notification.style.backgroundColor = '#10b981';
+                } else {
+                    notification.style.backgroundColor = '#3b82f6';
+                }
+                
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+                
+                // Add CSS for animations
+                if (!document.querySelector('#notification-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'notification-styles';
+                    style.textContent = `
+                        @keyframes slideIn {
+                            from { transform: translateX(100%); opacity: 0; }
+                            to { transform: translateX(0); opacity: 1; }
+                        }
+                        @keyframes slideOut {
+                            from { transform: translateX(0); opacity: 1; }
+                            to { transform: translateX(100%); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
             }
             
             // Initialize data
