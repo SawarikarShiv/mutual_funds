@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .module-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .module-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .module-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .module-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .module-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .module-count {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .action-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .action-card i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .activity-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .activity-details p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .activity-time {
+            margin-left: auto;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="dashboard.html" class="logo">
+            <div class="logo-icon">∞</div>
+            <div class="logo-text">Infinity MF</div>
+        </a>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Live Market Data</span>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">JM</div>
+                <div>
+                    <div class="user-name">John Marpung</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <button id="mobileMenuBtn" class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Main Navigation</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="nav-link">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Portfolio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="transactions.html" class="nav-link">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transactions</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Management Modules</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="user-management.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fund-master.html" class="nav-link">
+                        <i class="fas fa-wallet"></i>
+                        <span>Fund Master</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Analytics & Research</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="performance-analytics.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Performance Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="research-screening.html" class="nav-link">
+                        <i class="fas fa-search"></i>
+                        <span>Research & Screening</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Reports & Compliance</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="reporting.html" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reporting</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="compliance.html" class="nav-link">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Compliance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="taxation.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Taxation</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">System</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="alerts-notifications.html" class="nav-link">
+                        <i class="fas fa-bell"></i>
+                        <span>Alerts & Notifications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" style="color: #f72585;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section" style="margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">
+                <div class="current-date">Loading time...</div>
+                <div style="margin-top: 10px; font-size: 11px;">
+                    System Status: <span style="color: #4cc9f0;">Online</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Dashboard Overview</h1>
+            <p>Welcome back, John! Here's your complete portfolio summary.</p>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">₹24.78L</div>
+                <div class="stat-label">Total Portfolio Value</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    +2.4% today
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Active Funds</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    +2 this month
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">₹2.15L</div>
+                <div class="stat-label">Total Returns</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    +15.8% overall
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Pending Actions</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-clock"></i>
+                    Requires attention
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div style="margin-top: 30px;">
+            <h3 style="margin-bottom: 15px;">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="transactions.html" class="action-card">
+                    <i class="fas fa-plus-circle"></i>
+                    <div>New Investment</div>
+                </a>
+                <a href="portfolio.html" class="action-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <div>View Portfolio</div>
+                </a>
+                <a href="fund-master.html" class="action-card">
+                    <i class="fas fa-search"></i>
+                    <div>Browse Funds</div>
+                </a>
+                <a href="reporting.html" class="action-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <div>Generate Report</div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h3 style="margin-bottom: 20px;">Recent Activity</h3>
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="activity-details">
+                    <h4>SIP Investment Processed</h4>
+                    <p>Monthly SIP in HDFC Top 100 Fund</p>
+                </div>
+                <div class="activity-time">Today, 10:30 AM</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="activity-details">
+                    <h4>Fund Switch Completed</h4>
+                    <p>Debt to Hybrid Fund switch for Rajesh Kumar</p>
+                </div>
+                <div class="activity-time">Yesterday, 2:15 PM</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="activity-details">
+                    <h4>New User Registered</h4>
+                    <p>Investor account created for Priya Sharma</p>
+                </div>
+                <div class="activity-time">2 days ago</div>
+            </div>
+        </div>
+        
+        <!-- All Modules Grid -->
+        <div style="margin-top: 40px;">
+            <h3>All System Modules</h3>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Access complete portfolio management features</p>
+            
+            <div class="modules-grid">
+                <!-- Module 1: User Management -->
+                <a href="user-management.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="module-title">User Management</div>
+                    <div class="module-description">
+                        Manage user accounts, roles, permissions, and access control for administrators, advisors, and investors.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">156</div>
+                        <div class="btn btn-outline">Manage Users</div>
+                    </div>
+                </a>
+                
+                <!-- Module 2: Fund Master -->
+                <a href="fund-master.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="module-title">Fund Master</div>
+                    <div class="module-description">
+                        Comprehensive database of mutual funds with NAV updates, fund details, categorization, and performance metrics.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">2,450</div>
+                        <div class="btn btn-outline">Browse Funds</div>
+                    </div>
+                </a>
+                
+                <!-- Module 3: Transactions -->
+                <a href="transactions.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="module-title">Transaction Module</div>
+                    <div class="module-description">
+                        Process investments, redemptions, switches, and SIP registrations with real-time validation and confirmation.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">1,234</div>
+                        <div class="btn btn-outline">New Transaction</div>
+                    </div>
+                </a>
+                
+                <!-- Module 4: Portfolio -->
+                <a href="portfolio.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="module-title">Portfolio Module</div>
+                    <div class="module-description">
+                        Track and analyze investment portfolios with real-time valuations, asset allocation, and holding patterns.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">12</div>
+                        <div class="btn btn-outline">View Portfolio</div>
+                    </div>
+                </a>
+                
+                <!-- Module 5: Performance Analytics -->
+                <a href="performance-analytics.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="module-title">Performance Analytics</div>
+                    <div class="module-description">
+                        Advanced analytics including XIRR, CAGR, volatility analysis, benchmark comparison, and risk metrics.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">15.8%</div>
+                        <div class="btn btn-outline">Analyze</div>
+                    </div>
+                </a>
+                
+                <!-- Module 6: Research & Screening -->
+                <a href="research-screening.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="module-title">Research & Screening</div>
+                    <div class="module-description">
+                        Advanced fund screening, comparison tools, research reports, and investment recommendations.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">50+</div>
+                        <div class="btn btn-outline">Research</div>
+                    </div>
+                </a>
+                
+                <!-- Module 7: Reporting -->
+                <a href="reporting.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="module-title">Reporting Module</div>
+                    <div class="module-description">
+                        Generate comprehensive reports including statements, capital gains, audit trails, and regulatory reports.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">24</div>
+                        <div class="btn btn-outline">Generate</div>
+                    </div>
+                </a>
+                
+                <!-- Module 8: Compliance -->
+                <a href="compliance.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="module-title">Compliance Module</div>
+                    <div class="module-description">
+                        Ensure regulatory compliance, KYC verification, AML checks, and adherence to investment guidelines.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">98%</div>
+                        <div class="btn btn-outline">Check</div>
+                    </div>
+                </a>
+                
+                <!-- Module 9: Alerts & Notifications -->
+                <a href="alerts-notifications.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="module-title">Alerts & Notifications</div>
+                    <div class="module-description">
+                        Real-time alerts for price movements, SIP dates, maturity reminders, and important market events.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">8</div>
+                        <div class="btn btn-outline">View Alerts</div>
+                    </div>
+                </a>
+                
+                <!-- Module 10: Taxation -->
+                <a href="taxation.html" class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="module-title">Taxation Module</div>
+                    <div class="module-description">
+                        Calculate capital gains, tax liabilities, generate tax reports, and optimize for tax efficiency.
+                    </div>
+                    <div class="module-stats">
+                        <div class="module-count">₹45,230</div>
+                        <div class="btn btn-outline">Calculate</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Check if user is logged in
+        const user = localStorage.getItem('infinity_user');
+        if (!user) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
