@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Mutual Funds - Settings</title>
+    <title>Settings | Infinity Mutual Funds</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -98,6 +98,7 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            text-decoration: none;
         }
 
         .dashboard-btn:hover {
@@ -266,6 +267,10 @@
             display: block;
         }
 
+        .file-input {
+            display: none;
+        }
+
         .btn-save {
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
@@ -394,37 +399,6 @@
             margin-bottom: 15px;
         }
 
-        /* Help and Support Section */
-        .help-section {
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(226, 232, 240, 0.7);
-            grid-column: 1 / -1;
-        }
-
-        .help-links {
-            display: flex;
-            gap: 25px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .help-link {
-            display: flex;
-            align-items: center;
-            color: #3b82f6;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s;
-            gap: 8px;
-        }
-
-        .help-link:hover {
-            color: #2563eb;
-            text-decoration: underline;
-        }
-
         /* Success notification */
         .notification {
             position: fixed;
@@ -452,6 +426,43 @@
                 transform: translateX(0);
                 opacity: 1;
             }
+        }
+
+        /* Portfolio Value Slider */
+        .portfolio-slider {
+            margin: 20px 0;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Responsive Design */
@@ -519,11 +530,6 @@
             .country-code {
                 width: 100%;
             }
-            
-            .help-links {
-                flex-direction: column;
-                gap: 15px;
-            }
         }
     </style>
 </head>
@@ -537,10 +543,10 @@
             </div>
             
             <div class="header-actions">
-                <button class="dashboard-btn" id="dashboardBtn">
-                    <i class="fas fa-home"></i>
-                    <span>Go to Dashboard</span>
-                </button>
+                <a href="dashboard.html" class="dashboard-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
                 
                 <div class="user-profile" id="userProfile">
                     <div class="user-avatar" id="headerAvatar">JM</div>
@@ -567,6 +573,7 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         <span>Click to upload your photo</span>
                         <span style="font-size: 13px; display: block; margin-top: 5px;">JPG or PNG, 1MB max</span>
+                        <input type="file" id="photoInput" class="file-input" accept="image/*">
                     </div>
                 </div>
                 
@@ -649,7 +656,19 @@
                 
                 <div class="data-item">
                     <div class="data-label">Investment Portfolio</div>
-                    <div class="data-value">$245,850.75</div>
+                    <div class="data-value" id="currentPortfolioValue">$245,850.75</div>
+                </div>
+                
+                <div class="portfolio-slider">
+                    <div class="form-label">Adjust Portfolio Value</div>
+                    <div class="slider-container">
+                        <input type="range" id="portfolioSlider" min="50000" max="1000000" step="1000" value="245851">
+                    </div>
+                    <div class="slider-labels">
+                        <span>$50K</span>
+                        <span>$1M</span>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-weight: 500; color: #3b82f6;" id="sliderValue">$245,851</div>
                 </div>
                 
                 <div class="data-item">
@@ -704,85 +723,58 @@
                 </button>
             </div>
 
-            <!-- Regional Settings Card -->
+            <!-- Notification Settings Card -->
             <div class="settings-card">
-                <h2><i class="fas fa-globe"></i> Regional Settings</h2>
-                <p style="color: #64748b; margin-bottom: 25px;">Configure your regional preferences</p>
+                <h2><i class="fas fa-bell"></i> Notification Settings</h2>
+                <p style="color: #64748b; margin-bottom: 25px;">Configure your notification preferences</p>
                 
-                <div class="form-group">
-                    <label class="form-label" for="timezone">Time Zone</label>
-                    <select class="form-select" id="timezone">
-                        <option value="America/New_York">(GMT-5) Eastern Time (US & Canada)</option>
-                        <option value="America/Chicago">(GMT-6) Central Time (US & Canada)</option>
-                        <option value="America/Denver">(GMT-7) Mountain Time (US & Canada)</option>
-                        <option value="America/Los_Angeles">(GMT-8) Pacific Time (US & Canada)</option>
-                        <option value="Europe/London">(GMT+0) London</option>
-                        <option value="Europe/Paris">(GMT+1) Paris, Madrid</option>
-                        <option value="Asia/Dubai">(GMT+4) Dubai</option>
-                        <option value="Asia/Kolkata">(GMT+5:30) India</option>
-                        <option value="Asia/Singapore">(GMT+8) Singapore, Kuala Lumpur</option>
-                        <option value="Asia/Tokyo">(GMT+9) Tokyo</option>
-                        <option value="Australia/Sydney">(GMT+10) Sydney</option>
-                    </select>
+                <div class="security-toggle">
+                    <div>
+                        <div style="font-weight: 500;">Email Notifications</div>
+                        <div style="font-size: 13px; color: #64748b;">Receive updates via email</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="emailNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label" for="language">Language</label>
-                    <select class="form-select" id="language">
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                        <option value="zh">Chinese</option>
-                        <option value="ja">Japanese</option>
-                        <option value="hi">Hindi</option>
-                        <option value="ar">Arabic</option>
-                        <option value="pt">Portuguese</option>
-                        <option value="ru">Russian</option>
-                    </select>
+                <div class="security-toggle">
+                    <div>
+                        <div style="font-weight: 500;">SMS Alerts</div>
+                        <div style="font-size: 13px; color: #64748b;">Receive alerts via SMS</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="smsAlerts">
+                        <span class="slider"></span>
+                    </label>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label" for="currency">Currency</label>
-                    <select class="form-select" id="currency">
-                        <option value="USD">US Dollar (USD)</option>
-                        <option value="EUR">Euro (EUR)</option>
-                        <option value="GBP">British Pound (GBP)</option>
-                        <option value="JPY">Japanese Yen (JPY)</option>
-                        <option value="CAD">Canadian Dollar (CAD)</option>
-                        <option value="AUD">Australian Dollar (AUD)</option>
-                        <option value="INR">Indian Rupee (INR)</option>
-                        <option value="CNY">Chinese Yuan (CNY)</option>
-                        <option value="AED">UAE Dirham (AED)</option>
-                        <option value="SGD">Singapore Dollar (SGD)</option>
-                    </select>
+                <div class="security-toggle">
+                    <div>
+                        <div style="font-weight: 500;">Push Notifications</div>
+                        <div style="font-size: 13px; color: #64748b;">Receive push notifications</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="pushNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
                 
-                <button class="btn-save" id="saveRegionalSettings">
-                    <i class="fas fa-sync-alt"></i> Update Regional Settings
+                <div class="security-toggle">
+                    <div>
+                        <div style="font-weight: 500;">Market Updates</div>
+                        <div style="font-size: 13px; color: #64748b;">Daily market summaries</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="marketUpdates" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <button class="btn-save" id="saveNotificationSettings">
+                    <i class="fas fa-bell"></i> Save Notification Settings
                 </button>
-            </div>
-
-            <!-- Help and Support Section -->
-            <div class="help-section">
-                <h2 style="font-size: 20px; margin-bottom: 20px;">Help and Support</h2>
-                <div class="help-links">
-                    <a href="#" class="help-link">
-                        <i class="fas fa-question-circle"></i> Help Center
-                    </a>
-                    <a href="#" class="help-link">
-                        <i class="fas fa-file-contract"></i> Privacy Policy
-                    </a>
-                    <a href="#" class="help-link">
-                        <i class="fas fa-shield-alt"></i> Terms of Service
-                    </a>
-                    <a href="#" class="help-link">
-                        <i class="fas fa-phone-alt"></i> Contact Support
-                    </a>
-                    <a href="#" class="help-link">
-                        <i class="fas fa-download"></i> Download App
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -790,109 +782,105 @@
     <!-- Success Notification -->
     <div class="notification" id="successNotification">
         <i class="fas fa-check-circle"></i>
-        <span>Settings updated successfully!</span>
+        <span id="notificationMessage">Settings updated successfully!</span>
     </div>
 
     <script>
-        // User data storage
-        let userData = {
-            name: "John Marpung",
-            email: "john@gmail.com",
-            phone: "684-555-0102",
-            countryCode: "+1",
-            dob: "1999-04-12",
-            country: "US",
-            photo: null
-        };
-
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Load user data from localStorage
+            loadUserData();
+            
             // Set current date for date input
             const dobInput = document.getElementById('dob');
             const today = new Date().toISOString().split('T')[0];
             dobInput.max = today;
             
-            // Dashboard button click handler
-            const dashboardBtn = document.getElementById('dashboardBtn');
-            dashboardBtn.addEventListener('click', function() {
-                showNotification("Redirecting to Dashboard...");
-                
-                // In a real application, this would redirect to the dashboard page
-                // For demo purposes, we'll just show a message
-                setTimeout(() => {
-                    alert("In a real application, this would redirect you to the Dashboard page.\n\nYour dashboard would show:\n• Portfolio Overview: $" + userData.portfolioValue + "\n• Recent Activity\n• Investment Statistics\n• Market Updates");
-                }, 500);
+            // Portfolio slider functionality
+            const portfolioSlider = document.getElementById('portfolioSlider');
+            const sliderValue = document.getElementById('sliderValue');
+            const currentPortfolioValue = document.getElementById('currentPortfolioValue');
+            
+            portfolioSlider.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                const formattedValue = formatCurrency(value);
+                sliderValue.textContent = formattedValue;
+                currentPortfolioValue.textContent = formattedValue;
             });
             
             // Handle photo upload
             const uploadBtn = document.getElementById('uploadBtn');
+            const photoInput = document.getElementById('photoInput');
             const photoPreview = document.getElementById('photoPreview');
             const headerAvatar = document.getElementById('headerAvatar');
             
             uploadBtn.addEventListener('click', function() {
-                // Create a file input element
-                const fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.accept = 'image/*';
+                photoInput.click();
+            });
+            
+            photoInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
                 
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    
-                    // Validate file type
-                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                    if (!validTypes.includes(file.type)) {
-                        alert('Please select a valid image file (JPG, PNG, GIF)');
-                        return;
-                    }
-                    
-                    // Validate file size (1MB max)
-                    if (file.size > 1024 * 1024) {
-                        alert('File size must be less than 1MB');
-                        return;
-                    }
-                    
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        // Update photo preview
-                        photoPreview.innerHTML = '';
-                        photoPreview.style.backgroundImage = `url(${event.target.result})`;
-                        
-                        // Update header avatar
-                        headerAvatar.style.backgroundImage = `url(${event.target.result})`;
-                        headerAvatar.textContent = '';
-                        
-                        // Save photo data
-                        userData.photo = event.target.result;
-                        
-                        // Show success message
-                        showNotification("Profile photo uploaded successfully!");
-                    };
-                    reader.readAsDataURL(file);
-                });
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    showNotification('Please select a valid image file (JPG, PNG, GIF)', 'error');
+                    return;
+                }
                 
-                fileInput.click();
+                // Validate file size (1MB max)
+                if (file.size > 1024 * 1024) {
+                    showNotification('File size must be less than 1MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Update photo preview
+                    photoPreview.innerHTML = '';
+                    photoPreview.style.backgroundImage = `url(${event.target.result})`;
+                    
+                    // Update header avatar
+                    headerAvatar.style.backgroundImage = `url(${event.target.result})`;
+                    headerAvatar.textContent = '';
+                    
+                    // Save photo data to localStorage
+                    saveToLocalStorage('photo', event.target.result);
+                    
+                    // Show success message
+                    showNotification('Profile photo uploaded successfully!', 'success');
+                };
+                reader.readAsDataURL(file);
             });
             
             // Handle personal info save
             const savePersonalBtn = document.getElementById('savePersonalInfo');
             savePersonalBtn.addEventListener('click', function() {
                 // Get form values
-                userData.name = document.getElementById('fullName').value;
-                userData.email = document.getElementById('email').value;
-                userData.phone = document.getElementById('phone').value;
-                userData.countryCode = document.getElementById('countryCode').value;
-                userData.dob = document.getElementById('dob').value;
-                userData.country = document.getElementById('country').value;
+                const userData = {
+                    name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    countryCode: document.getElementById('countryCode').value,
+                    dob: document.getElementById('dob').value,
+                    country: document.getElementById('country').value
+                };
+                
+                // Save to localStorage
+                saveToLocalStorage('userData', userData);
                 
                 // Update header information
-                updateHeaderInfo();
+                updateHeaderInfo(userData);
                 
                 // Show success message
-                showNotification("Personal information updated successfully!");
+                showNotification('Personal information updated successfully!', 'success');
                 
                 // Animate save button
                 animateSaveButton(savePersonalBtn);
+                
+                // Update other tabs/windows
+                triggerStorageUpdate();
             });
             
             // Handle security settings save
@@ -904,14 +892,26 @@
                 const twoFactorEnabled = document.getElementById('twoFactorToggle').checked;
                 
                 if (newPassword && newPassword !== confirmPassword) {
-                    alert('New passwords do not match. Please try again.');
+                    showNotification('New passwords do not match. Please try again.', 'error');
                     return;
                 }
                 
                 if (newPassword && newPassword.length < 8) {
-                    alert('New password must be at least 8 characters long.');
+                    showNotification('New password must be at least 8 characters long.', 'error');
                     return;
                 }
+                
+                // Save security settings
+                const securityData = {
+                    twoFactorEnabled: twoFactorEnabled,
+                    lastPasswordChange: new Date().toISOString()
+                };
+                
+                if (newPassword) {
+                    securityData.passwordChanged = true;
+                }
+                
+                saveToLocalStorage('securitySettings', securityData);
                 
                 // Clear password fields
                 document.getElementById('currentPassword').value = '';
@@ -919,23 +919,26 @@
                 document.getElementById('confirmPassword').value = '';
                 
                 // Show success message
-                showNotification(`Security settings updated! 2FA: ${twoFactorEnabled ? 'Enabled' : 'Disabled'}`);
+                showNotification(`Security settings updated! 2FA: ${twoFactorEnabled ? 'Enabled' : 'Disabled'}`, 'success');
                 
                 // Animate save button
                 animateSaveButton(saveSecurityBtn);
             });
             
-            // Handle regional settings save
-            const saveRegionalBtn = document.getElementById('saveRegionalSettings');
-            saveRegionalBtn.addEventListener('click', function() {
-                const timezone = document.getElementById('timezone').value;
-                const language = document.getElementById('language').value;
-                const currency = document.getElementById('currency').value;
+            // Handle notification settings save
+            const saveNotificationBtn = document.getElementById('saveNotificationSettings');
+            saveNotificationBtn.addEventListener('click', function() {
+                const notificationSettings = {
+                    email: document.getElementById('emailNotifications').checked,
+                    sms: document.getElementById('smsAlerts').checked,
+                    push: document.getElementById('pushNotifications').checked,
+                    market: document.getElementById('marketUpdates').checked
+                };
                 
-                showNotification("Regional settings updated successfully!");
+                saveToLocalStorage('notificationSettings', notificationSettings);
                 
-                // Animate save button
-                animateSaveButton(saveRegionalBtn);
+                showNotification('Notification settings saved successfully!', 'success');
+                animateSaveButton(saveNotificationBtn);
             });
             
             // Automatically update phone country code when country changes
@@ -971,29 +974,150 @@
             // User profile click to show user info
             const userProfile = document.getElementById('userProfile');
             userProfile.addEventListener('click', function() {
-                showNotification("Showing user profile information");
+                const userData = getFromLocalStorage('userData') || {};
+                showNotification(`Showing profile for: ${userData.name || 'User'}`, 'info');
             });
             
-            // Function to update header information
-            function updateHeaderInfo() {
-                document.getElementById('headerUserName').textContent = userData.name;
-                document.getElementById('headerUserEmail').textContent = userData.email;
+            // Function to load user data
+            function loadUserData() {
+                // Try multiple storage keys for compatibility
+                const storageKeys = ['infinity_user', 'infinityUserData', 'userData', 'currentUser'];
+                let userData = {};
                 
-                // Update avatar initials if no photo
-                if (!userData.photo) {
+                for (const key of storageKeys) {
+                    const data = getFromLocalStorage(key);
+                    if (data) {
+                        userData = { ...userData, ...data };
+                    }
+                }
+                
+                // Set form values if data exists
+                if (userData.name) {
+                    document.getElementById('fullName').value = userData.name;
+                    document.getElementById('headerUserName').textContent = userData.name;
+                }
+                if (userData.email) {
+                    document.getElementById('email').value = userData.email;
+                    document.getElementById('headerUserEmail').textContent = userData.email;
+                }
+                if (userData.phone) {
+                    document.getElementById('phone').value = userData.phone;
+                }
+                if (userData.countryCode) {
+                    document.getElementById('countryCode').value = userData.countryCode;
+                }
+                if (userData.dob) {
+                    document.getElementById('dob').value = userData.dob;
+                }
+                if (userData.country) {
+                    document.getElementById('country').value = userData.country;
+                }
+                if (userData.photo) {
+                    photoPreview.style.backgroundImage = `url(${userData.photo})`;
+                    photoPreview.innerHTML = '';
+                    headerAvatar.style.backgroundImage = `url(${userData.photo})`;
+                    headerAvatar.textContent = '';
+                }
+                if (userData.portfolioValue) {
+                    const value = userData.portfolioValue;
+                    document.getElementById('portfolioSlider').value = value;
+                    const formattedValue = formatCurrency(value);
+                    document.getElementById('sliderValue').textContent = formattedValue;
+                    document.getElementById('currentPortfolioValue').textContent = formattedValue;
+                }
+                
+                // Load avatar initials if no photo
+                if (!userData.photo && userData.name) {
                     const nameParts = userData.name.split(' ');
                     const initials = nameParts.length > 1 
                         ? nameParts[0].charAt(0) + nameParts[nameParts.length-1].charAt(0)
                         : userData.name.substring(0, 2);
                     headerAvatar.textContent = initials.toUpperCase();
+                }
+                
+                // Load notification settings
+                const notificationSettings = getFromLocalStorage('notificationSettings') || {};
+                if (notificationSettings.email !== undefined) {
+                    document.getElementById('emailNotifications').checked = notificationSettings.email;
+                }
+                if (notificationSettings.sms !== undefined) {
+                    document.getElementById('smsAlerts').checked = notificationSettings.sms;
+                }
+                if (notificationSettings.push !== undefined) {
+                    document.getElementById('pushNotifications').checked = notificationSettings.push;
+                }
+                if (notificationSettings.market !== undefined) {
+                    document.getElementById('marketUpdates').checked = notificationSettings.market;
+                }
+                
+                // Load security settings
+                const securitySettings = getFromLocalStorage('securitySettings') || {};
+                if (securitySettings.twoFactorEnabled !== undefined) {
+                    document.getElementById('twoFactorToggle').checked = securitySettings.twoFactorEnabled;
+                }
+            }
+            
+            // Function to update header information
+            function updateHeaderInfo(data) {
+                document.getElementById('headerUserName').textContent = data.name;
+                document.getElementById('headerUserEmail').textContent = data.email;
+                
+                // Update avatar initials if no photo
+                const savedPhoto = getFromLocalStorage('photo');
+                if (!savedPhoto) {
+                    const nameParts = data.name.split(' ');
+                    const initials = nameParts.length > 1 
+                        ? nameParts[0].charAt(0) + nameParts[nameParts.length-1].charAt(0)
+                        : data.name.substring(0, 2);
+                    headerAvatar.textContent = initials.toUpperCase();
                     headerAvatar.style.backgroundImage = '';
                 }
             }
             
-            // Function to show notification
-            function showNotification(message) {
+            // Helper functions
+            function saveToLocalStorage(key, data) {
+                // For portfolio value, update the main user data
+                if (key === 'portfolioSlider') {
+                    const userData = getFromLocalStorage('userData') || {};
+                    userData.portfolioValue = data;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    localStorage.setItem('infinity_user', JSON.stringify(userData));
+                } else {
+                    localStorage.setItem(key, JSON.stringify(data));
+                }
+            }
+            
+            function getFromLocalStorage(key) {
+                try {
+                    const data = localStorage.getItem(key);
+                    return data ? JSON.parse(data) : null;
+                } catch (e) {
+                    return null;
+                }
+            }
+            
+            function formatCurrency(amount) {
+                return '$' + amount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+            
+            function showNotification(message, type = 'success') {
                 const notification = document.getElementById('successNotification');
-                notification.querySelector('span').textContent = message;
+                const messageElement = document.getElementById('notificationMessage');
+                
+                messageElement.textContent = message;
+                
+                // Change color based on type
+                if (type === 'error') {
+                    notification.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                } else if (type === 'info') {
+                    notification.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+                } else {
+                    notification.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                }
+                
                 notification.style.display = 'flex';
                 
                 // Hide notification after 3 seconds
@@ -1002,7 +1126,6 @@
                 }, 3000);
             }
             
-            // Function to animate save button
             function animateSaveButton(button) {
                 button.style.transform = 'scale(0.95)';
                 setTimeout(() => {
@@ -1010,8 +1133,43 @@
                 }, 150);
             }
             
-            // Initialize data
-            updateHeaderInfo();
+            // Trigger storage event to update other tabs/windows
+            function triggerStorageUpdate() {
+                // Create and dispatch a storage event
+                const event = new StorageEvent('storage', {
+                    key: 'infinity_user',
+                    newValue: localStorage.getItem('infinity_user'),
+                    oldValue: localStorage.getItem('infinity_user'),
+                    url: window.location.href,
+                    storageArea: localStorage
+                });
+                
+                window.dispatchEvent(event);
+            }
+            
+            // Listen for storage updates from other tabs
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'infinity_user' || e.key === 'userData') {
+                    loadUserData();
+                }
+            });
+            
+            // Initialize portfolio slider
+            const userData = getFromLocalStorage('userData') || {};
+            if (userData.portfolioValue) {
+                portfolioSlider.value = userData.portfolioValue;
+                const formattedValue = formatCurrency(userData.portfolioValue);
+                sliderValue.textContent = formattedValue;
+                currentPortfolioValue.textContent = formattedValue;
+            }
+            
+            // Save portfolio value when slider changes
+            portfolioSlider.addEventListener('change', function() {
+                const value = parseFloat(this.value);
+                saveToLocalStorage('portfolioSlider', value);
+                showNotification('Portfolio value updated!', 'success');
+                triggerStorageUpdate();
+            });
         });
     </script>
 </body>
