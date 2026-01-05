@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio & Dashboard | Infinity Mutual Funds</title>
     
+    <!-- Chart.js Library for Stock Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    
     <!-- Live Clock in Title -->
     <script>
         function updateTitleTime() {
@@ -20,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Enhanced Live Theme -->
+    <!-- Enhanced Live Theme with Stock Tracker Styles -->
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -500,6 +504,140 @@
             color: #ef4444;
         }
         
+        /* ====== STOCK TRACKER STYLES ====== */
+        .stock-search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stock-search {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .stock-search input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            background: white;
+            color: #1e293b;
+        }
+        
+        .timeframe-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .time-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .time-btn:hover {
+            background: #f1f5f9;
+        }
+        
+        .time-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .chart-container {
+            height: 350px;
+            width: 100%;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .stock-info {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .stock-info h3 {
+            color: #1e293b;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .stock-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .stock-stats > div {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stock-stats strong {
+            font-size: 18px;
+            color: #1e293b;
+        }
+        
+        .watchlist-container {
+            margin-top: 30px;
+        }
+        
+        .watchlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .watchlist-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .watchlist-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .watchlist-symbol {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        
+        .watchlist-price {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .watchlist-change {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
         /* ====== PORTFOLIO TAB STYLES ====== */
         /* Enhanced Portfolio Cards */
         .portfolio-summary {
@@ -827,6 +965,14 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            .stock-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .watchlist-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
     </style>
 </head>
@@ -908,13 +1054,13 @@
                 <i class="fas fa-chart-pie"></i>
                 Portfolio
             </button>
+            <button class="tab-btn" data-tab="stocks">
+                <i class="fas fa-chart-line"></i>
+                Stock Tracker
+            </button>
             <button class="tab-btn" data-tab="funds">
                 <i class="fas fa-wallet"></i>
                 Funds
-            </button>
-            <button class="tab-btn" data-tab="analytics">
-                <i class="fas fa-chart-bar"></i>
-                Analytics
             </button>
         </div>
 
@@ -922,7 +1068,7 @@
         <div class="today-special">
             <i class="fas fa-bullhorn fa-lg" style="color: #ff6b6b;"></i>
             <div>
-                <strong>Today's Live Chat (02 Jan 2026):</strong> Portfolio & Dashboard combined for better insights!
+                <strong>Live Stock Tracker Added!</strong> Now track individual stocks like TCS with real-time mock data and interactive charts.
             </div>
         </div>
 
@@ -1218,6 +1364,104 @@
             </div>
         </div>
 
+        <!-- ====== STOCK TRACKER TAB CONTENT ====== -->
+        <div class="tab-content" id="stocksTab">
+            <!-- Stock Tracker Header -->
+            <div class="page-header">
+                <h1>Stock Tracker</h1>
+                <p>Real-time tracking for individual stocks with interactive charts</p>
+                <div class="last-updated">
+                    <span id="stockLastUpdate">Last updated: Loading...</span>
+                    <button class="refresh-btn" id="refreshStockData">
+                        <i class="fas fa-sync-alt"></i> Refresh Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Market Status -->
+            <div class="market-status">
+                <div class="status-indicator live">
+                    <i class="fas fa-circle" style="color: #10b981;"></i>
+                    <span>Stock Market Open: Live Mock Data</span>
+                </div>
+                <div class="market-time">
+                    <i class="far fa-clock"></i>
+                    <span>Using Mock Data - Ready for API Integration</span>
+                </div>
+            </div>
+
+            <!-- Stock Tracker Card -->
+            <div class="dashboard-card">
+                <h2><i class="fas fa-search"></i> Stock Tracker</h2>
+                
+                <!-- Stock Search -->
+                <div class="stock-search-container">
+                    <div class="stock-search">
+                        <input type="text" id="stockSymbol" placeholder="Enter stock symbol (e.g., TCS, INFY, RELIANCE)" value="TCS">
+                        <button class="btn btn-primary" id="fetchStockData">
+                            <i class="fas fa-chart-line"></i> Load Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Timeframe Selector -->
+                <div class="timeframe-selector">
+                    <button class="time-btn active" data-period="1D">1 Day</button>
+                    <button class="time-btn" data-period="1W">1 Week</button>
+                    <button class="time-btn" data-period="1M">1 Month</button>
+                    <button class="time-btn" data-period="3M">3 Months</button>
+                    <button class="time-btn" data-period="6M">6 Months</button>
+                    <button class="time-btn" data-period="1Y">1 Year</button>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="stockChart"></canvas>
+                </div>
+
+                <!-- Stock Information -->
+                <div class="stock-info">
+                    <h3 id="stockName">Tata Consultancy Services Ltd.</h3>
+                    <div class="stock-stats">
+                        <div>
+                            Current Price: <strong id="stockPrice">₹4,250.50</strong>
+                        </div>
+                        <div>
+                            Daily Change: <span id="stockChange" class="positive">+2.5%</span>
+                        </div>
+                        <div>
+                            Volume: <span id="stockVolume">5.2M</span>
+                        </div>
+                        <div>
+                            Market Cap: <span id="marketCap">₹15.2T</span>
+                        </div>
+                        <div>
+                            52W High: <span id="weekHigh">₹4,350.75</span>
+                        </div>
+                        <div>
+                            52W Low: <span id="weekLow">₹3,150.25</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Watchlist -->
+                <div class="watchlist-container">
+                    <h3><i class="fas fa-star"></i> Your Watchlist</h3>
+                    <div class="watchlist-grid" id="watchlistGrid">
+                        <!-- Watchlist items will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Integration Note -->
+            <div class="today-special" style="margin-top: 30px;">
+                <i class="fas fa-info-circle fa-lg" style="color: #3b82f6;"></i>
+                <div>
+                    <strong>API Integration Ready:</strong> This dashboard is using mock data. To connect to real-time data, sign up for a free API key from <a href="https://www.alphavantage.co" target="_blank" style="color: #3b82f6; text-decoration: underline;">Alpha Vantage</a> or <a href="https://twelvedata.com" target="_blank" style="color: #3b82f6; text-decoration: underline;">Twelve Data</a> and replace the mock data function with real API calls.
+                </div>
+            </div>
+        </div>
+
         <!-- ====== FUNDS TAB CONTENT ====== -->
         <div class="tab-content" id="fundsTab">
             <div class="page-header">
@@ -1227,18 +1471,6 @@
             <div class="dashboard-card">
                 <h2><i class="fas fa-wallet"></i> All Funds</h2>
                 <p style="color: #64748b; margin-bottom: 20px;">Coming soon - Detailed fund analysis</p>
-            </div>
-        </div>
-
-        <!-- ====== ANALYTICS TAB CONTENT ====== -->
-        <div class="tab-content" id="analyticsTab">
-            <div class="page-header">
-                <h1>Analytics & Insights</h1>
-                <p>Advanced analytics and insights for your portfolio</p>
-            </div>
-            <div class="dashboard-card">
-                <h2><i class="fas fa-chart-bar"></i> Performance Analytics</h2>
-                <p style="color: #64748b; margin-bottom: 20px;">Coming soon - Advanced analytics tools</p>
             </div>
         </div>
     </main>
@@ -1313,6 +1545,60 @@
             }
         ];
 
+        // Stock tracker data
+        const stockData = {
+            TCS: {
+                name: "Tata Consultancy Services Ltd.",
+                currentPrice: 4250.50,
+                change: 2.5,
+                volume: "5.2M",
+                marketCap: "₹15.2T",
+                weekHigh: 4350.75,
+                weekLow: 3150.25,
+                sector: "IT Services"
+            },
+            INFY: {
+                name: "Infosys Ltd.",
+                currentPrice: 1850.75,
+                change: 1.8,
+                volume: "8.5M",
+                marketCap: "₹7.8T",
+                weekHigh: 1950.25,
+                weekLow: 1450.50,
+                sector: "IT Services"
+            },
+            RELIANCE: {
+                name: "Reliance Industries Ltd.",
+                currentPrice: 2950.25,
+                change: 0.8,
+                volume: "12.5M",
+                marketCap: "₹20.5T",
+                weekHigh: 3050.75,
+                weekLow: 2250.25,
+                sector: "Conglomerate"
+            },
+            HDFCBANK: {
+                name: "HDFC Bank Ltd.",
+                currentPrice: 1750.50,
+                change: -0.5,
+                volume: "15.2M",
+                marketCap: "₹12.8T",
+                weekHigh: 1850.25,
+                weekLow: 1350.75,
+                sector: "Banking"
+            },
+            ICICIBANK: {
+                name: "ICICI Bank Ltd.",
+                currentPrice: 1125.75,
+                change: 1.2,
+                volume: "18.5M",
+                marketCap: "₹8.2T",
+                weekHigh: 1200.25,
+                weekLow: 850.50,
+                sector: "Banking"
+            }
+        };
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             // Check authentication
@@ -1347,6 +1633,9 @@
             
             // Load SIP indicators
             loadSIPIndicators();
+            
+            // Initialize stock tracker
+            initializeStockTracker();
         }
 
         // Update dashboard statistics
@@ -1416,6 +1705,292 @@
                 `;
                 sipContainer.appendChild(indicator);
             });
+        }
+
+        // Initialize Stock Tracker
+        function initializeStockTracker() {
+            // Load default stock (TCS)
+            fetchStockData('TCS', '1M');
+            
+            // Load watchlist
+            loadWatchlist();
+        }
+
+        // Generate mock stock data for different timeframes
+        function generateMockStockData(symbol, period) {
+            const basePrice = stockData[symbol]?.currentPrice || 1000;
+            let dataPoints = 30;
+            let labels = [];
+            let prices = [];
+            
+            // Generate dates based on period
+            const now = new Date();
+            
+            switch(period) {
+                case '1D':
+                    dataPoints = 24; // Hourly data for 24 hours
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setHours(date.getHours() - i);
+                        labels.push(date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+                        // Generate price with some variation
+                        const variation = (Math.random() - 0.5) * 2;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+                    
+                case '1W':
+                    dataPoints = 7; // Daily data for 7 days
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setDate(date.getDate() - i);
+                        labels.push(date.toLocaleDateString([], {month: 'short', day: 'numeric'}));
+                        const variation = (Math.random() - 0.5) * 5;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+                    
+                case '1M':
+                    dataPoints = 30; // Daily data for 30 days
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setDate(date.getDate() - i);
+                        labels.push(date.toLocaleDateString([], {month: 'short', day: 'numeric'}));
+                        const variation = (Math.random() - 0.5) * 10;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+                    
+                case '3M':
+                    dataPoints = 13; // Weekly data for 13 weeks
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setDate(date.getDate() - (i * 7));
+                        labels.push(date.toLocaleDateString([], {month: 'short', day: 'numeric'}));
+                        const variation = (Math.random() - 0.5) * 15;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+                    
+                case '6M':
+                    dataPoints = 26; // Bi-weekly data
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setDate(date.getDate() - (i * 14));
+                        labels.push(date.toLocaleDateString([], {month: 'short', day: 'numeric'}));
+                        const variation = (Math.random() - 0.5) * 20;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+                    
+                case '1Y':
+                    dataPoints = 12; // Monthly data for 12 months
+                    for (let i = dataPoints - 1; i >= 0; i--) {
+                        const date = new Date(now);
+                        date.setMonth(date.getMonth() - i);
+                        labels.push(date.toLocaleDateString([], {month: 'short', year: '2-digit'}));
+                        const variation = (Math.random() - 0.5) * 30;
+                        const price = basePrice + (variation * basePrice * 0.01);
+                        prices.push(price);
+                    }
+                    break;
+            }
+            
+            return {
+                labels: labels,
+                prices: prices,
+                period: period,
+                symbol: symbol
+            };
+        }
+
+        // Fetch stock data
+        let currentStockChart = null;
+        
+        async function fetchStockData(symbol, period) {
+            const stockSymbol = symbol.toUpperCase();
+            const stockInfo = stockData[stockSymbol];
+            
+            if (!stockInfo) {
+                showToast(`Stock symbol "${symbol}" not found in mock data`);
+                return;
+            }
+            
+            showToast(`Loading ${period} data for ${stockSymbol}...`);
+            
+            // Update stock info
+            document.getElementById('stockName').textContent = stockInfo.name;
+            document.getElementById('stockPrice').textContent = `₹${stockInfo.currentPrice.toFixed(2)}`;
+            document.getElementById('stockChange').textContent = `${stockInfo.change >= 0 ? '+' : ''}${stockInfo.change.toFixed(2)}%`;
+            document.getElementById('stockChange').className = stockInfo.change >= 0 ? 'positive' : 'negative';
+            document.getElementById('stockVolume').textContent = stockInfo.volume;
+            document.getElementById('marketCap').textContent = stockInfo.marketCap;
+            document.getElementById('weekHigh').textContent = `₹${stockInfo.weekHigh.toFixed(2)}`;
+            document.getElementById('weekLow').textContent = `₹${stockInfo.weekLow.toFixed(2)}`;
+            
+            // Generate mock chart data
+            const chartData = generateMockStockData(stockSymbol, period);
+            
+            // Update chart
+            updateStockChart(chartData);
+            
+            // Update last updated time
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            document.getElementById('stockLastUpdate').textContent = `Last updated: ${timeStr}`;
+            
+            // Add to watchlist if not already there
+            addToWatchlist(stockSymbol);
+        }
+
+        // Update stock chart
+        function updateStockChart(data) {
+            const ctx = document.getElementById('stockChart').getContext('2d');
+            
+            // Destroy previous chart if exists
+            if (currentStockChart) {
+                currentStockChart.destroy();
+            }
+            
+            // Create gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(102, 126, 234, 0.3)');
+            gradient.addColorStop(1, 'rgba(102, 126, 234, 0)');
+            
+            currentStockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: `${data.symbol} Price`,
+                        data: data.prices,
+                        borderColor: '#667eea',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#667eea',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#1e293b',
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#667eea',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${data.symbol}: ₹${context.parsed.y.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                maxTicksLimit: 10
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Load watchlist
+        function loadWatchlist() {
+            const watchlistGrid = document.getElementById('watchlistGrid');
+            watchlistGrid.innerHTML = '';
+            
+            // Default watchlist
+            const defaultWatchlist = ['TCS', 'INFY', 'RELIANCE', 'HDFCBANK'];
+            
+            defaultWatchlist.forEach(symbol => {
+                const stock = stockData[symbol];
+                if (stock) {
+                    const watchlistItem = document.createElement('div');
+                    watchlistItem.className = 'watchlist-item';
+                    watchlistItem.setAttribute('data-symbol', symbol);
+                    watchlistItem.innerHTML = `
+                        <div class="watchlist-symbol">${symbol}</div>
+                        <div class="watchlist-price">₹${stock.currentPrice.toFixed(2)}</div>
+                        <div class="watchlist-change ${stock.change >= 0 ? 'positive' : 'negative'}">
+                            ${stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)}%
+                        </div>
+                    `;
+                    
+                    // Add click event to load this stock
+                    watchlistItem.addEventListener('click', function() {
+                        document.getElementById('stockSymbol').value = symbol;
+                        fetchStockData(symbol, '1M');
+                        
+                        // Set active timeframe button
+                        document.querySelectorAll('.time-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                            if (btn.getAttribute('data-period') === '1M') {
+                                btn.classList.add('active');
+                            }
+                        });
+                    });
+                    
+                    watchlistGrid.appendChild(watchlistItem);
+                }
+            });
+        }
+
+        // Add stock to watchlist
+        function addToWatchlist(symbol) {
+            // In a real app, you would save this to localStorage or backend
+            // For now, we just update the UI if the stock is clicked
+            console.log(`Added ${symbol} to watchlist`);
         }
 
         // Update date and time
@@ -1493,6 +2068,12 @@
             document.getElementById('refreshPortfolio').addEventListener('click', function() {
                 refreshData(this, 'Portfolio');
             });
+            
+            document.getElementById('refreshStockData').addEventListener('click', function() {
+                const symbol = document.getElementById('stockSymbol').value;
+                const activePeriod = document.querySelector('.time-btn.active').getAttribute('data-period');
+                fetchStockData(symbol, activePeriod);
+            });
 
             // Portfolio actions
             document.getElementById('addInvestment').addEventListener('click', function() {
@@ -1520,6 +2101,34 @@
                         content.classList.add('active');
                     }
                 });
+            });
+
+            // Stock tracker events
+            document.getElementById('fetchStockData').addEventListener('click', function() {
+                const symbol = document.getElementById('stockSymbol').value;
+                const activePeriod = document.querySelector('.time-btn.active').getAttribute('data-period');
+                fetchStockData(symbol, activePeriod);
+            });
+
+            // Timeframe buttons
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Fetch data for selected timeframe
+                    const symbol = document.getElementById('stockSymbol').value;
+                    const period = this.getAttribute('data-period');
+                    fetchStockData(symbol, period);
+                });
+            });
+
+            // Enter key in stock search
+            document.getElementById('stockSymbol').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('fetchStockData').click();
+                }
             });
         }
 
