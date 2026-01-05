@@ -7,30 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== SAMPLE.JPG BACKGROUND ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('sample.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            filter: brightness(0.15) contrast(0.8) blur(1px);
-            opacity: 0.15;
-            z-index: -1;
-        }
-
-        [data-theme="dark"] body::before {
-            filter: brightness(0.2) contrast(0.7) blur(1px);
-            opacity: 0.2;
-        }
-
-        /* ===== MAIN STYLES ===== */
+        /* ===== COMMON STYLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -62,7 +39,6 @@
             --admin-risk: #ef4444;
         }
 
-        /* Dark Theme */
         [data-theme="dark"] {
             --admin-primary: #3b82f6;
             --admin-secondary: #60a5fa;
@@ -79,16 +55,241 @@
         body {
             background: none;
             color: var(--text-primary);
-            display: flex;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ===== ADMIN SIDEBAR WITH TRANSPARENCY ===== */
+        /* ===== BACKGROUND IMAGE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('sample.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(0.15) contrast(0.8) blur(1px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        [data-theme="dark"] body::before {
+            filter: brightness(0.2) contrast(0.7) blur(1px);
+            opacity: 0.2;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--admin-danger), #dc2626);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--admin-success), #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--admin-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== LOGIN PAGE ===== */
+        #loginPage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        [data-theme="dark"] .login-container {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .login-form input {
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .login-footer {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .login-footer a {
+            color: var(--admin-primary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== ADMIN DASHBOARD PAGE ===== */
+        #adminPage {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Admin Sidebar */
         .admin-sidebar {
             width: 280px;
             background: rgba(15, 23, 42, 0.92);
             backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             padding: 24px 0;
             display: flex;
@@ -96,9 +297,7 @@
             position: fixed;
             height: 100vh;
             z-index: 100;
-            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-header {
@@ -263,7 +462,7 @@
             font-weight: 600;
         }
 
-        /* ===== MAIN CONTENT WITH TRANSPARENCY ===== */
+        /* Main Content */
         .admin-content {
             flex: 1;
             margin-left: 280px;
@@ -333,39 +532,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
-            color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--admin-danger), #dc2626);
-            color: white;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--admin-success), #059669);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-        }
-
         .btn-warning {
             background: linear-gradient(135deg, var(--admin-warning), #d97706);
             color: white;
@@ -387,10 +553,14 @@
             padding: 12px 20px 12px 45px;
             border-radius: 10px;
             border: 1px solid var(--border-color);
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.9);
             color: var(--text-primary);
             font-size: 14px;
             transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .admin-search input {
+            background: rgba(30, 41, 59, 0.9);
         }
 
         .admin-search input:focus {
@@ -408,7 +578,7 @@
             font-size: 16px;
         }
 
-        /* ===== STATS CARDS WITH TRANSPARENCY ===== */
+        /* Stats Overview */
         .stats-overview {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -419,10 +589,10 @@
         .stat-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 16px;
             padding: 24px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
@@ -520,18 +690,24 @@
             align-items: center;
         }
 
-        /* ===== RECENT ACTIVITY WITH TRANSPARENCY ===== */
-        .recent-activity {
+        /* Recent Activity */
+        .recent-activity,
+        .users-section,
+        .chart-card,
+        .quick-actions {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 30px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        [data-theme="dark"] .recent-activity {
+        [data-theme="dark"] .recent-activity,
+        [data-theme="dark"] .users-section,
+        [data-theme="dark"] .chart-card,
+        [data-theme="dark"] .quick-actions {
             background: rgba(30, 41, 59, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -565,9 +741,13 @@
             align-items: center;
             padding: 16px;
             border-radius: 12px;
-            background: var(--hover-color);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border-color);
             transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .activity-item {
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .activity-item:hover {
@@ -616,33 +796,17 @@
             gap: 6px;
         }
 
-        .activity-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* ===== USERS SECTION WITH TRANSPARENCY ===== */
-        .users-section {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        [data-theme="dark"] .users-section {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        /* Users Table */
         .table-container {
             overflow-x: auto;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             margin-top: 20px;
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        [data-theme="dark"] .table-container {
+            background: rgba(30, 41, 59, 0.9);
         }
 
         .table-actions {
@@ -667,6 +831,10 @@
             letter-spacing: 0.5px;
             border-bottom: 2px solid var(--border-color);
             background: rgba(0, 0, 0, 0.02);
+        }
+
+        [data-theme="dark"] th {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         td {
@@ -778,8 +946,12 @@
             justify-content: center;
             font-size: 14px;
             transition: all 0.2s;
-            background: var(--hover-color);
+            background: rgba(0, 0, 0, 0.05);
             color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .action-btn {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .action-btn:hover {
@@ -801,26 +973,12 @@
             color: white;
         }
 
-        /* ===== CHARTS SECTION WITH TRANSPARENCY ===== */
+        /* Charts Section */
         .charts-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 24px;
             margin-bottom: 30px;
-        }
-
-        .chart-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        [data-theme="dark"] .chart-card {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chart-header {
@@ -841,13 +999,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(248, 250, 252, 0.5);
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
             border-radius: 12px;
             border: 2px dashed var(--border-color);
         }
 
         [data-theme="dark"] .chart-placeholder {
-            background: rgba(15, 23, 42, 0.5);
+            background: linear-gradient(135deg, #0f172a, #1e293b);
         }
 
         .chart-placeholder i {
@@ -862,22 +1020,7 @@
             font-size: 14px;
         }
 
-        /* ===== QUICK ACTIONS WITH TRANSPARENCY ===== */
-        .quick-actions {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 30px;
-        }
-
-        [data-theme="dark"] .quick-actions {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        /* Quick Actions */
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -888,7 +1031,7 @@
         .action-card {
             padding: 20px;
             border-radius: 12px;
-            background: rgba(249, 250, 251, 0.7);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border-color);
             cursor: pointer;
             transition: all 0.3s;
@@ -896,7 +1039,7 @@
         }
 
         [data-theme="dark"] .action-card {
-            background: rgba(45, 55, 72, 0.7);
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .action-card:hover {
@@ -929,7 +1072,122 @@
             color: var(--text-secondary);
         }
 
-        /* ===== MODAL WITH TRANSPARENCY ===== */
+        /* ===== PROFILE PAGE ===== */
+        .profile-section {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        [data-theme="dark"] .profile-section {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            margin-right: 25px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .profile-info h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--admin-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .profile-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .profile-form input,
+        .profile-form select,
+        .profile-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .profile-form input,
+        [data-theme="dark"] .profile-form select,
+        [data-theme="dark"] .profile-form textarea {
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .profile-form input:focus,
+        .profile-form select:focus,
+        .profile-form textarea:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -1014,10 +1272,16 @@
             padding: 12px 16px;
             border-radius: 10px;
             border: 1px solid var(--border-color);
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.9);
             color: var(--text-primary);
             font-size: 14px;
             transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group select,
+        [data-theme="dark"] .form-group textarea {
+            background: rgba(30, 41, 59, 0.9);
         }
 
         .form-group input:focus,
@@ -1037,176 +1301,25 @@
             border-top: 1px solid var(--border-color);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 1200px) {
-            .admin-sidebar {
-                width: 240px;
-            }
-            
-            .admin-content {
-                margin-left: 240px;
-            }
-            
-            .charts-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .admin-sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s;
-                width: 280px;
-            }
-            
-            .admin-sidebar.show {
-                transform: translateX(0);
-            }
-            
-            .admin-content {
-                margin-left: 0;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .admin-top-nav {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            
-            .admin-actions {
-                width: 100%;
-                flex-wrap: wrap;
-            }
-            
-            .admin-search {
-                min-width: 100%;
-            }
-            
-            .stats-overview {
-                grid-template-columns: 1fr;
-            }
-            
-            .actions-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .admin-content {
-                padding: 16px;
-            }
-            
-            .admin-top-nav {
-                padding: 16px;
-            }
-            
-            .section-title-bar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-            
-            .table-actions {
-                flex-wrap: wrap;
-            }
-        }
-
-        /* Menu Toggle Button */
-        .menu-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 99;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
-            color: white;
-            border: none;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--admin-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
-        }
-
-        /* Animation Classes */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Dark Mode Toggle */
+        /* ===== THEME TOGGLE ===== */
         .theme-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 50px;
             padding: 10px 15px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         [data-theme="dark"] .theme-toggle {
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(30, 41, 59, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -1235,386 +1348,114 @@
             color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .admin-sidebar {
+                width: 240px;
+            }
+            .admin-content {
+                margin-left: 240px;
+            }
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                width: 280px;
+            }
+            .admin-sidebar.show {
+                transform: translateX(0);
+            }
+            .admin-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-top-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .admin-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .admin-search {
+                min-width: 100%;
+            }
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-avatar-large {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 99;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+            color: white;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+        }
     </style>
 </head>
 <body data-theme="light">
-    <!-- Menu Toggle Button (Mobile) -->
-    <button class="menu-toggle" id="menuToggle">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Admin Sidebar -->
-    <nav class="admin-sidebar" id="adminSidebar">
-        <div class="sidebar-header">
-            <div class="admin-logo">A</div>
-            <div class="admin-brand">
-                <h2>Infinity Admin</h2>
-                <p>Management Portal</p>
-            </div>
-        </div>
-        
-        <div class="admin-menu">
-            <div class="menu-section">
-                <div class="section-title">Dashboard</div>
-                <a href="#dashboard" class="admin-menu-item active">
-                    <span class="menu-icon">📊</span>
-                    <span class="menu-text">Overview</span>
-                </a>
-                <a href="#analytics" class="admin-menu-item">
-                    <span class="menu-icon">📈</span>
-                    <span class="menu-text">Analytics</span>
-                </a>
-                <a href="#reports" class="admin-menu-item">
-                    <span class="menu-icon">📋</span>
-                    <span class="menu-text">Reports</span>
-                    <span class="menu-badge">3</span>
-                </a>
-            </div>
-            
-            <div class="menu-section">
-                <div class="section-title">Management</div>
-                <a href="#users" class="admin-menu-item">
-                    <span class="menu-icon">👥</span>
-                    <span class="menu-text">Users</span>
-                    <span class="menu-badge">24</span>
-                </a>
-                <a href="#funds" class="admin-menu-item">
-                    <span class="menu-icon">💰</span>
-                    <span class="menu-text">Funds</span>
-                </a>
-                <a href="#transactions" class="admin-menu-item">
-                    <span class="menu-icon">💳</span>
-                    <span class="menu-text">Transactions</span>
-                </a>
-                <a href="#portfolios" class="admin-menu-item">
-                    <span class="menu-icon">📁</span>
-                    <span class="menu-text">Portfolios</span>
-                </a>
-            </div>
-            
-            <div class="menu-section">
-                <div class="section-title">System</div>
-                <a href="#settings" class="admin-menu-item">
-                    <span class="menu-icon">⚙️</span>
-                    <span class="menu-text">Settings</span>
-                </a>
-                <a href="#security" class="admin-menu-item">
-                    <span class="menu-icon">🔒</span>
-                    <span class="menu-text">Security</span>
-                </a>
-                <a href="#logs" class="admin-menu-item">
-                    <span class="menu-icon">📜</span>
-                    <span class="menu-text">Activity Logs</span>
-                </a>
-                <a href="#backup" class="admin-menu-item">
-                    <span class="menu-icon">💾</span>
-                    <span class="menu-text">Backup</span>
-                </a>
-            </div>
-            
-            <div class="menu-section">
-                <div class="section-title">Support</div>
-                <a href="#support" class="admin-menu-item">
-                    <span class="menu-icon">🛟</span>
-                    <span class="menu-text">Support Tickets</span>
-                    <span class="menu-badge">5</span>
-                </a>
-                <a href="#feedback" class="admin-menu-item">
-                    <span class="menu-icon">💬</span>
-                    <span class="menu-text">Feedback</span>
-                </a>
-                <a href="#notifications" class="admin-menu-item">
-                    <span class="menu-icon">🔔</span>
-                    <span class="menu-text">Notifications</span>
-                </a>
-            </div>
-        </div>
-        
-        <div class="admin-profile">
-            <div class="admin-avatar" id="adminAvatar">AS</div>
-            <div class="admin-info">
-                <h4 id="adminName">Admin Sharma</h4>
-                <p>
-                    <span class="admin-role">Super Admin</span>
-                    <span>•</span>
-                    <span id="adminEmail">admin@infinityfunds.com</span>
-                </p>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="admin-content">
-        <!-- Top Navigation -->
-        <header class="admin-top-nav">
-            <div class="admin-header">
-                <h1>Admin Dashboard</h1>
-                <p class="admin-subtitle">Welcome to Infinity Mutual Funds Administration Panel. Manage users, funds, transactions, and system settings.</p>
-            </div>
-            <div class="admin-actions">
-                <div class="admin-search">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="adminSearch" placeholder="Search users, funds, transactions...">
-                </div>
-                <button class="admin-btn btn-primary" id="addUserBtn">
-                    <i class="fas fa-user-plus"></i> Add User
-                </button>
-                <button class="admin-btn btn-success" id="exportBtn">
-                    <i class="fas fa-download"></i> Export
-                </button>
-                <button class="admin-btn btn-warning" id="refreshBtn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-        </header>
-
-        <!-- Stats Overview -->
-        <section class="stats-overview">
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon users">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <span class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i> 12.5%
-                    </span>
-                </div>
-                <div class="stat-value" id="totalUsers">10,247</div>
-                <div class="stat-label">Total Users</div>
-                <div class="stat-details">
-                    <span>Active: 9,845</span>
-                    <span>New Today: 42</span>
-                </div>
-            </div>
-            
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon funds">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <span class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i> 8.3%
-                    </span>
-                </div>
-                <div class="stat-value" id="totalFunds">₹542Cr</div>
-                <div class="stat-label">Assets Under Management</div>
-                <div class="stat-details">
-                    <span>Equity: ₹387Cr</span>
-                    <span>Debt: ₹155Cr</span>
-                </div>
-            </div>
-            
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon transactions">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <span class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i> 15.2%
-                    </span>
-                </div>
-                <div class="stat-value" id="totalTransactions">2,847</div>
-                <div class="stat-label">Transactions Today</div>
-                <div class="stat-details">
-                    <span>Buys: 1,845</span>
-                    <span>Sells: 1,002</span>
-                </div>
-            </div>
-            
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon revenue">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <span class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i> 18.7%
-                    </span>
-                </div>
-                <div class="stat-value" id="totalRevenue">₹12.8L</div>
-                <div class="stat-label">Today's Revenue</div>
-                <div class="stat-details">
-                    <span>Fees: ₹8.2L</span>
-                    <span>Commissions: ₹4.6L</span>
-                </div>
-            </div>
-            
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon growth">
-                        <i class="fas fa-chart-pie"></i>
-                    </div>
-                    <span class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i> 22.4%
-                    </span>
-                </div>
-                <div class="stat-value" id="growthRate">16.8%</div>
-                <div class="stat-label">Average Returns</div>
-                <div class="stat-details">
-                    <span>1Y: 18.2%</span>
-                    <span>3Y: 22.4%</span>
-                </div>
-            </div>
-            
-            <div class="stat-card fade-in">
-                <div class="stat-header">
-                    <div class="stat-icon risk">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <span class="stat-trend trend-down">
-                        <i class="fas fa-arrow-down"></i> 3.2%
-                    </span>
-                </div>
-                <div class="stat-value" id="riskScore">4.2/10</div>
-                <div class="stat-label">Risk Score</div>
-                <div class="stat-details">
-                    <span>Low Risk: 78%</span>
-                    <span>High Risk: 12%</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Recent Activity -->
-        <section class="recent-activity fade-in">
-            <div class="section-title-bar">
-                <h3><i class="fas fa-history"></i> Recent Activity</h3>
-                <button class="admin-btn" id="viewAllActivity">
-                    View All <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-            <div class="activity-list" id="activityList"></div>
-        </section>
-
-        <!-- Users Management -->
-        <section class="users-section fade-in">
-            <div class="section-title-bar">
-                <h3><i class="fas fa-users"></i> User Management</h3>
-                <div class="table-actions">
-                    <button class="admin-btn" id="filterUsers">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
-                    <button class="admin-btn btn-primary" id="addNewUser">
-                        <i class="fas fa-plus"></i> Add User
-                    </button>
-                    <button class="admin-btn btn-success" id="exportUsers">
-                        <i class="fas fa-file-export"></i> Export
-                    </button>
-                </div>
-            </div>
-            <div class="table-container">
-                <table id="usersTable">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Portfolio</th>
-                            <th>Joined</th>
-                            <th>Last Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Charts Section -->
-        <section class="charts-section fade-in">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3><i class="fas fa-chart-bar"></i> User Growth</h3>
-                    <select class="admin-btn" id="growthPeriod">
-                        <option>Last 7 Days</option>
-                        <option>Last 30 Days</option>
-                        <option>Last 90 Days</option>
-                        <option>Last Year</option>
-                    </select>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-placeholder">
-                        <i class="fas fa-chart-line"></i>
-                        <p>User Growth Chart</p>
-                        <small>Chart will display here</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3><i class="fas fa-chart-pie"></i> Asset Allocation</h3>
-                    <select class="admin-btn" id="allocationType">
-                        <option>By Category</option>
-                        <option>By Risk</option>
-                        <option>By Returns</option>
-                    </select>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-placeholder">
-                        <i class="fas fa-chart-pie"></i>
-                        <p>Asset Allocation Chart</p>
-                        <small>Chart will display here</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Actions -->
-        <section class="quick-actions fade-in">
-            <div class="section-title-bar">
-                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
-            </div>
-            <div class="actions-grid">
-                <div class="action-card" data-action="broadcast">
-                    <div class="action-icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <div class="action-title">Send Broadcast</div>
-                    <div class="action-desc">Send notifications to all users</div>
-                </div>
-                
-                <div class="action-card" data-action="backup">
-                    <div class="action-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="action-title">Backup Database</div>
-                    <div class="action-desc">Create system backup</div>
-                </div>
-                
-                <div class="action-card" data-action="report">
-                    <div class="action-icon">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                    <div class="action-title">Generate Report</div>
-                    <div class="action-desc">Create financial report</div>
-                </div>
-                
-                <div class="action-card" data-action="audit">
-                    <div class="action-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="action-title">Security Audit</div>
-                    <div class="action-desc">Run security check</div>
-                </div>
-                
-                <div class="action-card" data-action="maintenance">
-                    <div class="action-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <div class="action-title">Maintenance</div>
-                    <div class="action-desc">System maintenance tools</div>
-                </div>
-                
-                <div class="action-card" data-action="settings">
-                    <div class="action-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <div class="action-title">Quick Settings</div>
-                    <div class="action-desc">Adjust system settings</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
     <!-- Theme Toggle -->
     <div class="theme-toggle">
         <button class="theme-btn active" data-theme="light" title="Light Mode">
@@ -1625,6 +1466,465 @@
         </button>
     </div>
 
+    <!-- ===== LOGIN PAGE ===== -->
+    <div id="loginPage" class="page active">
+        <div class="login-container fade-in">
+            <div class="login-logo">A</div>
+            <div class="login-header">
+                <h1>Infinity Admin</h1>
+                <p>Sign in to access the administration panel</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="admin@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" style="width: auto;">
+                        <span>Remember me</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                
+                <div class="login-footer">
+                    <a href="#" id="forgotPassword">Forgot password?</a>
+                </div>
+            </form>
+            
+            <!-- DEMO CREDENTIALS -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">
+                    <strong>Demo Credentials:</strong>
+                </p>
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 12px; border-radius: 8px; font-size: 12px;">
+                    <div><strong>Email:</strong> admin@infinityfunds.com</div>
+                    <div><strong>Password:</strong> admin123</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN DASHBOARD PAGE ===== -->
+    <div id="adminPage" class="page">
+        <!-- Menu Toggle Button (Mobile) -->
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Admin Sidebar -->
+        <nav class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="admin-logo">A</div>
+                <div class="admin-brand">
+                    <h2>Infinity Admin</h2>
+                    <p>Management Portal</p>
+                </div>
+            </div>
+            
+            <div class="admin-menu">
+                <div class="menu-section">
+                    <div class="section-title">Dashboard</div>
+                    <a href="#dashboard" class="admin-menu-item active" data-page="dashboard">
+                        <span class="menu-icon">📊</span>
+                        <span class="menu-text">Overview</span>
+                    </a>
+                    <a href="#analytics" class="admin-menu-item" data-page="analytics">
+                        <span class="menu-icon">📈</span>
+                        <span class="menu-text">Analytics</span>
+                    </a>
+                    <a href="#reports" class="admin-menu-item" data-page="reports">
+                        <span class="menu-icon">📋</span>
+                        <span class="menu-text">Reports</span>
+                        <span class="menu-badge">3</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">Management</div>
+                    <a href="#users" class="admin-menu-item" data-page="users">
+                        <span class="menu-icon">👥</span>
+                        <span class="menu-text">Users</span>
+                        <span class="menu-badge">24</span>
+                    </a>
+                    <a href="#funds" class="admin-menu-item" data-page="funds">
+                        <span class="menu-icon">💰</span>
+                        <span class="menu-text">Funds</span>
+                    </a>
+                    <a href="#transactions" class="admin-menu-item" data-page="transactions">
+                        <span class="menu-icon">💳</span>
+                        <span class="menu-text">Transactions</span>
+                    </a>
+                    <a href="#portfolios" class="admin-menu-item" data-page="portfolios">
+                        <span class="menu-icon">📁</span>
+                        <span class="menu-text">Portfolios</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">Account</div>
+                    <a href="#profile" class="admin-menu-item" data-page="profile">
+                        <span class="menu-icon">👤</span>
+                        <span class="menu-text">My Profile</span>
+                    </a>
+                    <a href="#settings" class="admin-menu-item" data-page="settings">
+                        <span class="menu-icon">⚙️</span>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                    <a href="#security" class="admin-menu-item" data-page="security">
+                        <span class="menu-icon">🔒</span>
+                        <span class="menu-text">Security</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">Support</div>
+                    <a href="#support" class="admin-menu-item" data-page="support">
+                        <span class="menu-icon">🛟</span>
+                        <span class="menu-text">Support Tickets</span>
+                        <span class="menu-badge">5</span>
+                    </a>
+                    <a href="#feedback" class="admin-menu-item" data-page="feedback">
+                        <span class="menu-icon">💬</span>
+                        <span class="menu-text">Feedback</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="admin-profile">
+                <div class="admin-avatar" id="adminAvatar">AS</div>
+                <div class="admin-info">
+                    <h4 id="adminName">Admin Sharma</h4>
+                    <p>
+                        <span class="admin-role">Super Admin</span>
+                        <span>•</span>
+                        <span id="adminEmail">admin@infinityfunds.com</span>
+                    </p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-content">
+            <!-- Dashboard Content -->
+            <div id="dashboardContent" class="page-content active">
+                <!-- Top Navigation -->
+                <header class="admin-top-nav">
+                    <div class="admin-header">
+                        <h1>Admin Dashboard</h1>
+                        <p class="admin-subtitle" id="welcomeMessage">Welcome back! Here's what's happening today.</p>
+                    </div>
+                    <div class="admin-actions">
+                        <div class="admin-search">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="adminSearch" placeholder="Search users, funds, transactions...">
+                        </div>
+                        <button class="admin-btn btn-primary" id="addUserBtn">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </button>
+                        <button class="admin-btn btn-success" id="exportBtn">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="admin-btn btn-danger" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Stats Overview -->
+                <section class="stats-overview">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon users">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 12.5%
+                            </span>
+                        </div>
+                        <div class="stat-value" id="totalUsers">10,247</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-details">
+                            <span>Active: 9,845</span>
+                            <span>New Today: 42</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon funds">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <span class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 8.3%
+                            </span>
+                        </div>
+                        <div class="stat-value" id="totalFunds">₹542Cr</div>
+                        <div class="stat-label">Assets Under Management</div>
+                        <div class="stat-details">
+                            <span>Equity: ₹387Cr</span>
+                            <span>Debt: ₹155Cr</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon transactions">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <span class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 15.2%
+                            </span>
+                        </div>
+                        <div class="stat-value" id="totalTransactions">2,847</div>
+                        <div class="stat-label">Transactions Today</div>
+                        <div class="stat-details">
+                            <span>Buys: 1,845</span>
+                            <span>Sells: 1,002</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon revenue">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 18.7%
+                            </span>
+                        </div>
+                        <div class="stat-value" id="totalRevenue">₹12.8L</div>
+                        <div class="stat-label">Today's Revenue</div>
+                        <div class="stat-details">
+                            <span>Fees: ₹8.2L</span>
+                            <span>Commissions: ₹4.6L</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="recent-activity fade-in">
+                    <div class="section-title-bar">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <button class="admin-btn" id="viewAllActivity">
+                            View All <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="activity-list" id="activityList"></div>
+                </section>
+
+                <!-- Users Management -->
+                <section class="users-section fade-in">
+                    <div class="section-title-bar">
+                        <h3><i class="fas fa-users"></i> User Management</h3>
+                        <div class="table-actions">
+                            <button class="admin-btn" id="filterUsers">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="admin-btn btn-primary" id="addNewUser">
+                                <i class="fas fa-plus"></i> Add User
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Portfolio</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Quick Actions -->
+                <section class="quick-actions fade-in">
+                    <div class="section-title-bar">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    </div>
+                    <div class="actions-grid">
+                        <div class="action-card" data-action="broadcast">
+                            <div class="action-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="action-title">Send Broadcast</div>
+                            <div class="action-desc">Send notifications to all users</div>
+                        </div>
+                        
+                        <div class="action-card" data-action="report">
+                            <div class="action-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="action-title">Generate Report</div>
+                            <div class="action-desc">Create financial report</div>
+                        </div>
+                        
+                        <div class="action-card" data-action="audit">
+                            <div class="action-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="action-title">Security Audit</div>
+                            <div class="action-desc">Run security check</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Profile Content -->
+            <div id="profileContent" class="page-content">
+                <header class="admin-top-nav">
+                    <div class="admin-header">
+                        <h1>My Profile</h1>
+                        <p class="admin-subtitle">Manage your account information and preferences</p>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="admin-btn btn-primary" id="editProfileBtn">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="admin-btn btn-danger" id="logoutBtn2">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </header>
+
+                <section class="profile-section fade-in">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="profileAvatar">AS</div>
+                        <div class="profile-info">
+                            <h2 id="profileName">Admin Sharma</h2>
+                            <p id="profileEmail">admin@infinityfunds.com</p>
+                            <p><span class="admin-role">Super Administrator</span></p>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <div class="stat-number" id="profileUsers">24</div>
+                                    <div class="stat-label">Users</div>
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="stat-number" id="profileFunds">42</div>
+                                    <div class="stat-label">Funds</div>
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="stat-number" id="profileActivity">156</div>
+                                    <div class="stat-label">Activities</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-form" id="profileForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label for="profileFirstName">First Name</label>
+                                <input type="text" id="profileFirstName" value="Admin" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="profileLastName">Last Name</label>
+                                <input type="text" id="profileLastName" value="Sharma" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profileEmailInput">Email Address</label>
+                            <input type="email" id="profileEmailInput" value="admin@infinityfunds.com" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profilePhone">Phone Number</label>
+                            <input type="tel" id="profilePhone" value="+91 9876543210" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profileDepartment">Department</label>
+                            <input type="text" id="profileDepartment" value="Administration" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profileBio">Bio</label>
+                            <textarea id="profileBio" rows="3" disabled>Super Administrator with full system access and management privileges. Responsible for user management, fund oversight, and system security.</textarea>
+                        </div>
+                        
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                            <h3 style="margin-bottom: 15px;">Security Settings</h3>
+                            <div class="form-group">
+                                <button class="admin-btn btn-warning" id="changePasswordBtn">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Other Pages (Analytics, Reports, etc.) -->
+            <div id="analyticsContent" class="page-content">
+                <header class="admin-top-nav">
+                    <div class="admin-header">
+                        <h1>Analytics</h1>
+                        <p class="admin-subtitle">View detailed analytics and insights</p>
+                    </div>
+                </header>
+                <div class="chart-card fade-in">
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Analytics Dashboard</p>
+                            <small>Analytics charts will display here</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportsContent" class="page-content">
+                <header class="admin-top-nav">
+                    <div class="admin-header">
+                        <h1>Reports</h1>
+                        <p class="admin-subtitle">Generate and view system reports</p>
+                    </div>
+                </header>
+                <div class="chart-card fade-in">
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-file-alt"></i>
+                            <p>Reports Dashboard</p>
+                            <small>Reports will display here</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div id="settingsContent" class="page-content">
+                <header class="admin-top-nav">
+                    <div class="admin-header">
+                        <h1>Settings</h1>
+                        <p class="admin-subtitle">Configure system settings</p>
+                    </div>
+                </header>
+                <div class="profile-section fade-in">
+                    <h3 style="margin-bottom: 20px;">System Configuration</h3>
+                    <!-- Settings content here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== MODALS ===== -->
     <!-- Add User Modal -->
     <div class="modal" id="addUserModal">
         <div class="modal-content">
@@ -1644,40 +1944,19 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="userPhone">Phone Number</label>
-                    <input type="tel" id="userPhone" placeholder="Enter phone number">
-                </div>
-                
-                <div class="form-group">
                     <label for="userRole">Role *</label>
                     <select id="userRole" required>
                         <option value="">Select Role</option>
                         <option value="user">User</option>
                         <option value="premium">Premium User</option>
                         <option value="advisor">Investment Advisor</option>
-                        <option value="manager">Portfolio Manager</option>
                         <option value="admin">Administrator</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="userStatus">Status *</label>
-                    <select id="userStatus" required>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="pending">Pending</option>
-                        <option value="suspended">Suspended</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="userPassword">Password *</label>
                     <input type="password" id="userPassword" required placeholder="Enter password">
-                </div>
-                
-                <div class="form-group">
-                    <label for="userNotes">Notes</label>
-                    <textarea id="userNotes" rows="3" placeholder="Additional notes..."></textarea>
                 </div>
                 
                 <div class="modal-footer">
@@ -1688,180 +1967,171 @@
         </div>
     </div>
 
-    <script>
-        // Check Admin Authentication
-        function checkAdminAuth() {
-            // In production, this would check JWT token or session
-            const adminData = localStorage.getItem('admin_data');
-            if (!adminData) {
-                window.location.href = 'index.html';
-                return false;
-            }
-            
-            try {
-                return JSON.parse(adminData);
-            } catch (error) {
-                console.error('Error parsing admin data:', error);
-                window.location.href = 'index.html';
-                return false;
-            }
-        }
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="close-modal" id="closePasswordModal">&times;</button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password *</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">New Password *</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password *</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="admin-btn" id="cancelPassword">Cancel</button>
+                    <button type="submit" class="admin-btn btn-primary">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        // Mock Data
+    <script>
+        // ===== MOCK DATA =====
         const mockUsers = [
-            {
-                id: 1,
-                name: "Amit Sharma",
-                email: "amit.sharma@email.com",
-                role: "Premium User",
-                status: "active",
-                portfolio: "₹24.8L",
-                joined: "2023-01-15",
-                lastActive: "2 hours ago",
-                avatar: "AS"
-            },
-            {
-                id: 2,
-                name: "Priya Patel",
-                email: "priya.patel@email.com",
-                role: "User",
-                status: "active",
-                portfolio: "₹12.5L",
-                joined: "2023-03-22",
-                lastActive: "1 day ago",
-                avatar: "PP"
-            },
-            {
-                id: 3,
-                name: "Rahul Verma",
-                email: "rahul.verma@email.com",
-                role: "Investment Advisor",
-                status: "active",
-                portfolio: "₹42.3L",
-                joined: "2022-11-05",
-                lastActive: "30 minutes ago",
-                avatar: "RV"
-            },
-            {
-                id: 4,
-                name: "Sneha Gupta",
-                email: "sneha.gupta@email.com",
-                role: "User",
-                status: "inactive",
-                portfolio: "₹8.7L",
-                joined: "2023-05-18",
-                lastActive: "1 week ago",
-                avatar: "SG"
-            },
-            {
-                id: 5,
-                name: "Vikram Singh",
-                email: "vikram.singh@email.com",
-                role: "Portfolio Manager",
-                status: "active",
-                portfolio: "₹67.2L",
-                joined: "2022-08-30",
-                lastActive: "Just now",
-                avatar: "VS"
-            },
-            {
-                id: 6,
-                name: "Neha Reddy",
-                email: "neha.reddy@email.com",
-                role: "User",
-                status: "pending",
-                portfolio: "₹5.4L",
-                joined: "2023-07-12",
-                lastActive: "3 days ago",
-                avatar: "NR"
-            },
-            {
-                id: 7,
-                name: "Karthik Nair",
-                email: "karthik.nair@email.com",
-                role: "Admin",
-                status: "active",
-                portfolio: "₹31.8L",
-                joined: "2022-12-01",
-                lastActive: "5 hours ago",
-                avatar: "KN"
-            },
-            {
-                id: 8,
-                name: "Ananya Das",
-                email: "ananya.das@email.com",
-                role: "Premium User",
-                status: "suspended",
-                portfolio: "₹18.9L",
-                joined: "2023-02-28",
-                lastActive: "2 weeks ago",
-                avatar: "AD"
-            }
+            { id: 1, name: "Amit Sharma", email: "amit.sharma@email.com", role: "Premium User", status: "active", portfolio: "₹24.8L", joined: "2023-01-15", avatar: "AS" },
+            { id: 2, name: "Priya Patel", email: "priya.patel@email.com", role: "User", status: "active", portfolio: "₹12.5L", joined: "2023-03-22", avatar: "PP" },
+            { id: 3, name: "Rahul Verma", email: "rahul.verma@email.com", role: "Investment Advisor", status: "active", portfolio: "₹42.3L", joined: "2022-11-05", avatar: "RV" },
+            { id: 4, name: "Sneha Gupta", email: "sneha.gupta@email.com", role: "User", status: "inactive", portfolio: "₹8.7L", joined: "2023-05-18", avatar: "SG" }
         ];
 
         const mockActivities = [
-            {
-                id: 1,
-                type: "success",
-                icon: "fas fa-user-check",
-                title: "New User Registration",
-                description: "John Doe registered as Premium User",
-                time: "5 minutes ago"
-            },
-            {
-                id: 2,
-                type: "warning",
-                icon: "fas fa-exclamation-triangle",
-                title: "Suspicious Activity",
-                description: "Multiple login attempts detected for user ID: 245",
-                time: "30 minutes ago"
-            },
-            {
-                id: 3,
-                type: "info",
-                icon: "fas fa-file-invoice-dollar",
-                title: "Large Transaction",
-                description: "Transaction of ₹5,00,000 completed",
-                time: "2 hours ago"
-            },
-            {
-                id: 4,
-                type: "danger",
-                icon: "fas fa-server",
-                title: "Server Maintenance",
-                description: "Scheduled maintenance in 1 hour",
-                time: "4 hours ago"
-            },
-            {
-                id: 5,
-                type: "success",
-                icon: "fas fa-chart-line",
-                title: "Monthly Report Generated",
-                description: "July 2024 financial report ready",
-                time: "1 day ago"
-            }
+            { id: 1, type: "success", icon: "fas fa-user-check", title: "New User Registration", description: "John Doe registered as Premium User", time: "5 minutes ago" },
+            { id: 2, type: "warning", icon: "fas fa-exclamation-triangle", title: "Suspicious Activity", description: "Multiple login attempts detected", time: "30 minutes ago" },
+            { id: 3, type: "info", icon: "fas fa-file-invoice-dollar", title: "Large Transaction", description: "Transaction of ₹5,00,000 completed", time: "2 hours ago" }
         ];
 
-        // Initialize Admin Dashboard
+        // ===== STATE MANAGEMENT =====
+        let currentUser = null;
+        let currentPage = 'dashboard';
+
+        // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Admin dashboard initializing...');
+            console.log('Admin system initializing...');
             
-            // Check authentication
-            const admin = checkAdminAuth();
-            if (!admin) return;
-            
-            // Initialize admin data
-            initializeAdminData(admin);
-            
-            // Load data
-            loadUsersTable();
-            loadActivities();
+            // Check if user is already logged in
+            checkAuth();
             
             // Setup event listeners
             setupEventListeners();
             
             // Setup theme
             setupTheme();
+        });
+
+        // ===== AUTHENTICATION =====
+        function checkAuth() {
+            const userData = localStorage.getItem('admin_user');
+            if (userData) {
+                try {
+                    currentUser = JSON.parse(userData);
+                    showAdminPage();
+                    loadDashboardData();
+                    updateProfileInfo();
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    showLoginPage();
+                }
+            } else {
+                showLoginPage();
+            }
+        }
+
+        function login(email, password) {
+            // Demo authentication - in real app, this would be API call
+            if (email === 'admin@infinityfunds.com' && password === 'admin123') {
+                currentUser = {
+                    id: 1,
+                    name: 'Admin Sharma',
+                    email: email,
+                    role: 'Super Admin',
+                    department: 'Administration',
+                    phone: '+91 9876543210',
+                    joined: '2023-01-01'
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('admin_user', JSON.stringify(currentUser));
+                
+                // Show success message
+                showNotification('Login successful!', 'success');
+                
+                // Show admin page
+                setTimeout(() => {
+                    showAdminPage();
+                    loadDashboardData();
+                    updateProfileInfo();
+                }, 500);
+                
+                return true;
+            } else {
+                showNotification('Invalid email or password', 'error');
+                return false;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('admin_user');
+                currentUser = null;
+                showNotification('Logged out successfully', 'success');
+                setTimeout(() => {
+                    showLoginPage();
+                }, 500);
+            }
+        }
+
+        // ===== PAGE NAVIGATION =====
+        function showLoginPage() {
+            document.getElementById('loginPage').classList.add('active');
+            document.getElementById('adminPage').classList.remove('active');
+            document.getElementById('loginForm').reset();
+        }
+
+        function showAdminPage() {
+            document.getElementById('loginPage').classList.remove('active');
+            document.getElementById('adminPage').classList.add('active');
+            
+            // Update welcome message
+            updateWelcomeMessage();
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId + 'Content').classList.add('active');
+            
+            // Update active menu item
+            document.querySelectorAll('.admin-menu-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === pageId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            currentPage = pageId;
+        }
+
+        // ===== DASHBOARD FUNCTIONS =====
+        function loadDashboardData() {
+            loadUsersTable();
+            loadActivities();
             
             // Add fade-in animation delays
             setTimeout(() => {
@@ -1869,43 +2139,8 @@
                     el.style.animationDelay = `${index * 0.1}s`;
                 });
             }, 100);
-        });
-
-        // Initialize admin data
-        function initializeAdminData(admin) {
-            // Set admin name
-            const adminName = document.getElementById('adminName');
-            const adminEmail = document.getElementById('adminEmail');
-            const adminAvatar = document.getElementById('adminAvatar');
-            
-            if (admin.name) adminName.textContent = admin.name;
-            if (admin.email) adminEmail.textContent = admin.email;
-            if (admin.avatar) {
-                adminAvatar.textContent = admin.avatar;
-            } else if (admin.name) {
-                const initials = admin.name.split(' ').map(n => n[0]).join('').toUpperCase();
-                adminAvatar.textContent = initials.substring(0, 2);
-            }
-            
-            // Update welcome message based on time
-            updateWelcomeMessage();
         }
 
-        // Update welcome message based on time of day
-        function updateWelcomeMessage() {
-            const hour = new Date().getHours();
-            let greeting;
-            
-            if (hour < 12) greeting = "Good morning";
-            else if (hour < 17) greeting = "Good afternoon";
-            else greeting = "Good evening";
-            
-            const adminName = document.getElementById('adminName').textContent.split(' ')[0];
-            const subtitle = document.querySelector('.admin-subtitle');
-            subtitle.textContent = `${greeting}, ${adminName}! Welcome to Infinity Mutual Funds Administration Panel. Manage users, funds, transactions, and system settings.`;
-        }
-
-        // Load users table
         function loadUsersTable() {
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = '';
@@ -1913,16 +2148,13 @@
             mockUsers.forEach(user => {
                 const row = document.createElement('tr');
                 
-                // Get status class
                 let statusClass = 'status-active';
                 if (user.status === 'inactive') statusClass = 'status-inactive';
                 if (user.status === 'pending') statusClass = 'status-pending';
-                if (user.status === 'suspended') statusClass = 'status-inactive';
                 
-                // Get role class
                 let roleClass = 'role-user';
                 if (user.role.includes('Premium')) roleClass = 'role-manager';
-                if (user.role.includes('Advisor') || user.role.includes('Manager')) roleClass = 'role-manager';
+                if (user.role.includes('Advisor')) roleClass = 'role-manager';
                 if (user.role === 'Admin') roleClass = 'role-admin';
                 
                 row.innerHTML = `
@@ -1939,14 +2171,10 @@
                     <td><span class="status-badge ${statusClass}">${user.status}</span></td>
                     <td><strong>${user.portfolio}</strong></td>
                     <td>${user.joined}</td>
-                    <td>${user.lastActive}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="action-btn edit" data-id="${user.id}" title="Edit">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn view" data-id="${user.id}" title="View">
-                                <i class="fas fa-eye"></i>
                             </button>
                             <button class="action-btn delete" data-id="${user.id}" title="Delete">
                                 <i class="fas fa-trash"></i>
@@ -1959,7 +2187,6 @@
             });
         }
 
-        // Load activities
         function loadActivities() {
             const container = document.getElementById('activityList');
             container.innerHTML = '';
@@ -1979,20 +2206,89 @@
                             <i class="far fa-clock"></i> ${activity.time}
                         </div>
                     </div>
-                    <div class="activity-actions">
-                        <button class="action-btn" title="Mark as read">
-                            <i class="fas fa-check"></i>
-                        </button>
-                    </div>
                 `;
                 
                 container.appendChild(activityItem);
             });
         }
 
-        // Setup event listeners
+        function updateWelcomeMessage() {
+            const hour = new Date().getHours();
+            let greeting;
+            
+            if (hour < 12) greeting = "Good morning";
+            else if (hour < 17) greeting = "Good afternoon";
+            else greeting = "Good evening";
+            
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            if (welcomeMsg && currentUser) {
+                const name = currentUser.name.split(' ')[0];
+                welcomeMsg.textContent = `${greeting}, ${name}! Here's what's happening today.`;
+            }
+        }
+
+        function updateProfileInfo() {
+            if (!currentUser) return;
+            
+            // Update sidebar
+            document.getElementById('adminName').textContent = currentUser.name;
+            document.getElementById('adminEmail').textContent = currentUser.email;
+            document.getElementById('adminAvatar').textContent = getInitials(currentUser.name);
+            
+            // Update profile page
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileAvatar').textContent = getInitials(currentUser.name);
+            document.getElementById('profileFirstName').value = currentUser.name.split(' ')[0];
+            document.getElementById('profileLastName').value = currentUser.name.split(' ')[1] || '';
+            document.getElementById('profileEmailInput').value = currentUser.email;
+            document.getElementById('profilePhone').value = currentUser.phone || '+91 9876543210';
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        // ===== EVENT LISTENERS =====
         function setupEventListeners() {
-            // Menu toggle for mobile
+            // Login form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    
+                    const submitBtn = loginForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="loading"></span> Signing in...';
+                    
+                    setTimeout(() => {
+                        const success = login(email, password);
+                        submitBtn.innerHTML = originalText;
+                    }, 1000);
+                });
+            }
+
+            // Logout buttons
+            document.getElementById('logoutBtn')?.addEventListener('click', logout);
+            document.getElementById('logoutBtn2')?.addEventListener('click', logout);
+
+            // Menu items
+            document.querySelectorAll('.admin-menu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    showPage(page);
+                    
+                    // Mobile: close sidebar
+                    if (window.innerWidth <= 992) {
+                        document.getElementById('adminSidebar').classList.remove('show');
+                    }
+                });
+            });
+
+            // Mobile menu toggle
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('adminSidebar');
             
@@ -2001,7 +2297,7 @@
                     sidebar.classList.toggle('show');
                 });
             }
-            
+
             // Close sidebar when clicking outside on mobile
             document.addEventListener('click', (e) => {
                 if (window.innerWidth <= 992) {
@@ -2010,7 +2306,7 @@
                     }
                 }
             });
-            
+
             // Add user modal
             const addUserBtn = document.getElementById('addUserBtn');
             const addNewUserBtn = document.getElementById('addNewUser');
@@ -2038,7 +2334,7 @@
                     closeAddUserModal();
                 }
             });
-            
+
             // Add user form submission
             const addUserForm = document.getElementById('addUserForm');
             if (addUserForm) {
@@ -2048,7 +2344,6 @@
                     const userName = document.getElementById('userName').value;
                     const userEmail = document.getElementById('userEmail').value;
                     const userRole = document.getElementById('userRole').value;
-                    const userStatus = document.getElementById('userStatus').value;
                     
                     // Show loading
                     const submitBtn = addUserForm.querySelector('button[type="submit"]');
@@ -2057,145 +2352,38 @@
                     
                     // Simulate API call
                     setTimeout(() => {
-                        // Add new user to mock data
-                        const newUser = {
-                            id: mockUsers.length + 1,
-                            name: userName,
-                            email: userEmail,
-                            role: userRole.charAt(0).toUpperCase() + userRole.slice(1),
-                            status: userStatus,
-                            portfolio: "₹0",
-                            joined: new Date().toISOString().split('T')[0],
-                            lastActive: "Just now",
-                            avatar: userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2)
-                        };
-                        
-                        mockUsers.unshift(newUser);
-                        loadUsersTable();
-                        
-                        // Show success message
                         showNotification('User added successfully!', 'success');
-                        
-                        // Reset form and close modal
                         addUserForm.reset();
                         closeAddUserModal();
-                        
-                        // Restore button text
                         submitBtn.innerHTML = originalText;
-                    }, 1500);
-                });
-            }
-            
-            // User actions
-            document.addEventListener('click', (e) => {
-                // Edit user
-                if (e.target.closest('.action-btn.edit')) {
-                    const userId = e.target.closest('.action-btn.edit').dataset.id;
-                    editUser(userId);
-                }
-                
-                // View user
-                if (e.target.closest('.action-btn.view')) {
-                    const userId = e.target.closest('.action-btn.view').dataset.id;
-                    viewUser(userId);
-                }
-                
-                // Delete user
-                if (e.target.closest('.action-btn.delete')) {
-                    const userId = e.target.closest('.action-btn.delete').dataset.id;
-                    deleteUser(userId);
-                }
-            });
-            
-            // Quick actions
-            document.querySelectorAll('.action-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const action = card.dataset.action;
-                    handleQuickAction(action);
-                });
-            });
-            
-            // Refresh button
-            const refreshBtn = document.getElementById('refreshBtn');
-            if (refreshBtn) {
-                refreshBtn.addEventListener('click', () => {
-                    refreshBtn.innerHTML = '<span class="loading"></span> Refreshing...';
-                    
-                    setTimeout(() => {
-                        // Simulate data refresh
-                        updateStats();
-                        loadUsersTable();
-                        loadActivities();
-                        
-                        refreshBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed';
-                        setTimeout(() => {
-                            refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
-                        }, 2000);
-                        
-                        showNotification('Data refreshed successfully!', 'success');
                     }, 1000);
                 });
             }
+
+            // Change password modal
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            const closePasswordModal = document.getElementById('closePasswordModal');
+            const cancelPassword = document.getElementById('cancelPassword');
             
-            // Export button
-            const exportBtn = document.getElementById('exportBtn');
-            if (exportBtn) {
-                exportBtn.addEventListener('click', () => {
-                    exportBtn.innerHTML = '<span class="loading"></span> Exporting...';
-                    
-                    setTimeout(() => {
-                        // Simulate export
-                        showNotification('Export completed successfully! Check your downloads.', 'success');
-                        
-                        exportBtn.innerHTML = '<i class="fas fa-check"></i> Exported';
-                        setTimeout(() => {
-                            exportBtn.innerHTML = '<i class="fas fa-download"></i> Export';
-                        }, 2000);
-                    }, 1500);
+            if (changePasswordBtn) {
+                changePasswordBtn.addEventListener('click', () => {
+                    changePasswordModal.classList.add('show');
                 });
             }
             
-            // Search functionality
-            const searchInput = document.getElementById('adminSearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', debounce(searchUsers, 300));
-            }
-            
-            // View all activity
-            const viewAllActivity = document.getElementById('viewAllActivity');
-            if (viewAllActivity) {
-                viewAllActivity.addEventListener('click', () => {
-                    showNotification('Redirecting to activity logs...', 'info');
+            if (closePasswordModal) {
+                closePasswordModal.addEventListener('click', () => {
+                    changePasswordModal.classList.remove('show');
                 });
             }
             
-            // Filter users
-            const filterUsers = document.getElementById('filterUsers');
-            if (filterUsers) {
-                filterUsers.addEventListener('click', () => {
-                    // Show filter modal
-                    showNotification('Filter modal will open here', 'info');
+            if (cancelPassword) {
+                cancelPassword.addEventListener('click', () => {
+                    changePasswordModal.classList.remove('show');
                 });
             }
-            
-            // Export users
-            const exportUsers = document.getElementById('exportUsers');
-            if (exportUsers) {
-                exportUsers.addEventListener('click', () => {
-                    exportUsers.innerHTML = '<span class="loading"></span> Exporting...';
-                    
-                    setTimeout(() => {
-                        // Simulate export
-                        showNotification('Users exported successfully!', 'success');
-                        
-                        exportUsers.innerHTML = '<i class="fas fa-check"></i> Exported';
-                        setTimeout(() => {
-                            exportUsers.innerHTML = '<i class="fas fa-file-export"></i> Export';
-                        }, 2000);
-                    }, 1500);
-                });
-            }
-            
+
             // Theme buttons
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -2207,216 +2395,48 @@
                     this.classList.add('active');
                 });
             });
-        }
 
-        // User actions
-        function editUser(userId) {
-            const user = mockUsers.find(u => u.id == userId);
-            if (!user) return;
-            
-            showNotification(`Editing user: ${user.name}`, 'info');
-            // In a real app, this would open an edit modal
-        }
-
-        function viewUser(userId) {
-            const user = mockUsers.find(u => u.id == userId);
-            if (!user) return;
-            
-            showNotification(`Viewing user: ${user.name}`, 'info');
-            // In a real app, this would open a user details page
-        }
-
-        function deleteUser(userId) {
-            if (!confirm('Are you sure you want to delete this user?')) return;
-            
-            const userIndex = mockUsers.findIndex(u => u.id == userId);
-            if (userIndex === -1) return;
-            
-            const userName = mockUsers[userIndex].name;
-            mockUsers.splice(userIndex, 1);
-            loadUsersTable();
-            
-            showNotification(`User ${userName} deleted successfully!`, 'success');
-        }
-
-        // Quick actions handler
-        function handleQuickAction(action) {
-            const actions = {
-                broadcast: {
-                    title: 'Send Broadcast',
-                    message: 'Broadcast modal will open here',
-                    icon: 'fas fa-bullhorn'
-                },
-                backup: {
-                    title: 'Backup Database',
-                    message: 'Starting database backup...',
-                    icon: 'fas fa-database'
-                },
-                report: {
-                    title: 'Generate Report',
-                    message: 'Report generation started',
-                    icon: 'fas fa-file-invoice-dollar'
-                },
-                audit: {
-                    title: 'Security Audit',
-                    message: 'Security audit in progress...',
-                    icon: 'fas fa-shield-alt'
-                },
-                maintenance: {
-                    title: 'Maintenance',
-                    message: 'Maintenance tools opened',
-                    icon: 'fas fa-tools'
-                },
-                settings: {
-                    title: 'Quick Settings',
-                    message: 'Settings panel opened',
-                    icon: 'fas fa-cogs'
-                }
-            };
-            
-            const actionInfo = actions[action];
-            if (!actionInfo) return;
-            
-            showNotification(actionInfo.message, 'info');
-            
-            // Simulate action processing
-            if (action === 'backup') {
-                setTimeout(() => {
-                    showNotification('Database backup completed successfully!', 'success');
-                }, 2000);
-            }
-        }
-
-        // Search users
-        function searchUsers() {
-            const searchTerm = document.getElementById('adminSearch').value.toLowerCase();
-            
-            if (!searchTerm) {
-                loadUsersTable();
-                return;
-            }
-            
-            const filteredUsers = mockUsers.filter(user => 
-                user.name.toLowerCase().includes(searchTerm) ||
-                user.email.toLowerCase().includes(searchTerm) ||
-                user.role.toLowerCase().includes(searchTerm)
-            );
-            
-            const tbody = document.getElementById('usersTableBody');
-            tbody.innerHTML = '';
-            
-            filteredUsers.forEach(user => {
-                const row = document.createElement('tr');
-                
-                let statusClass = 'status-active';
-                if (user.status === 'inactive') statusClass = 'status-inactive';
-                if (user.status === 'pending') statusClass = 'status-pending';
-                if (user.status === 'suspended') statusClass = 'status-inactive';
-                
-                let roleClass = 'role-user';
-                if (user.role.includes('Premium')) roleClass = 'role-manager';
-                if (user.role.includes('Advisor') || user.role.includes('Manager')) roleClass = 'role-manager';
-                if (user.role === 'Admin') roleClass = 'role-admin';
-                
-                row.innerHTML = `
-                    <td>
-                        <div class="user-cell">
-                            <div class="user-avatar">${user.avatar}</div>
-                            <div class="user-info">
-                                <h4>${user.name}</h4>
-                                <p>${user.email}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td><span class="role-badge ${roleClass}">${user.role}</span></td>
-                    <td><span class="status-badge ${statusClass}">${user.status}</span></td>
-                    <td><strong>${user.portfolio}</strong></td>
-                    <td>${user.joined}</td>
-                    <td>${user.lastActive}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn edit" data-id="${user.id}" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn view" data-id="${user.id}" title="View">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="action-btn delete" data-id="${user.id}" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tbody.appendChild(row);
+            // Quick actions
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const action = card.dataset.action;
+                    showNotification(`${action} feature coming soon!`, 'info');
+                });
             });
-            
-            if (filteredUsers.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                            <i class="fas fa-search" style="font-size: 32px; margin-bottom: 16px; opacity: 0.5;"></i>
-                            <div>No users found matching "${searchTerm}"</div>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
 
-        // Update stats with random variations
-        function updateStats() {
-            // Generate slight variations for realism
-            const stats = {
-                totalUsers: { min: 10200, max: 10300 },
-                totalFunds: { min: 540, max: 545 },
-                totalTransactions: { min: 2800, max: 2900 },
-                totalRevenue: { min: 12.5, max: 13.0 },
-                growthRate: { min: 16.5, max: 17.0 },
-                riskScore: { min: 4.0, max: 4.5 }
-            };
-            
-            Object.keys(stats).forEach(stat => {
-                const element = document.getElementById(stat);
-                if (element) {
-                    const range = stats[stat];
-                    const newValue = (Math.random() * (range.max - range.min) + range.min).toFixed(1);
+            // Edit profile button
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', () => {
+                    const inputs = document.querySelectorAll('#profileForm input, #profileForm textarea');
+                    const isDisabled = inputs[0].disabled;
                     
-                    // Add animation
-                    element.classList.add('live-update');
-                    setTimeout(() => {
-                        if (stat === 'totalFunds') {
-                            element.textContent = `₹${newValue}Cr`;
-                        } else if (stat === 'totalRevenue') {
-                            element.textContent = `₹${newValue}L`;
-                        } else {
-                            element.textContent = newValue.includes('.') ? newValue : Math.round(newValue);
-                        }
-                        element.classList.remove('live-update');
-                    }, 300);
-                }
-            });
-            
-            // Update trends randomly
-            document.querySelectorAll('.stat-trend').forEach(trend => {
-                const isUp = Math.random() > 0.3; // 70% chance of up trend
-                const change = (Math.random() * 10 + 5).toFixed(1);
-                
-                if (isUp) {
-                    trend.className = 'stat-trend trend-up';
-                    trend.innerHTML = `<i class="fas fa-arrow-up"></i> ${change}%`;
-                } else {
-                    trend.className = 'stat-trend trend-down';
-                    trend.innerHTML = `<i class="fas fa-arrow-down"></i> ${change}%`;
-                }
-            });
+                    if (isDisabled) {
+                        // Enable editing
+                        inputs.forEach(input => input.disabled = false);
+                        editProfileBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                        editProfileBtn.classList.remove('btn-primary');
+                        editProfileBtn.classList.add('btn-success');
+                    } else {
+                        // Save changes
+                        // In real app, this would be an API call
+                        showNotification('Profile updated successfully!', 'success');
+                        
+                        // Disable inputs again
+                        inputs.forEach(input => input.disabled = true);
+                        editProfileBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+                        editProfileBtn.classList.remove('btn-success');
+                        editProfileBtn.classList.add('btn-primary');
+                    }
+                });
+            }
         }
 
-        // Theme management
+        // ===== THEME MANAGEMENT =====
         function setupTheme() {
             const savedTheme = localStorage.getItem('admin_theme') || 'light';
             setTheme(savedTheme);
             
-            // Set active theme button
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.theme === savedTheme) {
@@ -2428,19 +2448,10 @@
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
             localStorage.setItem('admin_theme', theme);
-            
-            // Update theme in UI
-            const themeToggle = document.querySelector('.theme-toggle');
-            if (themeToggle) {
-                themeToggle.style.background = theme === 'dark' ? 
-                    'linear-gradient(135deg, #1e293b, #334155)' : 
-                    'linear-gradient(135deg, #ffffff, #f8fafc)';
-            }
         }
 
-        // Utility functions
+        // ===== NOTIFICATION SYSTEM =====
         function showNotification(message, type = 'info') {
-            // Create notification element
             const notification = document.createElement('div');
             notification.className = `notification notification-${type}`;
             notification.style.cssText = `
@@ -2483,7 +2494,7 @@
                 setTimeout(() => notification.remove(), 300);
             }, 5000);
             
-            // Add animation keyframes
+            // Add animation keyframes if not already present
             if (!document.getElementById('notification-animations')) {
                 const style = document.createElement('style');
                 style.id = 'notification-animations';
@@ -2501,76 +2512,33 @@
             }
         }
 
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Logout functionality (add to admin profile if needed)
-        function setupLogout() {
-            const logoutBtn = document.createElement('button');
-            logoutBtn.className = 'admin-btn btn-danger';
-            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-            logoutBtn.style.marginTop = '10px';
-            logoutBtn.style.width = '100%';
-            
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to logout?')) {
-                    localStorage.removeItem('admin_data');
-                    window.location.href = 'index.html';
-                }
-            });
-            
-            const adminProfile = document.querySelector('.admin-profile');
-            if (adminProfile) {
-                adminProfile.appendChild(logoutBtn);
-            }
-        }
-
-        // Add logout button to profile
-        setTimeout(() => {
-            setupLogout();
-        }, 1000);
-
-        // Auto-refresh stats every 30 seconds
-        setInterval(updateStats, 30000);
-
-        // Simulate live updates
+        // ===== AUTO-REFRESH STATS =====
         setInterval(() => {
-            // Randomly update one stat
-            const stats = ['totalUsers', 'totalFunds', 'totalTransactions', 'totalRevenue', 'growthRate', 'riskScore'];
-            const randomStat = stats[Math.floor(Math.random() * stats.length)];
-            const element = document.getElementById(randomStat);
-            
-            if (element) {
-                const currentValue = parseFloat(element.textContent.replace(/[^0-9.]/g, ''));
-                const change = (Math.random() - 0.5) * 0.1; // ±5% change
-                const newValue = currentValue * (1 + change);
+            if (currentUser && currentPage === 'dashboard') {
+                // Update random stat for realism
+                const stats = ['totalUsers', 'totalFunds', 'totalTransactions', 'totalRevenue'];
+                const randomStat = stats[Math.floor(Math.random() * stats.length)];
+                const element = document.getElementById(randomStat);
                 
-                element.classList.add('live-update');
-                setTimeout(() => {
-                    if (randomStat === 'totalFunds') {
-                        element.textContent = `₹${newValue.toFixed(1)}Cr`;
-                    } else if (randomStat === 'totalRevenue') {
-                        element.textContent = `₹${newValue.toFixed(1)}L`;
-                    } else if (randomStat === 'riskScore') {
-                        element.textContent = `${newValue.toFixed(1)}/10`;
-                    } else if (randomStat === 'growthRate') {
-                        element.textContent = `${newValue.toFixed(1)}%`;
-                    } else {
-                        element.textContent = Math.round(newValue).toLocaleString();
-                    }
-                    element.classList.remove('live-update');
-                }, 300);
+                if (element) {
+                    const currentValue = parseFloat(element.textContent.replace(/[^0-9.]/g, ''));
+                    const change = (Math.random() - 0.5) * 0.02; // ±2% change
+                    const newValue = currentValue * (1 + change);
+                    
+                    element.classList.add('live-update');
+                    setTimeout(() => {
+                        if (randomStat === 'totalFunds') {
+                            element.textContent = `₹${newValue.toFixed(1)}Cr`;
+                        } else if (randomStat === 'totalRevenue') {
+                            element.textContent = `₹${newValue.toFixed(1)}L`;
+                        } else {
+                            element.textContent = Math.round(newValue).toLocaleString();
+                        }
+                        element.classList.remove('live-update');
+                    }, 300);
+                }
             }
-        }, 10000);
+        }, 15000);
     </script>
 </body>
 </html>
