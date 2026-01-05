@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | Infinity MF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .user-filters {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .user-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .user-stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .user-stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        .role-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .role-admin {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .role-advisor {
+            background: #4cc9f0;
+            color: white;
+        }
+        
+        .role-investor {
+            background: #7209b7;
+            color: white;
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+        }
+        
+        .status-pending {
+            background: rgba(247, 37, 133, 0.2);
+            color: #f72585;
+        }
+        
+        .status-inactive {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="dashboard.html" class="logo">
+            <div class="logo-icon">∞</div>
+            <div class="logo-text">Infinity MF</div>
+        </a>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>System Online</span>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">JM</div>
+                <div>
+                    <div class="user-name">John Marpung</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation (Same as dashboard) -->
+    <nav class="nav-container">
+        <button id="mobileMenuBtn" class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Main Navigation</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="nav-link">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Portfolio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="transactions.html" class="nav-link">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transactions</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Management Modules</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="user-management.html" class="nav-link active">
+                        <i class="fas fa-users"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fund-master.html" class="nav-link">
+                        <i class="fas fa-wallet"></i>
+                        <span>Fund Master</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">System</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" style="color: #f72585;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> User Management</h1>
+            <p>Manage administrators, advisors, and investor accounts</p>
+        </div>
+        
+        <!-- User Stats -->
+        <div class="user-stats">
+            <div class="user-stat-card">
+                <div class="user-stat-value">156</div>
+                <div class="user-stat-label">Total Users</div>
+            </div>
+            <div class="user-stat-card">
+                <div class="user-stat-value">8</div>
+                <div class="user-stat-label">Administrators</div>
+            </div>
+            <div class="user-stat-card">
+                <div class="user-stat-value">25</div>
+                <div class="user-stat-label">Advisors</div>
+            </div>
+            <div class="user-stat-card">
+                <div class="user-stat-value">123</div>
+                <div class="user-stat-label">Investors</div>
+            </div>
+        </div>
+        
+        <!-- User Actions -->
+        <div class="user-actions">
+            <button class="btn btn-primary" onclick="openAddUserModal()">
+                <i class="fas fa-user-plus"></i> Add New User
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-file-export"></i> Export Users
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        
+        <!-- Filters -->
+        <div class="user-filters">
+            <div class="filter-group">
+                <input type="text" class="form-control" placeholder="Search users...">
+            </div>
+            <div class="filter-group">
+                <select class="form-control">
+                    <option value="">All Roles</option>
+                    <option value="admin">Administrator</option>
+                    <option value="advisor">Advisor</option>
+                    <option value="investor">Investor</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select class="form-control">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Users Table -->
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                Showing 1-10 of 156 users
+            </div>
+            <div style="display: flex; gap: 5px;">
+                <button class="btn btn-outline" style="padding: 8px 12px;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-primary" style="padding: 8px 12px;">1</button>
+                <button class="btn btn-outline" style="padding: 8px 12px;">2</button>
+                <button class="btn btn-outline" style="padding: 8px 12px;">3</button>
+                <button class="btn btn-outline" style="padding: 8px 12px;">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Add New User</h2>
+            
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" placeholder="Enter full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" placeholder="Enter email address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <select class="form-control" required>
+                        <option value="">Select Role</option>
+                        <option value="admin">Administrator</option>
+                        <option value="advisor">Advisor</option>
+                        <option value="investor">Investor</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Initial Password</label>
+                    <input type="password" class="form-control" placeholder="Enter password" required>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                    <button type="button" class="btn btn-outline" onclick="closeAddUserModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/users.js"></script>
+    <script>
+        // Check if user is logged in
+        const user = localStorage.getItem('infinity_user');
+        if (!user) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
