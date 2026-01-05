@@ -18,13 +18,14 @@
             --danger: #ff4757;
             --dark: #1e2a3a;
             --dark-light: #2a3a4d;
-            --light: #f5f7fa;
+            --light: #ffffff;
             --gray: #7b8795;
             --border: #e8e8e8;
-            --card-bg: #fff;
+            --card-bg: #ffffff;
             --sidebar-bg: #1e2a3a;
             --sidebar-text: #b0b7c3;
             --sidebar-active: #2d5af1;
+            --background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
         }
         
         * {
@@ -39,6 +40,56 @@
             color: var(--dark);
             line-height: 1.6;
             overflow-x: hidden;
+            background-image: var(--background-image);
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            transition: all 0.3s ease;
+        }
+        
+        .body-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.92);
+            z-index: -1;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 90, 241, 0.3);
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode {
+            --light: #0f172a;
+            --dark: #f1f5f9;
+            --gray: #94a3b8;
+            --border: #334155;
+            --card-bg: #1e293b;
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #cbd5e1;
+            --primary-light: rgba(45, 90, 241, 0.2);
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+        
+        .dark-mode .body-overlay {
+            background-color: rgba(15, 23, 42, 0.92);
         }
         
         .container {
@@ -126,17 +177,6 @@
             background-color: rgba(45, 90, 241, 0.1);
             color: white;
             border-left-color: var(--primary);
-        }
-        
-        .nav-item.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .nav-item.disabled:hover {
-            background-color: transparent;
-            color: var(--sidebar-text);
-            border-left-color: transparent;
         }
         
         .nav-item i {
@@ -244,6 +284,25 @@
             color: var(--danger);
         }
         
+        /* Live Time Indicator */
+        .live-time {
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-time::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
         /* Notification System */
         .notification-icon {
             position: relative;
@@ -331,7 +390,7 @@
         }
         
         .notification-item:hover {
-            background-color: var(--light);
+            background-color: var(--primary-light);
         }
         
         .notification-item.unread {
@@ -349,22 +408,22 @@
         }
         
         .notification-icon-small.blue {
-            background-color: #e6eeff;
+            background-color: rgba(45, 90, 241, 0.1);
             color: var(--primary);
         }
         
         .notification-icon-small.green {
-            background-color: #e7f7ef;
+            background-color: rgba(46, 204, 113, 0.1);
             color: var(--success);
         }
         
         .notification-icon-small.orange {
-            background-color: #fff4e6;
+            background-color: rgba(255, 159, 67, 0.1);
             color: var(--warning);
         }
         
         .notification-icon-small.red {
-            background-color: #ffe6e6;
+            background-color: rgba(255, 71, 87, 0.1);
             color: var(--danger);
         }
         
@@ -425,7 +484,7 @@
             background-color: var(--card-bg);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             border: 1px solid var(--border);
             position: relative;
@@ -444,7 +503,7 @@
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
         
         .card-title {
@@ -501,18 +560,18 @@
             font-weight: 600;
         }
         
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
         .live-pulse {
             width: 10px;
             height: 10px;
             background-color: var(--success);
             border-radius: 50%;
             animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
         }
         
         .sectors-grid {
@@ -623,6 +682,32 @@
             color: var(--danger);
         }
         
+        /* Stock Details in Sectors */
+        .stock-details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .stock-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            font-size: 0.85rem;
+        }
+        
+        .stock-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark);
+        }
+        
+        .stock-price {
+            font-weight: 600;
+        }
+        
         /* Charts Section */
         .charts-section {
             display: grid;
@@ -635,7 +720,7 @@
             background-color: var(--card-bg);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border);
         }
         
@@ -658,7 +743,7 @@
             background-color: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border);
             margin-bottom: 30px;
         }
@@ -697,10 +782,10 @@
         }
         
         tr:hover {
-            background-color: var(--light);
+            background-color: var(--primary-light);
         }
         
-        .stock-name {
+        .stock-name-cell {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -772,10 +857,10 @@
         
         .index-exchange {
             font-size: 0.75rem;
-            background-color: var(--light);
+            background-color: var(--primary-light);
             padding: 2px 8px;
             border-radius: 10px;
-            color: var(--gray);
+            color: var(--primary);
         }
         
         .index-value {
@@ -785,260 +870,78 @@
             margin-bottom: 5px;
         }
         
-        /* Transaction List */
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 10px;
+        /* Market Data Table */
+        .market-data-table {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
         }
         
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
+        .market-data-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
             border-bottom: 1px solid var(--border);
+            align-items: center;
         }
         
-        .transaction-item:last-child {
+        .market-data-row.header {
+            background-color: var(--primary-light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .market-data-row:last-child {
             border-bottom: none;
         }
         
-        .transaction-type {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .transaction-type.buy {
-            background-color: rgba(46, 204, 113, 0.1);
-            color: var(--success);
-        }
-        
-        .transaction-type.sell {
-            background-color: rgba(255, 71, 87, 0.1);
-            color: var(--danger);
-        }
-        
-        .transaction-type.dividend {
-            background-color: rgba(45, 90, 241, 0.1);
-            color: var(--primary);
-        }
-        
-        /* File Upload Styles */
-        .file-upload-container {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-            border: 2px dashed var(--border);
-            margin-bottom: 30px;
+        /* Time Display */
+        .time-display {
             text-align: center;
-        }
-        
-        .file-upload-area {
-            padding: 40px 20px;
-            border-radius: 10px;
-            background-color: var(--primary-light);
-            cursor: pointer;
-            transition: all 0.3s;
             margin-bottom: 20px;
-        }
-        
-        .file-upload-area:hover {
-            background-color: rgba(45, 90, 241, 0.1);
-        }
-        
-        .file-upload-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .file-upload-text {
-            font-size: 1.1rem;
-            color: var(--dark);
-            margin-bottom: 10px;
-        }
-        
-        .file-upload-subtext {
+            color: var(--gray);
             font-size: 0.9rem;
-            color: var(--gray);
         }
         
-        .file-input {
-            display: none;
-        }
-        
-        .file-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background-color: var(--light);
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
-        
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .file-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-        
-        .file-details {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .file-name {
+        .last-updated {
+            color: var(--success);
             font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 5px;
         }
         
-        .file-size {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-        
-        .file-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .file-action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--light);
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid var(--border);
-        }
-        
-        .file-action-btn:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        /* Modal for File Uploads */
-        .modal-overlay {
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 3000;
-            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 4000;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            gap: 20px;
         }
         
-        .modal-content {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px;
-            position: relative;
+        .dark-mode .loading-spinner {
+            background-color: rgba(15, 23, 42, 0.9);
         }
         
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--dark);
-        }
-        
-        .modal-close {
-            width: 36px;
-            height: 36px;
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--primary-light);
+            border-top-color: var(--primary);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--light);
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
+            animation: spin 1s linear infinite;
         }
         
-        .modal-close:hover {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        /* Admin Panel */
-        .admin-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .admin-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-            border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .admin-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-        }
-        
-        .admin-card-title {
-            font-size: 1.1rem;
-            color: var(--dark);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .admin-card-title i {
-            color: var(--primary);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Responsive */
@@ -1076,6 +979,10 @@
             
             .charts-section {
                 grid-template-columns: 1fr;
+            }
+            
+            .theme-toggle {
+                top: 80px;
             }
         }
         
@@ -1117,14 +1024,9 @@
                 min-width: 100%;
             }
             
-            .file-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .file-actions {
-                align-self: flex-end;
+            .market-data-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
         }
         
@@ -1148,63 +1050,50 @@
             display: block;
         }
         
-        /* Loading Spinner */
-        .loading-spinner {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            z-index: 4000;
-            justify-content: center;
+        /* Button Styles */
+        .action-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            flex-direction: column;
-            gap: 20px;
+            gap: 8px;
+            transition: all 0.3s;
         }
         
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid var(--primary-light);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .action-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Disabled State */
-        .disabled-message {
-            text-align: center;
-            padding: 40px;
-            background-color: var(--light);
-            border-radius: 15px;
-            border: 1px solid var(--border);
-        }
-        
-        .disabled-message i {
-            font-size: 3rem;
-            color: var(--gray);
+        /* File Upload Area (Simplified) */
+        .file-upload-note {
+            background-color: var(--primary-light);
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
         }
         
-        .disabled-message h3 {
-            font-size: 1.5rem;
-            color: var(--dark);
-            margin-bottom: 10px;
-        }
-        
-        .disabled-message p {
-            color: var(--gray);
-            margin-bottom: 20px;
+        .file-upload-note i {
+            color: var(--primary);
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Body Overlay -->
+    <div class="body-overlay"></div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
     <!-- Loading Spinner -->
     <div class="loading-spinner" id="loadingSpinner">
         <div class="spinner"></div>
@@ -1243,9 +1132,13 @@
                     <i class="fas fa-wallet"></i>
                     <span>Assets</span>
                 </li>
+                <li class="nav-item" data-page="market">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Market</span>
+                </li>
             </ul>
             
-            <div class="nav-section">Transactions & Reports</div>
+            <div class="nav-section">Reports</div>
             <ul class="nav-menu">
                 <li class="nav-item" data-page="transactions">
                     <i class="fas fa-exchange-alt"></i>
@@ -1254,30 +1147,6 @@
                 <li class="nav-item" data-page="reports">
                     <i class="fas fa-file-alt"></i>
                     <span>Reports</span>
-                </li>
-            </ul>
-            
-            <div class="nav-section">Market Data</div>
-            <ul class="nav-menu">
-                <li class="nav-item" data-page="market">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Market</span>
-                </li>
-                <li class="nav-item" data-page="admin">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Admin Panel</span>
-                </li>
-            </ul>
-            
-            <div class="nav-section">Account</div>
-            <ul class="nav-menu">
-                <li class="nav-item disabled" data-page="account">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Account (Disabled)</span>
-                </li>
-                <li class="nav-item disabled" data-page="settings">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings (Disabled)</span>
                 </li>
             </ul>
             
@@ -1295,12 +1164,13 @@
             <header class="header">
                 <div class="welcome-text">
                     <h1>Welcome Back, Arthur Sjorgen</h1>
-                    <p>Monitor your investments and stay updated with live market data</p>
+                    <p>Live market data and real-time portfolio tracking</p>
+                    <div class="live-time" id="liveTime">Live • 09:45 AM IST</div>
                 </div>
                 
                 <div class="header-right">
                     <div class="date-display" id="currentDate">Monday, Jan 5, 2026</div>
-                    <div class="market-status up">
+                    <div class="market-status up" id="marketStatus">
                         <i class="fas fa-arrow-up"></i>
                         <span>BSE: +1.2% | NSE: +0.8%</span>
                     </div>
@@ -1336,71 +1206,76 @@
                             SENSEX
                             <span class="index-exchange">BSE</span>
                         </div>
-                        <div class="index-value">72,415.30</div>
-                        <div class="positive-change">+1.2% <i class="fas fa-arrow-up"></i></div>
+                        <div class="index-value" id="sensexValue">72,415.30</div>
+                        <div class="positive-change" id="sensexChange">+1.2% <i class="fas fa-arrow-up"></i></div>
                     </div>
                     <div class="index-card">
                         <div class="index-name">
                             NIFTY 50
                             <span class="index-exchange">NSE</span>
                         </div>
-                        <div class="index-value">21,856.10</div>
-                        <div class="positive-change">+0.8% <i class="fas fa-arrow-up"></i></div>
+                        <div class="index-value" id="niftyValue">21,856.10</div>
+                        <div class="positive-change" id="niftyChange">+0.8% <i class="fas fa-arrow-up"></i></div>
                     </div>
                     <div class="index-card">
                         <div class="index-name">
                             BANK NIFTY
                             <span class="index-exchange">NSE</span>
                         </div>
-                        <div class="index-value">46,328.75</div>
-                        <div class="positive-change">+1.5% <i class="fas fa-arrow-up"></i></div>
+                        <div class="index-value" id="bankNiftyValue">46,328.75</div>
+                        <div class="positive-change" id="bankNiftyChange">+1.5% <i class="fas fa-arrow-up"></i></div>
                     </div>
                     <div class="index-card">
                         <div class="index-name">
                             NIFTY PHARMA
                             <span class="index-exchange">NSE</span>
                         </div>
-                        <div class="index-value">18,642.20</div>
-                        <div class="negative-change">-0.3% <i class="fas fa-arrow-down"></i></div>
+                        <div class="index-value" id="pharmaValue">18,642.20</div>
+                        <div class="negative-change" id="pharmaChange">-0.3% <i class="fas fa-arrow-down"></i></div>
                     </div>
+                </div>
+                
+                <!-- Time Display -->
+                <div class="time-display">
+                    Last Updated: <span class="last-updated" id="lastUpdated">09:45:23 AM</span> | Data updates every 10 seconds
                 </div>
                 
                 <!-- Dashboard Cards -->
                 <div class="dashboard-cards">
                     <div class="card fade-in">
                         <div class="card-title">My Investment Asset</div>
-                        <div class="card-value">$178,975</div>
-                        <div class="card-change positive">
+                        <div class="card-value" id="portfolioValue">$178,975</div>
+                        <div class="card-change positive" id="portfolioChange">
                             <i class="fas fa-arrow-up"></i> +$150 today
                         </div>
                     </div>
                     
                     <div class="card fade-in">
                         <div class="card-title">Yearly Profits</div>
-                        <div class="card-value">$88,742</div>
-                        <div class="card-change positive">
+                        <div class="card-value" id="yearlyProfit">$88,742</div>
+                        <div class="card-change positive" id="yearlyChange">
                             <i class="fas fa-arrow-up"></i> +10% this year
                         </div>
                     </div>
                     
                     <div class="card fade-in">
                         <div class="card-title">Profit Margin</div>
-                        <div class="card-value">$48,632</div>
-                        <div class="card-change positive">
+                        <div class="card-value" id="profitMargin">$48,632</div>
+                        <div class="card-change positive" id="marginChange">
                             <i class="fas fa-arrow-up"></i> 4.23% return
                         </div>
                     </div>
                     
                     <div class="card fade-in">
                         <div class="card-title">Risk Level</div>
-                        <div class="card-value">Medium</div>
+                        <div class="card-value" id="riskLevel">Medium</div>
                         <div class="card-change positive">
                             <i class="fas fa-chart-line"></i> -2% from last month
                         </div>
                     </div>
                 </div>
                 
-                <!-- Market Sectors -->
+                <!-- Market Sectors Performance with Stock Details -->
                 <div class="sectors-section">
                     <div class="section-title">
                         <span>Market Sectors Performance</span>
@@ -1416,8 +1291,23 @@
                             </div>
                             <div class="sector-info">
                                 <div class="sector-name">Banking Sector</div>
-                                <div class="sector-value">+1.5%</div>
+                                <div class="sector-value" id="bankingSectorValue">+1.5%</div>
                                 <div class="sector-change positive">ICICI, HDFC, SBI</div>
+                                
+                                <div class="stock-details">
+                                    <div class="stock-row">
+                                        <div class="stock-name">ICICI Bank</div>
+                                        <div class="stock-price positive">₹1,025 (+2.3%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">HDFC Bank</div>
+                                        <div class="stock-price positive">₹1,520 (+1.8%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">SBI</div>
+                                        <div class="stock-price positive">₹650 (+0.9%)</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -1427,8 +1317,23 @@
                             </div>
                             <div class="sector-info">
                                 <div class="sector-name">Pharma Sector</div>
-                                <div class="sector-value">-0.3%</div>
-                                <div class="sector-change negative">Sun Pharma, Cipla</div>
+                                <div class="sector-value" id="pharmaSectorValue">-0.3%</div>
+                                <div class="sector-change negative">Sun Pharma, Cipla, Dr. Reddy's</div>
+                                
+                                <div class="stock-details">
+                                    <div class="stock-row">
+                                        <div class="stock-name">Sun Pharma</div>
+                                        <div class="stock-price negative">₹920 (-1.2%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">Cipla</div>
+                                        <div class="stock-price negative">₹1,250 (-0.5%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">Dr. Reddy's</div>
+                                        <div class="stock-price positive">₹5,820 (+0.3%)</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -1438,8 +1343,23 @@
                             </div>
                             <div class="sector-info">
                                 <div class="sector-name">Industry Sector</div>
-                                <div class="sector-value">+0.9%</div>
-                                <div class="sector-change positive">L&T, Tata Steel</div>
+                                <div class="sector-value" id="industrySectorValue">+0.9%</div>
+                                <div class="sector-change positive">L&T, Tata Steel, JSW Steel</div>
+                                
+                                <div class="stock-details">
+                                    <div class="stock-row">
+                                        <div class="stock-name">L&T</div>
+                                        <div class="stock-price positive">₹2,920 (+1.2%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">Tata Steel</div>
+                                        <div class="stock-price positive">₹145 (+2.1%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">JSW Steel</div>
+                                        <div class="stock-price positive">₹850 (+0.8%)</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -1449,8 +1369,23 @@
                             </div>
                             <div class="sector-info">
                                 <div class="sector-name">Technology Sector</div>
-                                <div class="sector-value">+2.1%</div>
+                                <div class="sector-value" id="techSectorValue">+2.1%</div>
                                 <div class="sector-change positive">Infosys, TCS, Wipro</div>
+                                
+                                <div class="stock-details">
+                                    <div class="stock-row">
+                                        <div class="stock-name">Infosys</div>
+                                        <div class="stock-price positive">₹1,580 (+2.8%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">TCS</div>
+                                        <div class="stock-price positive">₹3,420 (+1.9%)</div>
+                                    </div>
+                                    <div class="stock-row">
+                                        <div class="stock-name">Wipro</div>
+                                        <div class="stock-price positive">₹480 (+1.5%)</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1459,7 +1394,7 @@
                 <!-- Charts Section -->
                 <div class="charts-section">
                     <div class="chart-container">
-                        <div class="chart-title">Portfolio Performance</div>
+                        <div class="chart-title">Portfolio Performance (Live)</div>
                         <div class="chart-wrapper">
                             <canvas id="performanceChart"></canvas>
                         </div>
@@ -1473,13 +1408,13 @@
                     </div>
                 </div>
                 
-                <!-- Portfolio Table -->
+                <!-- My Holdings Table -->
                 <div class="portfolio-table">
                     <div class="table-header">
-                        <div class="table-title">My Holdings</div>
+                        <div class="table-title">My Holdings (Live)</div>
                         <div class="table-actions">
-                            <button class="action-btn" id="addInvestmentBtn">
-                                <i class="fas fa-plus"></i> Add Investment
+                            <button class="action-btn" id="refreshHoldingsBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
                             </button>
                         </div>
                     </div>
@@ -1494,8 +1429,8 @@
                                 <th>Value</th>
                             </tr>
                         </thead>
-                        <tbody id="portfolioTable">
-                            <!-- Portfolio data loaded by JavaScript -->
+                        <tbody id="holdingsTable">
+                            <!-- Holdings data loaded by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -1504,71 +1439,79 @@
             <!-- Portfolio Page -->
             <div class="page-content" id="portfolioPage">
                 <div class="section-title">My Portfolio</div>
-                <p class="section-subtitle">Upload portfolio files and manage your investment portfolio</p>
+                <p class="section-subtitle">Real-time portfolio tracking and analysis</p>
                 
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="portfolioUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Portfolio Files</div>
-                        <div class="file-upload-subtext">Drag & drop or click to upload portfolio statements (PDF, CSV, Excel)</div>
-                        <input type="file" class="file-input" id="portfolioFileInput" accept=".pdf,.csv,.xlsx,.xls" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="portfolioFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
-                
-                <!-- Portfolio Analytics -->
+                <!-- Live Portfolio Data -->
                 <div class="dashboard-cards">
                     <div class="card">
-                        <div class="card-title">Portfolio Value</div>
-                        <div class="card-value">$178,975</div>
-                        <div class="card-change positive">+2.3% this month</div>
+                        <div class="card-title">Total Portfolio Value</div>
+                        <div class="card-value" id="portfolioTotalValue">$178,975</div>
+                        <div class="card-change positive" id="portfolioTotalChange">+2.3% today</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Total Returns</div>
-                        <div class="card-value">$24,583</div>
-                        <div class="card-change positive">+15.9% overall</div>
+                        <div class="card-value" id="totalReturns">$24,583</div>
+                        <div class="card-change positive" id="returnsChange">+15.9% overall</div>
                     </div>
                     <div class="card">
-                        <div class="card-title">Dividends</div>
-                        <div class="card-value">$3,420</div>
-                        <div class="card-change positive">+12% YTD</div>
+                        <div class="card-title">Dividends YTD</div>
+                        <div class="card-value" id="dividendsYTD">$3,420</div>
+                        <div class="card-change positive" id="dividendsChange">+12% YTD</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Risk Score</div>
-                        <div class="card-value">7.2/10</div>
+                        <div class="card-value" id="portfolioRiskScore">7.2/10</div>
                         <div class="card-change negative">-0.3 from last month</div>
                     </div>
+                </div>
+                
+                <!-- Portfolio Chart -->
+                <div class="chart-container" style="margin-bottom: 30px;">
+                    <div class="chart-title">Portfolio Growth (Last 30 Days)</div>
+                    <div class="chart-wrapper">
+                        <canvas id="portfolioGrowthChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- File Upload Note -->
+                <div class="file-upload-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Portfolio files can be uploaded through the Reports section for detailed analysis and record keeping.</span>
+                </div>
+                
+                <!-- Detailed Holdings -->
+                <div class="portfolio-table">
+                    <div class="table-header">
+                        <div class="table-title">Detailed Holdings</div>
+                        <div class="table-actions">
+                            <div class="live-time">Live Data • Updates every 10 seconds</div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Quantity</th>
+                                <th>Avg. Price</th>
+                                <th>Current Price</th>
+                                <th>Day Change</th>
+                                <th>P&L</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailedHoldingsTable">
+                            <!-- Detailed holdings loaded by JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
             <!-- Assets Page -->
             <div class="page-content" id="assetsPage">
-                <div class="section-title">Assets Management</div>
-                <p class="section-subtitle">Upload and manage your asset documents</p>
+                <div class="section-title">Assets</div>
+                <p class="section-subtitle">Asset allocation and management</p>
                 
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="assetsUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-file-upload"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Asset Documents</div>
-                        <div class="file-upload-subtext">Upload asset statements, property documents, and other asset files</div>
-                        <input type="file" class="file-input" id="assetsFileInput" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="assetsFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
-                
-                <!-- Asset Breakdown -->
+                <!-- Asset Distribution -->
                 <div class="sectors-grid">
                     <div class="sector-card">
                         <div class="sector-icon" style="background-color: #2d5af1;">
@@ -1576,8 +1519,8 @@
                         </div>
                         <div class="sector-info">
                             <div class="sector-name">Equity Funds</div>
-                            <div class="sector-value">$84,200</div>
-                            <div class="sector-change positive">+8.2%</div>
+                            <div class="sector-value" id="equityValue">$84,200</div>
+                            <div class="sector-change positive" id="equityChange">+8.2%</div>
                         </div>
                     </div>
                     <div class="sector-card">
@@ -1586,8 +1529,8 @@
                         </div>
                         <div class="sector-info">
                             <div class="sector-name">Debt Funds</div>
-                            <div class="sector-value">$52,100</div>
-                            <div class="sector-change positive">+5.1%</div>
+                            <div class="sector-value" id="debtValue">$52,100</div>
+                            <div class="sector-change positive" id="debtChange">+5.1%</div>
                         </div>
                     </div>
                     <div class="sector-card">
@@ -1596,8 +1539,8 @@
                         </div>
                         <div class="sector-info">
                             <div class="sector-name">Hybrid Funds</div>
-                            <div class="sector-value">$28,450</div>
-                            <div class="sector-change positive">+6.7%</div>
+                            <div class="sector-value" id="hybridValue">$28,450</div>
+                            <div class="sector-change positive" id="hybridChange">+6.7%</div>
                         </div>
                     </div>
                     <div class="sector-card">
@@ -1606,35 +1549,159 @@
                         </div>
                         <div class="sector-info">
                             <div class="sector-name">International Funds</div>
-                            <div class="sector-value">$14,225</div>
-                            <div class="sector-change positive">+9.3%</div>
+                            <div class="sector-value" id="internationalValue">$14,225</div>
+                            <div class="sector-change positive" id="internationalChange">+9.3%</div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Asset Chart -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <div class="chart-title">Asset Allocation (Live)</div>
+                        <div class="chart-wrapper">
+                            <canvas id="assetAllocationChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-title">Asset Performance</div>
+                        <div class="chart-wrapper">
+                            <canvas id="assetPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- File Upload Note -->
+                <div class="file-upload-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Asset documents can be uploaded through the Reports section for comprehensive asset management and documentation.</span>
+                </div>
+            </div>
+            
+            <!-- Market Page -->
+            <div class="page-content" id="marketPage">
+                <div class="section-title">Live Market</div>
+                <p class="section-subtitle">Real-time market data and analysis</p>
+                
+                <!-- Live Market Indices -->
+                <div class="market-indices">
+                    <div class="index-card">
+                        <div class="index-name">
+                            SENSEX
+                            <span class="index-exchange">BSE</span>
+                        </div>
+                        <div class="index-value" id="marketSensex">72,415.30</div>
+                        <div class="positive-change">+1.2% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div class="index-card">
+                        <div class="index-name">
+                            NIFTY 50
+                            <span class="index-exchange">NSE</span>
+                        </div>
+                        <div class="index-value" id="marketNifty">21,856.10</div>
+                        <div class="positive-change">+0.8% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div class="index-card">
+                        <div class="index-name">
+                            BANK NIFTY
+                            <span class="index-exchange">NSE</span>
+                        </div>
+                        <div class="index-value" id="marketBankNifty">46,328.75</div>
+                        <div class="positive-change">+1.5% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div class="index-card">
+                        <div class="index-name">
+                            NIFTY IT
+                            <span class="index-exchange">NSE</span>
+                        </div>
+                        <div class="index-value" id="marketNiftyIT">38,421.50</div>
+                        <div class="positive-change">+2.3% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Market Data Table -->
+                <div class="market-data-table">
+                    <div class="market-data-row header">
+                        <div>Stock</div>
+                        <div>Price</div>
+                        <div>Change</div>
+                        <div>Volume</div>
+                        <div>Market Cap</div>
+                    </div>
+                    <div class="market-data-row">
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">RIL</div>
+                            <div>Reliance Industries</div>
+                        </div>
+                        <div class="positive-change">₹2,520.00</div>
+                        <div class="positive-change">+1.2%</div>
+                        <div>5.2M</div>
+                        <div>₹17.2T</div>
+                    </div>
+                    <div class="market-data-row">
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">TCS</div>
+                            <div>Tata Consultancy Services</div>
+                        </div>
+                        <div class="positive-change">₹3,420.50</div>
+                        <div class="positive-change">+1.9%</div>
+                        <div>3.8M</div>
+                        <div>₹13.5T</div>
+                    </div>
+                    <div class="market-data-row">
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">HDFC</div>
+                            <div>HDFC Bank</div>
+                        </div>
+                        <div class="positive-change">₹1,520.75</div>
+                        <div class="positive-change">+1.8%</div>
+                        <div>8.1M</div>
+                        <div>₹11.8T</div>
+                    </div>
+                    <div class="market-data-row">
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">INFY</div>
+                            <div>Infosys</div>
+                        </div>
+                        <div class="positive-change">₹1,580.20</div>
+                        <div class="positive-change">+2.8%</div>
+                        <div>6.5M</div>
+                        <div>₹6.5T</div>
+                    </div>
+                    <div class="market-data-row">
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">ICICI</div>
+                            <div>ICICI Bank</div>
+                        </div>
+                        <div class="positive-change">₹1,025.40</div>
+                        <div class="positive-change">+2.3%</div>
+                        <div>12.3M</div>
+                        <div>₹7.2T</div>
+                    </div>
+                </div>
+                
+                <!-- Market Chart -->
+                <div class="chart-container">
+                    <div class="chart-title">Market Trends (Live)</div>
+                    <div class="chart-wrapper">
+                        <canvas id="marketTrendsChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- File Upload Note -->
+                <div class="file-upload-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Market research files can be uploaded through the Reports section for detailed analysis and historical data tracking.</span>
                 </div>
             </div>
             
             <!-- Transactions Page -->
             <div class="page-content" id="transactionsPage">
                 <div class="section-title">Transactions</div>
-                <p class="section-subtitle">Upload transaction files and view transaction history</p>
+                <p class="section-subtitle">Transaction history and records</p>
                 
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="transactionsUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Transaction Files</div>
-                        <div class="file-upload-subtext">Upload trade confirmations, bank statements, and transaction records</div>
-                        <input type="file" class="file-input" id="transactionsFileInput" accept=".pdf,.csv,.xlsx,.xls" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="transactionsFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
-                
-                <!-- Transaction History -->
+                <!-- Recent Transactions -->
                 <div class="portfolio-table">
                     <div class="table-header">
                         <div class="table-title">Recent Transactions</div>
@@ -1647,74 +1714,32 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Date</th>
+                                <th>Date & Time</th>
                                 <th>Type</th>
                                 <th>Asset</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="transactionHistoryTable">
-                            <tr>
-                                <td>Jan 5, 2026</td>
-                                <td><span class="transaction-type buy">BUY</span></td>
-                                <td>ICICI Bank</td>
-                                <td>$10,100</td>
-                                <td><span class="positive-change">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jan 4, 2026</td>
-                                <td><span class="transaction-type sell">SELL</span></td>
-                                <td>HDFC Bank</td>
-                                <td>$7,575</td>
-                                <td><span class="positive-change">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jan 3, 2026</td>
-                                <td><span class="transaction-type dividend">DIVIDEND</span></td>
-                                <td>Infosys</td>
-                                <td>$342</td>
-                                <td><span class="positive-change">Credited</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jan 2, 2026</td>
-                                <td><span class="transaction-type buy">BUY</span></td>
-                                <td>TCS</td>
-                                <td>$27,040</td>
-                                <td><span class="positive-change">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>Dec 28, 2025</td>
-                                <td><span class="transaction-type buy">BUY</span></td>
-                                <td>Reliance</td>
-                                <td>$12,400</td>
-                                <td><span class="positive-change">Completed</span></td>
-                            </tr>
+                            <!-- Transaction data loaded by JavaScript -->
                         </tbody>
                     </table>
+                </div>
+                
+                <!-- File Upload Note -->
+                <div class="file-upload-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Transaction files can be uploaded through the Reports section for comprehensive record keeping and tax documentation.</span>
                 </div>
             </div>
             
             <!-- Reports Page -->
             <div class="page-content" id="reportsPage">
                 <div class="section-title">Reports</div>
-                <p class="section-subtitle">Upload and generate investment reports</p>
-                
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="reportsUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Report Files</div>
-                        <div class="file-upload-subtext">Upload monthly statements, tax reports, and performance reports</div>
-                        <input type="file" class="file-input" id="reportsFileInput" accept=".pdf,.xlsx,.xls,.doc,.docx" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="reportsFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
+                <p class="section-subtitle">Generate and upload investment reports</p>
                 
                 <!-- Report Cards -->
                 <div class="dashboard-cards">
@@ -1722,228 +1747,107 @@
                         <div class="card-title">Monthly Report</div>
                         <div class="card-value">Dec 2025</div>
                         <div class="card-change positive">Ready to download</div>
+                        <button class="action-btn" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-download"></i> Download Report
+                        </button>
                     </div>
                     <div class="card">
                         <div class="card-title">Quarterly Report</div>
                         <div class="card-value">Q4 2025</div>
                         <div class="card-change positive">Ready to download</div>
+                        <button class="action-btn" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-download"></i> Download Report
+                        </button>
                     </div>
                     <div class="card">
                         <div class="card-title">Annual Report</div>
                         <div class="card-value">2025</div>
                         <div class="card-change">In progress</div>
+                        <button class="action-btn" style="margin-top: 15px; width: 100%; background-color: var(--gray);" disabled>
+                            <i class="fas fa-clock"></i> Generating
+                        </button>
                     </div>
                     <div class="card">
                         <div class="card-title">Tax Report</div>
                         <div class="card-value">FY 2024-25</div>
                         <div class="card-change positive">Ready to download</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Market Page -->
-            <div class="page-content" id="marketPage">
-                <div class="section-title">Market Data</div>
-                <p class="section-subtitle">Upload market research files and view market data</p>
-                
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="marketUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Market Research Files</div>
-                        <div class="file-upload-subtext">Upload research reports, market analysis, and data files</div>
-                        <input type="file" class="file-input" id="marketFileInput" accept=".pdf,.csv,.xlsx,.xls,.ppt,.pptx" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="marketFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
-                
-                <!-- Live Market Data -->
-                <div class="market-indices">
-                    <div class="index-card">
-                        <div class="index-name">
-                            SENSEX
-                            <span class="index-exchange">BSE</span>
-                        </div>
-                        <div class="index-value">72,415.30</div>
-                        <div class="positive-change">+1.2% <i class="fas fa-arrow-up"></i></div>
-                    </div>
-                    <div class="index-card">
-                        <div class="index-name">
-                            NIFTY 50
-                            <span class="index-exchange">NSE</span>
-                        </div>
-                        <div class="index-value">21,856.10</div>
-                        <div class="positive-change">+0.8% <i class="fas fa-arrow-up"></i></div>
-                    </div>
-                    <div class="index-card">
-                        <div class="index-name">
-                            BANK NIFTY
-                            <span class="index-exchange">NSE</span>
-                        </div>
-                        <div class="index-value">46,328.75</div>
-                        <div class="positive-change">+1.5% <i class="fas fa-arrow-up"></i></div>
-                    </div>
-                    <div class="index-card">
-                        <div class="index-name">
-                            NIFTY PHARMA
-                            <span class="index-exchange">NSE</span>
-                        </div>
-                        <div class="index-value">18,642.20</div>
-                        <div class="negative-change">-0.3% <i class="fas fa-arrow-down"></i></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Admin Page -->
-            <div class="page-content" id="adminPage">
-                <div class="section-title">Admin Panel</div>
-                <p class="section-subtitle">Administrative functions and system management</p>
-                
-                <!-- File Upload Section -->
-                <div class="file-upload-container">
-                    <div class="file-upload-area" id="adminUploadArea">
-                        <div class="file-upload-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="file-upload-text">Upload Admin Files</div>
-                        <div class="file-upload-subtext">Upload system logs, user reports, and administrative documents</div>
-                        <input type="file" class="file-input" id="adminFileInput" accept=".pdf,.csv,.xlsx,.xls,.log,.txt" multiple>
-                    </div>
-                    
-                    <div class="file-list" id="adminFileList">
-                        <!-- Files will be displayed here -->
-                    </div>
-                </div>
-                
-                <!-- Admin Cards -->
-                <div class="admin-panel">
-                    <div class="admin-card">
-                        <div class="admin-card-title">
-                            <i class="fas fa-users"></i>
-                            <span>User Management</span>
-                        </div>
-                        <p>Manage user accounts, permissions, and access controls.</p>
-                        <button class="action-btn" style="margin-top: 15px;">
-                            <i class="fas fa-cog"></i> Manage Users
-                        </button>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <div class="admin-card-title">
-                            <i class="fas fa-database"></i>
-                            <span>Database Management</span>
-                        </div>
-                        <p>Backup, restore, and manage system database.</p>
-                        <button class="action-btn" style="margin-top: 15px;">
-                            <i class="fas fa-download"></i> Backup Now
-                        </button>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <div class="admin-card-title">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Analytics Dashboard</span>
-                        </div>
-                        <p>View system analytics and performance metrics.</p>
-                        <button class="action-btn" style="margin-top: 15px;">
-                            <i class="fas fa-chart-line"></i> View Analytics
-                        </button>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <div class="admin-card-title">
-                            <i class="fas fa-cogs"></i>
-                            <span>System Settings</span>
-                        </div>
-                        <p>Configure system parameters and preferences.</p>
-                        <button class="action-btn" style="margin-top: 15px;">
-                            <i class="fas fa-sliders-h"></i> Configure
+                        <button class="action-btn" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-download"></i> Download Report
                         </button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Disabled Pages -->
-            <div class="page-content" id="accountPage">
-                <div class="disabled-message">
-                    <i class="fas fa-user-lock"></i>
-                    <h3>Account Access Disabled</h3>
-                    <p>The Account section is currently disabled for maintenance or due to security restrictions.</p>
-                    <p>Please contact your system administrator for assistance.</p>
-                    <button class="action-btn" style="margin-top: 20px;">
-                        <i class="fas fa-headset"></i> Contact Support
-                    </button>
-                </div>
-            </div>
-            
-            <div class="page-content" id="settingsPage">
-                <div class="disabled-message">
-                    <i class="fas fa-cog"></i>
-                    <h3>Settings Access Disabled</h3>
-                    <p>The Settings section is currently disabled for maintenance or due to security restrictions.</p>
-                    <p>Please contact your system administrator for assistance.</p>
-                    <button class="action-btn" style="margin-top: 20px;">
-                        <i class="fas fa-headset"></i> Contact Support
-                    </button>
+                
+                <!-- Upload Section -->
+                <div class="chart-container">
+                    <div class="chart-title">Upload Reports</div>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Upload your investment reports for analysis and record keeping. Supported formats: PDF, Excel, CSV.</p>
+                    
+                    <div style="border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: 10px; margin-bottom: 20px;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <div style="font-size: 1.2rem; color: var(--dark); margin-bottom: 10px;">Drag & drop or click to upload</div>
+                        <div style="color: var(--gray); margin-bottom: 20px;">Portfolio statements, transaction records, asset documents, market research</div>
+                        <button class="action-btn" id="uploadReportsBtn">
+                            <i class="fas fa-upload"></i> Select Files
+                        </button>
+                    </div>
+                    
+                    <div style="background-color: var(--primary-light); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                        <i class="fas fa-lightbulb" style="color: var(--warning); margin-right: 10px;"></i>
+                        <span>All uploaded files are securely stored and can be accessed anytime for reference and analysis.</span>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Modal for File Details -->
-    <div class="modal-overlay" id="fileModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" id="fileModalTitle">File Details</div>
-                <div class="modal-close" id="fileModalClose">
-                    <i class="fas fa-times"></i>
-                </div>
-            </div>
-            <div id="fileModalBody">
-                <!-- File details will be loaded here -->
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Current Date
+        // Current Date and Time
         const currentDateElement = document.getElementById('currentDate');
-        const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-        currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+        const liveTimeElement = document.getElementById('liveTime');
+        const lastUpdatedElement = document.getElementById('lastUpdated');
+        
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            currentDateElement.textContent = now.toLocaleDateString('en-US', dateOptions);
+            
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            liveTimeElement.textContent = `Live • ${timeString}`;
+            lastUpdatedElement.textContent = timeString;
+        }
+        
+        // Update time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call
         
         // Notification Data
         const notifications = [
             {
                 id: 1,
-                title: "Market Alert",
-                text: "Banking sector up by 1.5%. ICICI Bank leading with +2.3%",
-                time: "10 min ago",
+                title: "Market Alert: Banking Sector Up",
+                text: "ICICI Bank leading with +2.3%, HDFC Bank +1.8%",
+                time: "2 min ago",
                 icon: "fas fa-chart-line",
                 iconClass: "green",
                 unread: true
             },
             {
                 id: 2,
-                title: "Dividend Received",
-                text: "Infosys dividend of $342 credited to your account",
-                time: "2 hours ago",
-                icon: "fas fa-money-bill-wave",
+                title: "Portfolio Update",
+                text: "Your portfolio value increased by $150 today",
+                time: "15 min ago",
+                icon: "fas fa-chart-pie",
                 iconClass: "blue",
                 unread: true
             },
             {
                 id: 3,
-                title: "Portfolio Update",
-                text: "Your portfolio value increased by $150 today",
-                time: "5 hours ago",
-                icon: "fas fa-chart-pie",
-                iconClass: "orange",
+                title: "Dividend Received",
+                text: "Infosys dividend of $342 credited to your account",
+                time: "2 hours ago",
+                icon: "fas fa-money-bill-wave",
+                iconClass: "green",
                 unread: true
             },
             {
@@ -1952,7 +1856,7 @@
                 text: "Tech sector showing strong growth. Consider adding TCS",
                 time: "1 day ago",
                 icon: "fas fa-lightbulb",
-                iconClass: "blue",
+                iconClass: "orange",
                 unread: false
             },
             {
@@ -1961,78 +1865,90 @@
                 text: "Monthly investment report for Dec 2025 is ready",
                 time: "2 days ago",
                 icon: "fas fa-file-alt",
-                iconClass: "red",
+                iconClass: "blue",
                 unread: false
             }
         ];
         
-        // Portfolio Data
-        const portfolioData = [
-            { name: "ICICI Bank", symbol: "ICICIBANK", quantity: 50, avgPrice: 950, currentPrice: 1025, logo: "IB", change: 7.89 },
-            { name: "HDFC Bank", symbol: "HDFCBANK", quantity: 30, avgPrice: 1450, currentPrice: 1520, logo: "HB", change: 4.83 },
-            { name: "Infosys", symbol: "INFY", quantity: 40, avgPrice: 1450, currentPrice: 1580, logo: "INFY", change: 8.97 },
-            { name: "Reliance", symbol: "RELIANCE", quantity: 20, avgPrice: 2450, currentPrice: 2520, logo: "RIL", change: 2.86 },
-            { name: "TCS", symbol: "TCS", quantity: 25, avgPrice: 3250, currentPrice: 3420, logo: "TCS", change: 5.23 },
-            { name: "Sun Pharma", symbol: "SUNPHARMA", quantity: 60, avgPrice: 950, currentPrice: 920, logo: "SUN", change: -3.16 },
-            { name: "L&T", symbol: "LT", quantity: 15, avgPrice: 2850, currentPrice: 2920, logo: "L&T", change: 2.46 }
+        // Portfolio Holdings Data (with live updates)
+        let holdingsData = [
+            { id: 1, name: "ICICI Bank", symbol: "ICICIBANK", quantity: 50, avgPrice: 950, currentPrice: 1025, change: 7.89, value: 51250, dayChange: 2.3, volume: "12.3M" },
+            { id: 2, name: "HDFC Bank", symbol: "HDFCBANK", quantity: 30, avgPrice: 1450, currentPrice: 1520, change: 4.83, value: 45600, dayChange: 1.8, volume: "8.1M" },
+            { id: 3, name: "Infosys", symbol: "INFY", quantity: 40, avgPrice: 1450, currentPrice: 1580, change: 8.97, value: 63200, dayChange: 2.8, volume: "6.5M" },
+            { id: 4, name: "Reliance", symbol: "RELIANCE", quantity: 20, avgPrice: 2450, currentPrice: 2520, change: 2.86, value: 50400, dayChange: 1.2, volume: "5.2M" },
+            { id: 5, name: "TCS", symbol: "TCS", quantity: 25, avgPrice: 3250, currentPrice: 3420, change: 5.23, value: 85500, dayChange: 1.9, volume: "3.8M" },
+            { id: 6, name: "Sun Pharma", symbol: "SUNPHARMA", quantity: 60, avgPrice: 950, currentPrice: 920, change: -3.16, value: 55200, dayChange: -1.2, volume: "4.7M" },
+            { id: 7, name: "L&T", symbol: "LT", quantity: 15, avgPrice: 2850, currentPrice: 2920, change: 2.46, value: 43800, dayChange: 1.2, volume: "2.1M" }
         ];
         
-        // File storage for each section
-        const fileStorage = {
-            portfolio: [],
-            assets: [],
-            transactions: [],
-            reports: [],
-            market: [],
-            admin: []
+        // Transaction Data
+        const transactionsData = [
+            { id: 1, date: "Today, 10:30 AM", type: "buy", asset: "ICICI Bank", quantity: 10, price: 1010, amount: 10100, status: "completed" },
+            { id: 2, date: "Yesterday, 2:15 PM", type: "sell", asset: "HDFC Bank", quantity: 5, price: 1515, amount: 7575, status: "completed" },
+            { id: 3, date: "Jan 3, 2026, 11:20 AM", type: "dividend", asset: "Infosys", quantity: "-", price: "-", amount: 342, status: "credited" },
+            { id: 4, date: "Jan 2, 2026, 9:45 AM", type: "buy", asset: "TCS", quantity: 8, price: 3380, amount: 27040, status: "completed" },
+            { id: 5, date: "Dec 28, 2025, 3:30 PM", type: "buy", asset: "Reliance", quantity: 5, price: 2480, amount: 12400, status: "completed" },
+            { id: 6, date: "Dec 25, 2025, 1:15 PM", type: "sell", asset: "Sun Pharma", quantity: 20, price: 910, amount: 18200, status: "completed" }
+        ];
+        
+        // Market Data for live updates
+        let marketData = {
+            sensex: 72415.30,
+            nifty: 21856.10,
+            bankNifty: 46328.75,
+            pharma: 18642.20,
+            bankingSector: 1.5,
+            pharmaSector: -0.3,
+            industrySector: 0.9,
+            techSector: 2.1,
+            portfolioValue: 178975,
+            yearlyProfit: 88742,
+            profitMargin: 48632
         };
         
         // DOM Elements
         const loadingSpinner = document.getElementById('loadingSpinner');
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
+        const themeToggle = document.getElementById('themeToggle');
         const notificationIcon = document.getElementById('notificationIcon');
         const notificationPanel = document.getElementById('notificationPanel');
         const notificationList = document.getElementById('notificationList');
         const markAllReadBtn = document.getElementById('markAllRead');
         const viewAllNotifications = document.getElementById('viewAllNotifications');
         const notificationBadge = document.querySelector('.notification-badge');
-        const portfolioTable = document.getElementById('portfolioTable');
+        const holdingsTable = document.getElementById('holdingsTable');
+        const detailedHoldingsTable = document.getElementById('detailedHoldingsTable');
+        const transactionHistoryTable = document.getElementById('transactionHistoryTable');
         const navItems = document.querySelectorAll('.nav-item');
         const pageContents = document.querySelectorAll('.page-content');
-        const fileModal = document.getElementById('fileModal');
-        const fileModalTitle = document.getElementById('fileModalTitle');
-        const fileModalBody = document.getElementById('fileModalBody');
-        const fileModalClose = document.getElementById('fileModalClose');
         const signOutBtn = document.getElementById('signOutBtn');
+        const refreshHoldingsBtn = document.getElementById('refreshHoldingsBtn');
+        const uploadReportsBtn = document.getElementById('uploadReportsBtn');
+        const exportTransactionsBtn = document.getElementById('exportTransactionsBtn');
         
-        // File upload elements
-        const portfolioUploadArea = document.getElementById('portfolioUploadArea');
-        const portfolioFileInput = document.getElementById('portfolioFileInput');
-        const portfolioFileList = document.getElementById('portfolioFileList');
-        
-        const assetsUploadArea = document.getElementById('assetsUploadArea');
-        const assetsFileInput = document.getElementById('assetsFileInput');
-        const assetsFileList = document.getElementById('assetsFileList');
-        
-        const transactionsUploadArea = document.getElementById('transactionsUploadArea');
-        const transactionsFileInput = document.getElementById('transactionsFileInput');
-        const transactionsFileList = document.getElementById('transactionsFileList');
-        
-        const reportsUploadArea = document.getElementById('reportsUploadArea');
-        const reportsFileInput = document.getElementById('reportsFileInput');
-        const reportsFileList = document.getElementById('reportsFileList');
-        
-        const marketUploadArea = document.getElementById('marketUploadArea');
-        const marketFileInput = document.getElementById('marketFileInput');
-        const marketFileList = document.getElementById('marketFileList');
-        
-        const adminUploadArea = document.getElementById('adminUploadArea');
-        const adminFileInput = document.getElementById('adminFileInput');
-        const adminFileList = document.getElementById('adminFileList');
+        // Market data elements
+        const sensexValue = document.getElementById('sensexValue');
+        const sensexChange = document.getElementById('sensexChange');
+        const niftyValue = document.getElementById('niftyValue');
+        const niftyChange = document.getElementById('niftyChange');
+        const bankNiftyValue = document.getElementById('bankNiftyValue');
+        const bankNiftyChange = document.getElementById('bankNiftyChange');
+        const pharmaValue = document.getElementById('pharmaValue');
+        const pharmaChange = document.getElementById('pharmaChange');
+        const portfolioValue = document.getElementById('portfolioValue');
+        const portfolioChange = document.getElementById('portfolioChange');
+        const yearlyProfit = document.getElementById('yearlyProfit');
+        const yearlyChange = document.getElementById('yearlyChange');
+        const profitMargin = document.getElementById('profitMargin');
+        const marginChange = document.getElementById('marginChange');
+        const bankingSectorValue = document.getElementById('bankingSectorValue');
+        const pharmaSectorValue = document.getElementById('pharmaSectorValue');
+        const industrySectorValue = document.getElementById('industrySectorValue');
+        const techSectorValue = document.getElementById('techSectorValue');
         
         // Initialize Charts
-        let performanceChart, allocationChart;
+        let performanceChart, allocationChart, portfolioGrowthChart, assetAllocationChart, assetPerformanceChart, marketTrendsChart;
         
         // Show Loading Spinner
         function showLoading() {
@@ -2042,6 +1958,26 @@
         // Hide Loading Spinner
         function hideLoading() {
             loadingSpinner.style.display = 'none';
+        }
+        
+        // Theme Toggle
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.querySelector('i').className = 'fas fa-sun';
         }
         
         // Toggle Sidebar for Mobile
@@ -2128,15 +2064,15 @@
         
         // View All Notifications
         viewAllNotifications.addEventListener('click', function() {
-            alert("View all notifications feature would open a full notification page.");
+            alert("All notifications feature would show a full notifications page.");
             notificationPanel.classList.remove('active');
         });
         
-        // Render Portfolio Table
-        function renderPortfolio() {
-            portfolioTable.innerHTML = '';
+        // Render Holdings Table
+        function renderHoldingsTable() {
+            holdingsTable.innerHTML = '';
             
-            portfolioData.forEach(stock => {
+            holdingsData.forEach(stock => {
                 const change = stock.change;
                 const value = stock.quantity * stock.currentPrice;
                 const changeClass = change >= 0 ? 'positive-change' : 'negative-change';
@@ -2145,8 +2081,8 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>
-                        <div class="stock-name">
-                            <div class="stock-logo">${stock.logo}</div>
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">${stock.symbol.substring(0, 3)}</div>
                             <div>
                                 <div>${stock.name}</div>
                                 <div style="font-size: 0.85rem; color: var(--gray);">${stock.symbol}</div>
@@ -2159,30 +2095,86 @@
                     <td class="${changeClass}">${changeIcon} ${change.toFixed(2)}%</td>
                     <td>₹${value.toLocaleString()}</td>
                 `;
-                portfolioTable.appendChild(row);
+                holdingsTable.appendChild(row);
+            });
+        }
+        
+        // Render Detailed Holdings Table
+        function renderDetailedHoldingsTable() {
+            detailedHoldingsTable.innerHTML = '';
+            
+            holdingsData.forEach(stock => {
+                const change = stock.change;
+                const dayChange = stock.dayChange;
+                const value = stock.quantity * stock.currentPrice;
+                const profit = ((stock.currentPrice - stock.avgPrice) * stock.quantity).toLocaleString();
+                const changeClass = change >= 0 ? 'positive-change' : 'negative-change';
+                const dayChangeClass = dayChange >= 0 ? 'positive-change' : 'negative-change';
+                const changeIcon = change >= 0 ? '<i class="fas fa-arrow-up"></i>' : '<i class="fas fa-arrow-down"></i>';
+                const dayChangeIcon = dayChange >= 0 ? '<i class="fas fa-arrow-up"></i>' : '<i class="fas fa-arrow-down"></i>';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="stock-name-cell">
+                            <div class="stock-logo">${stock.symbol.substring(0, 3)}</div>
+                            <div>
+                                <div>${stock.name}</div>
+                                <div style="font-size: 0.85rem; color: var(--gray);">${stock.symbol} • Vol: ${stock.volume}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${stock.quantity}</td>
+                    <td>₹${stock.avgPrice.toLocaleString()}</td>
+                    <td>₹${stock.currentPrice.toLocaleString()}</td>
+                    <td class="${dayChangeClass}">${dayChangeIcon} ${dayChange.toFixed(2)}%</td>
+                    <td class="${changeClass}">${changeIcon} ₹${profit}</td>
+                    <td>₹${value.toLocaleString()}</td>
+                `;
+                detailedHoldingsTable.appendChild(row);
+            });
+        }
+        
+        // Render Transaction History
+        function renderTransactionHistory() {
+            transactionHistoryTable.innerHTML = '';
+            
+            transactionsData.forEach(transaction => {
+                const typeClass = transaction.type === 'buy' ? 'positive-change' : transaction.type === 'sell' ? 'negative-change' : 'positive-change';
+                const typeText = transaction.type === 'buy' ? 'BUY' : transaction.type === 'sell' ? 'SELL' : 'DIVIDEND';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${transaction.date}</td>
+                    <td><span class="${typeClass}">${typeText}</span></td>
+                    <td>${transaction.asset}</td>
+                    <td>${transaction.quantity}</td>
+                    <td>${transaction.price === '-' ? '-' : '₹' + transaction.price.toLocaleString()}</td>
+                    <td>${transaction.amount === '-' ? '-' : '₹' + transaction.amount.toLocaleString()}</td>
+                    <td><span class="positive-change">${transaction.status}</span></td>
+                `;
+                transactionHistoryTable.appendChild(row);
             });
         }
         
         // Initialize Charts
         function initCharts() {
-            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
-            const allocationCtx = document.getElementById('allocationChart').getContext('2d');
-            
             // Performance Chart (Line Chart)
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
             performanceChart = new Chart(performanceCtx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    labels: ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30'],
                     datasets: [{
                         label: 'Portfolio Value',
-                        data: [150000, 152000, 155000, 157000, 160000, 162000, 165000, 168000, 170000, 172000, 175000, 178975],
+                        data: [178200, 178400, 178600, 178800, 179000, 179200, 179400, 179600, 179800, 179900, 179950, 179975],
                         borderColor: '#2d5af1',
                         backgroundColor: 'rgba(45, 90, 241, 0.1)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.3,
                         pointBackgroundColor: '#2d5af1',
-                        pointRadius: 4
+                        pointRadius: 3
                     }]
                 },
                 options: {
@@ -2224,6 +2216,7 @@
             });
             
             // Allocation Chart (Doughnut Chart)
+            const allocationCtx = document.getElementById('allocationChart').getContext('2d');
             allocationChart = new Chart(allocationCtx, {
                 type: 'doughnut',
                 data: {
@@ -2265,340 +2258,214 @@
                     }
                 }
             });
+            
+            // Portfolio Growth Chart
+            const portfolioGrowthCtx = document.getElementById('portfolioGrowthChart')?.getContext('2d');
+            if (portfolioGrowthCtx) {
+                portfolioGrowthChart = new Chart(portfolioGrowthCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+                        datasets: [{
+                            label: 'Portfolio Value',
+                            data: [172000, 173500, 174800, 176200, 177500, 178200, 178975],
+                            borderColor: '#2d5af1',
+                            backgroundColor: 'rgba(45, 90, 241, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Asset Allocation Chart
+            const assetAllocationCtx = document.getElementById('assetAllocationChart')?.getContext('2d');
+            if (assetAllocationCtx) {
+                assetAllocationChart = new Chart(assetAllocationCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Equity Funds', 'Debt Funds', 'Hybrid Funds', 'International Funds'],
+                        datasets: [{
+                            data: [84200, 52100, 28450, 14225],
+                            backgroundColor: [
+                                '#2d5af1',
+                                '#2ecc71',
+                                '#ff9f43',
+                                '#6c5ce7'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Market Trends Chart
+            const marketTrendsCtx = document.getElementById('marketTrendsChart')?.getContext('2d');
+            if (marketTrendsCtx) {
+                marketTrendsChart = new Chart(marketTrendsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30'],
+                        datasets: [
+                            {
+                                label: 'SENSEX',
+                                data: [72300, 72350, 72400, 72450, 72480, 72490, 72500, 72415],
+                                borderColor: '#2d5af1',
+                                backgroundColor: 'rgba(45, 90, 241, 0.1)',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.3
+                            },
+                            {
+                                label: 'NIFTY 50',
+                                data: [21800, 21820, 21840, 21860, 21870, 21875, 21880, 21856],
+                                borderColor: '#2ecc71',
+                                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.3
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            }
         }
         
         // Update Market Data (Simulating live updates)
         function updateMarketData() {
-            // Update indices with random changes
-            const indices = document.querySelectorAll('.index-value');
-            indices.forEach(index => {
-                const currentValue = parseFloat(index.textContent.replace(/,/g, ''));
-                const change = (Math.random() - 0.5) * 30;
-                const newValue = currentValue + change;
-                index.textContent = newValue.toFixed(2);
-                
-                // Update change indicator
-                const changeElement = index.nextElementSibling;
-                const changePercent = (change / currentValue * 100).toFixed(2);
-                
-                if (change >= 0) {
-                    changeElement.className = 'positive-change';
-                    changeElement.innerHTML = `+${changePercent}% <i class="fas fa-arrow-up"></i>`;
-                } else {
-                    changeElement.className = 'negative-change';
-                    changeElement.innerHTML = `${changePercent}% <i class="fas fa-arrow-down"></i>`;
-                }
+            // Generate random small changes
+            const randomChange = () => (Math.random() - 0.5) * 0.5;
+            const randomStockChange = () => (Math.random() - 0.5) * 2;
+            
+            // Update market indices
+            marketData.sensex += randomChange() * 100;
+            marketData.nifty += randomChange() * 30;
+            marketData.bankNifty += randomChange() * 50;
+            marketData.pharma += randomChange() * 20;
+            
+            // Update sector performances
+            marketData.bankingSector += randomChange() * 0.1;
+            marketData.pharmaSector += randomChange() * 0.1;
+            marketData.industrySector += randomChange() * 0.1;
+            marketData.techSector += randomChange() * 0.1;
+            
+            // Update portfolio values
+            marketData.portfolioValue += randomChange() * 200;
+            marketData.yearlyProfit += randomChange() * 100;
+            marketData.profitMargin += randomChange() * 50;
+            
+            // Update stock prices in holdings
+            holdingsData.forEach(stock => {
+                const change = randomStockChange();
+                stock.currentPrice += change;
+                stock.dayChange += randomChange() * 0.2;
+                stock.change = ((stock.currentPrice - stock.avgPrice) / stock.avgPrice * 100);
             });
+            
+            // Update DOM elements
+            sensexValue.textContent = marketData.sensex.toFixed(2);
+            niftyValue.textContent = marketData.nifty.toFixed(2);
+            bankNiftyValue.textContent = marketData.bankNifty.toFixed(2);
+            pharmaValue.textContent = marketData.pharma.toFixed(2);
+            
+            // Calculate and update changes
+            const sensexChangeVal = ((marketData.sensex - 72415.30) / 72415.30 * 100).toFixed(2);
+            const niftyChangeVal = ((marketData.nifty - 21856.10) / 21856.10 * 100).toFixed(2);
+            const bankNiftyChangeVal = ((marketData.bankNifty - 46328.75) / 46328.75 * 100).toFixed(2);
+            const pharmaChangeVal = ((marketData.pharma - 18642.20) / 18642.20 * 100).toFixed(2);
+            
+            sensexChange.innerHTML = `${sensexChangeVal >= 0 ? '+' : ''}${sensexChangeVal}% <i class="fas fa-${sensexChangeVal >= 0 ? 'arrow-up' : 'arrow-down'}"></i>`;
+            sensexChange.className = sensexChangeVal >= 0 ? 'positive-change' : 'negative-change';
+            
+            niftyChange.innerHTML = `${niftyChangeVal >= 0 ? '+' : ''}${niftyChangeVal}% <i class="fas fa-${niftyChangeVal >= 0 ? 'arrow-up' : 'arrow-down'}"></i>`;
+            niftyChange.className = niftyChangeVal >= 0 ? 'positive-change' : 'negative-change';
+            
+            bankNiftyChange.innerHTML = `${bankNiftyChangeVal >= 0 ? '+' : ''}${bankNiftyChangeVal}% <i class="fas fa-${bankNiftyChangeVal >= 0 ? 'arrow-up' : 'arrow-down'}"></i>`;
+            bankNiftyChange.className = bankNiftyChangeVal >= 0 ? 'positive-change' : 'negative-change';
+            
+            pharmaChange.innerHTML = `${pharmaChangeVal >= 0 ? '+' : ''}${pharmaChangeVal}% <i class="fas fa-${pharmaChangeVal >= 0 ? 'arrow-up' : 'arrow-down'}"></i>`;
+            pharmaChange.className = pharmaChangeVal >= 0 ? 'positive-change' : 'negative-change';
+            
+            // Update portfolio values
+            portfolioValue.textContent = `$${marketData.portfolioValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            yearlyProfit.textContent = `$${marketData.yearlyProfit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            profitMargin.textContent = `$${marketData.profitMargin.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
             // Update sector values
-            const sectorValues = document.querySelectorAll('.sector-value');
-            sectorValues.forEach(value => {
-                const currentText = value.textContent;
-                const currentPercent = parseFloat(currentText);
-                const change = (Math.random() - 0.5) * 0.3;
-                const newPercent = currentPercent + change;
-                value.textContent = `${newPercent >= 0 ? '+' : ''}${newPercent.toFixed(2)}%`;
-                
-                // Update color and icon
-                const changeElement = value.nextElementSibling;
-                if (newPercent >= 0) {
-                    changeElement.className = 'sector-change positive';
-                } else {
-                    changeElement.className = 'sector-change negative';
-                }
-            });
+            bankingSectorValue.textContent = `${marketData.bankingSector >= 0 ? '+' : ''}${marketData.bankingSector.toFixed(2)}%`;
+            pharmaSectorValue.textContent = `${marketData.pharmaSector >= 0 ? '+' : ''}${marketData.pharmaSector.toFixed(2)}%`;
+            industrySectorValue.textContent = `${marketData.industrySector >= 0 ? '+' : ''}${marketData.industrySector.toFixed(2)}%`;
+            techSectorValue.textContent = `${marketData.techSector >= 0 ? '+' : ''}${marketData.techSector.toFixed(2)}%`;
             
-            // Update portfolio values in cards
-            const portfolioValueElement = document.querySelector('.card:nth-child(1) .card-value');
-            const currentPortfolioValue = parseFloat(portfolioValueElement.textContent.replace(/[$,]/g, ''));
-            const portfolioChange = (Math.random() - 0.3) * 100;
-            const newPortfolioValue = currentPortfolioValue + portfolioChange;
-            portfolioValueElement.textContent = `$${newPortfolioValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            const portfolioChangeElement = document.querySelector('.card:nth-child(1) .card-change');
-            portfolioChangeElement.innerHTML = `<i class="fas fa-arrow-up"></i> +$${portfolioChange.toFixed(2)} today`;
-        }
-        
-        // File Upload Functions
-        function setupFileUpload(uploadArea, fileInput, fileList, section) {
-            // Click on upload area to trigger file input
-            uploadArea.addEventListener('click', function() {
-                fileInput.click();
-            });
-            
-            // Drag and drop functionality
-            uploadArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadArea.style.backgroundColor = 'rgba(45, 90, 241, 0.15)';
-            });
-            
-            uploadArea.addEventListener('dragleave', function() {
-                uploadArea.style.backgroundColor = '';
-            });
-            
-            uploadArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadArea.style.backgroundColor = '';
-                
-                if (e.dataTransfer.files.length) {
-                    handleFiles(e.dataTransfer.files, section);
-                }
-            });
-            
-            // File input change
-            fileInput.addEventListener('change', function(e) {
-                if (e.target.files.length) {
-                    handleFiles(e.target.files, section);
-                    fileInput.value = ''; // Reset input
-                }
-            });
-            
-            // Render existing files
-            renderFileList(section);
-        }
-        
-        function handleFiles(files, section) {
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                
-                // Create file object
-                const fileObj = {
-                    id: Date.now() + i,
-                    name: file.name,
-                    size: formatFileSize(file.size),
-                    type: file.type,
-                    uploadDate: new Date().toLocaleDateString(),
-                    file: file // Store the actual file object
-                };
-                
-                // Add to storage
-                fileStorage[section].push(fileObj);
-                
-                // Show success message
-                showNotification(`File "${file.name}" uploaded successfully to ${section}.`, 'success');
+            // Update market status
+            const marketStatusElement = document.getElementById('marketStatus');
+            const overallChange = (sensexChangeVal + niftyChangeVal) / 2;
+            if (overallChange >= 0) {
+                marketStatusElement.className = 'market-status up';
+                marketStatusElement.innerHTML = `<i class="fas fa-arrow-up"></i><span>BSE: ${sensexChangeVal >= 0 ? '+' : ''}${sensexChangeVal}% | NSE: ${niftyChangeVal >= 0 ? '+' : ''}${niftyChangeVal}%</span>`;
+            } else {
+                marketStatusElement.className = 'market-status down';
+                marketStatusElement.innerHTML = `<i class="fas fa-arrow-down"></i><span>BSE: ${sensexChangeVal >= 0 ? '+' : ''}${sensexChangeVal}% | NSE: ${niftyChangeVal >= 0 ? '+' : ''}${niftyChangeVal}%</span>`;
             }
             
-            // Update file list
-            renderFileList(section);
+            // Update tables
+            renderHoldingsTable();
+            renderDetailedHoldingsTable();
+            
+            // Update time
+            updateDateTime();
         }
-        
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        function getFileIcon(fileType) {
-            if (fileType.includes('pdf')) return 'fas fa-file-pdf';
-            if (fileType.includes('spreadsheet') || fileType.includes('excel') || fileType.includes('csv')) return 'fas fa-file-excel';
-            if (fileType.includes('image')) return 'fas fa-file-image';
-            if (fileType.includes('word') || fileType.includes('document')) return 'fas fa-file-word';
-            if (fileType.includes('presentation') || fileType.includes('powerpoint')) return 'fas fa-file-powerpoint';
-            if (fileType.includes('text')) return 'fas fa-file-alt';
-            return 'fas fa-file';
-        }
-        
-        function renderFileList(section) {
-            const fileListElement = document.getElementById(`${section}FileList`);
-            const files = fileStorage[section];
-            
-            fileListElement.innerHTML = '';
-            
-            if (files.length === 0) {
-                fileListElement.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: var(--gray);">
-                        <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <div>No files uploaded yet</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            files.forEach(file => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.setAttribute('data-file-id', file.id);
-                
-                fileItem.innerHTML = `
-                    <div class="file-info">
-                        <div class="file-icon">
-                            <i class="${getFileIcon(file.type)}"></i>
-                        </div>
-                        <div class="file-details">
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${file.size} • Uploaded: ${file.uploadDate}</div>
-                        </div>
-                    </div>
-                    <div class="file-actions">
-                        <div class="file-action-btn view-file" title="View File">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="file-action-btn download-file" title="Download File">
-                            <i class="fas fa-download"></i>
-                        </div>
-                        <div class="file-action-btn delete-file" title="Delete File">
-                            <i class="fas fa-trash"></i>
-                        </div>
-                    </div>
-                `;
-                
-                fileListElement.appendChild(fileItem);
-                
-                // Add event listeners to buttons
-                const viewBtn = fileItem.querySelector('.view-file');
-                const downloadBtn = fileItem.querySelector('.download-file');
-                const deleteBtn = fileItem.querySelector('.delete-file');
-                
-                viewBtn.addEventListener('click', function() {
-                    viewFile(file, section);
-                });
-                
-                downloadBtn.addEventListener('click', function() {
-                    downloadFile(file);
-                });
-                
-                deleteBtn.addEventListener('click', function() {
-                    deleteFile(file.id, section);
-                });
-            });
-        }
-        
-        function viewFile(file, section) {
-            fileModalTitle.textContent = `File Details: ${file.name}`;
-            
-            fileModalBody.innerHTML = `
-                <div style="display: flex; flex-direction: column; gap: 20px;">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div style="width: 80px; height: 80px; border-radius: 10px; background-color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary);">
-                            <i class="${getFileIcon(file.type)}"></i>
-                        </div>
-                        <div>
-                            <h3 style="margin-bottom: 5px;">${file.name}</h3>
-                            <p style="color: var(--gray); margin-bottom: 5px;">Size: ${file.size}</p>
-                            <p style="color: var(--gray);">Uploaded: ${file.uploadDate}</p>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 style="margin-bottom: 10px;">File Information</h4>
-                        <div style="background-color: var(--light); padding: 15px; border-radius: 8px;">
-                            <p><strong>Section:</strong> ${section.charAt(0).toUpperCase() + section.slice(1)}</p>
-                            <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
-                            <p><strong>Upload Date:</strong> ${file.uploadDate}</p>
-                            <p><strong>File ID:</strong> ${file.id}</p>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                        <button class="action-btn" id="downloadModalFile">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                        <button class="action-btn" style="background-color: var(--danger);" id="deleteModalFile">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            fileModal.style.display = 'flex';
-            
-            // Add event listeners to modal buttons
-            document.getElementById('downloadModalFile').addEventListener('click', function() {
-                downloadFile(file);
-                fileModal.style.display = 'none';
-            });
-            
-            document.getElementById('deleteModalFile').addEventListener('click', function() {
-                deleteFile(file.id, section);
-                fileModal.style.display = 'none';
-            });
-        }
-        
-        function downloadFile(file) {
-            // In a real application, this would download the actual file
-            // For demo purposes, we'll just show an alert
-            showNotification(`Downloading "${file.name}"...`, 'info');
-            
-            // Simulate download
-            setTimeout(() => {
-                showNotification(`File "${file.name}" downloaded successfully.`, 'success');
-            }, 1000);
-        }
-        
-        function deleteFile(fileId, section) {
-            if (confirm('Are you sure you want to delete this file?')) {
-                // Remove file from storage
-                fileStorage[section] = fileStorage[section].filter(file => file.id !== fileId);
-                
-                // Update file list
-                renderFileList(section);
-                
-                showNotification('File deleted successfully.', 'success');
-            }
-        }
-        
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `notification-toast ${type}`;
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background-color: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)'};
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                z-index: 5000;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                max-width: 400px;
-                animation: fadeInUp 0.3s ease-out;
-            `;
-            
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'fadeOutDown 0.3s ease-out';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        // Close File Modal
-        fileModalClose.addEventListener('click', function() {
-            fileModal.style.display = 'none';
-        });
-        
-        // Close modal when clicking outside
-        fileModal.addEventListener('click', function(e) {
-            if (e.target === fileModal) {
-                fileModal.style.display = 'none';
-            }
-        });
         
         // Navigation
         navItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Don't allow disabled items to be clicked
-                if (this.classList.contains('disabled')) {
-                    showNotification('This section is currently disabled.', 'error');
-                    return;
-                }
-                
                 // Remove active class from all items
                 navItems.forEach(i => i.classList.remove('active'));
                 // Add active class to clicked item
@@ -2616,6 +2483,51 @@
                 if (window.innerWidth <= 1200) {
                     sidebar.classList.remove('active');
                 }
+                
+                // Initialize charts for the page if needed
+                if (pageId === 'portfolio') {
+                    setTimeout(() => {
+                        if (!portfolioGrowthChart) {
+                            const portfolioGrowthCtx = document.getElementById('portfolioGrowthChart')?.getContext('2d');
+                            if (portfolioGrowthCtx) {
+                                portfolioGrowthChart = new Chart(portfolioGrowthCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+                                        datasets: [{
+                                            label: 'Portfolio Value',
+                                            data: [172000, 173500, 174800, 176200, 177500, 178200, 178975],
+                                            borderColor: '#2d5af1',
+                                            backgroundColor: 'rgba(45, 90, 241, 0.1)',
+                                            borderWidth: 3,
+                                            fill: true,
+                                            tension: 0.3
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {
+                                                display: false
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: false,
+                                                ticks: {
+                                                    callback: function(value) {
+                                                        return '$' + value.toLocaleString();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }, 100);
+                }
             });
         });
         
@@ -2624,12 +2536,95 @@
             if (confirm('Are you sure you want to sign out?')) {
                 showLoading();
                 setTimeout(() => {
-                    showNotification('You have been signed out successfully.', 'success');
+                    // Hide everything
+                    document.querySelector('.container').style.display = 'none';
+                    document.querySelector('.theme-toggle').style.display = 'none';
+                    document.querySelector('.sidebar-toggle').style.display = 'none';
+                    
+                    // Show sign out message
+                    const signOutMessage = document.createElement('div');
+                    signOutMessage.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        background-color: var(--light);
+                        z-index: 10000;
+                        text-align: center;
+                    `;
+                    
+                    signOutMessage.innerHTML = `
+                        <div style="margin-bottom: 30px;">
+                            <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                                <i class="fas fa-check" style="font-size: 3rem; color: white;"></i>
+                            </div>
+                            <h1 style="color: var(--dark); margin-bottom: 10px;">You have been signed out successfully</h1>
+                            <p style="color: var(--gray); margin-bottom: 30px;">Thank you for using Infinity Mutual Funds</p>
+                        </div>
+                        <button id="returnToLogin" style="background-color: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                            Return to Login
+                        </button>
+                    `;
+                    
+                    document.body.appendChild(signOutMessage);
                     hideLoading();
-                    // In a real app, you would redirect to login page
-                    // window.location.href = '/login';
+                    
+                    // Add event listener to return to login button
+                    document.getElementById('returnToLogin').addEventListener('click', function() {
+                        location.reload(); // In a real app, this would redirect to login page
+                    });
                 }, 1000);
             }
+        });
+        
+        // Refresh Holdings
+        refreshHoldingsBtn.addEventListener('click', function() {
+            // Add loading effect
+            const icon = refreshHoldingsBtn.querySelector('i');
+            icon.className = 'fas fa-spinner fa-spin';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Update with new random data
+                updateMarketData();
+                icon.className = 'fas fa-sync-alt';
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background-color: var(--success);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 5000;
+                    animation: fadeInUp 0.3s ease-out;
+                `;
+                notification.innerHTML = `<i class="fas fa-check-circle"></i> Holdings data refreshed`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }, 800);
+        });
+        
+        // Upload Reports
+        uploadReportsBtn.addEventListener('click', function() {
+            alert('File upload dialog would open here. In a real application, this would allow you to select files to upload.');
+        });
+        
+        // Export Transactions
+        exportTransactionsBtn.addEventListener('click', function() {
+            alert('Transactions export initiated. CSV file would be downloaded.');
         });
         
         // Initialize everything when page loads
@@ -2639,19 +2634,16 @@
                 hideLoading();
                 
                 renderNotifications();
-                renderPortfolio();
+                renderHoldingsTable();
+                renderDetailedHoldingsTable();
+                renderTransactionHistory();
                 initCharts();
                 
-                // Set up file uploads for each section
-                setupFileUpload(portfolioUploadArea, portfolioFileInput, portfolioFileList, 'portfolio');
-                setupFileUpload(assetsUploadArea, assetsFileInput, assetsFileList, 'assets');
-                setupFileUpload(transactionsUploadArea, transactionsFileInput, transactionsFileList, 'transactions');
-                setupFileUpload(reportsUploadArea, reportsFileInput, reportsFileList, 'reports');
-                setupFileUpload(marketUploadArea, marketFileInput, marketFileList, 'market');
-                setupFileUpload(adminUploadArea, adminFileInput, adminFileList, 'admin');
+                // Initial market data update
+                updateMarketData();
                 
-                // Update market data every 8 seconds (simulating live data)
-                setInterval(updateMarketData, 8000);
+                // Update market data every 10 seconds (simulating live data)
+                setInterval(updateMarketData, 10000);
                 
                 // Add some animation to cards
                 const cards = document.querySelectorAll('.card, .sector-card');
@@ -2661,17 +2653,12 @@
             }, 1000);
         });
         
-        // Add CSS for notification animations
+        // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes fadeInUp {
                 from { opacity: 0; transform: translateY(20px); }
                 to { opacity: 1; transform: translateY(0); }
-            }
-            
-            @keyframes fadeOutDown {
-                from { opacity: 1; transform: translateY(0); }
-                to { opacity: 0; transform: translateY(20px); }
             }
         `;
         document.head.appendChild(style);
