@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Mutual Funds - Dashboard with Settings</title>
+    <title>Infinity Mutual Funds - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,17 +17,10 @@
         body {
             background-color: #f8fafc;
             color: #334155;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Dashboard Layout */
-        .dashboard-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar Styles */
         .sidebar {
             width: 280px;
             background-color: #1e293b;
@@ -36,10 +29,7 @@
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
+            transition: all 0.3s ease;
         }
 
         .logo {
@@ -63,7 +53,7 @@
         }
 
         .logo-text {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             background: linear-gradient(90deg, #60a5fa, #a78bfa);
             -webkit-background-clip: text;
@@ -105,24 +95,21 @@
             text-align: center;
         }
 
-        /* Main Content Area */
         .main-content {
             flex-grow: 1;
             padding: 32px;
-            margin-left: 280px;
-            min-height: 100vh;
-            background-color: #f8fafc;
+            overflow-y: auto;
+            transition: all 0.3s ease;
         }
 
-        /* Dashboard Header */
-        .dashboard-header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 32px;
         }
 
-        .dashboard-header h1 {
+        .header h1 {
             font-size: 28px;
             font-weight: 700;
             color: #1e293b;
@@ -136,6 +123,12 @@
             border-radius: 50px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .user-avatar {
@@ -149,6 +142,9 @@
             justify-content: center;
             font-weight: 600;
             margin-right: 12px;
+            font-size: 16px;
+            background-size: cover;
+            background-position: center;
         }
 
         .user-info h3 {
@@ -162,7 +158,7 @@
         }
 
         /* Dashboard Content */
-        .dashboard-content {
+        .dashboard-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 24px;
@@ -176,125 +172,91 @@
             padding: 24px;
         }
 
-        .dashboard-card h3 {
+        .dashboard-card h2 {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             color: #1e293b;
             display: flex;
             align-items: center;
         }
 
-        .dashboard-card h3 i {
+        .dashboard-card h2 i {
             margin-right: 12px;
             color: #3b82f6;
         }
 
-        .card-content {
-            color: #64748b;
-            line-height: 1.6;
-        }
-
-        .stats-grid {
+        .stats-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 32px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
+        .stat-item {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        /* Settings Modal Styles */
-        .settings-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-
-        .settings-container {
-            width: 90%;
-            max-width: 1000px;
-            height: 85vh;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            display: flex;
-        }
-
-        .settings-sidebar {
-            width: 280px;
-            background-color: #f8fafc;
-            border-right: 1px solid #e2e8f0;
-            padding: 24px 0;
-            overflow-y: auto;
-        }
-
-        .settings-content {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto;
-        }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-
-        .settings-header h2 {
+        .stat-value {
             font-size: 24px;
             font-weight: 700;
             color: #1e293b;
+            margin-bottom: 4px;
         }
 
-        .close-settings {
-            background: none;
-            border: none;
-            font-size: 24px;
+        .stat-label {
+            font-size: 12px;
             color: #64748b;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        }
+
+        .recent-activity {
+            list-style-type: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: #eff6ff;
+            color: #3b82f6;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
+            margin-right: 12px;
         }
 
-        .close-settings:hover {
-            background-color: #f1f5f9;
+        .activity-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
         }
 
-        /* Settings Content Styles */
-        .settings-grid {
+        .activity-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .activity-time {
+            margin-left: auto;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Settings Content */
+        .settings-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 32px;
@@ -308,7 +270,7 @@
             margin-bottom: 24px;
         }
 
-        .settings-card h3 {
+        .settings-card h2 {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 24px;
@@ -317,7 +279,7 @@
             align-items: center;
         }
 
-        .settings-card h3 i {
+        .settings-card h2 i {
             margin-right: 12px;
             color: #3b82f6;
         }
@@ -367,12 +329,8 @@
             margin-right: 24px;
             overflow: hidden;
             border: 3px solid #e2e8f0;
-        }
-
-        .photo-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            background-size: cover;
+            background-position: center;
         }
 
         .upload-btn {
@@ -383,6 +341,7 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            flex-grow: 1;
         }
 
         .upload-btn:hover {
@@ -416,6 +375,7 @@
             align-items: center;
             justify-content: center;
             margin-top: 16px;
+            width: 100%;
         }
 
         .btn-save:hover {
@@ -424,6 +384,25 @@
 
         .btn-save i {
             margin-right: 8px;
+        }
+
+        .phone-input-group {
+            display: flex;
+        }
+
+        .country-code {
+            width: 120px;
+            margin-right: 12px;
+        }
+
+        .phone-number {
+            flex-grow: 1;
+        }
+
+        .half-width {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
 
         .data-item {
@@ -442,6 +421,41 @@
         .data-value {
             font-size: 16px;
             font-weight: 500;
+        }
+
+        /* Investment Portfolio */
+        .portfolio-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .portfolio-item:last-child {
+            border-bottom: none;
+        }
+
+        .portfolio-name {
+            font-weight: 500;
+        }
+
+        .portfolio-amount {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .portfolio-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .positive {
+            color: #10b981;
+        }
+
+        .negative {
+            color: #ef4444;
         }
 
         /* Toggle switch styling */
@@ -490,639 +504,647 @@
             transform: translateX(26px);
         }
 
+        /* Content Area */
+        .content-area {
+            display: none;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        /* Dashboard Summary */
+        .dashboard-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .summary-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .summary-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
-            .dashboard-content {
+            .settings-container, .dashboard-container {
                 grid-template-columns: 1fr;
             }
             
-            .stats-grid {
+            .dashboard-summary {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .settings-grid {
-                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
             .sidebar {
                 width: 100%;
-                position: relative;
-                height: auto;
+                padding: 16px 0;
+            }
+            
+            .nav-items {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+            
+            .nav-item {
+                white-space: nowrap;
+                flex-shrink: 0;
             }
             
             .main-content {
-                margin-left: 0;
                 padding: 24px 16px;
             }
             
-            .settings-container {
-                flex-direction: column;
-                height: 90vh;
+            .half-width {
+                grid-template-columns: 1fr;
             }
             
-            .settings-sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e2e8f0;
-            }
-            
-            .stats-grid {
+            .dashboard-summary {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Dashboard Container -->
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="logo">
-                <div class="logo-icon">IM</div>
-                <div class="logo-text">Infinity Mutual Funds</div>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-title">Dashboard</div>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-tasks"></i></div>
-                    <span>Task</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="far fa-calendar"></i></div>
-                    <span>Calendar</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-title">Status</div>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-user-friends"></i></div>
-                    <span>Leads</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
-                    <span>Opportunities</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-file-contract"></i></div>
-                    <span>Contracts</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-building"></i></div>
-                    <span>Companies</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
-                    <span>Analytics</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-title">Maintaining</div>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-list-alt"></i></div>
-                    <span>Forms</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-envelope"></i></div>
-                    <span>Emails</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-ad"></i></div>
-                    <span>Social Media Ads</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-title">Settings</div>
-                <a href="javascript:void(0)" class="nav-item" id="openSettings">
-                    <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
-                    <span>Apps Settings</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-user-circle"></i></div>
-                    <span>Account</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-bell"></i></div>
-                    <span>Notifications</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-globe"></i></div>
-                    <span>Language & Region</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-briefcase"></i></div>
-                    <span>Workspace Reference</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-users"></i></div>
-                    <span>Member</span>
-                </a>
-                <a href="javascript:void(0)" class="nav-item">
-                    <div class="nav-icon"><i class="fas fa-credit-card"></i></div>
-                    <span>Billing</span>
-                </a>
-            </div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">IM</div>
+            <div class="logo-text">Infinity Mutual Funds</div>
         </div>
 
-        <!-- Main Dashboard Content -->
-        <div class="main-content">
-            <div class="dashboard-header">
-                <h1>Dashboard Overview</h1>
-                <div class="user-profile" id="openSettingsFromProfile">
-                    <div class="user-avatar">JM</div>
-                    <div class="user-info">
-                        <h3>John Marpung</h3>
-                        <p>john@gmail.com</p>
-                    </div>
-                </div>
-            </div>
+        <div class="nav-section">
+            <div class="nav-title">Dashboard</div>
+            <a class="nav-item active" data-target="dashboard">
+                <div class="nav-icon"><i class="fas fa-tasks"></i></div>
+                <span>Task</span>
+            </a>
+            <a class="nav-item" data-target="calendar">
+                <div class="nav-icon"><i class="far fa-calendar"></i></div>
+                <span>Calendar</span>
+            </a>
+        </div>
 
-            <div class="dashboard-content">
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-chart-line"></i> Performance Overview</h3>
-                    <div class="card-content">
-                        <p>Your mutual fund portfolio has grown by 12.5% this quarter. Top performers include technology and healthcare funds.</p>
-                        <p>Overall annual return: 18.3%</p>
-                    </div>
-                </div>
+        <div class="nav-section">
+            <div class="nav-title">Status</div>
+            <a class="nav-item" data-target="leads">
+                <div class="nav-icon"><i class="fas fa-user-friends"></i></div>
+                <span>Leads</span>
+            </a>
+            <a class="nav-item" data-target="opportunities">
+                <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                <span>Opportunities</span>
+            </a>
+            <a class="nav-item" data-target="contracts">
+                <div class="nav-icon"><i class="fas fa-file-contract"></i></div>
+                <span>Contracts</span>
+            </a>
+            <a class="nav-item" data-target="companies">
+                <div class="nav-icon"><i class="fas fa-building"></i></div>
+                <span>Companies</span>
+            </a>
+            <a class="nav-item" data-target="analytics">
+                <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                <span>Analytics</span>
+            </a>
+        </div>
 
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-calendar"></i> Upcoming Events</h3>
-                    <div class="card-content">
-                        <p><strong>Tomorrow:</strong> Quarterly review meeting with financial advisor</p>
-                        <p><strong>Next Week:</strong> Investment strategy webinar</p>
-                        <p><strong>Month End:</strong> Portfolio rebalancing scheduled</p>
-                    </div>
-                </div>
+        <div class="nav-section">
+            <div class="nav-title">Maintaining</div>
+            <a class="nav-item" data-target="forms">
+                <div class="nav-icon"><i class="fas fa-list-alt"></i></div>
+                <span>Forms</span>
+            </a>
+            <a class="nav-item" data-target="emails">
+                <div class="nav-icon"><i class="fas fa-envelope"></i></div>
+                <span>Emails</span>
+            </a>
+            <a class="nav-item" data-target="ads">
+                <div class="nav-icon"><i class="fas fa-ad"></i></div>
+                <span>Social Media Ads</span>
+            </a>
+        </div>
 
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-bell"></i> Recent Notifications</h3>
-                    <div class="card-content">
-                        <p>• New investment opportunity available in emerging markets</p>
-                        <p>• Your monthly statement is ready for review</p>
-                        <p>• Market alert: Tech sector showing strong growth</p>
-                    </div>
-                </div>
-
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-lightbulb"></i> Investment Tips</h3>
-                    <div class="card-content">
-                        <p>Consider diversifying your portfolio with international funds to mitigate domestic market volatility.</p>
-                        <p>Review your risk tolerance as market conditions change.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">$245,850</div>
-                    <div class="stat-label">Total Portfolio Value</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">+18.3%</div>
-                    <div class="stat-label">Annual Return</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">42</div>
-                    <div class="stat-label">Active Investments</div>
-                </div>
-            </div>
+        <div class="nav-section">
+            <div class="nav-title">Settings</div>
+            <a class="nav-item" data-target="settings">
+                <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
+                <span>Apps Settings</span>
+            </a>
+            <a class="nav-item" data-target="account">
+                <div class="nav-icon"><i class="fas fa-user-circle"></i></div>
+                <span>Account</span>
+            </a>
+            <a class="nav-item" data-target="notifications">
+                <div class="nav-icon"><i class="fas fa-bell"></i></div>
+                <span>Notifications</span>
+            </a>
+            <a class="nav-item" data-target="language">
+                <div class="nav-icon"><i class="fas fa-globe"></i></div>
+                <span>Language & Region</span>
+            </a>
+            <a class="nav-item" data-target="workspace">
+                <div class="nav-icon"><i class="fas fa-briefcase"></i></div>
+                <span>Workspace Reference</span>
+            </a>
+            <a class="nav-item" data-target="member">
+                <div class="nav-icon"><i class="fas fa-users"></i></div>
+                <span>Member</span>
+            </a>
+            <a class="nav-item" data-target="billing">
+                <div class="nav-icon"><i class="fas fa-credit-card"></i></div>
+                <span>Billing</span>
+            </a>
         </div>
     </div>
 
-    <!-- Settings Modal (Hidden by default) -->
-    <div class="settings-modal" id="settingsModal">
-        <div class="settings-container">
-            <div class="settings-sidebar">
-                <div style="padding: 24px;">
-                    <h3 style="font-size: 18px; margin-bottom: 24px; color: #1e293b;">Settings</h3>
-                    <div style="margin-bottom: 24px;">
-                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 12px;">General</div>
-                        <a href="javascript:void(0)" class="nav-item active">
-                            <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
-                            <span>Apps Settings</span>
-                        </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-user-circle"></i></div>
-                            <span>Account</span>
-                        </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-bell"></i></div>
-                            <span>Notifications</span>
-                        </a>
-                    </div>
-                    <div style="margin-bottom: 24px;">
-                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 12px;">Preferences</div>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-globe"></i></div>
-                            <span>Language & Region</span>
-                        </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-briefcase"></i></div>
-                            <span>Workspace Reference</span>
-                        </a>
-                    </div>
-                    <div>
-                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 12px;">Administration</div>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-users"></i></div>
-                            <span>Member</span>
-                        </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <div class="nav-icon"><i class="fas fa-credit-card"></i></div>
-                            <span>Billing</span>
-                        </a>
-                    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 id="pageTitle">Dashboard</h1>
+            <div class="user-profile" data-target="account">
+                <div class="user-avatar" id="headerAvatar">JM</div>
+                <div class="user-info">
+                    <h3 id="headerUserName">John Marpung</h3>
+                    <p id="headerUserEmail">john@gmail.com</p>
                 </div>
             </div>
-            
-            <div class="settings-content">
-                <div class="settings-header">
-                    <h2>Account Settings</h2>
-                    <button class="close-settings" id="closeSettings">
-                        <i class="fas fa-times"></i>
+        </div>
+
+        <!-- Dashboard Content (Default View) -->
+        <div class="content-area active" id="dashboard">
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="summary-value" id="portfolioValue">$245,850.75</div>
+                    <div class="summary-label">Total Portfolio Value</div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="summary-value" id="profitValue">+12.5%</div>
+                    <div class="summary-label">YTD Return</div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="summary-value" id="activeFunds">8</div>
+                    <div class="summary-label">Active Funds</div>
+                </div>
+            </div>
+
+            <div class="dashboard-container">
+                <!-- Portfolio Overview -->
+                <div class="dashboard-card">
+                    <h2><i class="fas fa-chart-pie"></i> Portfolio Overview</h2>
+                    <div class="portfolio-item">
+                        <div class="portfolio-name">Equity Funds</div>
+                        <div class="portfolio-amount">$124,500.00</div>
+                        <div class="portfolio-change positive">+5.2%</div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-name">Debt Funds</div>
+                        <div class="portfolio-amount">$68,300.25</div>
+                        <div class="portfolio-change positive">+3.1%</div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-name">Hybrid Funds</div>
+                        <div class="portfolio-amount">$42,750.50</div>
+                        <div class="portfolio-change positive">+2.8%</div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-name">International Funds</div>
+                        <div class="portfolio-amount">$10,300.00</div>
+                        <div class="portfolio-change negative">-1.2%</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                    <ul class="recent-activity">
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>SIP Investment</h4>
+                                <p>Monthly investment in Equity Fund</p>
+                            </div>
+                            <div class="activity-time">Today, 9:30 AM</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Fund Switch</h4>
+                                <p>Switched from Debt to Hybrid Fund</p>
+                            </div>
+                            <div class="activity-time">Yesterday, 2:15 PM</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Statement Generated</h4>
+                                <p>Monthly portfolio statement</p>
+                            </div>
+                            <div class="activity-time">Oct 28, 2023</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>New Fund Added</h4>
+                                <p>Added International Fund to portfolio</p>
+                            </div>
+                            <div class="activity-time">Oct 25, 2023</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="dashboard-card">
+                    <h2><i class="fas fa-tachometer-alt"></i> Quick Stats</h2>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalInvested">$198,500</div>
+                            <div class="stat-label">Total Invested</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalReturns">$47,350</div>
+                            <div class="stat-label">Total Returns</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="riskLevel">Medium</div>
+                            <div class="stat-label">Risk Level</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="sipAmount">$2,500</div>
+                            <div class="stat-label">Monthly SIP</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Tasks -->
+                <div class="dashboard-card">
+                    <h2><i class="fas fa-tasks"></i> Upcoming Tasks</h2>
+                    <ul class="recent-activity">
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #fef3c7; color: #d97706;">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>SIP Due Date</h4>
+                                <p>Monthly SIP payment due on Nov 5</p>
+                            </div>
+                            <div class="activity-time">In 3 days</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #dbeafe; color: #1d4ed8;">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Portfolio Review</h4>
+                                <p>Quarterly portfolio review meeting</p>
+                            </div>
+                            <div class="activity-time">Nov 15, 2023</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon" style="background-color: #f3e8ff; color: #7c3aed;">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Performance Analysis</h4>
+                                <p>Analyze fund performance for Q4</p>
+                            </div>
+                            <div class="activity-time">Nov 20, 2023</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings Content -->
+        <div class="content-area" id="account">
+            <div class="settings-container">
+                <!-- Personal Information Card -->
+                <div class="settings-card">
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
+                    <p style="color: #64748b; margin-bottom: 24px;">Update your personal details</p>
+                    
+                    <div class="photo-upload">
+                        <div class="photo-preview" id="photoPreview">
+                            <i class="fas fa-user" style="font-size: 40px; color: #94a3b8;"></i>
+                        </div>
+                        <div class="upload-btn" id="uploadBtn">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Upload Image</span>
+                            <span style="font-size: 12px; display: block; margin-top: 4px;">JPG or PNG, 1MB max</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full name</label>
+                        <input type="text" id="fullName" class="form-input" value="John Marpung">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" value="john@gmail.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone number</label>
+                        <div class="phone-input-group">
+                            <select class="form-select country-code" id="countryCode">
+                                <option value="+1">+1 (US)</option>
+                                <option value="+44">+44 (UK)</option>
+                                <option value="+91">+91 (IN)</option>
+                                <option value="+61">+61 (AU)</option>
+                                <option value="+49">+49 (DE)</option>
+                                <option value="+33">+33 (FR)</option>
+                                <option value="+81">+81 (JP)</option>
+                                <option value="+86">+86 (CN)</option>
+                                <option value="+971">+971 (AE)</option>
+                                <option value="+65">+65 (SG)</option>
+                            </select>
+                            <input type="tel" id="phone" class="form-input phone-number" value="684-555-0102">
+                        </div>
+                    </div>
+                    
+                    <div class="half-width">
+                        <div class="form-group">
+                            <label class="form-label" for="dob">Date of birth</label>
+                            <input type="date" id="dob" class="form-input" value="1999-04-12">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="country">Country</label>
+                            <select class="form-select" id="country">
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="IN">India</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="JP">Japan</option>
+                                <option value="SG">Singapore</option>
+                                <option value="AE">United Arab Emirates</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-save" id="savePersonalInfo">
+                        <i class="fas fa-save"></i> Save Changes
                     </button>
                 </div>
 
-                <div class="settings-grid">
-                    <!-- Personal Information Card -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-user"></i> Personal Information</h3>
-                        <p style="color: #64748b; margin-bottom: 24px;">Update your personal details</p>
-                        
-                        <div class="photo-upload">
-                            <div class="photo-preview" id="photoPreview">
-                                <i class="fas fa-user" style="font-size: 40px; color: #94a3b8;"></i>
-                            </div>
-                            <div class="upload-btn" id="uploadBtn">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Upload Image</span>
-                                <span style="font-size: 12px; display: block; margin-top: 4px;">JPG or PNG, 1MB max</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="fullName">Full name</label>
-                            <input type="text" id="fullName" class="form-input" value="John Marpung">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email</label>
-                            <input type="email" id="email" class="form-input" value="john@gmail.com">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="phone">Phone number</label>
-                            <div class="phone-input-group">
-                                <select class="form-select country-code" id="countryCode">
-                                    <option value="+1">+1 (US)</option>
-                                    <option value="+44">+44 (UK)</option>
-                                    <option value="+91">+91 (IN)</option>
-                                    <option value="+61">+61 (AU)</option>
-                                    <option value="+49">+49 (DE)</option>
-                                    <option value="+33">+33 (FR)</option>
-                                    <option value="+81">+81 (JP)</option>
-                                    <option value="+86">+86 (CN)</option>
-                                    <option value="+971">+971 (AE)</option>
-                                    <option value="+65">+65 (SG)</option>
-                                </select>
-                                <input type="tel" id="phone" class="form-input phone-number" value="684-555-0102">
-                            </div>
-                        </div>
-                        
-                        <div class="half-width">
-                            <div class="form-group">
-                                <label class="form-label" for="dob">Date of birth</label>
-                                <input type="date" id="dob" class="form-input" value="1999-04-12">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="country">Country</label>
-                                <select class="form-select" id="country">
-                                    <option value="US">United States</option>
-                                    <option value="UK">United Kingdom</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="AU">Australia</option>
-                                    <option value="IN">India</option>
-                                    <option value="DE">Germany</option>
-                                    <option value="FR">France</option>
-                                    <option value="JP">Japan</option>
-                                    <option value="SG">Singapore</option>
-                                    <option value="AE">United Arab Emirates</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <button class="btn-save" id="savePersonalInfo">
-                            <i class="fas fa-save"></i> Save Changes
-                        </button>
+                <!-- Account Information Card -->
+                <div class="settings-card">
+                    <h2><i class="fas fa-info-circle"></i> Account Information</h2>
+                    <p style="color: #64748b; margin-bottom: 24px;">Your account details and status</p>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Account Type</div>
+                        <div class="data-value">Premium Investor</div>
                     </div>
-
-                    <!-- Regional Settings Card -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-globe"></i> Regional Settings</h3>
-                        <p style="color: #64748b; margin-bottom: 24px;">Configure your regional preferences</p>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="timezone">Time Zone</label>
-                            <select class="form-select" id="timezone">
-                                <option value="America/New_York">(GMT-5) Eastern Time (US & Canada)</option>
-                                <option value="America/Chicago">(GMT-6) Central Time (US & Canada)</option>
-                                <option value="America/Denver">(GMT-7) Mountain Time (US & Canada)</option>
-                                <option value="America/Los_Angeles">(GMT-8) Pacific Time (US & Canada)</option>
-                                <option value="Europe/London">(GMT+0) London</option>
-                                <option value="Europe/Paris">(GMT+1) Paris, Madrid</option>
-                                <option value="Asia/Dubai">(GMT+4) Dubai</option>
-                                <option value="Asia/Kolkata">(GMT+5:30) India</option>
-                                <option value="Asia/Singapore">(GMT+8) Singapore, Kuala Lumpur</option>
-                                <option value="Asia/Tokyo">(GMT+9) Tokyo</option>
-                                <option value="Australia/Sydney">(GMT+10) Sydney</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="language">Language</label>
-                            <select class="form-select" id="language">
-                                <option value="en">English</option>
-                                <option value="es">Spanish</option>
-                                <option value="fr">French</option>
-                                <option value="de">German</option>
-                                <option value="zh">Chinese</option>
-                                <option value="ja">Japanese</option>
-                                <option value="hi">Hindi</option>
-                                <option value="ar">Arabic</option>
-                                <option value="pt">Portuguese</option>
-                                <option value="ru">Russian</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="currency">Currency</label>
-                            <select class="form-select" id="currency">
-                                <option value="USD">US Dollar (USD)</option>
-                                <option value="EUR">Euro (EUR)</option>
-                                <option value="GBP">British Pound (GBP)</option>
-                                <option value="JPY">Japanese Yen (JPY)</option>
-                                <option value="CAD">Canadian Dollar (CAD)</option>
-                                <option value="AUD">Australian Dollar (AUD)</option>
-                                <option value="INR">Indian Rupee (INR)</option>
-                                <option value="CNY">Chinese Yuan (CNY)</option>
-                                <option value="AED">UAE Dirham (AED)</option>
-                                <option value="SGD">Singapore Dollar (SGD)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="dateFormat">Date Format</label>
-                            <select class="form-select" id="dateFormat">
-                                <option value="MM/DD/YYYY">MM/DD/YYYY (US Format)</option>
-                                <option value="DD/MM/YYYY">DD/MM/YYYY (European Format)</option>
-                                <option value="YYYY-MM-DD">YYYY-MM-DD (ISO Format)</option>
-                            </select>
-                        </div>
-                        
-                        <button class="btn-save" id="saveRegionalSettings">
-                            <i class="fas fa-sync-alt"></i> Update Regional Settings
-                        </button>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Account Created</div>
+                        <div class="data-value">March 15, 2021</div>
                     </div>
-
-                    <!-- Account Information Card -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-info-circle"></i> Account Information</h3>
-                        <p style="color: #64748b; margin-bottom: 24px;">Your account details and status</p>
-                        
-                        <div class="data-item">
-                            <div class="data-label">Account Type</div>
-                            <div class="data-value">Premium Investor</div>
-                        </div>
-                        
-                        <div class="data-item">
-                            <div class="data-label">Account Created</div>
-                            <div class="data-value">March 15, 2021</div>
-                        </div>
-                        
-                        <div class="data-item">
-                            <div class="data-label">Last Login</div>
-                            <div class="data-value">Today, 10:24 AM</div>
-                        </div>
-                        
-                        <div class="data-item">
-                            <div class="data-label">Investment Portfolio</div>
-                            <div class="data-value">$245,850.75</div>
-                        </div>
-                        
-                        <div class="data-item">
-                            <div class="data-label">Account Status</div>
-                            <div class="data-value" style="color: #10b981;">Active</div>
-                        </div>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Last Login</div>
+                        <div class="data-value">Today, 10:24 AM</div>
                     </div>
-
-                    <!-- Security Settings Card -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
-                        <p style="color: #64748b; margin-bottom: 24px;">Manage your account security</p>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="currentPassword">Current Password</label>
-                            <input type="password" id="currentPassword" class="form-input" placeholder="Enter current password">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="newPassword">New Password</label>
-                            <input type="password" id="newPassword" class="form-input" placeholder="Enter new password">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="confirmPassword">Confirm New Password</label>
-                            <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Two-Factor Authentication</label>
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span>Enable 2FA for extra security</span>
-                                <label class="switch">
-                                    <input type="checkbox" id="twoFactorToggle">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <button class="btn-save" id="saveSecuritySettings">
-                            <i class="fas fa-lock"></i> Update Security Settings
-                        </button>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Investment Portfolio</div>
+                        <div class="data-value">$245,850.75</div>
+                    </div>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Account Status</div>
+                        <div class="data-value" style="color: #10b981;">Active</div>
+                    </div>
+                    
+                    <div class="data-item">
+                        <div class="data-label">Risk Profile</div>
+                        <div class="data-value">Moderate</div>
+                    </div>
+                    
+                    <div class="data-item">
+                        <div class="data-label">KYC Status</div>
+                        <div class="data-value" style="color: #10b981;">Verified</div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Other Content Areas (Empty for now) -->
+        <div class="content-area" id="task">
+            <div class="dashboard-card">
+                <h2><i class="fas fa-tasks"></i> Task Management</h2>
+                <p>Task management content will appear here.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="calendar">
+            <div class="dashboard-card">
+                <h2><i class="far fa-calendar"></i> Calendar</h2>
+                <p>Calendar content will appear here.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="leads">
+            <div class="dashboard-card">
+                <h2><i class="fas fa-user-friends"></i> Leads</h2>
+                <p>Leads management content will appear here.</p>
+            </div>
+        </div>
+        
+        <div class="content-area" id="settings">
+            <div class="dashboard-card">
+                <h2><i class="fas fa-sliders-h"></i> App Settings</h2>
+                <p>App settings content will appear here.</p>
             </div>
         </div>
     </div>
 
     <script>
+        // User data storage
+        let userData = {
+            name: "John Marpung",
+            email: "john@gmail.com",
+            phone: "684-555-0102",
+            countryCode: "+1",
+            dob: "1999-04-12",
+            country: "US",
+            photo: null,
+            portfolioValue: 245850.75,
+            totalInvested: 198500,
+            totalReturns: 47350,
+            monthlySIP: 2500
+        };
+
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Elements
-            const settingsModal = document.getElementById('settingsModal');
-            const openSettingsBtn = document.getElementById('openSettings');
-            const openSettingsFromProfileBtn = document.getElementById('openSettingsFromProfile');
-            const closeSettingsBtn = document.getElementById('closeSettings');
-            const uploadBtn = document.getElementById('uploadBtn');
-            const photoPreview = document.getElementById('photoPreview');
+            // Set current date for date input
             const dobInput = document.getElementById('dob');
-            
-            // Initialize date input
             const today = new Date().toISOString().split('T')[0];
             dobInput.max = today;
             
-            // Open settings modal
-            function openSettings() {
-                settingsModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            }
+            // Navigation handling
+            const navItems = document.querySelectorAll('.nav-item');
+            const contentAreas = document.querySelectorAll('.content-area');
+            const pageTitle = document.getElementById('pageTitle');
+            const userProfile = document.querySelector('.user-profile');
             
-            // Close settings modal
-            function closeSettings() {
-                settingsModal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Re-enable scrolling
-            }
+            // Navigate to dashboard by default
+            showContent('dashboard');
             
-            // Event listeners
-            openSettingsBtn.addEventListener('click', openSettings);
-            openSettingsFromProfileBtn.addEventListener('click', openSettings);
-            closeSettingsBtn.addEventListener('click', closeSettings);
+            // Set up navigation click handlers
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Update active navigation item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show the corresponding content
+                    showContent(target);
+                    
+                    // Update page title
+                    updatePageTitle(target);
+                });
+            });
             
-            // Close modal when clicking outside the settings container
-            settingsModal.addEventListener('click', function(e) {
-                if (e.target === settingsModal) {
-                    closeSettings();
-                }
+            // User profile click to go to account
+            userProfile.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                
+                // Update active navigation item
+                navItems.forEach(nav => nav.classList.remove('active'));
+                document.querySelector(`[data-target="${target}"]`).classList.add('active');
+                
+                // Show account content
+                showContent(target);
+                
+                // Update page title
+                updatePageTitle(target);
             });
             
             // Handle photo upload
+            const uploadBtn = document.getElementById('uploadBtn');
+            const photoPreview = document.getElementById('photoPreview');
+            
             uploadBtn.addEventListener('click', function() {
-                // Create a hidden file input
+                // Create a file input element
                 const fileInput = document.createElement('input');
                 fileInput.type = 'file';
                 fileInput.accept = 'image/*';
-                fileInput.style.display = 'none';
                 
                 fileInput.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
-                        // Validate file type
-                        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                        if (!validTypes.includes(file.type)) {
-                            alert('Please select a valid image file (JPG, PNG, GIF)');
-                            return;
-                        }
-                        
-                        // Validate file size (1MB max)
-                        if (file.size > 1024 * 1024) {
-                            alert('File size must be less than 1MB');
-                            return;
-                        }
-                        
-                        // Preview the image
                         const reader = new FileReader();
-                        reader.onload = function(e) {
-                            // Clear the photo preview
+                        reader.onload = function(event) {
+                            // Update photo preview
                             photoPreview.innerHTML = '';
+                            photoPreview.style.backgroundImage = `url(${event.target.result})`;
                             
-                            // Create and add new image
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.alt = 'Profile Photo';
-                            photoPreview.appendChild(img);
+                            // Update header avatar
+                            const headerAvatar = document.getElementById('headerAvatar');
+                            headerAvatar.style.backgroundImage = `url(${event.target.result})`;
+                            headerAvatar.textContent = '';
                             
-                            // Update header avatar too
-                            updateHeaderAvatar(e.target.result);
+                            // Save photo data
+                            userData.photo = event.target.result;
+                            
+                            // Show success message
+                            alert('Profile photo uploaded successfully!');
                         };
-                        
                         reader.readAsDataURL(file);
                     }
                 });
                 
-                // Trigger the file input
-                document.body.appendChild(fileInput);
                 fileInput.click();
-                document.body.removeChild(fileInput);
             });
-            
-            function updateHeaderAvatar(imageData) {
-                const headerAvatar = document.querySelector('.user-avatar');
-                headerAvatar.style.backgroundImage = `url(${imageData})`;
-                headerAvatar.style.backgroundSize = 'cover';
-                headerAvatar.style.backgroundPosition = 'center';
-                headerAvatar.textContent = '';
-            }
             
             // Handle personal info save
             const savePersonalBtn = document.getElementById('savePersonalInfo');
             savePersonalBtn.addEventListener('click', function() {
-                const fullName = document.getElementById('fullName').value;
-                const email = document.getElementById('email').value;
-                const countryCode = document.getElementById('countryCode').value;
-                const phone = document.getElementById('phone').value;
-                const dob = document.getElementById('dob').value;
-                const country = document.getElementById('country').value;
+                // Get form values
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.phone = document.getElementById('phone').value;
+                userData.countryCode = document.getElementById('countryCode').value;
+                userData.dob = document.getElementById('dob').value;
+                userData.country = document.getElementById('country').value;
                 
-                // Update user profile in the header
-                document.querySelector('.user-info h3').textContent = fullName;
-                document.querySelector('.user-info p').textContent = email;
+                // Update header information
+                updateHeaderInfo();
                 
-                // Update user avatar initials if no image is set
-                const photoImg = photoPreview.querySelector('img');
-                if (!photoImg) {
-                    const nameParts = fullName.split(' ');
-                    const initials = nameParts.length > 1 
-                        ? nameParts[0].charAt(0) + nameParts[nameParts.length-1].charAt(0)
-                        : nameParts[0].substring(0, 2);
-                    const headerAvatar = document.querySelector('.user-avatar');
-                    headerAvatar.textContent = initials.toUpperCase();
-                    headerAvatar.style.backgroundImage = '';
-                }
+                // Update dashboard data
+                updateDashboardData();
                 
+                // Show success message
                 alert('Personal information updated successfully!');
-            });
-            
-            // Handle regional settings save
-            const saveRegionalBtn = document.getElementById('saveRegionalSettings');
-            saveRegionalBtn.addEventListener('click', function() {
-                const timezone = document.getElementById('timezone').value;
-                const language = document.getElementById('language').value;
-                const currency = document.getElementById('currency').value;
-                const dateFormat = document.getElementById('dateFormat').value;
                 
-                alert(`Regional settings updated successfully!`);
-            });
-            
-            // Handle security settings save
-            const saveSecurityBtn = document.getElementById('saveSecuritySettings');
-            saveSecurityBtn.addEventListener('click', function() {
-                const currentPassword = document.getElementById('currentPassword').value;
-                const newPassword = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const twoFactorEnabled = document.getElementById('twoFactorToggle').checked;
-                
-                if (newPassword && newPassword !== confirmPassword) {
-                    alert('New passwords do not match. Please try again.');
-                    return;
-                }
-                
-                if (newPassword && newPassword.length < 8) {
-                    alert('New password must be at least 8 characters long.');
-                    return;
-                }
-                
-                // Clear password fields
-                document.getElementById('currentPassword').value = '';
-                document.getElementById('newPassword').value = '';
-                document.getElementById('confirmPassword').value = '';
-                
-                alert(`Security settings updated successfully! Two-factor authentication: ${twoFactorEnabled ? 'Enabled' : 'Disabled'}`);
+                // Navigate back to dashboard
+                navItems.forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-target="dashboard"]').classList.add('active');
+                showContent('dashboard');
+                updatePageTitle('dashboard');
             });
             
             // Automatically update phone country code when country changes
@@ -1155,22 +1177,76 @@
                 }
             });
             
-            // Add keyboard shortcut for settings (Ctrl+Shift+S)
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.shiftKey && e.key === 'S') {
-                    e.preventDefault();
-                    if (settingsModal.style.display === 'flex') {
-                        closeSettings();
-                    } else {
-                        openSettings();
-                    }
-                }
+            // Function to show content area
+            function showContent(contentId) {
+                contentAreas.forEach(area => {
+                    area.classList.remove('active');
+                });
                 
-                // Close settings with Escape key
-                if (e.key === 'Escape' && settingsModal.style.display === 'flex') {
-                    closeSettings();
+                const targetArea = document.getElementById(contentId);
+                if (targetArea) {
+                    targetArea.classList.add('active');
                 }
-            });
+            }
+            
+            // Function to update page title
+            function updatePageTitle(page) {
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'task': 'Task Management',
+                    'calendar': 'Calendar',
+                    'leads': 'Leads',
+                    'opportunities': 'Opportunities',
+                    'contracts': 'Contracts',
+                    'companies': 'Companies',
+                    'analytics': 'Analytics',
+                    'forms': 'Forms',
+                    'emails': 'Emails',
+                    'ads': 'Social Media Ads',
+                    'settings': 'App Settings',
+                    'account': 'Account Settings',
+                    'notifications': 'Notifications',
+                    'language': 'Language & Region',
+                    'workspace': 'Workspace Reference',
+                    'member': 'Member Management',
+                    'billing': 'Billing'
+                };
+                
+                pageTitle.textContent = titles[page] || 'Dashboard';
+            }
+            
+            // Function to update header information
+            function updateHeaderInfo() {
+                document.getElementById('headerUserName').textContent = userData.name;
+                document.getElementById('headerUserEmail').textContent = userData.email;
+                
+                // Update avatar initials if no photo
+                const headerAvatar = document.getElementById('headerAvatar');
+                if (!userData.photo) {
+                    const nameParts = userData.name.split(' ');
+                    const initials = nameParts.length > 1 
+                        ? nameParts[0].charAt(0) + nameParts[nameParts.length-1].charAt(0)
+                        : userData.name.substring(0, 2);
+                    headerAvatar.textContent = initials.toUpperCase();
+                    headerAvatar.style.backgroundImage = '';
+                }
+            }
+            
+            // Function to update dashboard data
+            function updateDashboardData() {
+                document.getElementById('portfolioValue').textContent = `$${userData.portfolioValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                document.getElementById('totalInvested').textContent = `$${userData.totalInvested.toLocaleString()}`;
+                document.getElementById('totalReturns').textContent = `$${userData.totalReturns.toLocaleString()}`;
+                document.getElementById('sipAmount').textContent = `$${userData.monthlySIP.toLocaleString()}`;
+                
+                // Calculate profit percentage
+                const profitPercentage = ((userData.totalReturns / userData.totalInvested) * 100).toFixed(1);
+                document.getElementById('profitValue').textContent = `+${profitPercentage}%`;
+            }
+            
+            // Initialize data
+            updateHeaderInfo();
+            updateDashboardData();
         });
     </script>
 </body>
