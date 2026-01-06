@@ -3,868 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity MF | Login</title>
+    <title>Login - Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --success-color: #4cc9f0;
-            --dark-color: #1a1a2e;
-            --light-color: #f8f9fa;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .login-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            min-height: 700px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        }
-        
-        .login-left {
-            flex: 1;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .login-right {
-            flex: 1.5;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-        
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .logo-text {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .welcome-text h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        
-        .welcome-text p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        
-        .features {
-            margin-top: 40px;
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--primary-color);
-        }
-        
-        .feature-text h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .feature-text p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .login-form h2 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .login-form p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 40px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .password-input {
-            position: relative;
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-        }
-        
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .remember-me input {
-            width: 18px;
-            height: 18px;
-        }
-        
-        .forgot-password {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-        
-        .btn {
-            padding: 15px 30px;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
-        }
-        
-        .login-divider {
-            display: flex;
-            align-items: center;
-            margin: 30px 0;
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .login-divider::before,
-        .login-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .login-divider span {
-            padding: 0 15px;
-            font-size: 14px;
-        }
-        
-        .social-login {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .social-btn {
-            padding: 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .social-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .signup-link {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .signup-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .live-data {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 40px;
-        }
-        
-        .live-data h4 {
-            margin-bottom: 15px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #4cc9f0;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .market-indicators {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        
-        .indicator {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-        }
-        
-        .indicator-value {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .indicator-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .positive {
-            color: #4cc9f0;
-        }
-        
-        .negative {
-            color: #f72585;
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        
-        .close-modal:hover {
-            color: white;
-        }
-        
-        .modal-form .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .modal-actions .btn {
-            flex: 1;
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .contact-info {
-            margin-top: 20px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-        
-        @media (max-width: 992px) {
-            .login-container {
-                flex-direction: column;
-                max-width: 500px;
-            }
-            
-            .login-left {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .login-right {
-                padding: 40px 20px;
-            }
-            
-            .social-login {
-                grid-template-columns: 1fr;
-            }
-            
-            .market-indicators {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                padding: 30px 20px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
 </head>
-<body>
-    <div class="login-container">
-        <!-- Left Panel -->
-        <div class="login-left">
-            <div class="logo">
-                <div class="logo-icon">∞</div>
-                <div class="logo-text">Infinity MF</div>
-            </div>
-            
-            <div class="welcome-text">
-                <h1>Complete Portfolio Management</h1>
-                <p>Professional mutual fund portfolio management system with real-time analytics, compliance tracking, and comprehensive reporting.</p>
-            </div>
-            
-            <div class="features">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Real-time Analytics</h4>
-                        <p>Live portfolio tracking and performance metrics</p>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Secure & Compliant</h4>
-                        <p>Bank-level security with regulatory compliance</p>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Comprehensive Reporting</h4>
-                        <p>Generate detailed reports and tax documents</p>
-                    </div>
-                </div>
-            </div>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="logo.jpg" alt="Infinity Mutual Funds" class="auth-logo">
+            <h1>Infinity Mutual Funds</h1>
+            <p class="tagline">Arthvishva - Your Financial Journey Begins Here</p>
         </div>
         
-        <!-- Right Panel -->
-        <div class="login-right">
-            <div class="login-form">
-                <h2>Welcome Back</h2>
-                <p>Sign in to your Infinity MF account</p>
-                
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-control" placeholder="Enter your email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <div class="password-input">
-                            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-                            <button type="button" class="password-toggle" id="togglePassword">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox">
-                            <span>Remember me</span>
-                        </label>
-                        <a class="forgot-password" id="forgotPasswordLink">Forgot password?</a>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-sign-in-alt"></i> Sign In
-                    </button>
-                    
-                    <div class="login-divider">
-                        <span>Or continue with</span>
-                    </div>
-                    
-                    <div class="social-login">
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-google"></i>
-                        </button>
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-microsoft"></i>
-                        </button>
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-apple"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="signup-link">
-                        Don't have an account? <a id="contactAdminLink">Contact Administrator</a>
-                    </div>
-                </form>
-                
-                <div class="live-data">
-                    <h4>
-                        <span class="live-dot"></span>
-                        Live Market Data
-                    </h4>
-                    <div class="market-indicators" id="marketIndicators">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Forgot Password Modal -->
-    <div class="modal" id="forgotPasswordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Reset Your Password</h3>
-                <button class="close-modal" id="closeForgotPassword">&times;</button>
-            </div>
-            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">
-                Enter your email address and we'll send you a link to reset your password.
-            </p>
-            <form id="forgotPasswordForm">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to your investment account</p>
+            
+            <form id="login-form" class="auth-form">
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="resetEmail" placeholder="Enter your registered email" required>
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelForgotPassword">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+                
+                <div class="auth-divider">
+                    <span>or continue with</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="btn-social google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button type="button" class="btn-social linkedin">
+                        <i class="fab fa-linkedin"></i>
+                        LinkedIn
+                    </button>
                 </div>
             </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html">Create Account</a></p>
+                <p class="terms">
+                    By signing in, you agree to our 
+                    <a href="terms.html">Terms of Service</a> and 
+                    <a href="privacy.html">Privacy Policy</a>
+                </p>
+            </div>
         </div>
-    </div>
-
-    <!-- Contact Administrator Modal -->
-    <div class="modal" id="contactAdminModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Contact Administrator</h3>
-                <button class="close-modal" id="closeContactAdmin">&times;</button>
+        
+        <div class="auth-features">
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure & Protected</h3>
+                <p>Bank-level security for your investments</p>
             </div>
-            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">
-                Please contact the system administrator for account creation and access requests.
-            </p>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                        <div style="font-weight: 500;">Email</div>
-                        <div style="color: rgba(255, 255, 255, 0.7);">admin@infinitymf.com</div>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div>
-                        <div style="font-weight: 500;">Phone</div>
-                        <div style="color: rgba(255, 255, 255, 0.7);">+1 (555) 123-4567</div>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div>
-                        <div style="font-weight: 500;">Support Hours</div>
-                        <div style="color: rgba(255, 255, 255, 0.7);">Mon-Fri, 9:00 AM - 6:00 PM</div>
-                    </div>
-                </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Smart Analytics</h3>
+                <p>Advanced tools for investment decisions</p>
             </div>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="cancelContactAdmin">Close</button>
-                <button type="button" class="btn btn-primary" id="emailAdmin">
-                    <i class="fas fa-envelope"></i> Send Email
-                </button>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>Dedicated customer support team</p>
             </div>
         </div>
     </div>
-
+    
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    
     <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
+        // Password visibility toggle
+        function togglePassword() {
             const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-        });
-
-        // Modal handling
-        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
-        const contactAdminModal = document.getElementById('contactAdminModal');
-        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-        const contactAdminLink = document.getElementById('contactAdminLink');
-
-        // Open Forgot Password Modal
-        forgotPasswordLink.addEventListener('click', function() {
-            forgotPasswordModal.style.display = 'flex';
-        });
-
-        // Open Contact Admin Modal
-        contactAdminLink.addEventListener('click', function() {
-            contactAdminModal.style.display = 'flex';
-        });
-
-        // Close modals
-        document.getElementById('closeForgotPassword').addEventListener('click', function() {
-            forgotPasswordModal.style.display = 'none';
-        });
-
-        document.getElementById('closeContactAdmin').addEventListener('click', function() {
-            contactAdminModal.style.display = 'none';
-        });
-
-        document.getElementById('cancelForgotPassword').addEventListener('click', function() {
-            forgotPasswordModal.style.display = 'none';
-        });
-
-        document.getElementById('cancelContactAdmin').addEventListener('click', function() {
-            contactAdminModal.style.display = 'none';
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === forgotPasswordModal) {
-                forgotPasswordModal.style.display = 'none';
-            }
-            if (event.target === contactAdminModal) {
-                contactAdminModal.style.display = 'none';
-            }
-        });
-
-        // Handle forgot password form submission
-        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('resetEmail').value;
+            const toggleIcon = document.querySelector('.password-toggle i');
             
-            if (email) {
-                // Show loading state
-                const submitBtn = this.querySelector('.btn-primary');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                submitBtn.disabled = true;
-                
-                // Simulate API call
-                setTimeout(() => {
-                    alert(`Password reset link has been sent to ${email}. Please check your email.`);
-                    forgotPasswordModal.style.display = 'none';
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    document.getElementById('resetEmail').value = '';
-                }, 1500);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
-        });
-
-        // Handle email admin button
-        document.getElementById('emailAdmin').addEventListener('click', function() {
-            window.location.href = 'mailto:admin@infinitymf.com?subject=Infinity%20MF%20Account%20Request&body=Hello%20Administrator,%0D%0A%0D%0AI%20would%20like%20to%20request%20an%20account%20for%20Infinity%20MF.%0D%0A%0D%0APlease%20provide%20the%20following%20information:%0D%0A-%20Full%20Name:%0D%0A-%20Role%20(Investor/Advisor):%0D%0A-%20Organization:%0D%0A-%20Contact%20Number:%0D%0A%0D%0AThank%20you.';
-        });
-
-        // Main login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        }
+        
+        // Handle form submission
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Get form data
-            const email = this.querySelector('input[type="email"]').value;
-            const password = this.querySelector('input[type="password"]').value;
-            const rememberMe = this.querySelector('input[type="checkbox"]').checked;
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
             
-            // Simulate login process
-            simulateLogin(email, password, rememberMe);
-        });
-
-        // Simulate login function
-        function simulateLogin(email, password, rememberMe) {
             // Show loading state
-            const submitBtn = document.querySelector('.btn-primary');
+            const submitBtn = this.querySelector('.btn-auth');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
             submitBtn.disabled = true;
             
-            // Simulate API call delay
-            setTimeout(() => {
-                // For demo purposes, accept any non-empty credentials
-                if (email && password) {
-                    // Store login state in localStorage
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem('userRole', determineUserRole(email));
-                    
-                    if (rememberMe) {
-                        localStorage.setItem('rememberMe', 'true');
-                    }
-                    
-                    // Redirect to dashboard
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert('Please enter both email and password');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }
-            }, 1500);
-        }
-
-        // Determine user role based on email (for demo)
-        function determineUserRole(email) {
-            if (email.includes('admin')) return 'admin';
-            if (email.includes('advisor')) return 'advisor';
-            return 'investor';
-        }
-
-        // Live market data
-        function updateMarketData() {
-            const indicators = [
-                { label: 'NIFTY 50', value: '22,415.85', change: '+0.85%', isPositive: true },
-                { label: 'SENSEX', value: '73,805.45', change: '+0.72%', isPositive: true },
-                { label: 'BANK NIFTY', value: '47,850.20', change: '-0.35%', isPositive: false }
-            ];
-            
-            const container = document.getElementById('marketIndicators');
-            container.innerHTML = '';
-            
-            indicators.forEach(indicator => {
-                const div = document.createElement('div');
-                div.className = 'indicator';
-                div.innerHTML = `
-                    <div class="indicator-value ${indicator.isPositive ? 'positive' : 'negative'}">
-                        ${indicator.value}
-                    </div>
-                    <div class="indicator-label">${indicator.label}</div>
-                    <div class="indicator-change ${indicator.isPositive ? 'positive' : 'negative'}">
-                        ${indicator.change}
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // Update market data every 30 seconds
-        updateMarketData();
-        setInterval(updateMarketData, 30000);
-
-        // Check if already logged in
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = 'dashboard.html';
-        }
-
-        // Pre-fill email if remember me was checked
-        if (localStorage.getItem('rememberMe') === 'true') {
-            const emailInput = document.querySelector('input[type="email"]');
-            const rememberCheckbox = document.querySelector('input[type="checkbox"]');
-            const savedEmail = localStorage.getItem('userEmail');
-            
-            if (savedEmail) {
-                emailInput.value = savedEmail;
-                rememberCheckbox.checked = true;
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // For demo purposes - create mock user data
+                const mockUser = {
+                    id: 1,
+                    full_name: 'John Doe',
+                    email: data.email,
+                    username: data.email.split('@')[0],
+                    role: 'investor'
+                };
+                
+                // Store user data in localStorage
+                localStorage.setItem('auth_token', 'demo_token_' + Date.now());
+                localStorage.setItem('user_data', JSON.stringify(mockUser));
+                
+                // Redirect to dashboard
+                window.location.href = 'index.html';
+                
+            } catch (error) {
+                alert('Login failed. Please check your credentials.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
-        }
+        });
+        
+        // Social login handlers
+        document.querySelector('.btn-social.google').addEventListener('click', function() {
+            alert('Google login would be implemented here');
+        });
+        
+        document.querySelector('.btn-social.linkedin').addEventListener('click', function() {
+            alert('LinkedIn login would be implemented here');
+        });
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>
