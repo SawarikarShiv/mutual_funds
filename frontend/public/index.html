@@ -213,6 +213,7 @@
             color: var(--primary-color);
             text-decoration: none;
             font-size: 14px;
+            cursor: pointer;
         }
         
         .forgot-password:hover {
@@ -296,6 +297,7 @@
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
         }
         
         .signup-link a:hover {
@@ -363,6 +365,104 @@
             color: #f72585;
         }
         
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: white;
+        }
+        
+        .modal-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .modal-actions .btn {
+            flex: 1;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .contact-info {
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
         @media (max-width: 992px) {
             .login-container {
                 flex-direction: column;
@@ -385,6 +485,14 @@
             
             .market-indicators {
                 grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
             }
         }
     </style>
@@ -463,7 +571,7 @@
                             <input type="checkbox">
                             <span>Remember me</span>
                         </label>
-                        <a href="#" class="forgot-password">Forgot password?</a>
+                        <a class="forgot-password" id="forgotPasswordLink">Forgot password?</a>
                     </div>
                     
                     <button type="submit" class="btn btn-primary">
@@ -487,7 +595,7 @@
                     </div>
                     
                     <div class="signup-link">
-                        Don't have an account? <a href="#">Contact Administrator</a>
+                        Don't have an account? <a id="contactAdminLink">Contact Administrator</a>
                     </div>
                 </form>
                 
@@ -504,6 +612,81 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Your Password</h3>
+                <button class="close-modal" id="closeForgotPassword">&times;</button>
+            </div>
+            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">
+                Enter your email address and we'll send you a link to reset your password.
+            </p>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="resetEmail" placeholder="Enter your registered email" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelForgotPassword">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Administrator Modal -->
+    <div class="modal" id="contactAdminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Contact Administrator</h3>
+                <button class="close-modal" id="closeContactAdmin">&times;</button>
+            </div>
+            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">
+                Please contact the system administrator for account creation and access requests.
+            </p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500;">Email</div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">admin@infinitymf.com</div>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500;">Phone</div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">+1 (555) 123-4567</div>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500;">Support Hours</div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">Mon-Fri, 9:00 AM - 6:00 PM</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelContactAdmin">Close</button>
+                <button type="button" class="btn btn-primary" id="emailAdmin">
+                    <i class="fas fa-envelope"></i> Send Email
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function() {
@@ -513,7 +696,78 @@
             this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
 
-        // Form submission
+        // Modal handling
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        const contactAdminModal = document.getElementById('contactAdminModal');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const contactAdminLink = document.getElementById('contactAdminLink');
+
+        // Open Forgot Password Modal
+        forgotPasswordLink.addEventListener('click', function() {
+            forgotPasswordModal.style.display = 'flex';
+        });
+
+        // Open Contact Admin Modal
+        contactAdminLink.addEventListener('click', function() {
+            contactAdminModal.style.display = 'flex';
+        });
+
+        // Close modals
+        document.getElementById('closeForgotPassword').addEventListener('click', function() {
+            forgotPasswordModal.style.display = 'none';
+        });
+
+        document.getElementById('closeContactAdmin').addEventListener('click', function() {
+            contactAdminModal.style.display = 'none';
+        });
+
+        document.getElementById('cancelForgotPassword').addEventListener('click', function() {
+            forgotPasswordModal.style.display = 'none';
+        });
+
+        document.getElementById('cancelContactAdmin').addEventListener('click', function() {
+            contactAdminModal.style.display = 'none';
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === forgotPasswordModal) {
+                forgotPasswordModal.style.display = 'none';
+            }
+            if (event.target === contactAdminModal) {
+                contactAdminModal.style.display = 'none';
+            }
+        });
+
+        // Handle forgot password form submission
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            
+            if (email) {
+                // Show loading state
+                const submitBtn = this.querySelector('.btn-primary');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Password reset link has been sent to ${email}. Please check your email.`);
+                    forgotPasswordModal.style.display = 'none';
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    document.getElementById('resetEmail').value = '';
+                }, 1500);
+            }
+        });
+
+        // Handle email admin button
+        document.getElementById('emailAdmin').addEventListener('click', function() {
+            window.location.href = 'mailto:admin@infinitymf.com?subject=Infinity%20MF%20Account%20Request&body=Hello%20Administrator,%0D%0A%0D%0AI%20would%20like%20to%20request%20an%20account%20for%20Infinity%20MF.%0D%0A%0D%0APlease%20provide%20the%20following%20information:%0D%0A-%20Full%20Name:%0D%0A-%20Role%20(Investor/Advisor):%0D%0A-%20Organization:%0D%0A-%20Contact%20Number:%0D%0A%0D%0AThank%20you.';
+        });
+
+        // Main login form submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -542,6 +796,10 @@
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userEmail', email);
                     localStorage.setItem('userRole', determineUserRole(email));
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
                     
                     // Redirect to dashboard
                     window.location.href = 'dashboard.html';
@@ -594,6 +852,18 @@
         // Check if already logged in
         if (localStorage.getItem('isLoggedIn') === 'true') {
             window.location.href = 'dashboard.html';
+        }
+
+        // Pre-fill email if remember me was checked
+        if (localStorage.getItem('rememberMe') === 'true') {
+            const emailInput = document.querySelector('input[type="email"]');
+            const rememberCheckbox = document.querySelector('input[type="checkbox"]');
+            const savedEmail = localStorage.getItem('userEmail');
+            
+            if (savedEmail) {
+                emailInput.value = savedEmail;
+                rememberCheckbox.checked = true;
+            }
         }
     </script>
 </body>
