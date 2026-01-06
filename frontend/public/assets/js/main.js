@@ -1,241 +1,247 @@
-// Main application entry point
-class InfinityApp {
-    constructor() {
-        this.init();
-    }
+// Main JavaScript file for Infinity Mutual Funds
 
-    init() {
-        this.setupGlobalEventListeners();
-        this.initializeComponents();
-        this.setupAnimations();
-    }
+// DOM Ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Infinity Mutual Funds - Main JS Loaded');
+    
+    // Initialize all modules
+    initNavigation();
+    initAnimations();
+    initScrollEffects();
+    initTooltips();
+});
 
-    setupGlobalEventListeners() {
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            // Close user dropdown
-            const userDropdown = document.getElementById('userDropdown');
-            const userAvatarBtn = document.getElementById('userAvatarBtn');
+// Navigation Module
+function initNavigation() {
+    const menuToggle = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
             
-            if (userDropdown && userAvatarBtn && 
-                !userDropdown.contains(e.target) && 
-                !userAvatarBtn.contains(e.target)) {
-                userDropdown.classList.remove('show');
+            // Animate hamburger icon
+            const spans = this.querySelectorAll('span');
+            if (this.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
             }
-
-            // Close mobile menu
-            const menuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (menuToggle && navMenu && 
-                !menuToggle.contains(e.target) && 
-                !navMenu.contains(e.target) &&
-                navMenu.classList.contains('active')) {
+        });
+    }
+    
+    // Close mobile menu when clicking a link
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (navMenu.classList.contains('active')) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
-            }
-        });
-
-        // Escape key closes modals and dropdowns
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                // Close user dropdown
-                const userDropdown = document.getElementById('userDropdown');
-                if (userDropdown) userDropdown.classList.remove('show');
-
-                // Close mobile menu
-                const menuToggle = document.getElementById('mobileMenuToggle');
-                const navMenu = document.getElementById('navMenu');
-                if (menuToggle && navMenu && navMenu.classList.contains('active')) {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
-
-                // Close auth modal
-                const authModal = document.getElementById('authModal');
-                if (authModal && authModal.classList.contains('show')) {
-                    authModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            }
-        });
-    }
-
-    initializeComponents() {
-        // Animate stats on home page
-        this.animateStats();
-        
-        // Initialize tooltips
-        this.initializeTooltips();
-        
-        // Initialize charts if on dashboard
-        if (document.querySelector('.chart-container')) {
-            // Charts are initialized by chartManager
-            console.log('Charts will be initialized by chartManager');
-        }
-    }
-
-    animateStats() {
-        const stats = document.querySelectorAll('.stat h3');
-        stats.forEach(stat => {
-            if (stat.dataset.animated) return;
-            
-            const finalValue = stat.textContent;
-            stat.textContent = '0';
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        this.animateValue(stat, 0, parseFloat(finalValue.replace(/[^0-9.]/g, '')), 2000);
-                        observer.unobserve(entry.target);
-                        stat.dataset.animated = 'true';
-                    }
-                });
-            });
-            
-            observer.observe(stat);
-        });
-    }
-
-    animateValue(element, start, end, duration) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const current = Math.floor(progress * (end - start) + start);
-            
-            if (element.textContent.includes('Cr')) {
-                element.textContent = '₹' + current.toLocaleString() + 'Cr+';
-            } else if (element.textContent.includes('%')) {
-                element.textContent = current.toFixed(1) + '%';
-            } else if (element.textContent.includes('+')) {
-                element.textContent = current.toLocaleString() + '+';
-            } else {
-                element.textContent = current.toLocaleString();
-            }
-            
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    initializeTooltips() {
-        // Add tooltip functionality to elements with data-tooltip attribute
-        document.querySelectorAll('[data-tooltip]').forEach(element => {
-            element.addEventListener('mouseenter', (e) => {
-                const tooltipText = element.getAttribute('data-tooltip');
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip-element';
-                tooltip.textContent = tooltipText;
-                tooltip.style.cssText = `
-                    position: absolute;
-                    background: rgba(0, 0, 0, 0.9);
-                    color: white;
-                    padding: 8px 12px;
-                    border-radius: 6px;
-                    font-size: 12px;
-                    z-index: 10000;
-                    white-space: nowrap;
-                    pointer-events: none;
-                    transform: translateX(-50%);
-                    left: 50%;
-                    bottom: 100%;
-                    margin-bottom: 5px;
-                `;
                 
-                element.appendChild(tooltip);
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                const tooltip = element.querySelector('.tooltip-element');
-                if (tooltip) {
-                    tooltip.remove();
-                }
-            });
+                const spans = menuToggle.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
         });
-    }
+    });
+}
 
-    setupAnimations() {
-        // Add intersection observer for scroll animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
+// Animations Module
+function initAnimations() {
+    // Animate stats on scroll
+    const stats = document.querySelectorAll('.stat h3');
+    
+    if (stats.length > 0) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    animateCounter(entry.target);
+                    entry.target.dataset.animated = 'true';
                 }
             });
-        }, observerOptions);
-
-        // Observe elements for animation
-        document.querySelectorAll('.feature-card, .module-card, .stat-card').forEach(element => {
-            observer.observe(element);
+        }, {
+            threshold: 0.5
         });
+        
+        stats.forEach(stat => observer.observe(stat));
     }
+    
+    // Animate chart lines
+    const chartLines = document.querySelectorAll('.chart-line');
+    chartLines.forEach((line, index) => {
+        line.style.animationDelay = `${index * 0.1}s`;
+    });
+}
 
-    // Helper methods for authentication (used in auth.js)
-    validateForm(formId) {
-        const form = document.getElementById(formId);
-        if (!form) return false;
+// Counter Animation
+function animateCounter(element) {
+    const finalValue = element.textContent;
+    const isCurrency = finalValue.includes('₹');
+    const isPercentage = finalValue.includes('%');
+    
+    // Extract numeric value
+    let number = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+    
+    let startValue = 0;
+    const duration = 2000;
+    const startTime = performance.now();
+    
+    function updateCounter(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+        
+        // Easing function
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        
+        let currentValue = startValue + (number - startValue) * easeOut;
+        
+        if (isCurrency) {
+            if (finalValue.includes('Cr')) {
+                element.textContent = `₹${Math.floor(currentValue).toLocaleString()}Cr+`;
+            } else {
+                element.textContent = `₹${Math.floor(currentValue).toLocaleString()}`;
+            }
+        } else if (isPercentage) {
+            element.textContent = `${currentValue.toFixed(1)}%`;
+        } else {
+            element.textContent = `${Math.floor(currentValue).toLocaleString()}+`;
+        }
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+    
+    requestAnimationFrame(updateCounter);
+}
 
-        const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
-        let isValid = true;
+// Scroll Effects
+function initScrollEffects() {
+    // Add scroll class to navbar
+    const navbar = document.querySelector('.navbar');
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset;
+        
+        // Add/remove scrolled class
+        if (currentScroll > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Hide/show navbar on scroll
+        if (currentScroll > lastScroll && currentScroll > 200) {
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScroll = currentScroll;
+        
+        // Fade in elements on scroll
+        fadeInOnScroll();
+    });
+    
+    // Initial fade in check
+    fadeInOnScroll();
+}
 
-        inputs.forEach(input => {
-            input.classList.remove('error');
-            const errorElement = document.getElementById(`${input.id}Error`);
-            if (errorElement) errorElement.classList.remove('show');
+// Fade in elements on scroll
+function fadeInOnScroll() {
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    fadeElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add('visible');
+        }
+    });
+}
 
-            if (!input.value.trim()) {
-                isValid = false;
-                input.classList.add('error');
-                const errorElement = document.getElementById(`${input.id}Error`);
-                if (errorElement) {
-                    errorElement.textContent = 'This field is required';
-                    errorElement.classList.add('show');
-                }
-            } else if (input.type === 'email' && !Utils.validateEmail(input.value)) {
-                isValid = false;
-                input.classList.add('error');
-                const errorElement = document.getElementById(`${input.id}Error`);
-                if (errorElement) {
-                    errorElement.textContent = 'Please enter a valid email address';
-                    errorElement.classList.add('show');
-                }
-            } else if (input.type === 'password' && input.value.length < 6) {
-                isValid = false;
-                input.classList.add('error');
-                const errorElement = document.getElementById(`${input.id}Error`);
-                if (errorElement) {
-                    errorElement.textContent = 'Password must be at least 6 characters';
-                    errorElement.classList.add('show');
-                }
+// Tooltips
+function initTooltips() {
+    const tooltips = document.querySelectorAll('[data-tooltip]');
+    
+    tooltips.forEach(element => {
+        element.addEventListener('mouseenter', function(e) {
+            const tooltipText = this.getAttribute('data-tooltip');
+            const tooltip = document.createElement('div');
+            
+            tooltip.className = 'tooltip';
+            tooltip.textContent = tooltipText;
+            document.body.appendChild(tooltip);
+            
+            const rect = this.getBoundingClientRect();
+            tooltip.style.position = 'fixed';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.opacity = '1';
+            
+            this._tooltip = tooltip;
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            if (this._tooltip) {
+                this._tooltip.remove();
+                this._tooltip = null;
             }
         });
+    });
+}
 
-        return isValid;
-    }
+// Form Validation Helper
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
 
-    showLoading(button, isLoading) {
-        if (isLoading) {
-            button.innerHTML = '<span class="loading-spinner"></span> Processing...';
-            button.disabled = true;
-        } else {
-            // Restore original content
-            const originalHTML = button.dataset.originalHTML || '<i class="fas fa-sign-in-alt"></i> Sign In';
-            button.innerHTML = originalHTML;
-            button.disabled = false;
-        }
+function validatePhone(phone) {
+    const re = /^[\d\s\+\-\(\)]{10,}$/;
+    return re.test(phone);
+}
+
+// Format Currency
+function formatCurrency(amount) {
+    if (amount >= 10000000) {
+        return `₹${(amount / 10000000).toFixed(2)}Cr`;
+    } else if (amount >= 100000) {
+        return `₹${(amount / 100000).toFixed(2)}L`;
+    } else {
+        return `₹${amount.toLocaleString()}`;
     }
 }
 
-// Initialize the app when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.app = new InfinityApp();
-});
+// Debounce Function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Export functions for use in other scripts
+window.InfinityFunds = {
+    validateEmail,
+    validatePhone,
+    formatCurrency,
+    debounce
+};
+
+// Add some example usage
+console.log('Infinity Funds JS initialized successfully!');
+console.log('Available functions: InfinityFunds.validateEmail(), InfinityFunds.formatCurrency()');
