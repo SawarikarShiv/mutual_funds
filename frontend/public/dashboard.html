@@ -1101,4 +1101,282 @@
         window.addEventListener('resize', checkScreenSize);
     </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Infinity Mutual Funds</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.jpg" alt="Infinity Mutual Funds" class="logo">
+            <h2>Infinity</h2>
+            <p class="tagline">Arthvishva</p>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="portfolio.html">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Portfolio</span>
+                </a>
+            </li>
+            <li>
+                <a href="funds.html">
+                    <i class="fas fa-coins"></i>
+                    <span>Funds</span>
+                </a>
+            </li>
+            <li>
+                <a href="transactions.html">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </a>
+            </li>
+            <li>
+                <a href="invest.html">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>Invest</span>
+                </a>
+            </li>
+            <li>
+                <a href="reports.html">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li>
+                <a href="analytics.html">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="research.html">
+                    <i class="fas fa-search-dollar"></i>
+                    <span>Research</span>
+                </a>
+            </li>
+            <li class="menu-section">
+                <span>ADMIN</span>
+            </li>
+            <li>
+                <a href="users.html">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="compliance.html">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Compliance</span>
+                </a>
+            </li>
+            <li>
+                <a href="alerts.html">
+                    <i class="fas fa-bell"></i>
+                    <span>Alerts</span>
+                    <span class="badge" id="notification-badge">3</span>
+                </a>
+            </li>
+            <li>
+                <a href="tax.html">
+                    <i class="fas fa-calculator"></i>
+                    <span>Tax</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <img src="assets/images/default-avatar.png" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <strong id="sidebar-username">John Doe</strong>
+                    <small>Investor</small>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1 id="user-greeting">Good Morning, Investor!</h1>
+                <p>Welcome to your investment dashboard</p>
+            </div>
+            
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search funds, transactions...">
+                </div>
+                
+                <button class="btn-notification" id="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <div class="user-dropdown">
+                    <img src="assets/images/default-avatar.png" alt="User" class="user-avatar-sm">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-container" id="portfolio-summary">
+            <!-- Stats will be loaded dynamically by dashboard.js -->
+            <div class="stat-card loading">
+                <div class="skeleton"></div>
+            </div>
+            <div class="stat-card loading">
+                <div class="skeleton"></div>
+            </div>
+            <div class="stat-card loading">
+                <div class="skeleton"></div>
+            </div>
+            <div class="stat-card loading">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Portfolio Growth</h3>
+                    <select class="time-selector">
+                        <option>1 Month</option>
+                        <option>3 Months</option>
+                        <option>6 Months</option>
+                        <option selected>1 Year</option>
+                    </select>
+                </div>
+                <canvas id="portfolio-growth-chart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Asset Allocation</h3>
+                </div>
+                <canvas id="allocation-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Transactions & Market Updates -->
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Recent Transactions</h3>
+                    <a href="transactions.html" class="view-all">View All</a>
+                </div>
+                <div class="card-body">
+                    <div id="recent-transactions">
+                        <!-- Transactions will be loaded by dashboard.js -->
+                        <div class="loading-transaction">
+                            <div class="skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Market Updates</h3>
+                    <span class="last-updated">Updated: Just now</span>
+                </div>
+                <div class="card-body">
+                    <div id="market-updates">
+                        <!-- Market updates will be loaded by dashboard.js -->
+                        <div class="loading-update">
+                            <div class="skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn" data-action="invest">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Investment</span>
+                </button>
+                <button class="action-btn" data-action="redeem">
+                    <i class="fas fa-minus-circle"></i>
+                    <span>Redeem</span>
+                </button>
+                <button class="action-btn" data-action="sip">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Start SIP</span>
+                </button>
+                <button class="action-btn" data-action="switch">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Switch Funds</span>
+                </button>
+                <button class="action-btn" data-action="report">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Generate Report</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+    <script>
+        // Global logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+        
+        // Update user info in sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+            if (userData.full_name) {
+                document.getElementById('sidebar-username').textContent = userData.full_name;
+            }
+            
+            // Add active class to current page in sidebar
+            const currentPage = window.location.pathname.split('/').pop();
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.parentElement.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
 </html>
