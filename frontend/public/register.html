@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Infinity Mutual Funds</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="logo.jpg" alt="Infinity Mutual Funds" class="auth-logo">
+            <h1>Join Infinity</h1>
+            <p class="tagline">Start your financial journey with expert guidance</p>
+        </div>
+        
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Sign up to start investing</p>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                        <span class="strength-text">Password strength: Weak</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pan">PAN Number</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="pan" name="pan" placeholder="Enter PAN number" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required>
+                    </div>
+                    <small class="form-help">Format: ABCDE1234F</small>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="terms" required>
+                        <span>I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></span>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="newsletter" checked>
+                        <span>Receive investment tips and market updates</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+                
+                <div class="auth-divider">
+                    <span>or sign up with</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="btn-social google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button type="button" class="btn-social linkedin">
+                        <i class="fab fa-linkedin"></i>
+                        LinkedIn
+                    </button>
+                </div>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+        </div>
+        
+        <div class="auth-features">
+            <div class="feature">
+                <i class="fas fa-rupee-sign"></i>
+                <h3>Start with ₹500</h3>
+                <p>Begin your investment journey with small amounts</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Expert Research</h3>
+                <p>Access to premium market research and insights</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile App</h3>
+                <p>Invest on the go with our mobile application</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Password visibility toggle
+        function togglePassword(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleIcon = passwordInput.nextElementSibling.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.querySelector('.strength-bar');
+            const strengthText = document.querySelector('.strength-text');
+            
+            let strength = 0;
+            let color = '#e74c3c';
+            let text = 'Weak';
+            
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            switch(strength) {
+                case 1:
+                    color = '#e74c3c';
+                    text = 'Weak';
+                    break;
+                case 2:
+                    color = '#f39c12';
+                    text = 'Fair';
+                    break;
+                case 3:
+                    color = '#3498db';
+                    text = 'Good';
+                    break;
+                case 4:
+                    color = '#27ae60';
+                    text = 'Strong';
+                    break;
+            }
+            
+            strengthBar.style.width = (strength * 25) + '%';
+            strengthBar.style.backgroundColor = color;
+            strengthText.textContent = 'Password strength: ' + text;
+            strengthText.style.color = color;
+        });
+        
+        // PAN number validation
+        document.getElementById('pan').addEventListener('input', function(e) {
+            const pan = e.target.value.toUpperCase();
+            e.target.value = pan;
+            
+            const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (pan.length === 10 && !panPattern.test(pan)) {
+                e.target.setCustomValidity('Invalid PAN format. Use: ABCDE1234F');
+            } else {
+                e.target.setCustomValidity('');
+            }
+        });
+        
+        // Handle form submission
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Validate passwords match
+            if (data.password !== data.confirm_password) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.btn-auth');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Create mock user data
+                const mockUser = {
+                    id: Date.now(),
+                    full_name: data.full_name,
+                    email: data.email,
+                    phone: data.phone,
+                    pan: data.pan,
+                    role: 'investor',
+                    created_at: new Date().toISOString()
+                };
+                
+                // Store user data in localStorage
+                localStorage.setItem('auth_token', 'demo_token_' + Date.now());
+                localStorage.setItem('user_data', JSON.stringify(mockUser));
+                
+                // Show success message
+                alert('Registration successful! Welcome to Infinity Mutual Funds.');
+                
+                // Redirect to dashboard
+                window.location.href = 'index.html';
+                
+            } catch (error) {
+                alert('Registration failed. Please try again.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Social login handlers
+        document.querySelectorAll('.btn-social').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert(this.textContent.trim() + ' registration would be implemented here');
+            });
+        });
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
