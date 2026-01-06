@@ -3,56 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Mutual Funds - Login</title>
+    <title>Infinity MF | Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    
     <style>
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
             background: linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
         
-        .login-card {
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 700px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .login-right {
+            flex: 1.5;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
         }
         
-        .login-logo {
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
         }
         
-        .login-title {
+        .logo-text {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .login-subtitle {
+        .welcome-text h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-text p {
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        
+        .features {
+            margin-top: 40px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+        
+        .feature-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .feature-text p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .login-form h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .login-form p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
         }
         
         .form-group {
@@ -62,13 +155,13 @@
         .form-label {
             display: block;
             margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 15px 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -79,132 +172,429 @@
         
         .form-control:focus {
             outline: none;
-            border-color: #4361ee;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
         }
         
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
-            color: white;
+        .password-input {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
             border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            padding: 15px 30px;
             border-radius: 10px;
+            border: none;
             font-size: 16px;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .login-divider span {
+            padding: 0 15px;
+            font-size: 14px;
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 18px;
+        }
+        
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .signup-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .live-data {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .live-data h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
         
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #4cc9f0;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
         
-        .login-footer {
-            margin-top: 30px;
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .market-indicators {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .indicator {
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
         }
         
-        .demo-credentials {
-            background: rgba(76, 201, 240, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 14px;
+        .indicator-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .indicator-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .positive {
+            color: #4cc9f0;
+        }
+        
+        .negative {
+            color: #f72585;
+        }
+        
+        @media (max-width: 992px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .login-left {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-right {
+                padding: 40px 20px;
+            }
+            
+            .social-login {
+                grid-template-columns: 1fr;
+            }
+            
+            .market-indicators {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-logo">
-                    <div class="logo-icon">∞</div>
-                    <div class="login-title">Infinity MF</div>
-                </div>
-                <p class="login-subtitle">Complete Mutual Fund Portfolio Management</p>
+        <!-- Left Panel -->
+        <div class="login-left">
+            <div class="logo">
+                <div class="logo-icon">∞</div>
+                <div class="logo-text">Infinity MF</div>
             </div>
             
-            <div class="demo-credentials">
-                <strong>Demo Credentials:</strong><br>
-                Username: admin<br>
-                Password: admin123
+            <div class="welcome-text">
+                <h1>Complete Portfolio Management</h1>
+                <p>Professional mutual fund portfolio management system with real-time analytics, compliance tracking, and comprehensive reporting.</p>
             </div>
             
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Username or Email</label>
-                    <input type="text" class="form-control" placeholder="Enter your username" required>
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Real-time Analytics</h4>
+                        <p>Live portfolio tracking and performance metrics</p>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" placeholder="Enter your password" required>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Secure & Compliant</h4>
+                        <p>Bank-level security with regulatory compliance</p>
+                    </div>
                 </div>
                 
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <label style="display: flex; align-items: center; gap: 8px;">
-                        <input type="checkbox">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="#" style="color: #4cc9f0; text-decoration: none;">Forgot Password?</a>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Comprehensive Reporting</h4>
+                        <p>Generate detailed reports and tax documents</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel -->
+        <div class="login-right">
+            <div class="login-form">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your Infinity MF account</p>
                 
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login to Dashboard
-                </button>
-            </form>
-            
-            <div class="login-footer">
-                <p>New to Infinity MF? <a href="#" style="color: #4cc9f0;">Contact administrator</a></p>
-                <p style="margin-top: 10px; font-size: 12px; opacity: 0.7;">
-                    © 2024 Infinity Mutual Funds. All rights reserved.
-                </p>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="password-input">
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    
+                    <div class="login-divider">
+                        <span>Or continue with</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-btn">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="social-btn">
+                            <i class="fab fa-microsoft"></i>
+                        </button>
+                        <button type="button" class="social-btn">
+                            <i class="fab fa-apple"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="signup-link">
+                        Don't have an account? <a href="#">Contact Administrator</a>
+                    </div>
+                </form>
+                
+                <div class="live-data">
+                    <h4>
+                        <span class="live-dot"></span>
+                        Live Market Data
+                    </h4>
+                    <div class="market-indicators" id="marketIndicators">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="js/main.js"></script>
     <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // Form submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = this.querySelector('input[type="text"]').value;
+            // Get form data
+            const email = this.querySelector('input[type="email"]').value;
             const password = this.querySelector('input[type="password"]').value;
+            const rememberMe = this.querySelector('input[type="checkbox"]').checked;
             
-            // Simple authentication for demo
-            if ((username === 'admin' || username === 'admin@infinitymf.com') && password === 'admin123') {
-                // Store user info
-                localStorage.setItem('infinity_user', JSON.stringify({
-                    name: 'John Marpung',
-                    email: username,
-                    role: 'Administrator',
-                    lastLogin: new Date()
-                }));
-                
-                // Redirect to dashboard
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid credentials. Use:\nUsername: admin\nPassword: admin123');
-            }
+            // Simulate login process
+            simulateLogin(email, password, rememberMe);
         });
-        
-        // Auto-fill demo credentials for convenience
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputs = document.querySelectorAll('.form-control');
-            if (inputs.length >= 2) {
-                inputs[0].value = 'admin';
-                inputs[1].value = 'admin123';
-            }
-        });
+
+        // Simulate login function
+        function simulateLogin(email, password, rememberMe) {
+            // Show loading state
+            const submitBtn = document.querySelector('.btn-primary');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // For demo purposes, accept any non-empty credentials
+                if (email && password) {
+                    // Store login state in localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userRole', determineUserRole(email));
+                    
+                    // Redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Please enter both email and password');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }, 1500);
+        }
+
+        // Determine user role based on email (for demo)
+        function determineUserRole(email) {
+            if (email.includes('admin')) return 'admin';
+            if (email.includes('advisor')) return 'advisor';
+            return 'investor';
+        }
+
+        // Live market data
+        function updateMarketData() {
+            const indicators = [
+                { label: 'NIFTY 50', value: '22,415.85', change: '+0.85%', isPositive: true },
+                { label: 'SENSEX', value: '73,805.45', change: '+0.72%', isPositive: true },
+                { label: 'BANK NIFTY', value: '47,850.20', change: '-0.35%', isPositive: false }
+            ];
+            
+            const container = document.getElementById('marketIndicators');
+            container.innerHTML = '';
+            
+            indicators.forEach(indicator => {
+                const div = document.createElement('div');
+                div.className = 'indicator';
+                div.innerHTML = `
+                    <div class="indicator-value ${indicator.isPositive ? 'positive' : 'negative'}">
+                        ${indicator.value}
+                    </div>
+                    <div class="indicator-label">${indicator.label}</div>
+                    <div class="indicator-change ${indicator.isPositive ? 'positive' : 'negative'}">
+                        ${indicator.change}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Update market data every 30 seconds
+        updateMarketData();
+        setInterval(updateMarketData, 30000);
+
+        // Check if already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
     </script>
 </body>
 </html>
