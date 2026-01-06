@@ -1,0 +1,648 @@
+/* ===== PRINT STYLES ===== */
+/* Infinity Mutual Funds - Print Optimizations */
+
+/* ===== PRINT RESET ===== */
+@media print {
+  /* Hide unnecessary elements */
+  .no-print,
+  .navbar,
+  .header,
+  .sidebar,
+  .user-menu,
+  .mobile-menu-toggle,
+  .sidebar-overlay,
+  .btn:not(.print-btn),
+  .form-control,
+  .modal,
+  .modal-backdrop,
+  .alert:not(.print-alert),
+  .notification-bell,
+  .action-buttons,
+  .chart-actions,
+  .data-table-actions,
+  .export-buttons,
+  .filter-section,
+  .search-bar,
+  .pagination,
+  .footer,
+  .cookie-banner,
+  .back-to-top,
+  [data-no-print],
+  .ads,
+  .promotional-banner {
+    display: none !important;
+  }
+  
+  /* Show print-only elements */
+  .print-only,
+  [data-print-only] {
+    display: block !important;
+  }
+  
+  .print-inline {
+    display: inline !important;
+  }
+  
+  .print-flex {
+    display: flex !important;
+  }
+  
+  /* Reset body styles */
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  
+  /* Container adjustments */
+  .container,
+  .main-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    color: black !important;
+    page-break-after: avoid !important;
+    margin-top: 1em !important;
+    margin-bottom: 0.5em !important;
+  }
+  
+  h1 {
+    font-size: 18pt !important;
+    border-bottom: 2px solid #000 !important;
+    padding-bottom: 0.2em !important;
+  }
+  
+  h2 {
+    font-size: 16pt !important;
+    border-bottom: 1px solid #666 !important;
+    padding-bottom: 0.1em !important;
+  }
+  
+  h3 {
+    font-size: 14pt !important;
+  }
+  
+  p, li, td, th {
+    font-size: 11pt !important;
+  }
+  
+  /* Links */
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")" !important;
+    font-size: 9pt !important;
+    font-style: italic !important;
+  }
+  
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after,
+  a[href^="mailto:"]:after {
+    content: "" !important;
+  }
+  
+  /* Print-specific link styling */
+  .print-link {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+  
+  /* Cards & Boxes */
+  .card,
+  .box,
+  .panel,
+  .widget {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    margin-bottom: 1em !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .card-header {
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #ddd !important;
+    color: black !important;
+    padding: 0.5em !important;
+  }
+  
+  .card-body {
+    padding: 0.5em !important;
+  }
+  
+  /* Tables */
+  .table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1em 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .table th {
+    background: #f5f5f5 !important;
+    color: black !important;
+    font-weight: bold !important;
+    border: 1px solid #999 !important;
+    padding: 0.3em 0.5em !important;
+    text-align: left !important;
+  }
+  
+  .table td {
+    border: 1px solid #ddd !important;
+    padding: 0.3em 0.5em !important;
+    vertical-align: top !important;
+  }
+  
+  .table tr:nth-child(even) {
+    background: #f9f9f9 !important;
+  }
+  
+  /* Make sure tables don't break awkwardly */
+  .table tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Lists */
+  ul, ol {
+    margin-left: 1.5em !important;
+    page-break-inside: avoid !important;
+  }
+  
+  li {
+    page-break-inside: avoid !important;
+  }
+  
+  /* Forms (only show readonly/disabled inputs) */
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    border: 1px solid #ddd !important;
+    background: #f9f9f9 !important;
+    color: black !important;
+    padding: 0.2em !important;
+  }
+  
+  input:not([readonly]):not([disabled]),
+  select:not([readonly]):not([disabled]),
+  textarea:not([readonly]):not([disabled]) {
+    display: none !important;
+  }
+  
+  /* Charts & Graphs */
+  .chart-container {
+    border: 1px solid #ddd !important;
+    background: white !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Replace canvas with image for better print quality */
+  .chart-container canvas {
+    display: none !important;
+  }
+  
+  .chart-container .chart-print-image {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Badges & Status Indicators */
+  .badge {
+    background: #f5f5f5 !important;
+    color: black !important;
+    border: 1px solid #999 !important;
+    padding: 0.1em 0.4em !important;
+    border-radius: 2px !important;
+    font-size: 9pt !important;
+  }
+  
+  /* Progress Bars */
+  .progress {
+    border: 1px solid #ddd !important;
+    background: #f5f5f5 !important;
+    height: 20px !important;
+    margin: 0.5em 0 !important;
+  }
+  
+  .progress-bar {
+    background: #666 !important;
+    color: white !important;
+    text-align: center !important;
+    line-height: 20px !important;
+    font-size: 9pt !important;
+  }
+  
+  /* Page Breaks */
+  .page-break {
+    page-break-before: always !important;
+  }
+  
+  .page-break-after {
+    page-break-after: always !important;
+  }
+  
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .break-before {
+    page-break-before: always !important;
+  }
+  
+  .break-after {
+    page-break-after: always !important;
+  }
+  
+  /* Margins for printing */
+  @page {
+    margin: 1.5cm !important;
+    size: A4 !important;
+  }
+  
+  @page :first {
+    margin-top: 2cm !important;
+  }
+  
+  @page :left {
+    margin-right: 1.5cm !important;
+    margin-left: 2cm !important;
+  }
+  
+  @page :right {
+    margin-left: 1.5cm !important;
+    margin-right: 2cm !important;
+  }
+  
+  /* Header and Footer for printed pages */
+  .print-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: white !important;
+    border-bottom: 2px solid #000 !important;
+    padding: 0.5em !important;
+    text-align: center !important;
+  }
+  
+  .print-footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: white !important;
+    border-top: 1px solid #999 !important;
+    padding: 0.3em !important;
+    font-size: 9pt !important;
+    text-align: center !important;
+  }
+  
+  .print-footer .page-number:after {
+    content: "Page " counter(page);
+  }
+  
+  /* Watermark for draft documents */
+  .watermark {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(-45deg) !important;
+    font-size: 80pt !important;
+    color: rgba(0, 0, 0, 0.1) !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+  }
+  
+  /* Statement-specific styles */
+  .statement-header {
+    text-align: center !important;
+    margin-bottom: 2em !important;
+    border-bottom: 3px double #000 !important;
+    padding-bottom: 1em !important;
+  }
+  
+  .statement-logo {
+    max-width: 150px !important;
+    height: auto !important;
+    filter: grayscale(100%) !important;
+  }
+  
+  .statement-meta {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 1em !important;
+    font-size: 10pt !important;
+  }
+  
+  .statement-summary {
+    background: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    padding: 1em !important;
+    margin-bottom: 1em !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .statement-table {
+    font-size: 10pt !important;
+  }
+  
+  .statement-table th {
+    background: #e9e9e9 !important;
+  }
+  
+  .total-row {
+    background: #f0f0f0 !important;
+    font-weight: bold !important;
+  }
+  
+  /* Portfolio-specific styles */
+  .portfolio-summary {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1em !important;
+    margin-bottom: 2em !important;
+  }
+  
+  .portfolio-item {
+    border: 1px solid #ddd !important;
+    padding: 0.5em !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Transaction-specific styles */
+  .transaction-details {
+    border: 1px solid #ddd !important;
+    padding: 1em !important;
+    margin-bottom: 1em !important;
+  }
+  
+  .transaction-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 0.5em !important;
+    border-bottom: 1px dotted #ddd !important;
+    padding-bottom: 0.5em !important;
+  }
+  
+  /* Report-specific styles */
+  .report-cover {
+    page-break-before: always !important;
+    text-align: center !important;
+    padding-top: 5cm !important;
+  }
+  
+  .report-title {
+    font-size: 24pt !important;
+    margin-bottom: 1em !important;
+  }
+  
+  .report-subtitle {
+    font-size: 14pt !important;
+    color: #666 !important;
+    margin-bottom: 2em !important;
+  }
+  
+  .report-date {
+    font-size: 12pt !important;
+    margin-top: 3em !important;
+  }
+  
+  .report-toc {
+    page-break-before: always !important;
+  }
+  
+  .report-toc li {
+    margin-bottom: 0.3em !important;
+  }
+  
+  .report-toc a:after {
+    content: leader(".") target-counter(attr(href), page) !important;
+  }
+  
+  /* Tax-specific styles */
+  .tax-calculation {
+    border: 2px solid #000 !important;
+    padding: 1em !important;
+    margin: 1em 0 !important;
+  }
+  
+  .tax-table {
+    border: 1px solid #999 !important;
+  }
+  
+  .tax-table th {
+    background: #e0e0e0 !important;
+  }
+  
+  /* KYC Document styles */
+  .kyc-document {
+    border: 2px solid #000 !important;
+    padding: 2em !important;
+    margin: 2em auto !important;
+    max-width: 800px !important;
+  }
+  
+  .kyc-signature {
+    margin-top: 3em !important;
+    border-top: 1px solid #000 !important;
+    padding-top: 1em !important;
+  }
+  
+  /* QR Codes and Barcodes */
+  .qr-code,
+  .barcode {
+    filter: grayscale(100%) contrast(200%) !important;
+    max-width: 200px !important;
+    margin: 1em auto !important;
+  }
+  
+  /* Terms and Conditions */
+  .terms-conditions {
+    font-size: 9pt !important;
+    column-count: 2 !important;
+    column-gap: 2em !important;
+  }
+  
+  /* Disable background images and colors */
+  * {
+    background-image: none !important;
+    background-color: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
+  /* Ensure images print properly */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    filter: grayscale(100%) !important;
+  }
+  
+  .logo {
+    filter: grayscale(100%) brightness(0) !important;
+  }
+  
+  /* Fix for printing flexbox layouts */
+  .flex-print {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .flex-print-item {
+    flex: 1 1 auto !important;
+  }
+  
+  /* Grid layouts for print */
+  .grid-print {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1em !important;
+  }
+}
+
+/* ===== PRINT UTILITY CLASSES ===== */
+.print-visible {
+  display: none !important;
+}
+
+@media print {
+  .print-visible {
+    display: block !important;
+  }
+  
+  .print-visible-inline {
+    display: inline !important;
+  }
+  
+  .print-visible-flex {
+    display: flex !important;
+  }
+  
+  .print-visible-grid {
+    display: grid !important;
+  }
+  
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+/* ===== PRINT DENSITY OPTIONS ===== */
+/* For saving ink */
+@media print and (ink-savings: high) {
+  * {
+    color: black !important;
+    background: white !important;
+  }
+  
+  .table tr:nth-child(even) {
+    background: white !important;
+  }
+  
+  .badge {
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* ===== PRINT ORIENTATION ===== */
+/* Landscape printing for wide tables */
+@media print and (orientation: landscape) {
+  .table {
+    font-size: 9pt !important;
+  }
+  
+  .chart-container {
+    height: 15cm !important;
+  }
+}
+
+/* Portrait for regular documents */
+@media print and (orientation: portrait) {
+  .table {
+    font-size: 10pt !important;
+  }
+  
+  .chart-container {
+    height: 10cm !important;
+  }
+}
+
+/* ===== PRINT JAVASCRIPT ENHANCEMENTS ===== */
+/* Add this script to your main.js for print enhancements */
+/*
+function enhanceForPrint() {
+  // Add print headers and footers
+  if (window.matchMedia('print').matches) {
+    const header = document.createElement('div');
+    header.className = 'print-header';
+    header.innerHTML = `
+      <img src="logo.jpg" class="statement-logo" alt="Infinity Mutual Funds">
+      <h1>${document.title}</h1>
+      <div class="print-meta">
+        Printed on: ${new Date().toLocaleDateString()} | 
+        User: ${localStorage.getItem('username') || 'Guest'}
+      </div>
+    `;
+    
+    const footer = document.createElement('div');
+    footer.className = 'print-footer';
+    footer.innerHTML = `
+      <div class="page-info">
+        <span class="page-number"></span> | 
+        Infinity Mutual Funds (Arthvishva) | 
+        Confidential & Proprietary
+      </div>
+    `;
+    
+    document.body.insertBefore(header, document.body.firstChild);
+    document.body.appendChild(footer);
+    
+    // Convert charts to images for better print quality
+    document.querySelectorAll('canvas').forEach(canvas => {
+      const container = canvas.closest('.chart-container');
+      if (container) {
+        const img = document.createElement('img');
+        img.className = 'chart-print-image';
+        img.src = canvas.toDataURL('image/png');
+        img.alt = 'Chart';
+        container.appendChild(img);
+      }
+    });
+  }
+}
+
+// Call this before printing
+window.addEventListener('beforeprint', enhanceForPrint);
+*/
