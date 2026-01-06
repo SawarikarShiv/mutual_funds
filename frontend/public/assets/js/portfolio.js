@@ -1,7 +1,4 @@
-/**
- * Infinity Mutual Funds - Portfolio Management JavaScript
- */
-
+// Portfolio Management JavaScript
 class PortfolioManager {
     constructor() {
         this.portfolioData = [];
@@ -11,8 +8,6 @@ class PortfolioManager {
         this.pageSize = 10;
         this.selectedFunds = new Set();
         this.filters = {};
-        this.currentUser = null;
-        this.performanceChart = null;
         this.init();
     }
 
@@ -55,21 +50,7 @@ class PortfolioManager {
     }
 
     loadPortfolioData() {
-        // Try to load from localStorage first
-        const savedPortfolio = localStorage.getItem('infinity_portfolio');
-        if (savedPortfolio) {
-            this.portfolioData = JSON.parse(savedPortfolio);
-        } else {
-            // Load sample data
-            this.loadSampleData();
-            this.savePortfolioData();
-        }
-
-        this.filteredData = [...this.portfolioData];
-        this.calculatePortfolioSummary();
-    }
-
-    loadSampleData() {
+        // Sample portfolio data - In real app, this would come from API
         this.portfolioData = [
             {
                 id: 1,
@@ -88,11 +69,10 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F123456789",
                 purchaseDate: "2022-01-15",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 5000,
-                goal: "Retirement",
-                color: "#667eea"
+                goal: "Retirement"
             },
             {
                 id: 2,
@@ -111,11 +91,10 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F987654321",
                 purchaseDate: "2022-03-10",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 3000,
-                goal: "Wealth Creation",
-                color: "#10b981"
+                goal: "Wealth Creation"
             },
             {
                 id: 3,
@@ -134,10 +113,9 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F456789123",
                 purchaseDate: "2022-06-20",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: false,
-                goal: "Emergency Fund",
-                color: "#f59e0b"
+                goal: "Emergency Fund"
             },
             {
                 id: 4,
@@ -156,11 +134,10 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F789123456",
                 purchaseDate: "2023-01-05",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 2000,
-                goal: "High Growth",
-                color: "#ef4444"
+                goal: "High Growth"
             },
             {
                 id: 5,
@@ -179,10 +156,9 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F321654987",
                 purchaseDate: "2022-12-01",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: false,
-                goal: "Liquidity",
-                color: "#8b5cf6"
+                goal: "Liquidity"
             },
             {
                 id: 6,
@@ -201,11 +177,10 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F654987321",
                 purchaseDate: "2022-08-15",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 4000,
-                goal: "Children Education",
-                color: "#ec4899"
+                goal: "Children Education"
             },
             {
                 id: 7,
@@ -224,11 +199,10 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F147258369",
                 purchaseDate: "2023-01-20",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 1500,
-                goal: "Tax Saving",
-                color: "#0ea5e9"
+                goal: "Tax Saving"
             },
             {
                 id: 8,
@@ -247,17 +221,15 @@ class PortfolioManager {
                 status: "active",
                 folioNumber: "F258369147",
                 purchaseDate: "2022-09-10",
-                lastUpdated: new Date().toISOString().split('T')[0],
+                lastUpdated: "2024-01-15",
                 sip: true,
                 sipAmount: 2500,
-                goal: "Index Investing",
-                color: "#84cc16"
+                goal: "Index Investing"
             }
         ];
-    }
 
-    savePortfolioData() {
-        localStorage.setItem('infinity_portfolio', JSON.stringify(this.portfolioData));
+        this.filteredData = [...this.portfolioData];
+        this.calculatePortfolioSummary();
     }
 
     initializeComponents() {
@@ -268,9 +240,9 @@ class PortfolioManager {
 
     initializeCharts() {
         // Performance Chart
-        const ctx = document.getElementById('performanceChart');
+        const ctx = document.getElementById('performanceChart')?.getContext('2d');
         if (ctx) {
-            this.performanceChart = new Chart(ctx.getContext('2d'), {
+            this.performanceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -281,12 +253,7 @@ class PortfolioManager {
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         borderWidth: 2,
                         fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#667eea',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
+                        tension: 0.4
                     }]
                 },
                 options: {
@@ -295,20 +262,10 @@ class PortfolioManager {
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#cbd5e1',
-                                font: {
-                                    size: 12
-                                }
+                                color: '#cbd5e1'
                             }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(30, 41, 59, 0.95)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#cbd5e1',
-                            borderColor: 'rgba(255, 255, 255, 0.2)',
-                            borderWidth: 1,
-                            padding: 12,
-                            cornerRadius: 8,
                             callbacks: {
                                 label: (context) => {
                                     return `Portfolio Value: ₹${context.raw.toLocaleString('en-IN')}`;
@@ -319,37 +276,21 @@ class PortfolioManager {
                     scales: {
                         x: {
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.1)',
-                                drawBorder: false
+                                color: 'rgba(255, 255, 255, 0.1)'
                             },
                             ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11
-                                }
+                                color: '#94a3b8'
                             }
                         },
                         y: {
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.1)',
-                                drawBorder: false
+                                color: 'rgba(255, 255, 255, 0.1)'
                             },
                             ticks: {
                                 color: '#94a3b8',
-                                font: {
-                                    size: 11
-                                },
                                 callback: (value) => `₹${(value/100000).toFixed(1)}L`
                             }
                         }
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    animation: {
-                        duration: 750,
-                        easing: 'easeOutQuart'
                     }
                 }
             });
@@ -391,12 +332,9 @@ class PortfolioManager {
         });
 
         // Close modal
-        const closeBtn = modal.querySelector('.modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('show');
-            });
-        }
+        modal.querySelector('.modal-close')?.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
 
         // Close on outside click
         modal.addEventListener('click', (e) => {
@@ -404,217 +342,15 @@ class PortfolioManager {
                 modal.classList.remove('show');
             }
         });
-
-        // Initialize search tab content
-        this.initializeFundSearch();
-    }
-
-    initializeFundSearch() {
-        const searchTab = document.getElementById('tabSearch');
-        if (!searchTab) return;
-
-        searchTab.innerHTML = `
-            <div class="form-group">
-                <label for="fundSearchInput">Search Mutual Fund</label>
-                <div style="position: relative;">
-                    <input type="text" id="fundSearchInput" placeholder="Type to search 2000+ funds..." autocomplete="off">
-                    <div id="fundSearchResults" class="search-results"></div>
-                </div>
-            </div>
-            
-            <div id="fundDetails" style="display: none;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="investmentAmount">Investment Amount (₹)</label>
-                        <input type="number" id="investmentAmount" placeholder="e.g., 10000" required min="100">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="investmentDate">Investment Date</label>
-                        <input type="date" id="investmentDate" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="units">Units</label>
-                        <input type="number" id="units" placeholder="e.g., 100.50" step="0.01">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="nav">NAV at Purchase</label>
-                        <input type="number" id="nav" placeholder="e.g., 52.75" step="0.01">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="investmentType">Investment Type</label>
-                        <select id="investmentType" required>
-                            <option value="">Select type</option>
-                            <option value="lumpsum">Lumpsum</option>
-                            <option value="sip">SIP (Monthly)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" id="sipDetails" style="display: none;">
-                        <label for="sipAmount">SIP Amount (₹)</label>
-                        <input type="number" id="sipAmount" placeholder="e.g., 5000" min="500">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="folioNumber">Folio Number (Optional)</label>
-                    <input type="text" id="folioNumber" placeholder="e.g., F123456789">
-                </div>
-                
-                <div class="form-group">
-                    <label for="investmentGoal">Investment Goal</label>
-                    <select id="investmentGoal">
-                        <option value="">Select Goal</option>
-                        <option value="Retirement">Retirement</option>
-                        <option value="Wealth Creation">Wealth Creation</option>
-                        <option value="Children Education">Children Education</option>
-                        <option value="House Purchase">House Purchase</option>
-                        <option value="Tax Saving">Tax Saving</option>
-                        <option value="Emergency Fund">Emergency Fund</option>
-                    </select>
-                </div>
-                
-                <div class="modal-form-actions">
-                    <button type="button" class="btn btn-glass" id="cancelAddFund">Cancel</button>
-                    <button type="submit" class="btn btn-primary-gradient" id="submitAddFund">Add Investment</button>
-                </div>
-            </div>
-        `;
-
-        // Set today's date as default
-        const today = new Date().toISOString().split('T')[0];
-        const dateInput = searchTab.querySelector('#investmentDate');
-        if (dateInput) dateInput.value = today;
-
-        // Fund search functionality
-        const fundSearchInput = searchTab.querySelector('#fundSearchInput');
-        const fundSearchResults = searchTab.querySelector('#fundSearchResults');
-        const fundDetails = searchTab.querySelector('#fundDetails');
-
-        if (fundSearchInput && fundSearchResults) {
-            fundSearchInput.addEventListener('input', (e) => {
-                this.handleFundSearch(e.target.value, fundSearchResults, fundDetails);
-            });
-
-            // Hide results when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!fundSearchResults.contains(e.target) && e.target !== fundSearchInput) {
-                    fundSearchResults.style.display = 'none';
-                }
-            });
-        }
-
-        // Show/hide SIP details
-        const investmentType = searchTab.querySelector('#investmentType');
-        const sipDetails = searchTab.querySelector('#sipDetails');
-        
-        if (investmentType && sipDetails) {
-            investmentType.addEventListener('change', () => {
-                sipDetails.style.display = investmentType.value === 'sip' ? 'block' : 'none';
-            });
-        }
-
-        // Cancel button
-        const cancelBtn = searchTab.querySelector('#cancelAddFund');
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                document.getElementById('addFundModal').classList.remove('show');
-            });
-        }
-
-        // Submit button
-        const submitBtn = searchTab.querySelector('#submitAddFund');
-        if (submitBtn) {
-            submitBtn.addEventListener('click', () => {
-                this.addNewInvestment();
-            });
-        }
-    }
-
-    handleFundSearch(query, resultsContainer, detailsContainer) {
-        if (!query || query.length < 2) {
-            resultsContainer.style.display = 'none';
-            return;
-        }
-
-        // Sample fund database
-        const fundDatabase = [
-            { id: 101, name: "SBI Bluechip Fund - Direct Growth", amc: "SBI Mutual Fund", category: "Equity", subCategory: "Large Cap", risk: "High" },
-            { id: 102, name: "HDFC Balanced Advantage Fund - Direct Growth", amc: "HDFC Mutual Fund", category: "Hybrid", subCategory: "Balanced Advantage", risk: "Medium" },
-            { id: 103, name: "ICICI Prudential Bluechip Fund - Direct Growth", amc: "ICICI Prudential", category: "Equity", subCategory: "Large Cap", risk: "High" },
-            { id: 104, name: "Axis Bluechip Fund - Direct Growth", amc: "Axis Mutual Fund", category: "Equity", subCategory: "Large Cap", risk: "High" },
-            { id: 105, name: "Kotak Standard Multicap Fund - Direct Growth", amc: "Kotak Mahindra", category: "Equity", subCategory: "Multi Cap", risk: "High" },
-            { id: 106, name: "Nippon India Small Cap Fund - Direct Growth", amc: "Nippon India", category: "Equity", subCategory: "Small Cap", risk: "Very High" },
-            { id: 107, name: "Aditya Birla Sun Life Liquid Fund - Direct Growth", amc: "Aditya Birla", category: "Money Market", subCategory: "Liquid", risk: "Low" },
-            { id: 108, name: "UTI Nifty Index Fund - Direct Growth", amc: "UTI Mutual Fund", category: "Equity", subCategory: "Index", risk: "Medium" },
-            { id: 109, name: "Mirae Asset Emerging Bluechip Fund - Direct Growth", amc: "Mirae Asset", category: "Equity", subCategory: "Large & Mid Cap", risk: "High" },
-            { id: 110, name: "DSP Tax Saver Fund - Direct Growth", amc: "DSP Mutual Fund", category: "Equity", subCategory: "ELSS", risk: "High" }
-        ];
-
-        // Filter funds based on query
-        const filteredFunds = fundDatabase.filter(fund =>
-            fund.name.toLowerCase().includes(query.toLowerCase()) ||
-            fund.amc.toLowerCase().includes(query.toLowerCase()) ||
-            fund.subCategory.toLowerCase().includes(query.toLowerCase())
-        );
-
-        if (filteredFunds.length === 0) {
-            resultsContainer.innerHTML = '<div class="search-result-item">No funds found</div>';
-            resultsContainer.style.display = 'block';
-            return;
-        }
-
-        // Display results
-        resultsContainer.innerHTML = filteredFunds.map(fund => `
-            <div class="search-result-item" data-fund='${JSON.stringify(fund)}'>
-                <div class="fund-name">${fund.name}</div>
-                <div class="fund-details">
-                    ${fund.amc} • ${fund.subCategory} • ${fund.risk} Risk
-                </div>
-            </div>
-        `).join('');
-
-        resultsContainer.style.display = 'block';
-
-        // Add click handlers
-        resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const fund = JSON.parse(item.getAttribute('data-fund'));
-                this.selectFundForAddition(fund, resultsContainer, detailsContainer);
-            });
-        });
-    }
-
-    selectFundForAddition(fund, resultsContainer, detailsContainer) {
-        const searchInput = document.getElementById('fundSearchInput');
-        if (searchInput) searchInput.value = fund.name;
-        
-        resultsContainer.style.display = 'none';
-        
-        if (detailsContainer) {
-            detailsContainer.style.display = 'block';
-            // Store selected fund data
-            detailsContainer.setAttribute('data-selected-fund', JSON.stringify(fund));
-        }
     }
 
     initializeEditFundModal() {
         const modal = document.getElementById('editFundModal');
         if (!modal) return;
 
-        const closeBtn = modal.querySelector('.modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('show');
-            });
-        }
+        modal.querySelector('.modal-close')?.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -630,7 +366,7 @@ class PortfolioManager {
         filterSelects.forEach(selectId => {
             const select = document.getElementById(selectId);
             if (select) {
-                select.addEventListener('change', () => {
+                select.addEventListener('change', (e) => {
                     this.applyFilters();
                 });
             }
@@ -639,7 +375,7 @@ class PortfolioManager {
         // Search input
         const searchInput = document.getElementById('searchFunds');
         if (searchInput) {
-            searchInput.addEventListener('input', () => {
+            searchInput.addEventListener('input', (e) => {
                 this.applyFilters();
             });
         }
@@ -674,7 +410,7 @@ class PortfolioManager {
         // Logout
         const logoutBtns = document.querySelectorAll('#logoutBtn, #logoutDropdownBtn');
         logoutBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn?.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.logout();
             });
@@ -733,20 +469,22 @@ class PortfolioManager {
                 }
             });
         }
+    }
 
-        // Add first investment button
-        const addFirstBtn = document.getElementById('addFirstInvestment');
-        if (addFirstBtn) {
-            addFirstBtn.addEventListener('click', () => {
-                this.showAddFundModal();
-            });
-        }
-
+    bindPortfolioActions() {
         // View all performance
         const viewAllBtn = document.getElementById('viewAllPerformance');
         if (viewAllBtn) {
             viewAllBtn.addEventListener('click', () => {
                 this.showAllPerformance();
+            });
+        }
+
+        // Add first investment
+        const addFirstBtn = document.getElementById('addFirstInvestment');
+        if (addFirstBtn) {
+            addFirstBtn.addEventListener('click', () => {
+                this.showAddFundModal();
             });
         }
 
@@ -757,10 +495,6 @@ class PortfolioManager {
                 this.loadInsights();
             });
         }
-    }
-
-    bindPortfolioActions() {
-        // Additional portfolio actions can be added here
     }
 
     bindChartControls() {
@@ -838,37 +572,45 @@ class PortfolioManager {
         const totalReturnsPercent = totalInvestment > 0 ? (totalReturns / totalInvestment * 100) : 0;
 
         // Update UI
-        const updateElement = (id, value) => {
-            const elem = document.getElementById(id);
-            if (elem) elem.textContent = value;
-        };
+        const totalValueElem = document.getElementById('totalPortfolioValue');
+        const totalReturnsElem = document.getElementById('totalReturnsValue');
+        const equityAllocationElem = document.getElementById('equityAllocation');
+        const totalHoldingsElem = document.getElementById('totalHoldings');
+        const totalInvestmentElem = document.getElementById('totalInvestment');
+        const currentValueElem = document.getElementById('currentValue');
 
-        updateElement('totalPortfolioValue', `₹${this.formatNumber(totalValue, 0)}`);
-        updateElement('totalReturnsValue', `₹${this.formatNumber(totalReturns, 0)}`);
-        
-        // Calculate equity allocation
-        const equityValue = this.portfolioData
-            .filter(f => f.category === 'Equity')
-            .reduce((sum, f) => sum + f.currentValue, 0);
-        const equityPercent = totalValue > 0 ? (equityValue / totalValue * 100) : 0;
-        updateElement('equityAllocation', `${equityPercent.toFixed(1)}%`);
-        
-        updateElement('totalHoldings', `${this.portfolioData.length} funds`);
-        updateElement('totalInvestment', `Total Investment: ₹${this.formatNumber(totalInvestment, 0)}`);
-        updateElement('currentValue', `Current Value: ₹${this.formatNumber(totalValue, 0)}`);
+        if (totalValueElem) {
+            totalValueElem.textContent = `₹${totalValue.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+        }
+
+        if (totalReturnsElem) {
+            totalReturnsElem.textContent = `₹${totalReturns.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+        }
+
+        if (equityAllocationElem) {
+            const equityValue = this.portfolioData
+                .filter(f => f.category === 'Equity')
+                .reduce((sum, f) => sum + f.currentValue, 0);
+            const equityPercent = totalValue > 0 ? (equityValue / totalValue * 100) : 0;
+            equityAllocationElem.textContent = `${equityPercent.toFixed(1)}%`;
+        }
+
+        if (totalHoldingsElem) {
+            totalHoldingsElem.textContent = `${this.portfolioData.length} funds`;
+        }
+
+        if (totalInvestmentElem) {
+            totalInvestmentElem.textContent = `Total Investment: ₹${totalInvestment.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+        }
+
+        if (currentValueElem) {
+            currentValueElem.textContent = `Current Value: ₹${totalValue.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+        }
 
         // Update portfolio count in sidebar
-        updateElement('portfolioCount', this.portfolioData.length);
-
-        // Update total returns change indicator
-        const returnsChange = document.querySelector('.summary-change.positive');
-        if (returnsChange) {
-            const changeElem = returnsChange.querySelector('span');
-            if (changeElem) {
-                changeElem.textContent = totalReturnsPercent >= 0 ? 
-                    `+${totalReturnsPercent.toFixed(1)}%` : 
-                    `${totalReturnsPercent.toFixed(1)}%`;
-            }
+        const portfolioCountElem = document.getElementById('portfolioCount');
+        if (portfolioCountElem) {
+            portfolioCountElem.textContent = this.portfolioData.length;
         }
     }
 
@@ -876,7 +618,7 @@ class PortfolioManager {
         const topPerformersList = document.getElementById('topPerformersList');
         if (!topPerformersList) return;
 
-        // Sort by returns (descending) and take top 3
+        // Sort by returns (descending)
         const topPerformers = [...this.portfolioData]
             .sort((a, b) => b.returns - a.returns)
             .slice(0, 3);
@@ -884,10 +626,10 @@ class PortfolioManager {
         topPerformersList.innerHTML = topPerformers.map(fund => `
             <div class="detail-item">
                 <span class="detail-label">
-                    ${this.truncateText(fund.name.split(' - ')[0], 20)}
+                    ${fund.name.split(' - ')[0]}
                     <span class="fund-type">${fund.subCategory}</span>
                 </span>
-                <span class="detail-value ${fund.returns >= 0 ? 'positive' : 'negative'}">
+                <span class="detail-value ${fund.returnsType}">
                     ${fund.returns >= 0 ? '+' : ''}${fund.returns.toFixed(2)}%
                 </span>
             </div>
@@ -906,7 +648,6 @@ class PortfolioManager {
         if (loadingState) loadingState.style.display = 'block';
         if (tableBody) tableBody.innerHTML = '';
 
-        // Simulate loading delay
         setTimeout(() => {
             // Hide loading state
             if (loadingState) loadingState.style.display = 'none';
@@ -933,14 +674,16 @@ class PortfolioManager {
             // Update pagination
             this.updatePagination(totalPages);
 
-            // Add event listeners
-            this.addRowEventListeners();
+            // Add event listeners to checkboxes
+            this.addCheckboxListeners();
+
+            // Add event listeners to action buttons
+            this.addActionButtonListeners();
         }, 500);
     }
 
     getFundRowHTML(fund) {
         const isSelected = this.selectedFunds.has(fund.id);
-        const fundColor = fund.color || this.getFundColor(fund.amc);
         
         return `
             <tr data-id="${fund.id}" class="${isSelected ? 'selected' : ''}">
@@ -949,7 +692,7 @@ class PortfolioManager {
                 </td>
                 <td>
                     <div class="fund-info">
-                        <div class="fund-logo" style="background: ${fundColor}">
+                        <div class="fund-logo" style="background: ${this.getFundColor(fund.amc)}">
                             ${fund.amc.substring(0, 2)}
                         </div>
                         <div class="fund-details">
@@ -969,9 +712,9 @@ class PortfolioManager {
                 </td>
                 <td>${fund.units.toFixed(2)}</td>
                 <td>₹${fund.avgCost.toFixed(2)}</td>
-                <td>₹${this.formatNumber(fund.currentValue, 2)}</td>
+                <td>₹${fund.currentValue.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                 <td>
-                    <span class="performance-indicator ${fund.returns >= 0 ? 'performance-positive' : 'performance-negative'}">
+                    <span class="performance-indicator ${fund.returnsType}">
                         <i class="fas fa-${fund.returns >= 0 ? 'arrow-up' : 'arrow-down'}"></i>
                         ${fund.returns >= 0 ? '+' : ''}${fund.returns.toFixed(2)}%
                     </span>
@@ -999,31 +742,33 @@ class PortfolioManager {
     }
 
     getFundColor(amc) {
-        const colorMap = {
-            'SBI': '#667eea',
-            'HDFC': '#10b981',
-            'ICICI': '#f59e0b',
-            'Axis': '#ef4444',
-            'Kotak': '#8b5cf6',
-            'Nippon': '#ec4899',
-            'Aditya Birla': '#0ea5e9',
-            'UTI': '#84cc16',
-            'Mirae': '#f97316',
-            'DSP': '#06b6d4'
+        const colors = {
+            'SBI': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'HDFC': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            'ICICI': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            'Axis': 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+            'Kotak': 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+            'Nippon': 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+            'Aditya Birla': 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)',
+            'UTI': 'linear-gradient(135deg, #84cc16 0%, #65a30d 100%)'
         };
 
-        for (const [key, color] of Object.entries(colorMap)) {
+        for (const [key, value] of Object.entries(colors)) {
             if (amc.includes(key)) {
-                return color;
+                return value;
             }
         }
 
-        // Default color
-        return '#667eea';
+        // Default gradient
+        return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
 
-    addRowEventListeners() {
-        // Checkbox listeners
+    truncateText(text, maxLength) {
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength) + '...';
+    }
+
+    addCheckboxListeners() {
         const checkboxes = document.querySelectorAll('.fund-select:not(#selectAll)');
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
@@ -1035,16 +780,12 @@ class PortfolioManager {
                 }
                 this.updateBatchActions();
                 this.updateSelectAllCheckbox();
-                
-                // Update row selection style
-                const row = checkbox.closest('tr');
-                if (row) {
-                    row.classList.toggle('selected', checkbox.checked);
-                }
             });
         });
+    }
 
-        // Action button listeners
+    addActionButtonListeners() {
+        // Edit buttons
         document.querySelectorAll('.action-btn.edit').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const fundId = parseInt(btn.getAttribute('data-id'));
@@ -1052,6 +793,7 @@ class PortfolioManager {
             });
         });
 
+        // Chart buttons
         document.querySelectorAll('.action-btn.chart').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const fundId = parseInt(btn.getAttribute('data-id'));
@@ -1059,6 +801,7 @@ class PortfolioManager {
             });
         });
 
+        // Delete buttons
         document.querySelectorAll('.action-btn.delete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const fundId = parseInt(btn.getAttribute('data-id'));
@@ -1122,6 +865,46 @@ class PortfolioManager {
         } else {
             batchActions.classList.remove('show');
         }
+    }
+
+    renderActiveFilters() {
+        const activeFiltersContainer = document.getElementById('activeFilters');
+        if (!activeFiltersContainer) return;
+
+        activeFiltersContainer.innerHTML = '';
+
+        // Add filter tags for active filters
+        Object.entries(this.filters).forEach(([key, value]) => {
+            if (value) {
+                const filterTag = document.createElement('div');
+                filterTag.className = 'filter-tag active';
+                filterTag.innerHTML = `
+                    ${this.getFilterLabel(key)}: ${value}
+                    <span class="remove" data-filter="${key}">&times;</span>
+                `;
+                activeFiltersContainer.appendChild(filterTag);
+            }
+        });
+
+        // Add remove event listeners
+        activeFiltersContainer.querySelectorAll('.remove').forEach(removeBtn => {
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const filterKey = removeBtn.getAttribute('data-filter');
+                this.removeFilter(filterKey);
+            });
+        });
+    }
+
+    getFilterLabel(filterKey) {
+        const labels = {
+            'category': 'Category',
+            'risk': 'Risk',
+            'returns': 'Returns',
+            'amc': 'Fund House',
+            'search': 'Search'
+        };
+        return labels[filterKey] || filterKey;
     }
 
     applyFilters() {
@@ -1196,7 +979,7 @@ class PortfolioManager {
 
             // Search filter
             if (searchFilter) {
-                const searchableText = `${fund.name} ${fund.amc} ${fund.category} ${fund.subCategory} ${fund.folioNumber}`.toLowerCase();
+                const searchableText = `${fund.name} ${fund.amc} ${fund.category} ${fund.subCategory}`.toLowerCase();
                 if (!searchableText.includes(searchFilter)) {
                     return false;
                 }
@@ -1211,81 +994,6 @@ class PortfolioManager {
         // Render updated table
         this.renderPortfolioTable();
         this.renderActiveFilters();
-    }
-
-    renderActiveFilters() {
-        const activeFiltersContainer = document.getElementById('activeFilters');
-        if (!activeFiltersContainer) return;
-
-        activeFiltersContainer.innerHTML = '';
-
-        // Add filter tags for active filters
-        Object.entries(this.filters).forEach(([key, value]) => {
-            if (value) {
-                const filterTag = document.createElement('div');
-                filterTag.className = 'filter-tag active';
-                filterTag.innerHTML = `
-                    ${this.getFilterLabel(key)}: ${this.getFilterValueLabel(key, value)}
-                    <span class="remove" data-filter="${key}">&times;</span>
-                `;
-                activeFiltersContainer.appendChild(filterTag);
-            }
-        });
-
-        // Add remove event listeners
-        activeFiltersContainer.querySelectorAll('.remove').forEach(removeBtn => {
-            removeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const filterKey = removeBtn.getAttribute('data-filter');
-                this.removeFilter(filterKey);
-            });
-        });
-    }
-
-    getFilterLabel(filterKey) {
-        const labels = {
-            'category': 'Category',
-            'risk': 'Risk',
-            'returns': 'Returns',
-            'amc': 'Fund House',
-            'search': 'Search'
-        };
-        return labels[filterKey] || filterKey;
-    }
-
-    getFilterValueLabel(filterKey, value) {
-        if (filterKey === 'category') {
-            return value.charAt(0).toUpperCase() + value.slice(1);
-        }
-        if (filterKey === 'risk') {
-            const riskLabels = {
-                'low': 'Low Risk',
-                'medium': 'Medium Risk',
-                'high': 'High Risk',
-                'very_high': 'Very High Risk'
-            };
-            return riskLabels[value] || value;
-        }
-        if (filterKey === 'returns') {
-            const returnLabels = {
-                'positive': 'Positive',
-                'negative': 'Negative',
-                'high_performers': 'High Performers',
-                'underperformers': 'Underperformers'
-            };
-            return returnLabels[value] || value;
-        }
-        if (filterKey === 'amc') {
-            const amcLabels = {
-                'sbi': 'SBI',
-                'hdfc': 'HDFC',
-                'icici': 'ICICI',
-                'axis': 'Axis',
-                'kotak': 'Kotak'
-            };
-            return amcLabels[value] || value;
-        }
-        return value;
     }
 
     removeFilter(filterKey) {
@@ -1401,8 +1109,7 @@ class PortfolioManager {
     batchEdit() {
         if (this.selectedFunds.size === 0) return;
         
-        this.showNotification(`Opening bulk edit for ${this.selectedFunds.size} selected funds`, 'info');
-        // In a real app, this would open a bulk edit modal
+        alert(`Editing ${this.selectedFunds.size} selected funds. In a real app, this would open a bulk edit form.`);
     }
 
     batchDelete() {
@@ -1414,9 +1121,6 @@ class PortfolioManager {
             
             // Clear selection
             this.selectedFunds.clear();
-            
-            // Save to localStorage
-            this.savePortfolioData();
             
             // Update UI
             this.applyFilters();
@@ -1445,75 +1149,6 @@ class PortfolioManager {
         }
     }
 
-    addNewInvestment() {
-        const fundDetails = document.getElementById('fundDetails');
-        if (!fundDetails) return;
-
-        const selectedFundData = fundDetails.getAttribute('data-selected-fund');
-        if (!selectedFundData) {
-            this.showNotification('Please select a fund first', 'error');
-            return;
-        }
-
-        const fund = JSON.parse(selectedFundData);
-        
-        // Get form values
-        const amount = parseFloat(document.getElementById('investmentAmount').value) || 0;
-        const date = document.getElementById('investmentDate').value;
-        const units = parseFloat(document.getElementById('units').value) || 0;
-        const nav = parseFloat(document.getElementById('nav').value) || 0;
-        const investmentType = document.getElementById('investmentType').value;
-        const sipAmount = parseFloat(document.getElementById('sipAmount').value) || 0;
-        const folioNumber = document.getElementById('folioNumber').value;
-        const goal = document.getElementById('investmentGoal').value;
-
-        // Validate required fields
-        if (!amount || !date || !investmentType) {
-            this.showNotification('Please fill all required fields', 'error');
-            return;
-        }
-
-        // Calculate units if not provided
-        const calculatedUnits = units || (amount / (nav || 10)).toFixed(2);
-        const calculatedNav = nav || (amount / calculatedUnits).toFixed(2);
-
-        // Create new fund object
-        const newFund = {
-            id: Date.now(), // Unique ID
-            name: fund.name,
-            amc: fund.amc,
-            category: fund.category,
-            subCategory: fund.subCategory,
-            risk: fund.risk,
-            units: parseFloat(calculatedUnits),
-            avgCost: parseFloat(calculatedNav),
-            currentNav: parseFloat(calculatedNav),
-            investment: amount,
-            currentValue: amount, // Initially same as investment
-            returns: 0,
-            returnsType: "neutral",
-            status: "active",
-            folioNumber: folioNumber || `F${Math.floor(Math.random() * 1000000000)}`,
-            purchaseDate: date,
-            lastUpdated: new Date().toISOString().split('T')[0],
-            sip: investmentType === 'sip',
-            sipAmount: investmentType === 'sip' ? sipAmount : 0,
-            goal: goal,
-            color: this.getFundColor(fund.amc)
-        };
-
-        // Add to portfolio
-        this.portfolioData.push(newFund);
-        this.savePortfolioData();
-
-        // Close modal
-        document.getElementById('addFundModal').classList.remove('show');
-
-        // Update UI
-        this.applyFilters();
-        this.showNotification('Investment added successfully', 'success');
-    }
-
     editFund(fundId) {
         const fund = this.portfolioData.find(f => f.id === fundId);
         if (!fund) return;
@@ -1539,18 +1174,18 @@ class PortfolioManager {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="editUnits">Units</label>
-                        <input type="number" id="editUnits" value="${fund.units}" step="0.01" required min="0">
+                        <input type="number" id="editUnits" value="${fund.units}" step="0.01" required>
                     </div>
                     <div class="form-group">
                         <label for="editAvgCost">Average Cost (₹)</label>
-                        <input type="number" id="editAvgCost" value="${fund.avgCost}" step="0.01" required min="0">
+                        <input type="number" id="editAvgCost" value="${fund.avgCost}" step="0.01" required>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="editCurrentNav">Current NAV (₹)</label>
-                        <input type="number" id="editCurrentNav" value="${fund.currentNav}" step="0.01" required min="0">
+                        <input type="number" id="editCurrentNav" value="${fund.currentNav}" step="0.01" required>
                     </div>
                     <div class="form-group">
                         <label for="editPurchaseDate">Purchase Date</label>
@@ -1568,7 +1203,7 @@ class PortfolioManager {
                     </div>
                     <div class="form-group" id="sipAmountGroup" style="${!fund.sip ? 'display: none;' : ''}">
                         <label for="editSIPAmount">SIP Amount (₹)</label>
-                        <input type="number" id="editSIPAmount" value="${fund.sipAmount || ''}" step="1" min="0">
+                        <input type="number" id="editSIPAmount" value="${fund.sipAmount || ''}" step="1">
                     </div>
                 </div>
                 
@@ -1586,8 +1221,12 @@ class PortfolioManager {
                 </div>
                 
                 <div class="modal-form-actions">
-                    <button type="button" class="btn btn-glass" id="cancelEditFund">Cancel</button>
-                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
+                    <button type="button" class="btn btn-glass" onclick="document.getElementById('editFundModal').classList.remove('show')">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary-gradient">
+                        Save Changes
+                    </button>
                 </div>
             </form>
         `;
@@ -1596,29 +1235,17 @@ class PortfolioManager {
         const sipSelect = modal.querySelector('#editSIP');
         const sipAmountGroup = modal.querySelector('#sipAmountGroup');
         
-        if (sipSelect && sipAmountGroup) {
-            sipSelect.addEventListener('change', () => {
-                sipAmountGroup.style.display = sipSelect.value === 'true' ? 'block' : 'none';
-            });
-        }
-
-        // Cancel button
-        const cancelBtn = modal.querySelector('#cancelEditFund');
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                modal.classList.remove('show');
-            });
-        }
+        sipSelect.addEventListener('change', () => {
+            sipAmountGroup.style.display = sipSelect.value === 'true' ? 'block' : 'none';
+        });
 
         // Form submission
         const form = modal.querySelector('#editFundForm');
-        if (form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.updateFund(fundId, new FormData(form));
-                modal.classList.remove('show');
-            });
-        }
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.updateFund(fundId, new FormData(form));
+            modal.classList.remove('show');
+        });
 
         modal.classList.add('show');
     }
@@ -1644,9 +1271,6 @@ class PortfolioManager {
         fund.returns = ((fund.currentValue - fund.investment) / fund.investment) * 100;
         fund.returnsType = fund.returns >= 0 ? 'positive' : 'negative';
 
-        // Save to localStorage
-        this.savePortfolioData();
-
         // Update UI
         this.applyFilters();
         this.showNotification('Fund updated successfully', 'success');
@@ -1656,11 +1280,6 @@ class PortfolioManager {
         if (confirm('Are you sure you want to delete this fund from your portfolio?')) {
             this.portfolioData = this.portfolioData.filter(f => f.id !== fundId);
             this.selectedFunds.delete(fundId);
-            
-            // Save to localStorage
-            this.savePortfolioData();
-            
-            // Update UI
             this.applyFilters();
             this.showNotification('Fund deleted successfully', 'success');
         }
@@ -1670,13 +1289,11 @@ class PortfolioManager {
         const fund = this.portfolioData.find(f => f.id === fundId);
         if (!fund) return;
 
-        this.showNotification(`Showing performance chart for ${fund.name}`, 'info');
-        // In a real app, this would open a detailed chart modal
+        alert(`Showing performance chart for ${fund.name}. In a real app, this would open a detailed chart view.`);
     }
 
     importPortfolio() {
-        this.showNotification('Import portfolio feature coming soon!', 'info');
-        // In a real app, this would open an import modal
+        alert('Import portfolio feature would open here. You can:\n1. Upload CAS file\n2. Import from email\n3. Connect with CAMS/KFintech\n4. Manual entry');
     }
 
     exportPortfolio() {
@@ -1686,9 +1303,9 @@ class PortfolioManager {
 
     exportToCSV(data, filename) {
         // Convert data to CSV
-        const headers = ['Name', 'AMC', 'Category', 'Sub Category', 'Units', 'Avg Cost', 'Current NAV', 'Investment', 'Current Value', 'Returns %', 'Risk', 'SIP', 'Goal', 'Purchase Date'];
+        const headers = ['Name', 'AMC', 'Category', 'Sub Category', 'Units', 'Avg Cost', 'Current NAV', 'Investment', 'Current Value', 'Returns %', 'Risk', 'SIP', 'Goal'];
         const csvData = data.map(fund => [
-            `"${fund.name}"`,
+            fund.name,
             fund.amc,
             fund.category,
             fund.subCategory,
@@ -1700,8 +1317,7 @@ class PortfolioManager {
             fund.returns,
             fund.risk,
             fund.sip ? 'Yes' : 'No',
-            fund.goal || '-',
-            fund.purchaseDate
+            fund.goal || '-'
         ]);
 
         const csvContent = [
@@ -1710,12 +1326,11 @@ class PortfolioManager {
         ].join('\n');
 
         // Create download link
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([csvContent], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
         link.download = filename;
-        link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1770,9 +1385,6 @@ class PortfolioManager {
         const topPerformer = [...this.portfolioData].sort((a, b) => b.returns - a.returns)[0];
         const worstPerformer = [...this.portfolioData].sort((a, b) => a.returns - b.returns)[0];
 
-        const uniqueCategories = new Set(this.portfolioData.map(f => f.category)).size;
-        const uniqueAMCs = new Set(this.portfolioData.map(f => f.amc)).size;
-
         insightsGrid.innerHTML = `
             <div class="summary-card">
                 <div class="summary-header">
@@ -1784,17 +1396,19 @@ class PortfolioManager {
                 <div class="summary-value">${equityPercent.toFixed(1)}% Equity</div>
                 <div class="summary-details">
                     <div class="detail-item">
-                        <span class="detail-label">Equity</span>
+                        <span class="detail-label">Recommended</span>
+                        <span class="detail-value">60-70%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Your Allocation</span>
                         <span class="detail-value">${equityPercent.toFixed(1)}%</span>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Debt</span>
-                        <span class="detail-value">${debtPercent.toFixed(1)}%</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Other</span>
-                        <span class="detail-value">${(100 - equityPercent - debtPercent).toFixed(1)}%</span>
-                    </div>
+                    ${equityPercent > 70 ? `
+                        <div class="detail-item">
+                            <span class="detail-label" style="color: #ef4444;">Suggestion</span>
+                            <span class="detail-value" style="color: #ef4444;">Consider reducing equity exposure</span>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
             
@@ -1805,7 +1419,7 @@ class PortfolioManager {
                         +${topPerformer?.returns.toFixed(1) || 0}%
                     </span>
                 </div>
-                <div class="summary-value">${this.truncateText(topPerformer?.name.split(' - ')[0] || 'N/A', 20)}</div>
+                <div class="summary-value">${topPerformer?.name.split(' - ')[0] || 'N/A'}</div>
                 <div class="summary-details">
                     <div class="detail-item">
                         <span class="detail-label">Category</span>
@@ -1821,24 +1435,24 @@ class PortfolioManager {
             <div class="summary-card">
                 <div class="summary-header">
                     <h3>Diversification</h3>
-                    <span class="summary-change ${uniqueCategories >= 3 && uniqueAMCs >= 3 ? 'positive' : 'negative'}">
-                        ${uniqueCategories >= 3 && uniqueAMCs >= 3 ? 'Good' : 'Needs Improvement'}
+                    <span class="summary-change ${this.portfolioData.length >= 6 ? 'positive' : 'negative'}">
+                        ${this.portfolioData.length >= 6 ? 'Good' : 'Needs Improvement'}
                     </span>
                 </div>
                 <div class="summary-value">${this.portfolioData.length} Funds</div>
                 <div class="summary-details">
                     <div class="detail-item">
                         <span class="detail-label">Categories</span>
-                        <span class="detail-value">${uniqueCategories}</span>
+                        <span class="detail-value">${new Set(this.portfolioData.map(f => f.category)).size}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">AMCs</span>
-                        <span class="detail-value">${uniqueAMCs}</span>
+                        <span class="detail-value">${new Set(this.portfolioData.map(f => f.amc)).size}</span>
                     </div>
-                    ${uniqueCategories < 3 ? `
+                    ${this.portfolioData.length < 6 ? `
                         <div class="detail-item">
                             <span class="detail-label" style="color: #f59e0b;">Suggestion</span>
-                            <span class="detail-value" style="color: #f59e0b;">Add more categories for better diversification</span>
+                            <span class="detail-value" style="color: #f59e0b;">Add more funds for better diversification</span>
                         </div>
                     ` : ''}
                 </div>
@@ -1847,13 +1461,13 @@ class PortfolioManager {
     }
 
     calculatePortfolioSummary() {
-        // This method is called during initialization
-        // The actual calculation happens in renderPortfolioSummary()
+        // This would calculate various portfolio metrics
+        // For now, we'll just update the display
+        this.renderPortfolioSummary();
     }
 
     showAllPerformance() {
-        this.showNotification('Opening detailed performance analysis', 'info');
-        // In a real app, this would navigate to a performance page
+        alert('Showing all performance data. In a real app, this would navigate to a detailed performance page.');
     }
 
     globalSearch(query) {
@@ -1877,78 +1491,19 @@ class PortfolioManager {
     }
 
     showNotification(message, type = 'info') {
-        // Remove existing notifications
-        const existingToasts = document.querySelectorAll('.toast');
-        existingToasts.forEach(toast => toast.remove());
-
         // Create toast notification
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 15px 25px;
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            animation: slideInUp 0.3s ease;
-            max-width: 400px;
-        `;
-
-        const icon = this.getNotificationIcon(type);
         toast.innerHTML = `
-            <i class="fas fa-${icon}"></i>
+            <i class="fas fa-${this.getNotificationIcon(type)}"></i>
             <span>${message}</span>
         `;
 
         document.body.appendChild(toast);
 
-        // Add animation styles if not present
-        if (!document.getElementById('toast-animations')) {
-            const style = document.createElement('style');
-            style.id = 'toast-animations';
-            style.textContent = `
-                @keyframes slideInUp {
-                    from {
-                        transform: translateY(100%);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-                
-                .toast.success {
-                    border-left: 4px solid #10b981;
-                }
-                
-                .toast.error {
-                    border-left: 4px solid #ef4444;
-                }
-                
-                .toast.warning {
-                    border-left: 4px solid #f59e0b;
-                }
-                
-                .toast.info {
-                    border-left: 4px solid #667eea;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
         // Remove after 3 seconds
         setTimeout(() => {
-            toast.style.animation = 'slideInUp 0.3s ease reverse';
+            toast.style.animation = 'slideIn 0.3s ease reverse';
             setTimeout(() => {
                 if (toast.parentNode) {
                     toast.parentNode.removeChild(toast);
@@ -1973,69 +1528,15 @@ class PortfolioManager {
             window.location.href = 'index.html';
         }
     }
-
-    // Utility Methods
-    truncateText(text, maxLength) {
-        if (!text) return '';
-        if (text.length <= maxLength) return text;
-        return text.substring(0, maxLength) + '...';
-    }
-
-    formatNumber(number, decimals = 2) {
-        if (isNaN(number)) return '0';
-        return number.toLocaleString('en-IN', {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals
-        });
-    }
-
-    calculatePortfolioMetrics() {
-        const metrics = {
-            totalInvestment: 0,
-            totalValue: 0,
-            totalReturns: 0,
-            totalReturnsPercent: 0,
-            equityAllocation: 0,
-            debtAllocation: 0,
-            hybridAllocation: 0,
-            cashAllocation: 0
-        };
-
-        this.portfolioData.forEach(fund => {
-            metrics.totalInvestment += fund.investment;
-            metrics.totalValue += fund.currentValue;
-            
-            if (fund.category === 'Equity') {
-                metrics.equityAllocation += fund.currentValue;
-            } else if (fund.category === 'Debt') {
-                metrics.debtAllocation += fund.currentValue;
-            } else if (fund.category === 'Hybrid') {
-                metrics.hybridAllocation += fund.currentValue;
-            } else {
-                metrics.cashAllocation += fund.currentValue;
-            }
-        });
-
-        metrics.totalReturns = metrics.totalValue - metrics.totalInvestment;
-        metrics.totalReturnsPercent = metrics.totalInvestment > 0 ? 
-            (metrics.totalReturns / metrics.totalInvestment * 100) : 0;
-
-        // Convert allocations to percentages
-        const totalAllocation = metrics.equityAllocation + metrics.debtAllocation + 
-                               metrics.hybridAllocation + metrics.cashAllocation;
-        
-        if (totalAllocation > 0) {
-            metrics.equityAllocation = (metrics.equityAllocation / totalAllocation * 100);
-            metrics.debtAllocation = (metrics.debtAllocation / totalAllocation * 100);
-            metrics.hybridAllocation = (metrics.hybridAllocation / totalAllocation * 100);
-            metrics.cashAllocation = (metrics.cashAllocation / totalAllocation * 100);
-        }
-
-        return metrics;
-    }
 }
 
-// Export for use in HTML file
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = PortfolioManager;
-}
+// Export for global use
+window.PortfolioManager = PortfolioManager;
+
+// Initialize portfolio manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we're on portfolio page
+    if (window.location.pathname.includes('portfolio.html')) {
+        window.portfolioManager = new PortfolioManager();
+    }
+});
