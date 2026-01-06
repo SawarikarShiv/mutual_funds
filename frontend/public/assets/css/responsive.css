@@ -1,0 +1,302 @@
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Large Screens (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Medium Screens (992px to 1199px) */
+@media (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    h1 {
+        font-size: 3rem;
+    }
+    
+    h2 {
+        font-size: 2.25rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-visual {
+        width: 45%;
+    }
+}
+
+/* Tablet Screens (768px to 991px) */
+@media (max-width: 991px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    /* Dashboard Responsive */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .header {
+        left: 0;
+        padding: 15px 20px;
+    }
+    
+    .header-left h1 {
+        font-size: 20px;
+    }
+    
+    .modules-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    /* Auth Page Responsive */
+    .hero-visual {
+        position: relative;
+        width: 100%;
+        margin-top: 50px;
+        transform: none;
+    }
+    
+    .hero-content {
+        max-width: 100%;
+        text-align: center;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .divider {
+        display: none;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 46, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+}
+
+/* Mobile Screens (576px to 767px) */
+@media (max-width: 767px) {
+    .container {
+        max-width: 540px;
+        padding: 0 15px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    /* Dashboard Mobile */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .module-content {
+        padding: 20px;
+    }
+    
+    .header {
+        padding: 15px;
+    }
+    
+    .header-right {
+        gap: 10px;
+    }
+    
+    .live-indicator span:last-child {
+        display: none;
+    }
+    
+    /* Auth Mobile */
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-content {
+        padding: 40px 20px;
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+    }
+    
+    .cta-actions .btn {
+        width: 100%;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .fab {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Small Mobile Screens (up to 575px) */
+@media (max-width: 575px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .stat {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .trust-logos {
+        justify-content: center;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-apps {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .app-link {
+        width: 200px;
+        justify-content: center;
+    }
+    
+    /* Dashboard Mobile Fixes */
+    .module-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .module-actions .btn {
+        width: 100%;
+    }
+    
+    .data-table-container {
+        padding: 10px;
+        overflow-x: auto;
+    }
+    
+    .data-table {
+        min-width: 600px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .sidebar,
+    .header,
+    .fab,
+    .hero-visual,
+    .cta-actions,
+    .footer,
+    .modal {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding-top: 0;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .card {
+        background: white !important;
+        color: black !important;
+        border: 1px solid #ddd;
+    }
+}
