@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initScrollEffects();
     initTooltips();
+    initForms();
 });
 
 // Navigation Module
@@ -39,14 +40,17 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            if (navMenu.classList.contains('active')) {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                
-                const spans = menuToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+            if (navMenu && navMenu.classList.contains('active')) {
+                const menuToggle = document.getElementById('mobileMenuToggle');
+                if (menuToggle) {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    
+                    const spans = menuToggle.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
             }
         });
     });
@@ -71,12 +75,6 @@ function initAnimations() {
         
         stats.forEach(stat => observer.observe(stat));
     }
-    
-    // Animate chart lines
-    const chartLines = document.querySelectorAll('.chart-line');
-    chartLines.forEach((line, index) => {
-        line.style.animationDelay = `${index * 0.1}s`;
-    });
 }
 
 // Counter Animation
@@ -127,28 +125,30 @@ function initScrollEffects() {
     const navbar = document.querySelector('.navbar');
     let lastScroll = 0;
     
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset;
-        
-        // Add/remove scrolled class
-        if (currentScroll > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-        
-        // Hide/show navbar on scroll
-        if (currentScroll > lastScroll && currentScroll > 200) {
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            navbar.style.transform = 'translateY(0)';
-        }
-        
-        lastScroll = currentScroll;
-        
-        // Fade in elements on scroll
-        fadeInOnScroll();
-    });
+    if (navbar) {
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            
+            // Add/remove scrolled class
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Hide/show navbar on scroll
+            if (currentScroll > lastScroll && currentScroll > 200) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+            
+            // Fade in elements on scroll
+            fadeInOnScroll();
+        });
+    }
     
     // Initial fade in check
     fadeInOnScroll();
@@ -156,7 +156,7 @@ function initScrollEffects() {
 
 // Fade in elements on scroll
 function fadeInOnScroll() {
-    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeElements = document.querySelectorAll('.fade-in, .scroll-fade');
     
     fadeElements.forEach(element => {
         const elementTop = element.getBoundingClientRect().top;
@@ -177,7 +177,7 @@ function initTooltips() {
             const tooltipText = this.getAttribute('data-tooltip');
             const tooltip = document.createElement('div');
             
-            tooltip.className = 'tooltip';
+            tooltip.className = 'custom-tooltip';
             tooltip.textContent = tooltipText;
             document.body.appendChild(tooltip);
             
@@ -199,49 +199,233 @@ function initTooltips() {
     });
 }
 
-// Form Validation Helper
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+// Form Validation
+function initForms() {
+    const forms = document.querySelectorAll('form[data-validate]');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateForm(this)) {
+                this.submit();
+            }
+        });
+        
+        // Real-time validation
+        const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateInput(this);
+            });
+            
+            input.addEventListener('input', function() {
+                clearInputError(this);
+            });
+        });
+    });
 }
 
-function validatePhone(phone) {
-    const re = /^[\d\s\+\-\(\)]{10,}$/;
-    return re.test(phone);
+function validateForm(form) {
+    let isValid = true;
+    const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+    
+    inputs.forEach(input => {
+        if (!validateInput(input)) {
+            isValid = false;
+        }
+    });
+    
+    return isValid;
 }
 
-// Format Currency
-function formatCurrency(amount) {
-    if (amount >= 10000000) {
-        return `₹${(amount / 10000000).toFixed(2)}Cr`;
-    } else if (amount >= 100000) {
-        return `₹${(amount / 100000).toFixed(2)}L`;
-    } else {
-        return `₹${amount.toLocaleString()}`;
+function validateInput(input) {
+    const value = input.value.trim();
+    const type = input.type;
+    
+    // Clear previous errors
+    clearInputError(input);
+    
+    if (!value) {
+        showInputError(input, 'This field is required');
+        return false;
+    }
+    
+    // Email validation
+    if (type === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            showInputError(input, 'Please enter a valid email address');
+            return false;
+        }
+    }
+    
+    // Number validation
+    if (type === 'number') {
+        const numValue = parseFloat(value);
+        const min = parseFloat(input.getAttribute('min'));
+        const max = parseFloat(input.getAttribute('max'));
+        
+        if (!isNaN(min) && numValue < min) {
+            showInputError(input, `Value must be at least ${min}`);
+            return false;
+        }
+        
+        if (!isNaN(max) && numValue > max) {
+            showInputError(input, `Value must be at most ${max}`);
+            return false;
+        }
+    }
+    
+    // Phone validation
+    if (input.name === 'phone') {
+        const phoneRegex = /^[\d\s\+\-\(\)]{10,}$/;
+        if (!phoneRegex.test(value)) {
+            showInputError(input, 'Please enter a valid phone number');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function showInputError(input, message) {
+    input.classList.add('error');
+    
+    let errorElement = input.nextElementSibling;
+    if (!errorElement || !errorElement.classList.contains('form-error')) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'form-error';
+        input.parentNode.insertBefore(errorElement, input.nextSibling);
+    }
+    
+    errorElement.textContent = message;
+}
+
+function clearInputError(input) {
+    input.classList.remove('error');
+    
+    const errorElement = input.nextElementSibling;
+    if (errorElement && errorElement.classList.contains('form-error')) {
+        errorElement.remove();
     }
 }
 
-// Debounce Function
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Export functions for use in other scripts
+// Utility Functions
 window.InfinityFunds = {
-    validateEmail,
-    validatePhone,
-    formatCurrency,
-    debounce
+    validateEmail: function(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    },
+    
+    validatePhone: function(phone) {
+        const re = /^[\d\s\+\-\(\)]{10,}$/;
+        return re.test(phone);
+    },
+    
+    formatCurrency: function(amount) {
+        if (amount >= 10000000) {
+            return `₹${(amount / 10000000).toFixed(2)}Cr`;
+        } else if (amount >= 100000) {
+            return `₹${(amount / 100000).toFixed(2)}L`;
+        } else {
+            return `₹${amount.toLocaleString('en-IN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            })}`;
+        }
+    },
+    
+    formatPercentage: function(value) {
+        return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+    },
+    
+    formatDate: function(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    },
+    
+    formatDateTime: function(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    },
+    
+    truncateText: function(text, maxLength) {
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength) + '...';
+    },
+    
+    debounce: function(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    },
+    
+    deepClone: function(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    },
+    
+    showNotification: function(message, type = 'info') {
+        // Create toast notification
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icons = {
+            'success': 'check-circle',
+            'error': 'exclamation-circle',
+            'warning': 'exclamation-triangle',
+            'info': 'info-circle'
+        };
+        
+        const icon = icons[type] || 'info-circle';
+        
+        toast.innerHTML = `
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            toast.style.animation = 'slideIn 0.3s ease reverse';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, 5000);
+    },
+    
+    getRandomColor: function() {
+        const colors = [
+            '#667eea', '#764ba2', '#f093fb', '#f5576c',
+            '#4facfe', '#00f2fe', '#43e97b', '#38f9d7',
+            '#fa709a', '#fee140', '#30cfd0', '#330867'
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+    },
+    
+    generateGradient: function(color1, color2) {
+        return `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
+    }
 };
 
-// Add some example usage
-console.log('Infinity Funds JS initialized successfully!');
-console.log('Available functions: InfinityFunds.validateEmail(), InfinityFunds.formatCurrency()');
+// Export for use in other scripts
+console.log('Infinity Funds JS utilities loaded successfully!');
