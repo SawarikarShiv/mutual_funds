@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research & Screening | Infinity MF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #f8961e;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #f5f7fb;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-menu {
+            flex: 1;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .user-info h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .user-info p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        
+        .page-title p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .notification-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Research Dashboard Styles */
+        .research-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+        
+        .research-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        /* Filters Card */
+        .filters-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            background: #f5f7fb;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .filter-slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .filter-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-checkbox input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background: #f8f9fa;
+        }
+        
+        /* Results Grid */
+        .results-grid {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .results-count {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .results-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #eee;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+        
+        .results-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        .results-table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .fund-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .fund-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .fund-details h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .fund-details p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .positive {
+            color: #4cc9f0;
+            font-weight: 600;
+        }
+        
+        .negative {
+            color: #f72585;
+            font-weight: 600;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-view {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .btn-view:hover {
+            background: rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-compare {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success-color);
+        }
+        
+        .btn-compare:hover {
+            background: rgba(76, 201, 240, 0.2);
+        }
+        
+        /* Research Sidebar */
+        .research-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .watchlist-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .watchlist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .watchlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        
+        .watchlist-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .watchlist-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .watchlist-info p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .watchlist-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .insights-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .insight-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .insight-content p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 400px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .fund-detail {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .fund-detail-left {
+            flex: 1;
+        }
+        
+        .fund-detail-right {
+            flex: 1;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .research-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .research-sidebar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .filter-checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .results-actions {
+                flex-wrap: wrap;
+            }
+            
+            .fund-detail {
+                flex-direction: column;
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .page-btn:hover:not(.active) {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-icon">∞</div>
+            <div class="logo-text">Infinity MF</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="portfolio.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Portfolio</span>
+            </a>
+            <a href="research-screening.html" class="nav-item active">
+                <i class="fas fa-search"></i>
+                <span>Research & Screening</span>
+            </a>
+            <a href="transactions.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Reports</span>
+            </a>
+            <a href="compliance.html" class="nav-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Compliance</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar">RS</div>
+            <div class="user-info">
+                <h4>Research Specialist</h4>
+                <p>Analyst Level II</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="page-title">
+                <h1>Research & Screening</h1>
+                <p>Discover and analyze mutual funds with advanced screening tools</p>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search funds, sectors, or criteria..." id="searchInput">
+                </div>
+                
+                <div class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Dashboard -->
+        <div class="research-dashboard">
+            <!-- Main Research Area -->
+            <div class="research-main">
+                <!-- Filters Card -->
+                <div class="filters-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Screening Criteria</h3>
+                        <span class="results-count" id="resultsCount">24 funds match criteria</span>
+                    </div>
+                    
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-tab="equity">Equity Funds</button>
+                        <button class="filter-tab" data-tab="debt">Debt Funds</button>
+                        <button class="filter-tab" data-tab="hybrid">Hybrid Funds</button>
+                        <button class="filter-tab" data-tab="sectoral">Sectoral/Thematic</button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Risk Level</label>
+                        <input type="range" min="1" max="5" value="3" class="filter-slider" id="riskSlider">
+                        <div class="slider-values">
+                            <span>Low</span>
+                            <span>Medium</span>
+                            <span>High</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Minimum 5-Year Return</label>
+                        <input type="range" min="0" max="20" value="12" class="filter-slider" id="returnSlider">
+                        <div class="slider-values">
+                            <span>0%</span>
+                            <span>10%</span>
+                            <span>20%+</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Fund Size (AUM)</label>
+                        <div class="filter-checkbox-group">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" checked>
+                                <span>Small (< ₹500 Cr)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" checked>
+                                <span>Medium (₹500-2000 Cr)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" checked>
+                                <span>Large (> ₹2000 Cr)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox">
+                                <span>Any Size</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Expense Ratio</label>
+                        <input type="range" min="0.1" max="3" step="0.1" value="1.5" class="filter-slider" id="expenseSlider">
+                        <div class="slider-values">
+                            <span>0.1%</span>
+                            <span>1.5%</span>
+                            <span>3.0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button class="btn btn-outline" id="resetFilters">
+                            <i class="fas fa-redo"></i> Reset Filters
+                        </button>
+                        <button class="btn btn-primary" id="applyFilters">
+                            <i class="fas fa-filter"></i> Apply Screening
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="results-grid">
+                    <div class="results-header">
+                        <h3 class="card-title">Screened Results</h3>
+                        <div class="results-actions">
+                            <select class="btn-outline" style="padding: 8px 15px; border-radius: 8px;">
+                                <option>Sort by: Performance</option>
+                                <option>Sort by: Risk Level</option>
+                                <option>Sort by: Expense Ratio</option>
+                                <option>Sort by: Fund Size</option>
+                            </select>
+                            <button class="btn btn-outline" style="padding: 8px 15px;">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="results-table" id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Fund Name</th>
+                                    <th>Category</th>
+                                    <th>1Y Return</th>
+                                    <th>3Y CAGR</th>
+                                    <th>Risk</th>
+                                    <th>Expense Ratio</th>
+                                    <th>AUM (Cr)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fundsTableBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">4</button>
+                        <button class="page-btn">5</button>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <div class="card-header">
+                        <h3 class="card-title">Performance Comparison</h3>
+                        <select class="btn-outline" style="padding: 8px 15px; border-radius: 8px;">
+                            <option>1 Year</option>
+                            <option>3 Years</option>
+                            <option>5 Years</option>
+                            <option>Since Inception</option>
+                        </select>
+                    </div>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line" style="font-size: 48px; margin-bottom: 15px; color: #4361ee;"></i>
+                        <div>Performance chart will appear here when you select funds to compare</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Sidebar -->
+            <div class="research-sidebar">
+                <!-- Watchlist Card -->
+                <div class="watchlist-card">
+                    <div class="card-header">
+                        <h3 class="card-title">My Watchlist</h3>
+                        <button class="btn-outline" style="padding: 8px 15px; font-size: 12px;">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                    
+                    <div class="watchlist-items" id="watchlistItems">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Market Insights -->
+                <div class="insights-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Market Insights</h3>
+                        <span class="live-dot"></span>
+                    </div>
+                    
+                    <div class="insights-list">
+                        <div class="insight-item">
+                            <div class="insight-icon" style="background: linear-gradient(135deg, #4361ee, #3a0ca3);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Large Cap Funds Outperforming</h4>
+                                <p>Large cap funds show 15% average growth YTD</p>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-icon" style="background: linear-gradient(135deg, #4cc9f0, #4895ef);">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Debt Funds Stability</h4>
+                                <p>Corporate bond funds maintain 8-9% returns</p>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-icon" style="background: linear-gradient(135deg, #f72585, #b5179e);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Tech Sector Volatility</h4>
+                                <p>Increased volatility in technology funds</p>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-icon" style="background: linear-gradient(135deg, #f8961e, #f9c74f);">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>ESG Funds Growth</h4>
+                                <p>Sustainable funds see 25% increase in inflows</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fund Detail Modal -->
+    <div class="modal" id="fundDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalFundName">Fund Details</h3>
+                <button class="close-modal" id="closeFundModal">&times;</button>
+            </div>
+            
+            <div class="fund-detail" id="fundDetailContent">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-outline" id="addToWatchlist">
+                    <i class="fas fa-star"></i> Add to Watchlist
+                </button>
+                <button class="btn btn-primary" id="compareFund">
+                    <i class="fas fa-chart-bar"></i> Compare with Others
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for funds
+        const fundsData = [
+            {
+                id: 1,
+                name: "Blue Chip Growth Fund",
+                category: "Large Cap",
+                return1Y: 18.5,
+                return3Y: 15.2,
+                risk: 3,
+                expenseRatio: 1.2,
+                aum: 4500,
+                color: "#4361ee",
+                icon: "BC",
+                description: "Focuses on established companies with strong growth potential",
+                rating: 4.5,
+                minInvestment: 5000,
+                exitLoad: "1% for redemption within 1 year",
+                fundManager: "Aditya Sharma",
+                inception: "2015"
+            },
+            {
+                id: 2,
+                name: "Mid Cap Opportunities",
+                category: "Mid Cap",
+                return1Y: 22.3,
+                return3Y: 18.7,
+                risk: 4,
+                expenseRatio: 1.5,
+                aum: 1200,
+                color: "#4cc9f0",
+                icon: "MC",
+                description: "Invests in emerging mid-sized companies with high growth potential",
+                rating: 4.2,
+                minInvestment: 5000,
+                exitLoad: "1% for redemption within 1 year",
+                fundManager: "Priya Patel",
+                inception: "2018"
+            },
+            {
+                id: 3,
+                name: "Small Cap Discovery",
+                category: "Small Cap",
+                return1Y: 28.7,
+                return3Y: 24.3,
+                risk: 5,
+                expenseRatio: 1.8,
+                aum: 800,
+                color: "#f72585",
+                icon: "SC",
+                description: "High-risk, high-return fund focusing on small companies",
+                rating: 4.0,
+                minInvestment: 5000,
+                exitLoad: "2% for redemption within 2 years",
+                fundManager: "Rajesh Kumar",
+                inception: "2016"
+            },
+            {
+                id: 4,
+                name: "Corporate Bond Fund",
+                category: "Debt",
+                return1Y: 8.9,
+                return3Y: 9.2,
+                risk: 2,
+                expenseRatio: 0.8,
+                aum: 3200,
+                color: "#4895ef",
+                icon: "CB",
+                description: "Low-risk fund investing in high-quality corporate bonds",
+                rating: 4.3,
+                minInvestment: 10000,
+                exitLoad: "0.5% for redemption within 6 months",
+                fundManager: "Anita Desai",
+                inception: "2014"
+            },
+            {
+                id: 5,
+                name: "Balanced Advantage Fund",
+                category: "Hybrid",
+                return1Y: 14.2,
+                return3Y: 12.8,
+                risk: 3,
+                expenseRatio: 1.4,
+                aum: 2800,
+                color: "#7209b7",
+                icon: "BA",
+                description: "Dynamic allocation between equity and debt based on market conditions",
+                rating: 4.4,
+                minInvestment: 5000,
+                exitLoad: "1% for redemption within 1 year",
+                fundManager: "Sanjay Mehta",
+                inception: "2017"
+            },
+            {
+                id: 6,
+                name: "Technology Leaders Fund",
+                category: "Sectoral",
+                return1Y: 32.5,
+                return3Y: 26.8,
+                risk: 5,
+                expenseRatio: 1.9,
+                aum: 950,
+                color: "#f8961e",
+                icon: "TL",
+                description: "Focuses on technology and digital transformation companies",
+                rating: 4.1,
+                minInvestment: 5000,
+                exitLoad: "1% for redemption within 1 year",
+                fundManager: "Neha Verma",
+                inception: "2019"
+            }
+        ];
+
+        // Sample watchlist data
+        const watchlistData = [
+            { id: 1, name: "Blue Chip Growth Fund", change: 1.5 },
+            { id: 4, name: "Corporate Bond Fund", change: 0.3 },
+            { id: 6, name: "Technology Leaders Fund", change: 2.8 }
+        ];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate funds table
+            populateFundsTable();
+            
+            // Populate watchlist
+            populateWatchlist();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update slider values display
+            updateSliderValues();
+            
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Populate funds table
+        function populateFundsTable() {
+            const tableBody = document.getElementById('fundsTableBody');
+            tableBody.innerHTML = '';
+            
+            fundsData.forEach(fund => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="fund-name">
+                            <div class="fund-icon" style="background: ${fund.color};">${fund.icon}</div>
+                            <div class="fund-details">
+                                <h4>${fund.name}</h4>
+                                <p>AMC: Infinity Mutual Fund</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${fund.category}</td>
+                    <td class="${fund.return1Y >= 0 ? 'positive' : 'negative'}">${fund.return1Y}%</td>
+                    <td class="${fund.return3Y >= 0 ? 'positive' : 'negative'}">${fund.return3Y}%</td>
+                    <td>
+                        <div style="display: flex; gap: 2px;">
+                            ${Array.from({length: 5}, (_, i) => 
+                                `<div style="width: 8px; height: 8px; border-radius: 50%; background: ${i < fund.risk ? '#f72585' : '#e0e0e0'};"></div>`
+                            ).join('')}
+                        </div>
+                    </td>
+                    <td>${fund.expenseRatio}%</td>
+                    <td>₹${fund.aum.toLocaleString()}</td>
+                    <td>
+                        <button class="action-btn btn-view" data-id="${fund.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="action-btn btn-compare" data-id="${fund.id}">
+                            <i class="fas fa-chart-bar"></i> Compare
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Update results count
+            document.getElementById('resultsCount').textContent = `${fundsData.length} funds match criteria`;
+        }
+
+        // Populate watchlist
+        function populateWatchlist() {
+            const watchlistContainer = document.getElementById('watchlistItems');
+            watchlistContainer.innerHTML = '';
+            
+            watchlistData.forEach(item => {
+                const fund = fundsData.find(f => f.id === item.id);
+                if (!fund) return;
+                
+                const div = document.createElement('div');
+                div.className = 'watchlist-item';
+                div.innerHTML = `
+                    <div class="watchlist-info">
+                        <h4>${fund.name}</h4>
+                        <p>${fund.category}</p>
+                    </div>
+                    <div class="watchlist-change ${item.change >= 0 ? 'positive' : 'negative'}">
+                        ${item.change >= 0 ? '+' : ''}${item.change}%
+                    </div>
+                `;
+                watchlistContainer.appendChild(div);
+            });
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    // In a real app, this would filter the funds
+                });
+            });
+
+            // Reset filters
+            document.getElementById('resetFilters').addEventListener('click', function() {
+                document.getElementById('riskSlider').value = 3;
+                document.getElementById('returnSlider').value = 12;
+                document.getElementById('expenseSlider').value = 1.5;
+                updateSliderValues();
+                // Reset checkboxes
+                document.querySelectorAll('.filter-checkbox input').forEach((cb, index) => {
+                    cb.checked = index < 3; // First three checked
+                });
+            });
+
+            // Apply filters
+            document.getElementById('applyFilters').addEventListener('click', function() {
+                // Show loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Filtering...';
+                this.disabled = true;
+                
+                // Simulate filtering
+                setTimeout(() => {
+                    // In a real app, this would filter the funds
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    alert('Filters applied successfully!');
+                }, 1000);
+            });
+
+            // View fund details
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.btn-view')) {
+                    const fundId = parseInt(e.target.closest('.btn-view').getAttribute('data-id'));
+                    showFundDetails(fundId);
+                }
+                
+                if (e.target.closest('.btn-compare')) {
+                    const fundId = parseInt(e.target.closest('.btn-compare').getAttribute('data-id'));
+                    addToComparison(fundId);
+                }
+            });
+
+            // Modal close buttons
+            document.getElementById('closeFundModal').addEventListener('click', function() {
+                document.getElementById('fundDetailModal').style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.id === 'fundDetailModal') {
+                    document.getElementById('fundDetailModal').style.display = 'none';
+                }
+            });
+
+            // Add to watchlist
+            document.getElementById('addToWatchlist').addEventListener('click', function() {
+                const fundId = parseInt(this.getAttribute('data-fund-id'));
+                if (fundId) {
+                    alert('Added to watchlist!');
+                    document.getElementById('fundDetailModal').style.display = 'none';
+                }
+            });
+
+            // Compare fund
+            document.getElementById('compareFund').addEventListener('click', function() {
+                const fundId = parseInt(this.getAttribute('data-fund-id'));
+                if (fundId) {
+                    alert('Added to comparison!');
+                    document.getElementById('fundDetailModal').style.display = 'none';
+                }
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                // In a real app, this would search the funds
+                console.log('Searching for:', searchTerm);
+            });
+
+            // Update slider values display
+            document.querySelectorAll('.filter-slider').forEach(slider => {
+                slider.addEventListener('input', updateSliderValues);
+            });
+
+            // Notification button
+            document.getElementById('notificationBtn').addEventListener('click', function() {
+                alert('You have 3 new research alerts:\n1. New fund launched\n2. Sector rotation opportunity\n3. Market volatility warning');
+            });
+        }
+
+        // Show fund details in modal
+        function showFundDetails(fundId) {
+            const fund = fundsData.find(f => f.id === fundId);
+            if (!fund) return;
+            
+            document.getElementById('modalFundName').textContent = fund.name;
+            document.getElementById('addToWatchlist').setAttribute('data-fund-id', fundId);
+            document.getElementById('compareFund').setAttribute('data-fund-id', fundId);
+            
+            const detailContent = document.getElementById('fundDetailContent');
+            detailContent.innerHTML = `
+                <div class="fund-detail-left">
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">${fund.category}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">1-Year Return:</span>
+                        <span class="detail-value ${fund.return1Y >= 0 ? 'positive' : 'negative'}">${fund.return1Y}%</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">3-Year CAGR:</span>
+                        <span class="detail-value ${fund.return3Y >= 0 ? 'positive' : 'negative'}">${fund.return3Y}%</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Risk Level:</span>
+                        <span class="detail-value">
+                            ${'★'.repeat(fund.risk)}${'☆'.repeat(5 - fund.risk)}
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Expense Ratio:</span>
+                        <span class="detail-value">${fund.expenseRatio}%</span>
+                    </div>
+                </div>
+                <div class="fund-detail-right">
+                    <div class="detail-row">
+                        <span class="detail-label">AUM:</span>
+                        <span class="detail-value">₹${fund.aum.toLocaleString()} Cr</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Min Investment:</span>
+                        <span class="detail-value">₹${fund.minInvestment.toLocaleString()}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Exit Load:</span>
+                        <span class="detail-value">${fund.exitLoad}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Fund Manager:</span>
+                        <span class="detail-value">${fund.fundManager}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Inception Date:</span>
+                        <span class="detail-value">${fund.inception}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('fundDetailModal').style.display = 'flex';
+        }
+
+        // Add fund to comparison
+        function addToComparison(fundId) {
+            const fund = fundsData.find(f => f.id === fundId);
+            if (!fund) return;
+            
+            // In a real app, this would add to comparison array and update UI
+            alert(`Added "${fund.name}" to comparison`);
+        }
+
+        // Update slider values display
+        function updateSliderValues() {
+            const riskValue = document.getElementById('riskSlider').value;
+            const returnValue = document.getElementById('returnSlider').value;
+            const expenseValue = document.getElementById('expenseSlider').value;
+            
+            // Update any slider value displays if they exist
+            // In a more complex implementation, you'd update visual indicators
+        }
+
+        // Logout functionality (if needed)
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
