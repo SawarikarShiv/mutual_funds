@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporting | Infinity MF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
+    <!-- Select2 for better dropdowns -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --danger-color: #7209b7;
+            --info-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0f2e 0%, #1a1f4e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ====== LAYOUT ====== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* ====== SIDEBAR ====== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-item {
+            padding: 0 15px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* ====== MAIN CONTENT ====== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            padding-top: 90px;
+        }
+        
+        /* ====== HEADER ====== */
+        .header {
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-width);
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .header-left p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #4cc9f0;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        /* ====== MODULE CONTENT ====== */
+        .module-header {
+            margin-bottom: 30px;
+        }
+        
+        .module-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .module-header h2 i {
+            color: var(--primary-color);
+        }
+        
+        .module-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+        
+        /* ====== REPORT FILTERS ====== */
+        .report-filters {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .filters-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* ====== BUTTONS ====== */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-success {
+            background: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .btn-success:hover {
+            background: rgba(76, 201, 240, 0.3);
+        }
+        
+        .btn-warning {
+            background: rgba(247, 37, 133, 0.2);
+            color: #f72585;
+            border: 1px solid rgba(247, 37, 133, 0.3);
+        }
+        
+        .btn-warning:hover {
+            background: rgba(247, 37, 133, 0.3);
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        /* ====== QUICK REPORTS ====== */
+        .quick-reports {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .report-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(67, 97, 238, 0.3);
+        }
+        
+        .report-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .report-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+        
+        .report-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .report-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        /* ====== SCHEDULED REPORTS ====== */
+        .scheduled-reports {
+            margin-bottom: 40px;
+        }
+        
+        .data-table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .data-table th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+        
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+        }
+        
+        .badge-warning {
+            background: rgba(247, 37, 133, 0.2);
+            color: #f72585;
+        }
+        
+        .badge-info {
+            background: rgba(67, 97, 238, 0.2);
+            color: #4361ee;
+        }
+        
+        /* ====== REPORT HISTORY ====== */
+        .report-history {
+            margin-bottom: 40px;
+        }
+        
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .history-info {
+            flex: 1;
+        }
+        
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .history-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* ====== PREVIEW PANEL ====== */
+        .preview-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .preview-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .preview-content {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            min-height: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .report-preview {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .report-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .report-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .report-section {
+            margin-bottom: 30px;
+        }
+        
+        .report-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--info-color);
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .preview-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        /* ====== MODAL ====== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-header {
+            margin-bottom: 30px;
+        }
+        
+        .modal-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .modal-body {
+            margin-bottom: 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        /* ====== LOADING STATES ====== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .header {
+                left: 0;
+            }
+            
+            .reports-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            .history-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .preview-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* ====== ANIMATIONS ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* ====== SELECT2 CUSTOMIZATION ====== */
+        .select2-container {
+            width: 100% !important;
+        }
+        
+        .select2-container--default .select2-selection--single,
+        .select2-container--default .select2-selection--multiple {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            padding: 8px;
+        }
+        
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: white;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background: rgba(67, 97, 238, 0.2);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            color: white;
+        }
+        
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background: var(--primary-color);
+        }
+        
+        .select2-dropdown {
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">∞</div>
+                    <div class="logo-text">Infinity MF</div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="dashboard.html" class="nav-link">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="portfolio.html" class="nav-link">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Portfolio</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="transactions.html" class="nav-link">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Transactions</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="user-management.html" class="nav-link">
+                                <i class="fas fa-users"></i>
+                                <span>User Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="fund-master.html" class="nav-link">
+                                <i class="fas fa-wallet"></i>
+                                <span>Fund Master</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Analytics</div>
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="performance-analytics.html" class="nav-link">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Performance Analytics</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="research-screening.html" class="nav-link">
+                                <i class="fas fa-search"></i>
+                                <span>Research & Screening</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports & Compliance</div>
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="reporting.html" class="nav-link active">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Reporting</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="compliance.html" class="nav-link">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Compliance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="taxation.html" class="nav-link">
+                                <i class="fas fa-calculator"></i>
+                                <span>Taxation</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">System</div>
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="alerts-notifications.html" class="nav-link">
+                                <i class="fas fa-bell"></i>
+                                <span>Alerts & Notifications</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <h1>Reporting Module</h1>
+                    <p>Generate comprehensive reports and statements</p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span>Report Generation Active</span>
+                    </div>
+                    
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar">JM</div>
+                        <div>
+                            <div class="user-name">John Marpung</div>
+                            <div class="user-role">Administrator</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- REPORT FILTERS -->
+            <div class="report-filters fade-in">
+                <div class="filters-header">
+                    <h3><i class="fas fa-filter"></i> Report Configuration</h3>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="clearFilters">
+                            <i class="fas fa-redo"></i> Clear All
+                        </button>
+                        <button class="btn btn-primary" id="generateReport">
+                            <i class="fas fa-magic"></i> Generate Report
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label class="form-label">Report Type</label>
+                        <select class="form-control" id="reportType">
+                            <option value="">Select Report Type</option>
+                            <option value="portfolio">Portfolio Statement</option>
+                            <option value="transaction">Transaction History</option>
+                            <option value="performance">Performance Report</option>
+                            <option value="capital_gains">Capital Gains Report</option>
+                            <option value="compliance">Compliance Report</option>
+                            <option value="tax">Tax Summary Report</option>
+                            <option value="holding">Holding Pattern Report</option>
+                            <option value="custom">Custom Report</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Date Range</label>
+                        <input type="text" class="form-control" id="dateRange" placeholder="Select date range">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Investor Selection</label>
+                        <select class="form-control" id="investorSelect" multiple>
+                            <option value="all">All Investors</option>
+                            <option value="INV001">Rajesh Kumar</option>
+                            <option value="INV002">Priya Sharma</option>
+                            <option value="INV003">Amit Patel</option>
+                            <option value="INV004">Sneha Reddy</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Report Format</label>
+                        <select class="form-control" id="reportFormat">
+                            <option value="pdf">PDF Document</option>
+                            <option value="excel">Excel Spreadsheet</option>
+                            <option value="csv">CSV File</option>
+                            <option value="html">HTML Report</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label class="form-label">Fund Category Filter</label>
+                        <select class="form-control" id="fundCategory" multiple>
+                            <option value="all">All Categories</option>
+                            <option value="equity">Equity Funds</option>
+                            <option value="debt">Debt Funds</option>
+                            <option value="hybrid">Hybrid Funds</option>
+                            <option value="solution">Solution Oriented</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Include Charts</label>
+                        <select class="form-control" id="includeCharts">
+                            <option value="yes">Yes, include charts</option>
+                            <option value="no">No charts</option>
+                            <option value="summary">Summary charts only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Detail Level</label>
+                        <select class="form-control" id="detailLevel">
+                            <option value="summary">Summary View</option>
+                            <option value="detailed">Detailed View</option>
+                            <option value="comprehensive">Comprehensive View</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Sort By</label>
+                        <select class="form-control" id="sortBy">
+                            <option value="date">Transaction Date</option>
+                            <option value="amount">Investment Amount</option>
+                            <option value="returns">Returns</option>
+                            <option value="fund">Fund Name</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK REPORTS -->
+            <div class="quick-reports fade-in">
+                <div class="section-header">
+                    <h3><i class="fas fa-bolt"></i> Quick Reports</h3>
+                    <button class="btn btn-secondary" id="refreshQuickReports">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="reports-grid" id="quickReportsGrid">
+                    <!-- Quick report cards will be populated here -->
+                </div>
+            </div>
+
+            <!-- SCHEDULED REPORTS -->
+            <div class="scheduled-reports fade-in">
+                <div class="section-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Scheduled Reports</h3>
+                    <button class="btn btn-primary" id="scheduleReportBtn">
+                        <i class="fas fa-plus"></i> Schedule New Report
+                    </button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Report Name</th>
+                                <th>Frequency</th>
+                                <th>Next Run</th>
+                                <th>Recipients</th>
+                                <th>Status</th>
+                                <th>Last Generated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduledReportsTable">
+                            <!-- Scheduled reports will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- REPORT HISTORY -->
+            <div class="report-history fade-in">
+                <div class="section-header">
+                    <h3><i class="fas fa-history"></i> Recent Report History</h3>
+                    <button class="btn btn-secondary" id="viewAllHistory">
+                        View All
+                    </button>
+                </div>
+                
+                <div class="data-table-container">
+                    <div class="history-list" id="reportHistoryList">
+                        <!-- Report history will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORT PREVIEW -->
+            <div class="preview-panel" id="reportPreview">
+                <div class="preview-header">
+                    <h3><i class="fas fa-eye"></i> Report Preview</h3>
+                    <button class="btn btn-secondary" id="closePreview">
+                        <i class="fas fa-times"></i> Close Preview
+                    </button>
+                </div>
+                
+                <div class="preview-content">
+                    <div class="report-preview" id="previewContent">
+                        <!-- Report preview will be generated here -->
+                    </div>
+                    
+                    <div class="preview-actions">
+                        <button class="btn btn-secondary" id="editReport">
+                            <i class="fas fa-edit"></i> Edit Report
+                        </button>
+                        <button class="btn btn-success" id="downloadReport">
+                            <i class="fas fa-download"></i> Download Report
+                        </button>
+                        <button class="btn btn-primary" id="shareReport">
+                            <i class="fas fa-share-alt"></i> Share Report
+                        </button>
+                        <button class="btn btn-warning" id="printReport">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCHEDULE REPORT MODAL -->
+    <div class="modal" id="scheduleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-plus"></i> Schedule New Report</h3>
+                <p>Configure automated report generation and delivery</p>
+            </div>
+            
+            <div class="modal-body">
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label class="form-label">Report Name *</label>
+                        <input type="text" class="form-control" name="reportName" required placeholder="e.g., Monthly Portfolio Statement">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Report Type *</label>
+                            <select class="form-control" name="reportType" required>
+                                <option value="">Select Type</option>
+                                <option value="portfolio">Portfolio Statement</option>
+                                <option value="performance">Performance Report</option>
+                                <option value="transaction">Transaction History</option>
+                                <option value="capital_gains">Capital Gains Report</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Frequency *</label>
+                            <select class="form-control" name="frequency" required>
+                                <option value="">Select Frequency</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="yearly">Yearly</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Start Date *</label>
+                            <input type="date" class="form-control" name="startDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Delivery Time *</label>
+                            <input type="time" class="form-control" name="deliveryTime" required value="09:00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Recipients *</label>
+                        <select class="form-control" name="recipients" multiple required>
+                            <option value="self">Myself (John Marpung)</option>
+                            <option value="all_advisors">All Advisors</option>
+                            <option value="all_investors">All Investors</option>
+                            <option value="rajesh">Rajesh Kumar</option>
+                            <option value="priya">Priya Sharma</option>
+                            <option value="amit">Amit Patel</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Delivery Method</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="deliveryMethod" value="email" checked>
+                                <span>Email</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="deliveryMethod" value="sms">
+                                <span>SMS</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="deliveryMethod" value="portal">
+                                <span>Portal Notification</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Report Format</label>
+                        <select class="form-control" name="format">
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="both">Both PDF & Excel</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" name="notes" rows="3" placeholder="Any additional instructions..."></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelSchedule">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="saveSchedule">
+                    Schedule Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARE REPORT MODAL -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-share-alt"></i> Share Report</h3>
+                <p>Share this report with other users</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Share With</label>
+                    <select class="form-control" id="shareUsers" multiple>
+                        <option value="sarah">Sarah Johnson (Advisor)</option>
+                        <option value="michael">Michael Chen (Advisor)</option>
+                        <option value="rajesh">Rajesh Kumar (Investor)</option>
+                        <option value="priya">Priya Sharma (Investor)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Access Level</label>
+                    <select class="form-control" id="accessLevel">
+                        <option value="view">View Only</option>
+                        <option value="comment">View & Comment</option>
+                        <option value="edit">Edit Access</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message (Optional)</label>
+                    <textarea class="form-control" id="shareMessage" rows="3" placeholder="Add a message to accompany the shared report..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Expiration (Optional)</label>
+                    <input type="date" class="form-control" id="shareExpiration">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelShare">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="confirmShare">
+                    Share Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Sample data for reporting module
+        const quickReports = [
+            {
+                id: 'QR001',
+                title: 'Portfolio Statement',
+                description: 'Comprehensive portfolio valuation with asset allocation and performance summary',
+                icon: 'fas fa-chart-pie',
+                frequency: 'Monthly',
+                lastRun: 'Today, 10:00 AM',
+                actions: ['generate', 'preview', 'schedule']
+            },
+            {
+                id: 'QR002',
+                title: 'Transaction History',
+                description: 'Detailed transaction log with filters by date, investor, and fund',
+                icon: 'fas fa-exchange-alt',
+                frequency: 'Weekly',
+                lastRun: 'Yesterday, 9:30 AM',
+                actions: ['generate', 'export', 'schedule']
+            },
+            {
+                id: 'QR003',
+                title: 'Capital Gains Report',
+                description: 'Calculate and report short-term and long-term capital gains for tax filing',
+                icon: 'fas fa-calculator',
+                frequency: 'Quarterly',
+                lastRun: '1 week ago',
+                actions: ['generate', 'preview', 'export']
+            },
+            {
+                id: 'QR004',
+                title: 'Performance Analytics',
+                description: 'Portfolio performance vs benchmarks with XIRR, CAGR, and volatility metrics',
+                icon: 'fas fa-chart-line',
+                frequency: 'Monthly',
+                lastRun: 'Today, 8:00 AM',
+                actions: ['generate', 'schedule', 'share']
+            },
+            {
+                id: 'QR005',
+                title: 'Compliance Report',
+                description: 'Regulatory compliance status, KYC verification, and audit trail',
+                icon: 'fas fa-shield-alt',
+                frequency: 'Quarterly',
+                lastRun: '2 weeks ago',
+                actions: ['generate', 'export', 'share']
+            },
+            {
+                id: 'QR006',
+                title: 'Tax Summary',
+                description: 'Complete tax summary with deductions, exemptions, and liabilities',
+                icon: 'fas fa-file-invoice',
+                frequency: 'Yearly',
+                lastRun: '1 month ago',
+                actions: ['generate', 'preview', 'export']
+            }
+        ];
+
+        const scheduledReports = [
+            {
+                id: 'SR001',
+                name: 'Monthly Portfolio Statement',
+                frequency: 'Monthly',
+                nextRun: 'Dec 1, 2023',
+                recipients: ['All Investors', 'Advisors'],
+                status: 'active',
+                lastGenerated: 'Nov 1, 2023',
+                format: 'PDF'
+            },
+            {
+                id: 'SR002',
+                name: 'Weekly Transaction Summary',
+                frequency: 'Weekly',
+                nextRun: 'Tomorrow, 9:00 AM',
+                recipients: ['John Marpung', 'Sarah Johnson'],
+                status: 'active',
+                lastGenerated: 'Today, 9:00 AM',
+                format: 'Excel'
+            },
+            {
+                id: 'SR003',
+                name: 'Quarterly Capital Gains',
+                frequency: 'Quarterly',
+                nextRun: 'Jan 1, 2024',
+                recipients: ['All Investors', 'Accountants'],
+                status: 'active',
+                lastGenerated: 'Oct 1, 2023',
+                format: 'PDF & Excel'
+            },
+            {
+                id: 'SR004',
+                name: 'Daily NAV Update',
+                frequency: 'Daily',
+                nextRun: 'Today, 6:00 PM',
+                recipients: ['All Advisors'],
+                status: 'paused',
+                lastGenerated: 'Yesterday, 6:00 PM',
+                format: 'Email'
+            }
+        ];
+
+        const reportHistory = [
+            {
+                id: 'RH001',
+                title: 'Portfolio Statement - November 2023',
+                type: 'Portfolio',
+                generatedBy: 'John Marpung',
+                date: 'Today, 10:00 AM',
+                size: '2.4 MB',
+                format: 'PDF'
+            },
+            {
+                id: 'RH002',
+                title: 'Transaction History Report',
+                type: 'Transaction',
+                generatedBy: 'System Auto',
+                date: 'Yesterday, 9:30 AM',
+                size: '1.8 MB',
+                format: 'Excel'
+            },
+            {
+                id: 'RH003',
+                title: 'Capital Gains Q3 2023',
+                type: 'Capital Gains',
+                generatedBy: 'Sarah Johnson',
+                date: '1 week ago',
+                size: '3.2 MB',
+                format: 'PDF'
+            },
+            {
+                id: 'RH004',
+                title: 'Performance Analytics October',
+                type: 'Performance',
+                generatedBy: 'John Marpung',
+                date: '2 weeks ago',
+                size: '4.1 MB',
+                format: 'PDF'
+            },
+            {
+                id: 'RH005',
+                title: 'Compliance Quarterly Report',
+                type: 'Compliance',
+                generatedBy: 'System Auto',
+                date: '3 weeks ago',
+                size: '5.6 MB',
+                format: 'PDF'
+            }
+        ];
+
+        // Initialize the module
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Select2
+            $('#investorSelect').select2({
+                placeholder: 'Select investors',
+                width: '100%'
+            });
+            
+            $('#fundCategory').select2({
+                placeholder: 'Select fund categories',
+                width: '100%'
+            });
+            
+            // Initialize date range picker
+            $('#dateRange').daterangepicker({
+                opens: 'left',
+                startDate: moment().subtract(30, 'days'),
+                endDate: moment(),
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+            
+            // Load data
+            loadQuickReports();
+            loadScheduledReports();
+            loadReportHistory();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Update user info
+            updateUserInfo();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userRole');
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Generate report button
+            document.getElementById('generateReport').addEventListener('click', function() {
+                generateReport();
+            });
+
+            // Clear filters button
+            document.getElementById('clearFilters').addEventListener('click', function() {
+                clearAllFilters();
+            });
+
+            // Refresh quick reports
+            document.getElementById('refreshQuickReports').addEventListener('click', function() {
+                loadQuickReports();
+                showNotification('Quick reports refreshed', 'success');
+            });
+
+            // Schedule report button
+            document.getElementById('scheduleReportBtn').addEventListener('click', function() {
+                openScheduleModal();
+            });
+
+            // View all history
+            document.getElementById('viewAllHistory').addEventListener('click', function() {
+                alert('This would show complete report history in production.');
+            });
+
+            // Close preview
+            document.getElementById('closePreview').addEventListener('click', function() {
+                document.getElementById('reportPreview').classList.remove('active');
+            });
+
+            // Edit report
+            document.getElementById('editReport').addEventListener('click', function() {
+                alert('Edit report functionality would open here.');
+            });
+
+            // Download report
+            document.getElementById('downloadReport').addEventListener('click', function() {
+                downloadCurrentReport();
+            });
+
+            // Share report
+            document.getElementById('shareReport').addEventListener('click', function() {
+                openShareModal();
+            });
+
+            // Print report
+            document.getElementById('printReport').addEventListener('click', function() {
+                printCurrentReport();
+            });
+
+            // Schedule modal buttons
+            document.getElementById('cancelSchedule').addEventListener('click', function() {
+                document.getElementById('scheduleModal').classList.remove('active');
+                document.getElementById('scheduleForm').reset();
+            });
+
+            document.getElementById('saveSchedule').addEventListener('click', function() {
+                saveScheduledReport();
+            });
+
+            // Share modal buttons
+            document.getElementById('cancelShare').addEventListener('click', function() {
+                document.getElementById('shareModal').classList.remove('active');
+            });
+
+            document.getElementById('confirmShare').addEventListener('click', function() {
+                shareCurrentReport();
+            });
+
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Load quick reports
+        function loadQuickReports() {
+            const container = document.getElementById('quickReportsGrid');
+            container.innerHTML = '';
+            
+            quickReports.forEach(report => {
+                const card = createQuickReportCard(report);
+                container.appendChild(card);
+            });
+        }
+
+        // Create quick report card
+        function createQuickReportCard(report) {
+            const card = document.createElement('div');
+            card.className = 'report-card';
+            card.setAttribute('data-report-id', report.id);
+            
+            // Generate action buttons
+            const actionButtons = report.actions.map(action => {
+                if (action === 'generate') {
+                    return `<button class="btn btn-primary btn-sm generate-quick" data-report-id="${report.id}">
+                        <i class="fas fa-magic"></i> Generate
+                    </button>`;
+                } else if (action === 'preview') {
+                    return `<button class="btn btn-secondary btn-sm preview-quick" data-report-id="${report.id}">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>`;
+                } else if (action === 'export') {
+                    return `<button class="btn btn-success btn-sm export-quick" data-report-id="${report.id}">
+                        <i class="fas fa-download"></i> Export
+                    </button>`;
+                } else if (action === 'schedule') {
+                    return `<button class="btn btn-warning btn-sm schedule-quick" data-report-id="${report.id}">
+                        <i class="fas fa-calendar-alt"></i> Schedule
+                    </button>`;
+                } else if (action === 'share') {
+                    return `<button class="btn btn-secondary btn-sm share-quick" data-report-id="${report.id}">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>`;
+                }
+                return '';
+            }).join('');
+            
+            card.innerHTML = `
+                <div class="report-icon">
+                    <i class="${report.icon}"></i>
+                </div>
+                <div class="report-title">${report.title}</div>
+                <div class="report-description">${report.description}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span class="badge badge-info">${report.frequency}</span>
+                    <span style="font-size: 12px; color: rgba(255,255,255,0.6);">
+                        <i class="fas fa-clock"></i> ${report.lastRun}
+                    </span>
+                </div>
+                <div class="report-actions">
+                    ${actionButtons}
+                </div>
+            `;
+            
+            // Add event listeners to buttons
+            card.querySelector('.generate-quick')?.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
+                generateQuickReport(reportId);
+            });
+            
+            card.querySelector('.preview-quick')?.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
+                previewQuickReport(reportId);
+            });
+            
+            card.querySelector('.export-quick')?.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
+                exportQuickReport(reportId);
+            });
+            
+            card.querySelector('.schedule-quick')?.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
+                scheduleQuickReport(reportId);
+            });
+            
+            card.querySelector('.share-quick')?.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
+                shareQuickReport(reportId);
+            });
+            
+            return card;
+        }
+
+        // Load scheduled reports
+        function loadScheduledReports() {
+            const tbody = document.getElementById('scheduledReportsTable');
+            tbody.innerHTML = '';
+            
+            scheduledReports.forEach(report => {
+                const row = document.createElement('tr');
+                
+                // Status badge
+                let statusBadge = '';
+                if (report.status === 'active') {
+                    statusBadge = '<span class="badge badge-success">Active</span>';
+                } else if (report.status === 'paused') {
+                    statusBadge = '<span class="badge badge-warning">Paused</span>';
+                } else {
+                    statusBadge = '<span class="badge" style="background: rgba(255,193,7,0.2); color: #ffc107;">Draft</span>';
+                }
+                
+                row.innerHTML = `
+                    <td><strong>${report.name}</strong></td>
+                    <td>${report.frequency}</td>
+                    <td>${report.nextRun}</td>
+                    <td>${report.recipients.join(', ')}</td>
+                    <td>${statusBadge}</td>
+                    <td>${report.lastGenerated}</td>
+                    <td>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-icon" title="Run Now" onclick="runScheduledReport('${report.id}')">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="btn-icon" title="Edit" onclick="editScheduledReport('${report.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" title="Pause/Resume" onclick="toggleScheduledReport('${report.id}')">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="btn-icon" title="Delete" onclick="deleteScheduledReport('${report.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Load report history
+        function loadReportHistory() {
+            const container = document.getElementById('reportHistoryList');
+            container.innerHTML = '';
+            
+            reportHistory.forEach(history => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.setAttribute('data-history-id', history.id);
+                
+                item.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-title">${history.title}</div>
+                        <div class="history-meta">
+                            <span><i class="fas fa-file-alt"></i> ${history.type}</span>
+                            <span><i class="fas fa-user"></i> ${history.generatedBy}</span>
+                            <span><i class="fas fa-clock"></i> ${history.date}</span>
+                            <span><i class="fas fa-weight"></i> ${history.size}</span>
+                            <span><i class="fas fa-file"></i> ${history.format}</span>
+                        </div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn-icon" title="Download" onclick="downloadHistoryReport('${history.id}')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon" title="View" onclick="viewHistoryReport('${history.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-icon" title="Regenerate" onclick="regenerateHistoryReport('${history.id}')">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Generate report based on filters
+        function generateReport() {
+            // Get filter values
+            const reportType = document.getElementById('reportType').value;
+            const dateRange = document.getElementById('dateRange').value;
+            const investors = $('#investorSelect').val();
+            const format = document.getElementById('reportFormat').value;
+            
+            if (!reportType) {
+                alert('Please select a report type.');
+                return;
+            }
+            
+            if (!dateRange) {
+                alert('Please select a date range.');
+                return;
+            }
+            
+            // Show loading state
+            const generateBtn = document.getElementById('generateReport');
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<div class="loading"></div> Generating...';
+            generateBtn.disabled = true;
+            
+            // Simulate report generation
+            setTimeout(() => {
+                // Generate report preview
+                generateReportPreview(reportType, dateRange, investors, format);
+                
+                // Reset button
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+                
+                // Show success message
+                showNotification('Report generated successfully!', 'success');
+            }, 2000);
+        }
+
+        // Generate report preview
+        function generateReportPreview(type, dateRange, investors, format) {
+            const previewPanel = document.getElementById('reportPreview');
+            const previewContent = document.getElementById('previewContent');
+            
+            // Create report content based on type
+            let reportContent = '';
+            const now = new Date();
+            const reportDate = now.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            const reportTime = now.toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            switch(type) {
+                case 'portfolio':
+                    reportContent = createPortfolioReport(dateRange, investors);
+                    break;
+                case 'transaction':
+                    reportContent = createTransactionReport(dateRange, investors);
+                    break;
+                case 'performance':
+                    reportContent = createPerformanceReport(dateRange, investors);
+                    break;
+                case 'capital_gains':
+                    reportContent = createCapitalGainsReport(dateRange, investors);
+                    break;
+                case 'compliance':
+                    reportContent = createComplianceReport(dateRange, investors);
+                    break;
+                case 'tax':
+                    reportContent = createTaxReport(dateRange, investors);
+                    break;
+                default:
+                    reportContent = createDefaultReport(type, dateRange, investors);
+            }
+            
+            previewContent.innerHTML = `
+                <div class="report-header">
+                    <h2>${getReportTitle(type)}</h2>
+                    <div class="report-meta">
+                        <span><i class="fas fa-calendar"></i> ${dateRange}</span>
+                        <span><i class="fas fa-users"></i> ${investors?.length || 'All'} Investors</span>
+                        <span><i class="fas fa-clock"></i> Generated: ${reportDate} at ${reportTime}</span>
+                        <span><i class="fas fa-user"></i> Generated by: John Marpung</span>
+                    </div>
+                </div>
+                ${reportContent}
+            `;
+            
+            previewPanel.classList.add('active');
+            
+            // Scroll to preview
+            previewPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Create portfolio report
+        function createPortfolioReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Portfolio Summary</h3>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 20px;">
+                        <div style="text-align: center; padding: 20px; background: rgba(67, 97, 238, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #4cc9f0;">₹24.78L</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Portfolio Value</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(76, 201, 240, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #4cc9f0;">₹2.15L</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Returns</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(247, 37, 133, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #f72585;">15.8%</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Portfolio XIRR</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(114, 9, 183, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #7209b7;">12</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Active Funds</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3>Asset Allocation</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
+                        <div>
+                            <h4 style="font-size: 14px; margin-bottom: 10px;">By Category</h4>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Equity Funds</span>
+                                    <span>₹15.78L (63.7%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 63.7%; height: 100%; background: #4361ee; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Debt Funds</span>
+                                    <span>₹6.45L (26.0%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 26%; height: 100%; background: #4cc9f0; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Hybrid Funds</span>
+                                    <span>₹2.55L (10.3%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 10.3%; height: 100%; background: #f72585; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 14px; margin-bottom: 10px;">By Market Cap</h4>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Large Cap</span>
+                                    <span>₹9.85L (39.7%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 39.7%; height: 100%; background: #4361ee; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Mid Cap</span>
+                                    <span>₹4.25L (17.1%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 17.1%; height: 100%; background: #4cc9f0; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Small Cap</span>
+                                    <span>₹1.68L (6.8%)</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                                    <div style="width: 6.8%; height: 100%; background: #f72585; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3>Fund Holdings</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                            <thead>
+                                <tr style="background: rgba(255,255,255,0.05);">
+                                    <th style="padding: 10px; text-align: left;">Fund Name</th>
+                                    <th style="padding: 10px; text-align: right;">Units</th>
+                                    <th style="padding: 10px; text-align: right;">Avg Cost</th>
+                                    <th style="padding: 10px; text-align: right;">Current NAV</th>
+                                    <th style="padding: 10px; text-align: right;">Invested Value</th>
+                                    <th style="padding: 10px; text-align: right;">Current Value</th>
+                                    <th style="padding: 10px; text-align: right;">Gain/Loss</th>
+                                    <th style="padding: 10px; text-align: right;">XIRR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px;">HDFC Top 100 Fund</td>
+                                    <td style="padding: 10px; text-align: right;">450.25</td>
+                                    <td style="padding: 10px; text-align: right;">₹520.50</td>
+                                    <td style="padding: 10px; text-align: right;">₹615.20</td>
+                                    <td style="padding: 10px; text-align: right;">₹2,34,500</td>
+                                    <td style="padding: 10px; text-align: right;">₹2,76,834</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">₹42,334</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">15.8%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px;">ICICI Pru Bluechip Fund</td>
+                                    <td style="padding: 10px; text-align: right;">320.50</td>
+                                    <td style="padding: 10px; text-align: right;">₹480.25</td>
+                                    <td style="padding: 10px; text-align: right;">₹560.75</td>
+                                    <td style="padding: 10px; text-align: right;">₹1,54,000</td>
+                                    <td style="padding: 10px; text-align: right;">₹1,79,680</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">₹25,680</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">14.2%</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;"><strong>Total</strong></td>
+                                    <td style="padding: 10px; text-align: right;"></td>
+                                    <td style="padding: 10px; text-align: right;"></td>
+                                    <td style="padding: 10px; text-align: right;"></td>
+                                    <td style="padding: 10px; text-align: right;"><strong>₹3,88,500</strong></td>
+                                    <td style="padding: 10px; text-align: right;"><strong>₹4,56,514</strong></td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;"><strong>₹68,014</strong></td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;"><strong>15.8%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3>Performance Summary</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
+                        <div>
+                            <h4 style="font-size: 14px; margin-bottom: 10px;">Returns vs Benchmarks</h4>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Portfolio Returns (1Y)</span>
+                                    <span style="color: #4cc9f0;">18.2%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>NIFTY 50 (1Y)</span>
+                                    <span>15.8%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Outperformance</span>
+                                    <span style="color: #4cc9f0;">+2.4%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 14px; margin-bottom: 10px;">Risk Metrics</h4>
+                            <div style="margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Standard Deviation (σ)</span>
+                                    <span>12.4%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Sharpe Ratio</span>
+                                    <span style="color: #4cc9f0;">1.24</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Beta</span>
+                                    <span>0.92</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3>Disclaimer</h3>
+                    <p style="font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.6;">
+                        This report is generated for informational purposes only. Past performance is not indicative of future results. 
+                        Mutual fund investments are subject to market risks. Please read all scheme related documents carefully before investing. 
+                        This report is confidential and intended only for the recipient. Unauthorized distribution is prohibited.
+                    </p>
+                </div>
+            `;
+        }
+
+        // Create transaction report
+        function createTransactionReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Transaction Summary</h3>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 20px;">
+                        <div style="text-align: center; padding: 20px; background: rgba(67, 97, 238, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #4cc9f0;">₹8.75L</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Investments</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(247, 37, 133, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #f72585;">₹1.25L</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Redemptions</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(76, 201, 240, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #4cc9f0;">24</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Transactions</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(114, 9, 183, 0.1); border-radius: 10px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #7209b7;">12</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Active SIPs</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3>Transaction Details</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                            <thead>
+                                <tr style="background: rgba(255,255,255,0.05);">
+                                    <th style="padding: 10px; text-align: left;">Date</th>
+                                    <th style="padding: 10px; text-align: left;">Investor</th>
+                                    <th style="padding: 10px; text-align: left;">Type</th>
+                                    <th style="padding: 10px; text-align: left;">Fund</th>
+                                    <th style="padding: 10px; text-align: right;">Amount</th>
+                                    <th style="padding: 10px; text-align: right;">Units</th>
+                                    <th style="padding: 10px; text-align: left;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px;">01/11/2023</td>
+                                    <td style="padding: 10px;">Rajesh Kumar</td>
+                                    <td style="padding: 10px;">Purchase</td>
+                                    <td style="padding: 10px;">HDFC Top 100</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">₹50,000</td>
+                                    <td style="padding: 10px; text-align: right;">81.25</td>
+                                    <td style="padding: 10px;"><span style="color: #4cc9f0;">Completed</span></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px;">15/10/2023</td>
+                                    <td style="padding: 10px;">Priya Sharma</td>
+                                    <td style="padding: 10px;">Redemption</td>
+                                    <td style="padding: 10px;">ICICI Bluechip</td>
+                                    <td style="padding: 10px; text-align: right; color: #f72585;">-₹25,000</td>
+                                    <td style="padding: 10px; text-align: right;">44.58</td>
+                                    <td style="padding: 10px;"><span style="color: #4cc9f0;">Completed</span></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px;">05/10/2023</td>
+                                    <td style="padding: 10px;">Amit Patel</td>
+                                    <td style="padding: 10px;">SIP</td>
+                                    <td style="padding: 10px;">SBI Small Cap</td>
+                                    <td style="padding: 10px; text-align: right; color: #4cc9f0;">₹10,000</td>
+                                    <td style="padding: 10px; text-align: right;">83.16</td>
+                                    <td style="padding: 10px;"><span style="color: #4cc9f0;">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create performance report
+        function createPerformanceReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Performance Overview</h3>
+                    <p>Detailed performance analysis for the selected period.</p>
+                    <!-- Add performance charts and metrics here -->
+                </div>
+            `;
+        }
+
+        // Create capital gains report
+        function createCapitalGainsReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Capital Gains Summary</h3>
+                    <p>Capital gains calculation for tax purposes.</p>
+                    <!-- Add capital gains details here -->
+                </div>
+            `;
+        }
+
+        // Create compliance report
+        function createComplianceReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Compliance Status</h3>
+                    <p>Regulatory compliance and audit status.</p>
+                    <!-- Add compliance details here -->
+                </div>
+            `;
+        }
+
+        // Create tax report
+        function createTaxReport(dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>Tax Summary</h3>
+                    <p>Complete tax calculation and filing status.</p>
+                    <!-- Add tax details here -->
+                </div>
+            `;
+        }
+
+        // Create default report
+        function createDefaultReport(type, dateRange, investors) {
+            return `
+                <div class="report-section">
+                    <h3>${getReportTitle(type)}</h3>
+                    <p>Custom report generated for the selected criteria.</p>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px;">Report Configuration</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 14px;">
+                            <div><strong>Report Type:</strong> ${type}</div>
+                            <div><strong>Date Range:</strong> ${dateRange}</div>
+                            <div><strong>Investors:</strong> ${investors?.length || 'All'}</div>
+                            <div><strong>Generated:</strong> ${new Date().toLocaleString()}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get report title
+        function getReportTitle(type) {
+            const titles = {
+                'portfolio': 'Portfolio Statement',
+                'transaction': 'Transaction History Report',
+                'performance': 'Performance Analytics Report',
+                'capital_gains': 'Capital Gains Report',
+                'compliance': 'Compliance Report',
+                'tax': 'Tax Summary Report',
+                'holding': 'Holding Pattern Report',
+                'custom': 'Custom Report'
+            };
+            return titles[type] || 'Report';
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            document.getElementById('reportType').value = '';
+            $('#investorSelect').val(null).trigger('change');
+            $('#fundCategory').val(null).trigger('change');
+            document.getElementById('reportFormat').value = 'pdf';
+            document.getElementById('includeCharts').value = 'yes';
+            document.getElementById('detailLevel').value = 'summary';
+            document.getElementById('sortBy').value = 'date';
+            
+            // Reset date range to default
+            $('#dateRange').data('daterangepicker').setStartDate(moment().subtract(30, 'days'));
+            $('#dateRange').data('daterangepicker').setEndDate(moment());
+            $('#dateRange').val('');
+            
+            showNotification('All filters cleared', 'info');
+        }
+
+        // Generate quick report
+        function generateQuickReport(reportId) {
+            const report = quickReports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            // Show loading
+            showNotification(`Generating ${report.title}...`, 'info');
+            
+            // Simulate generation
+            setTimeout(() => {
+                const type = getReportTypeFromTitle(report.title);
+                generateReportPreview(type, 'Last 30 days', ['all'], 'pdf');
+                showNotification(`${report.title} generated successfully!`, 'success');
+            }, 1500);
+        }
+
+        // Preview quick report
+        function previewQuickReport(reportId) {
+            const report = quickReports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            const type = getReportTypeFromTitle(report.title);
+            generateReportPreview(type, 'Last 30 days', ['all'], 'pdf');
+        }
+
+        // Export quick report
+        function exportQuickReport(reportId) {
+            const report = quickReports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            const format = confirm('Export as PDF? (Cancel for Excel)') ? 'pdf' : 'excel';
+            showNotification(`Exporting ${report.title} as ${format.toUpperCase()}...`, 'info');
+            
+            setTimeout(() => {
+                showNotification(`${report.title} exported successfully!`, 'success');
+                // In production, this would trigger a file download
+            }, 1000);
+        }
+
+        // Schedule quick report
+        function scheduleQuickReport(reportId) {
+            const report = quickReports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            openScheduleModal();
+            // Pre-fill modal with report details
+            document.querySelector('#scheduleForm input[name="reportName"]').value = report.title;
+        }
+
+        // Share quick report
+        function shareQuickReport(reportId) {
+            const report = quickReports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            openShareModal();
+        }
+
+        // Get report type from title
+        function getReportTypeFromTitle(title) {
+            if (title.includes('Portfolio')) return 'portfolio';
+            if (title.includes('Transaction')) return 'transaction';
+            if (title.includes('Performance')) return 'performance';
+            if (title.includes('Capital Gains')) return 'capital_gains';
+            if (title.includes('Compliance')) return 'compliance';
+            if (title.includes('Tax')) return 'tax';
+            return 'custom';
+        }
+
+        // Open schedule modal
+        function openScheduleModal() {
+            document.getElementById('scheduleModal').classList.add('active');
+            // Set default start date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.querySelector('#scheduleForm input[name="startDate"]').value = 
+                tomorrow.toISOString().split('T')[0];
+        }
+
+        // Save scheduled report
+        function saveScheduledReport() {
+            const form = document.getElementById('scheduleForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const formData = new FormData(form);
+            const scheduleData = Object.fromEntries(formData.entries());
+            
+            // Add to scheduled reports
+            const newSchedule = {
+                id: 'SR' + (scheduledReports.length + 1).toString().padStart(3, '0'),
+                name: scheduleData.reportName,
+                frequency: scheduleData.frequency,
+                nextRun: 'Tomorrow, ' + scheduleData.deliveryTime,
+                recipients: scheduleData.recipients,
+                status: 'active',
+                lastGenerated: 'Never',
+                format: scheduleData.format
+            };
+            
+            scheduledReports.push(newSchedule);
+            loadScheduledReports();
+            
+            // Close modal and reset form
+            document.getElementById('scheduleModal').classList.remove('active');
+            form.reset();
+            
+            showNotification('Report scheduled successfully!', 'success');
+        }
+
+        // Open share modal
+        function openShareModal() {
+            document.getElementById('shareModal').classList.add('active');
+        }
+
+        // Share current report
+        function shareCurrentReport() {
+            const users = $('#shareUsers').val();
+            const accessLevel = document.getElementById('accessLevel').value;
+            const message = document.getElementById('shareMessage').value;
+            
+            if (!users || users.length === 0) {
+                alert('Please select at least one user to share with.');
+                return;
+            }
+            
+            showNotification(`Report shared with ${users.length} users`, 'success');
+            document.getElementById('shareModal').classList.remove('active');
+            
+            // Reset form
+            $('#shareUsers').val(null).trigger('change');
+            document.getElementById('shareMessage').value = '';
+            document.getElementById('shareExpiration').value = '';
+        }
+
+        // Download current report
+        function downloadCurrentReport() {
+            const format = document.getElementById('reportFormat').value;
+            const reportType = document.getElementById('reportType').value || 'custom';
+            
+            showNotification(`Downloading ${reportType} report as ${format.toUpperCase()}...`, 'info');
+            
+            // Simulate download
+            setTimeout(() => {
+                showNotification('Report downloaded successfully!', 'success');
+                // In production, this would trigger a file download
+            }, 1000);
+        }
+
+        // Print current report
+        function printCurrentReport() {
+            window.print();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? 'rgba(76, 201, 240, 0.9)' : 
+                           type === 'error' ? 'rgba(247, 37, 133, 0.9)' : 
+                           'rgba(67, 97, 238, 0.9)'};
+                color: white;
+                border-radius: 10px;
+                z-index: 10000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                     type === 'error' ? 'exclamation-circle' : 
+                                     'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Update user info
+        function updateUserInfo() {
+            const userEmail = localStorage.getItem('userEmail') || 'john.marpung@infinitymf.com';
+            const userRole = localStorage.getItem('userRole') || 'admin';
+            
+            const userName = userEmail.split('@')[0];
+            const initials = userName.split('.')
+                .map(word => word.charAt(0).toUpperCase())
+                .join('');
+            
+            document.querySelector('.user-avatar').textContent = initials;
+            document.querySelector('.user-name').textContent = userName.replace('.', ' ');
+            document.querySelector('.user-role').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.createElement('button');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        mobileMenuBtn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        `;
+        
+        document.body.appendChild(mobileMenuBtn);
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Check screen size for mobile
+        function checkScreenSize() {
+            if (window.innerWidth <= 992) {
+                mobileMenuBtn.style.display = 'flex';
+            } else {
+                mobileMenuBtn.style.display = 'none';
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        }
+        
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        // Scheduled report actions
+        window.runScheduledReport = function(reportId) {
+            const report = scheduledReports.find(r => r.id === reportId);
+            if (report) {
+                showNotification(`Running ${report.name} now...`, 'info');
+                setTimeout(() => {
+                    showNotification(`${report.name} executed successfully!`, 'success');
+                }, 1500);
+            }
+        };
+
+        window.editScheduledReport = function(reportId) {
+            const report = scheduledReports.find(r => r.id === reportId);
+            if (report) {
+                openScheduleModal();
+                // Pre-fill form with report data
+                const form = document.getElementById('scheduleForm');
+                form.querySelector('[name="reportName"]').value = report.name;
+                form.querySelector('[name="reportType"]').value = 'portfolio'; // Default
+                form.querySelector('[name="frequency"]').value = report.frequency.toLowerCase();
+            }
+        };
+
+        window.toggleScheduledReport = function(reportId) {
+            const report = scheduledReports.find(r => r.id === reportId);
+            if (report) {
+                report.status = report.status === 'active' ? 'paused' : 'active';
+                loadScheduledReports();
+                showNotification(`${report.name} ${report.status === 'active' ? 'activated' : 'paused'}`, 'info');
+            }
+        };
+
+        window.deleteScheduledReport = function(reportId) {
+            if (confirm('Are you sure you want to delete this scheduled report?')) {
+                const index = scheduledReports.findIndex(r => r.id === reportId);
+                if (index !== -1) {
+                    const reportName = scheduledReports[index].name;
+                    scheduledReports.splice(index, 1);
+                    loadScheduledReports();
+                    showNotification(`${reportName} deleted successfully!`, 'success');
+                }
+            }
+        };
+
+        // Report history actions
+        window.downloadHistoryReport = function(historyId) {
+            const history = reportHistory.find(h => h.id === historyId);
+            if (history) {
+                showNotification(`Downloading ${history.title}...`, 'info');
+                setTimeout(() => {
+                    showNotification('Report downloaded successfully!', 'success');
+                }, 1000);
+            }
+        };
+
+        window.viewHistoryReport = function(historyId) {
+            const history = reportHistory.find(h => h.id === historyId);
+            if (history) {
+                const type = getReportTypeFromTitle(history.title);
+                generateReportPreview(type, 'Custom Period', ['all'], history.format.toLowerCase());
+            }
+        };
+
+        window.regenerateHistoryReport = function(historyId) {
+            const history = reportHistory.find(h => h.id === historyId);
+            if (history) {
+                showNotification(`Regenerating ${history.title}...`, 'info');
+                setTimeout(() => {
+                    showNotification('Report regenerated successfully!', 'success');
+                }, 1500);
+            }
+        };
+    </script>
+    
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</body>
+</html>
