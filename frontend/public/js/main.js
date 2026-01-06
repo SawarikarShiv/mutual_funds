@@ -1,471 +1,455 @@
-// ===== MAIN APPLICATION SCRIPT =====
-class InfinityMutualFunds {
-    constructor() {
-        this.init();
-    }
+// js/main.js - Common JavaScript Functions for Infinity MF System
 
-    init() {
-        // Initialize tooltips
-        this.initTooltips();
-        
-        // Initialize modals
-        this.initModals();
-        
-        // Initialize form validations
-        this.initForms();
-        
-        // Initialize date pickers
-        this.initDatePickers();
-        
-        // Initialize charts
-        this.initCharts();
-        
-        // Load user data if logged in
-        this.loadUserData();
-        
-        // Set up event listeners
-        this.setupEventListeners();
-    }
-
-    // ===== TOOLTIPS =====
-    initTooltips() {
-        const tooltips = document.querySelectorAll('[data-tooltip]');
-        tooltips.forEach(element => {
-            element.addEventListener('mouseenter', (e) => {
-                const tooltipText = e.target.dataset.tooltip;
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip';
-                tooltip.textContent = tooltipText;
-                tooltip.style.position = 'absolute';
-                tooltip.style.background = 'var(--dark-color)';
-                tooltip.style.color = 'white';
-                tooltip.style.padding = '5px 10px';
-                tooltip.style.borderRadius = '4px';
-                tooltip.style.fontSize = '12px';
-                tooltip.style.zIndex = '1000';
-                tooltip.style.whiteSpace = 'nowrap';
-                
-                document.body.appendChild(tooltip);
-                
-                const rect = e.target.getBoundingClientRect();
-                tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
-                tooltip.style.left = (rect.left + (rect.width - tooltip.offsetWidth) / 2) + 'px';
-                
-                e.target._tooltip = tooltip;
-            });
-            
-            element.addEventListener('mouseleave', (e) => {
-                if (e.target._tooltip) {
-                    e.target._tooltip.remove();
-                    delete e.target._tooltip;
-                }
-            });
-        });
-    }
-
-    // ===== MODALS =====
-    initModals() {
-        // Open modal
-        document.querySelectorAll('[data-modal-target]').forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                const modalId = trigger.dataset.modalTarget;
-                this.openModal(modalId);
-            });
-        });
-
-        // Close modal
-        document.querySelectorAll('.modal-close, [data-modal-close]').forEach(closeBtn => {
-            closeBtn.addEventListener('click', () => {
-                const modal = closeBtn.closest('.modal');
-                this.closeModal(modal);
-            });
-        });
-
-        // Close modal on backdrop click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.closeModal(modal);
-                }
-            });
-        });
-    }
-
-    openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-
-    closeModal(modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-    }
-
-    // ===== FORMS =====
-    initForms() {
-        const forms = document.querySelectorAll('form[data-validate]');
-        forms.forEach(form => {
-            form.addEventListener('submit', (e) => {
-                if (!this.validateForm(form)) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-        });
-
-        // Real-time validation
-        forms.forEach(form => {
-            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
-            inputs.forEach(input => {
-                input.addEventListener('blur', () => this.validateField(input));
-                input.addEventListener('input', () => this.clearFieldError(input));
-            });
-        });
-    }
-
-    validateForm(form) {
-        let isValid = true;
-        const requiredFields = form.querySelectorAll('[required]');
-        
-        requiredFields.forEach(field => {
-            if (!this.validateField(field)) {
-                isValid = false;
-            }
-        });
-
-        // Password confirmation validation
-        const password = form.querySelector('input[type="password"][name="password"]');
-        const confirmPassword = form.querySelector('input[type="password"][name="confirm_password"]');
-        
-        if (password && confirmPassword && password.value !== confirmPassword.value) {
-            this.showFieldError(confirmPassword, 'Passwords do not match');
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    validateField(field) {
-        let isValid = true;
-        let errorMessage = '';
-
-        if (field.required && !field.value.trim()) {
-            errorMessage = 'This field is required';
-            isValid = false;
-        } else if (field.type === 'email' && field.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(field.value)) {
-                errorMessage = 'Please enter a valid email address';
-                isValid = false;
-            }
-        } else if (field.type === 'tel' && field.value) {
-            const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
-            if (!phoneRegex.test(field.value)) {
-                errorMessage = 'Please enter a valid phone number';
-                isValid = false;
-            }
-        } else if (field.type === 'password' && field.value) {
-            if (field.value.length < 6) {
-                errorMessage = 'Password must be at least 6 characters';
-                isValid = false;
-            }
-        }
-
-        if (!isValid) {
-            this.showFieldError(field, errorMessage);
-        } else {
-            this.clearFieldError(field);
-        }
-
-        return isValid;
-    }
-
-    showFieldError(field, message) {
-        this.clearFieldError(field);
-        field.classList.add('error');
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error';
-        errorDiv.textContent = message;
-        
-        field.parentNode.appendChild(errorDiv);
-    }
-
-    clearFieldError(field) {
-        field.classList.remove('error');
-        const existingError = field.parentNode.querySelector('.form-error');
-        if (existingError) {
-            existingError.remove();
-        }
-    }
-
-    // ===== DATE PICKERS =====
-    initDatePickers() {
-        const dateInputs = document.querySelectorAll('input[type="date"]');
-        dateInputs.forEach(input => {
-            if (!input.value) {
-                input.value = new Date().toISOString().split('T')[0];
-            }
-        });
-    }
-
-    // ===== CHARTS =====
-    initCharts() {
-        // Initialize any charts on the page
-        const chartElements = document.querySelectorAll('[data-chart]');
-        chartElements.forEach(element => {
-            const chartType = element.dataset.chart;
-            const chartData = element.dataset.chartData ? JSON.parse(element.dataset.chartData) : null;
-            
-            if (chartData) {
-                this.renderChart(element, chartType, chartData);
-            }
-        });
-    }
-
-    renderChart(canvas, type, data) {
-        // Chart.js integration would go here
-        // For now, we'll create a simple placeholder
-        if (typeof Chart === 'undefined') {
-            console.warn('Chart.js not loaded');
-            return;
-        }
-
-        return new Chart(canvas, {
-            type: type,
-            data: data,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    }
-
-    // ===== USER DATA =====
-    loadUserData() {
-        // Check if user is logged in
-        if (document.body.classList.contains('logged-in')) {
-            // Load user data from session/localStorage
-            const userData = this.getUserData();
-            this.updateUIWithUserData(userData);
-        }
-    }
-
-    getUserData() {
-        try {
-            return JSON.parse(localStorage.getItem('infinity_user')) || {};
-        } catch (e) {
-            return {};
-        }
-    }
-
-    updateUIWithUserData(userData) {
-        // Update user avatar
-        const avatar = document.querySelector('.user-avatar');
-        if (avatar && userData.name) {
-            avatar.textContent = userData.name.charAt(0).toUpperCase();
-        }
-
-        // Update username display
-        const usernameElements = document.querySelectorAll('.username-display');
-        usernameElements.forEach(el => {
-            if (userData.username) {
-                el.textContent = userData.username;
-            }
-        });
-    }
-
-    // ===== API CALLS =====
-    async apiCall(endpoint, method = 'GET', data = null) {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        };
-
-        // Add auth token if available
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
-
-        const config = {
-            method: method,
-            headers: headers
-        };
-
-        if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
-            config.body = JSON.stringify(data);
-        }
-
-        try {
-            const response = await fetch(endpoint, config);
-            const responseData = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(responseData.message || 'API request failed');
-            }
-            
-            return responseData;
-        } catch (error) {
-            console.error('API Error:', error);
-            this.showAlert(error.message, 'error');
-            throw error;
-        }
-    }
-
-    // ===== ALERTS =====
-    showAlert(message, type = 'info', duration = 5000) {
-        // Remove existing alerts
-        const existingAlerts = document.querySelectorAll('.global-alert');
-        existingAlerts.forEach(alert => alert.remove());
-
-        // Create alert element
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${type} global-alert`;
-        alert.innerHTML = `
-            <span>${message}</span>
-            <button class="alert-close" style="margin-left: auto; background: none; border: none; cursor: pointer;">×</button>
-        `;
-
-        // Style for global alert
-        alert.style.position = 'fixed';
-        alert.style.top = '20px';
-        alert.style.right = '20px';
-        alert.style.zIndex = '9999';
-        alert.style.minWidth = '300px';
-        alert.style.maxWidth = '500px';
-
-        // Add close functionality
-        const closeBtn = alert.querySelector('.alert-close');
-        closeBtn.addEventListener('click', () => alert.remove());
-
-        // Add to document
-        document.body.appendChild(alert);
-
-        // Auto remove after duration
-        if (duration > 0) {
-            setTimeout(() => alert.remove(), duration);
-        }
-
-        return alert;
-    }
-
-    // ===== UTILITIES =====
-    formatCurrency(amount, currency = 'INR') {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: currency,
-            minimumFractionDigits: 2
-        }).format(amount);
-    }
-
-    formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    }
-
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // ===== EVENT LISTENERS =====
-    setupEventListeners() {
-        // Logout button
-        document.querySelectorAll('[data-logout]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.logout();
-            });
-        });
-
-        // Print buttons
-        document.querySelectorAll('[data-print]').forEach(btn => {
-            btn.addEventListener('click', () => window.print());
-        });
-
-        // Search functionality
-        const searchInput = document.querySelector('[data-search]');
-        if (searchInput) {
-            const debouncedSearch = this.debounce(this.performSearch.bind(this), 300);
-            searchInput.addEventListener('input', (e) => debouncedSearch(e.target.value));
-        }
-    }
-
-    async performSearch(query) {
-        if (query.length < 2) return;
-        
-        // Show loading
-        this.showAlert('Searching...', 'info', 2000);
-        
-        // Implement search logic
-        // This would typically make an API call
-        console.log('Searching for:', query);
-    }
-
-    logout() {
-        // Clear user data
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('infinity_user');
-        
-        // Redirect to login
-        window.location.href = 'login.html';
-    }
-}
-
-// ===== INITIALIZE APP =====
-document.addEventListener('DOMContentLoaded', () => {
-    window.app = new InfinityMutualFunds();
-    
-    // Add class to body based on page
-    const body = document.body;
-    const path = window.location.pathname;
-    
-    if (path.includes('dashboard')) {
-        body.classList.add('dashboard-page');
-    } else if (path.includes('login')) {
-        body.classList.add('auth-page');
-    }
-    
-    // Check if user is logged in
-    if (localStorage.getItem('auth_token')) {
-        body.classList.add('logged-in');
-    }
+// Initialize application
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
 });
 
-// ===== GLOBAL UTILITY FUNCTIONS =====
-function showLoading(element) {
-    element.innerHTML = '<div class="loading"></div>';
-    element.disabled = true;
+function initializeApp() {
+    // Set current date and time
+    updateDateTime();
+    
+    // Initialize theme (dark/light mode)
+    initializeTheme();
+    
+    // Initialize notifications
+    initializeNotifications();
+    
+    // Initialize sidebar menu
+    initializeSidebar();
+    
+    // Initialize modal system
+    initializeModals();
+    
+    // Check user authentication
+    checkAuthStatus();
+    
+    // Initialize tooltips
+    initializeTooltips();
+    
+    // Initialize data tables
+    initializeDataTables();
+    
+    // Load user preferences
+    loadUserPreferences();
 }
 
-function hideLoading(element, originalText) {
-    element.innerHTML = originalText;
-    element.disabled = false;
+// Date and Time Functions
+function updateDateTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    
+    const dateElement = document.getElementById('currentDate');
+    const timeElement = document.getElementById('currentTime');
+    
+    if (dateElement) {
+        dateElement.textContent = now.toLocaleDateString('en-IN', options);
+    }
+    
+    if (timeElement) {
+        timeElement.textContent = now.toLocaleTimeString('en-IN');
+    }
+    
+    // Update every minute
+    setTimeout(updateDateTime, 60000);
 }
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => window.app.showAlert('Copied to clipboard', 'success'))
-        .catch(err => console.error('Copy failed:', err));
+// Theme Management
+function initializeTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    
+    if (themeToggle) {
+        themeToggle.checked = savedTheme === 'dark';
+        themeToggle.addEventListener('change', function() {
+            const isDark = this.checked;
+            document.body.classList.toggle('dark-theme', isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    }
 }
+
+// Notification System
+function initializeNotifications() {
+    // Sample notifications
+    window.notifications = [
+        {
+            id: 1,
+            title: 'SIP Payment Due',
+            message: 'Your monthly SIP of ₹10,000 for SBI Bluechip Fund is due tomorrow',
+            type: 'warning',
+            time: '10:30 AM',
+            read: false
+        },
+        {
+            id: 2,
+            title: 'NAV Updated',
+            message: 'NAV for all funds have been updated for today',
+            type: 'info',
+            time: '9:15 AM',
+            read: true
+        },
+        {
+            id: 3,
+            title: 'Welcome to Infinity MF',
+            message: 'Your account has been successfully activated',
+            type: 'success',
+            time: 'Yesterday',
+            read: true
+        }
+    ];
+    
+    updateNotificationBadge();
+}
+
+function updateNotificationBadge() {
+    const badge = document.querySelector('.notification .badge');
+    if (badge) {
+        const unreadCount = window.notifications.filter(n => !n.read).length;
+        badge.textContent = unreadCount;
+        badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+    }
+}
+
+function showNotification(message, type = 'info', duration = 3000) {
+    const notification = document.createElement('div');
+    notification.className = `notification-toast notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-icon">
+            <i class="fas fa-${getNotificationIcon(type)}"></i>
+        </div>
+        <div class="notification-content">
+            <p>${message}</p>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, duration);
+    
+    return notification;
+}
+
+function getNotificationIcon(type) {
+    const icons = {
+        'success': 'check-circle',
+        'error': 'exclamation-circle',
+        'warning': 'exclamation-triangle',
+        'info': 'info-circle'
+    };
+    return icons[type] || 'info-circle';
+}
+
+// Sidebar Management
+function initializeSidebar() {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-collapsed');
+        });
+    }
+    
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            document.body.classList.remove('sidebar-open');
+        });
+    }
+    
+    // Highlight active menu item
+    const currentPage = window.location.pathname.split('/').pop();
+    const menuItems = document.querySelectorAll('.sidebar-menu a');
+    
+    menuItems.forEach(item => {
+        if (item.getAttribute('href') === currentPage) {
+            item.classList.add('active');
+            item.closest('.sidebar-item')?.classList.add('active');
+        }
+    });
+}
+
+// Modal System
+function initializeModals() {
+    const modalTriggers = document.querySelectorAll('[data-modal-target]');
+    const modalCloses = document.querySelectorAll('.modal-close, .modal-overlay');
+    
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-modal-target');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+    
+    modalCloses.forEach(close => {
+        close.addEventListener('click', function() {
+            const modal = this.closest('.modal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal.active').forEach(modal => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+}
+
+// Authentication Functions
+function checkAuthStatus() {
+    const authToken = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (authToken && userData) {
+        window.currentUser = JSON.parse(userData);
+        updateUserProfile();
+    } else if (!window.location.pathname.includes('index.html')) {
+        // Redirect to login if not authenticated
+        window.location.href = 'index.html';
+    }
+}
+
+function updateUserProfile() {
+    const userProfile = document.querySelector('.user-profile');
+    if (userProfile && window.currentUser) {
+        const nameElement = userProfile.querySelector('span');
+        const avatarElement = userProfile.querySelector('img');
+        
+        if (nameElement) {
+            nameElement.textContent = window.currentUser.name || 'User';
+        }
+        
+        if (avatarElement && window.currentUser.avatar) {
+            avatarElement.src = window.currentUser.avatar;
+        }
+    }
+}
+
+// Tooltip System
+function initializeTooltips() {
+    const tooltipElements = document.querySelectorAll('[data-tooltip]');
+    
+    tooltipElements.forEach(element => {
+        element.addEventListener('mouseenter', showTooltip);
+        element.addEventListener('mouseleave', hideTooltip);
+    });
+}
+
+function showTooltip(event) {
+    const tooltipText = this.getAttribute('data-tooltip');
+    if (!tooltipText) return;
+    
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.textContent = tooltipText;
+    
+    document.body.appendChild(tooltip);
+    
+    const rect = this.getBoundingClientRect();
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+    tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+    
+    this._tooltip = tooltip;
+}
+
+function hideTooltip() {
+    if (this._tooltip) {
+        this._tooltip.remove();
+        this._tooltip = null;
+    }
+}
+
+// Data Table Functions
+function initializeDataTables() {
+    const tables = document.querySelectorAll('table[data-sortable]');
+    
+    tables.forEach(table => {
+        const headers = table.querySelectorAll('th[data-sortable]');
+        
+        headers.forEach((header, index) => {
+            header.style.cursor = 'pointer';
+            header.addEventListener('click', () => {
+                sortTable(table, index);
+            });
+        });
+    });
+}
+
+function sortTable(table, column) {
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const isAsc = table.getAttribute('data-sort-direction') === 'asc';
+    
+    rows.sort((a, b) => {
+        const aValue = a.children[column].textContent.trim();
+        const bValue = b.children[column].textContent.trim();
+        
+        // Try to parse as number
+        const aNum = parseFloat(aValue.replace(/[^0-9.-]+/g, ''));
+        const bNum = parseFloat(bValue.replace(/[^0-9.-]+/g, ''));
+        
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return isAsc ? aNum - bNum : bNum - aNum;
+        }
+        
+        // Otherwise sort as string
+        return isAsc 
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+    });
+    
+    // Update sort direction
+    table.setAttribute('data-sort-direction', isAsc ? 'desc' : 'asc');
+    
+    // Clear and re-append rows
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// User Preferences
+function loadUserPreferences() {
+    const preferences = JSON.parse(localStorage.getItem('userPreferences') || '{}');
+    
+    // Apply preferences
+    if (preferences.defaultView) {
+        // Apply default view preference
+    }
+    
+    if (preferences.notificationSound !== undefined) {
+        // Set notification sound preference
+    }
+}
+
+function saveUserPreference(key, value) {
+    const preferences = JSON.parse(localStorage.getItem('userPreferences') || '{}');
+    preferences[key] = value;
+    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+}
+
+// Utility Functions
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2
+    }).format(amount);
+}
+
+function formatNumber(number) {
+    return new Intl.NumberFormat('en-IN').format(number);
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
+}
+
+function calculatePercentage(part, total) {
+    if (total === 0) return 0;
+    return ((part / total) * 100).toFixed(2);
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// API Functions (Simulated)
+async function fetchData(endpoint, method = 'GET', data = null) {
+    const baseURL = 'http://localhost:3000/api'; // Change this to your API URL
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    };
+    
+    if (data && (method === 'POST' || method === 'PUT')) {
+        options.body = JSON.stringify(data);
+    }
+    
+    try {
+        const response = await fetch(`${baseURL}${endpoint}`, options);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('API Error:', error);
+        showNotification('Failed to fetch data. Please try again.', 'error');
+        throw error;
+    }
+}
+
+// Export functions for use in other modules
+window.InfinityMF = {
+    showNotification,
+    formatCurrency,
+    formatNumber,
+    formatDate,
+    fetchData,
+    calculatePercentage
+};
+
+// Auto-update every 5 minutes for real-time data
+setInterval(() => {
+    if (document.visibilityState === 'visible') {
+        // Refresh data if page is visible
+        const event = new CustomEvent('dataRefresh');
+        document.dispatchEvent(event);
+    }
+}, 300000); // 5 minutes
