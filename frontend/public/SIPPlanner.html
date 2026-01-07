@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIP Planner | Infinity Mutual Funds</title>
-    <meta name="description" content="Plan and manage your Systematic Investment Plans with advanced calculators and tools">
+    <title>SIP Calculator | Infinity Mutual Funds</title>
+    <meta name="description" content="Calculate and plan your Systematic Investment Plans with advanced SIP calculator">
     <meta name="author" content="Infinity Financial Services">
     
     <!-- Fonts -->
@@ -28,6 +28,7 @@
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             --info-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
@@ -182,42 +183,192 @@
             overflow-y: auto;
         }
         
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .sip-header {
             margin-bottom: 30px;
         }
         
-        .welcome-message h1 {
+        .sip-header h1 {
             color: white;
             margin-bottom: 10px;
         }
         
-        .welcome-message p {
+        .sip-header p {
             color: #cbd5e1;
         }
         
-        .header-actions {
-            display: flex;
-            gap: 15px;
+        /* SIP Calculator Container */
+        .sip-calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
         }
         
+        @media (max-width: 1024px) {
+            .sip-calculator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Calculator Card */
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .calculator-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .calculator-header i {
+            font-size: 1.8rem;
+            color: #667eea;
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calculator-header h2 {
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+        
+        .input-with-icon input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Slider Input */
+        .slider-container {
+            margin-top: 15px;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .slider-header span {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+        
+        .slider-value {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Button Styles */
         .btn {
-            padding: 12px 25px;
-            border-radius: 10px;
+            padding: 16px 30px;
+            border-radius: 12px;
             border: none;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
+            font-size: 16px;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
         }
         
         .btn-primary:hover {
@@ -235,168 +386,62 @@
             background: rgba(255, 255, 255, 0.2);
         }
         
-        /* SIP Calculator Section */
-        .calculator-section {
+        /* Results Card */
+        .results-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .results-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 30px;
-        }
-        
-        .calculator-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .calculator-header h2 {
-            color: white;
-            margin-bottom: 10px;
-        }
-        
-        .calculator-header p {
-            color: #cbd5e1;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        @media (max-width: 1024px) {
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .input-section, .results-section {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .input-section h3, .results-section h3 {
-            color: white;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            padding-bottom: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #e2e8f0;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .input-with-icon {
-            position: relative;
-        }
-        
-        .input-with-icon input {
-            width: 100%;
-            padding: 14px 16px 14px 45px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .input-with-icon input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-        }
-        
-        .range-slider {
-            width: 100%;
-            margin: 15px 0;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            outline: none;
-        }
-        
-        .range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #667eea;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .range-value {
+        .results-header i {
+            font-size: 1.8rem;
+            color: #10b981;
+            width: 50px;
+            height: 50px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
             display: flex;
-            justify-content: space-between;
-            color: #cbd5e1;
-            font-size: 14px;
-            margin-top: 5px;
+            align-items: center;
+            justify-content: center;
         }
         
-        .calculate-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 10px;
+        .results-header h2 {
             color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
+            font-size: 1.8rem;
         }
         
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-        
-        /* Results Display */
-        .results-display {
-            background: rgba(15, 23, 42, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Results Summary */
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .result-item:last-child {
-            border-bottom: none;
+        .result-value {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
         
         .result-label {
@@ -404,25 +449,34 @@
             font-size: 14px;
         }
         
-        .result-value {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .result-value.highlight {
-            color: #10b981;
-            font-size: 24px;
-        }
-        
+        /* Chart Container */
         .chart-container {
-            height: 200px;
-            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Active SIPs Section */
-        .active-sips-section {
-            margin-bottom: 30px;
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .chart-header h3 {
+            color: white;
+        }
+        
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+        
+        /* SIP Plans Section */
+        .sip-plans-section {
+            margin-top: 40px;
         }
         
         .section-header {
@@ -436,329 +490,139 @@
             color: white;
         }
         
-        .sips-grid {
+        .plans-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
         
-        @media (max-width: 768px) {
-            .sips-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .sip-card {
+        .plan-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .sip-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .sip-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .sip-fund {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .sip-fund-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-        
-        .sip-fund-details h4 {
-            color: white;
-            margin-bottom: 5px;
-        }
-        
-        .sip-fund-details p {
-            color: #cbd5e1;
-            font-size: 0.85rem;
-        }
-        
-        .sip-status {
-            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .sip-status.active {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-        
-        .sip-status.paused {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-        
-        .sip-status.completed {
-            background: rgba(100, 116, 139, 0.2);
-            color: #cbd5e1;
-        }
-        
-        .sip-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .detail-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        
-        .detail-label {
-            color: #cbd5e1;
-            font-size: 0.85rem;
-        }
-        
-        .detail-value {
-            color: white;
-            font-weight: 600;
-        }
-        
-        .sip-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .action-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .action-btn.primary {
-            background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
-        }
-        
-        .action-btn.danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-        
-        /* SIP Benefits Section */
-        .benefits-section {
-            margin-bottom: 30px;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 25px;
+            padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
             transition: transform 0.3s ease;
         }
         
-        .benefit-card:hover {
+        .plan-card:hover {
             transform: translateY(-5px);
         }
         
-        .benefit-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
+        .plan-card.popular {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
-        .benefit-card h4 {
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 5px 40px;
+            font-size: 12px;
+            font-weight: 600;
+            transform: rotate(45deg);
+        }
+        
+        .plan-header {
+            margin-bottom: 25px;
+        }
+        
+        .plan-header h3 {
+            color: white;
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
         
-        .benefit-card p {
+        .plan-header p {
             color: #cbd5e1;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 14px;
         }
         
-        /* FAQ Section */
-        .faq-section {
+        .plan-features {
+            list-style: none;
+            padding: 0;
             margin-bottom: 30px;
         }
         
-        .faq-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .faq-item {
-            margin-bottom: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .faq-question {
-            padding: 20px;
-            background: rgba(30, 41, 59, 0.5);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
+        .plan-features li {
+            color: #e2e8f0;
+            padding: 8px 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: background 0.3s ease;
+            gap: 10px;
         }
         
-        .faq-question:hover {
-            background: rgba(30, 41, 59, 0.8);
+        .plan-features li i {
+            color: #10b981;
         }
         
-        .faq-question i {
-            transition: transform 0.3s ease;
+        .plan-actions {
+            display: flex;
+            gap: 15px;
         }
         
-        .faq-question.active i {
-            transform: rotate(180deg);
+        .plan-actions .btn {
+            flex: 1;
+            justify-content: center;
         }
         
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            background: rgba(15, 23, 42, 0.5);
-        }
-        
-        .faq-answer.active {
-            padding: 20px;
-            max-height: 500px;
-        }
-        
-        .faq-answer p {
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-        
-        /* Footer */
-        .sip-footer {
-            text-align: center;
-            padding: 20px;
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* Comparison Table */
+        .comparison-section {
             margin-top: 40px;
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal-content {
-            background: rgba(30, 41, 59, 0.95);
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 40px;
+            overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        table {
             width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
+            border-collapse: collapse;
         }
         
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+        thead {
+            background: rgba(30, 41, 59, 0.8);
         }
         
-        .modal-header h2 {
+        th {
+            padding: 20px;
+            text-align: left;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        td {
+            padding: 20px;
             color: white;
         }
         
-        .close-modal {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s;
+        .positive {
+            color: #10b981;
+            font-weight: 600;
         }
         
-        .close-modal:hover {
-            color: white;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
+        .negative {
+            color: #ef4444;
+            font-weight: 600;
         }
         
         /* Notification */
@@ -781,6 +645,11 @@
         
         .notification.show {
             display: flex;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         /* Mobile Responsive */
@@ -819,17 +688,28 @@
                 font-size: 1.5rem;
                 cursor: pointer;
             }
+            
+            .results-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        @media (max-width: 768px) {
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 800px;
+            }
         }
         
         /* Loading animation */
@@ -847,20 +727,41 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Progress bar */
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 10px 0;
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 3px;
-            transition: width 0.5s ease;
+        .tooltip i {
+            color: #94a3b8;
+            cursor: help;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: rgba(30, 41, 59, 0.95);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
@@ -868,81 +769,7 @@
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
-        <span id="notificationMessage">Action completed successfully!</span>
-    </div>
-    
-    <!-- Start SIP Modal -->
-    <div class="modal" id="startSipModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Start New SIP</h2>
-                <button class="close-modal" id="closeStartSipModal">&times;</button>
-            </div>
-            <form id="startSipForm">
-                <div class="input-group">
-                    <label for="sipFund">Select Fund</label>
-                    <select id="sipFund" class="input-with-icon" style="padding: 14px 16px; width: 100%;">
-                        <option value="">Choose a fund</option>
-                        <option value="axis-bluechip">Axis Bluechip Fund</option>
-                        <option value="mirae-emerging">Mirae Asset Emerging Bluechip</option>
-                        <option value="sbi-smallcap">SBI Small Cap Fund</option>
-                        <option value="icici-corporate">ICICI Prudential Corporate Bond</option>
-                        <option value="kotak-opportunities">Kotak Equity Opportunities</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label for="sipAmount">Monthly SIP Amount (₹)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-rupee-sign input-icon"></i>
-                        <input type="number" id="sipAmount" placeholder="5000" min="500" step="500" required>
-                    </div>
-                    <div class="range-slider" id="sipAmountSlider"></div>
-                    <div class="range-value">
-                        <span>₹500</span>
-                        <span>₹50,000</span>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="sipDuration">Duration (Years)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-calendar-alt input-icon"></i>
-                        <input type="number" id="sipDuration" placeholder="5" min="1" max="30" required>
-                    </div>
-                    <div class="range-slider" id="sipDurationSlider"></div>
-                    <div class="range-value">
-                        <span>1 Year</span>
-                        <span>30 Years</span>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="sipDate">Start Date</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-calendar-day input-icon"></i>
-                        <input type="date" id="sipDate" required>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="sipFrequency">Frequency</label>
-                    <select id="sipFrequency" class="input-with-icon" style="padding: 14px 16px; width: 100%;">
-                        <option value="monthly">Monthly</option>
-                        <option value="quarterly">Quarterly</option>
-                        <option value="yearly">Yearly</option>
-                    </select>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelStartSip">Cancel</button>
-                    <button type="submit" class="btn btn-primary">
-                        <span id="submitStartSipText">Start SIP</span>
-                        <span id="submitStartSipLoading" class="loading" style="display: none;"></span>
-                    </button>
-                </div>
-            </form>
-        </div>
+        <span id="notificationMessage">SIP calculation completed!</span>
     </div>
     
     <!-- Mobile Menu Toggle -->
@@ -976,29 +803,21 @@
                     <i class="fas fa-briefcase"></i>
                     <span>Portfolio</span>
                 </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transactions</span>
-                </a>
                 <a href="analytics.html" class="nav-link">
                     <i class="fas fa-chart-pie"></i>
                     <span>Analytics</span>
-                </a>
-                <a href="goals.html" class="nav-link">
-                    <i class="fas fa-bullseye"></i>
-                    <span>Financial Goals</span>
                 </a>
                 <a href="#" class="nav-link active">
                     <i class="fas fa-calendar-alt"></i>
                     <span>SIP Planner</span>
                 </a>
+                <a href="goals.html" class="nav-link">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Financial Goals</span>
+                </a>
                 <a href="tax.html" class="nav-link">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <span>Tax Center</span>
-                </a>
-                <a href="reports.html" class="nav-link">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Reports</span>
                 </a>
                 <a href="settings.html" class="nav-link">
                     <i class="fas fa-cog"></i>
@@ -1016,355 +835,326 @@
         
         <!-- Main Content -->
         <main class="main-content">
-            <header class="main-header">
-                <div class="welcome-message">
-                    <h1>SIP Planner</h1>
-                    <p>Plan and optimize your Systematic Investment Plans</p>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-secondary" id="compareSipBtn">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Compare SIPs</span>
-                    </button>
-                    <button class="btn btn-primary" id="startNewSipBtn">
-                        <i class="fas fa-plus"></i>
-                        <span>Start New SIP</span>
-                    </button>
-                </div>
+            <header class="sip-header">
+                <h1>SIP Calculator & Planner</h1>
+                <p>Calculate potential returns and plan your Systematic Investment Plans</p>
             </header>
             
             <!-- SIP Calculator -->
-            <section class="calculator-section">
-                <div class="calculator-header">
-                    <h2>SIP Calculator</h2>
-                    <p>Calculate your potential returns from Systematic Investment Plans</p>
-                </div>
-                
-                <div class="calculator-grid">
-                    <div class="input-section">
-                        <h3>Input Parameters</h3>
-                        
-                        <div class="input-group">
-                            <label for="monthlyInvestment">Monthly Investment (₹)</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-rupee-sign input-icon"></i>
-                                <input type="number" id="monthlyInvestment" value="5000" min="500" step="500">
-                            </div>
-                            <input type="range" id="monthlyInvestmentSlider" class="range-slider" min="500" max="100000" step="500" value="5000">
-                            <div class="range-value">
-                                <span>₹500</span>
-                                <span>₹1,00,000</span>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="investmentPeriod">Investment Period (Years)</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-calendar-alt input-icon"></i>
-                                <input type="number" id="investmentPeriod" value="10" min="1" max="30">
-                            </div>
-                            <input type="range" id="investmentPeriodSlider" class="range-slider" min="1" max="30" value="10">
-                            <div class="range-value">
-                                <span>1 Year</span>
-                                <span>30 Years</span>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="expectedReturn">Expected Annual Return (%)</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-chart-line input-icon"></i>
-                                <input type="number" id="expectedReturn" value="12" min="1" max="30" step="0.5">
-                            </div>
-                            <input type="range" id="expectedReturnSlider" class="range-slider" min="1" max="30" step="0.5" value="12">
-                            <div class="range-value">
-                                <span>1%</span>
-                                <span>30%</span>
-                            </div>
-                        </div>
-                        
-                        <button class="calculate-btn" id="calculateSipBtn">
-                            <i class="fas fa-calculator"></i>
-                            Calculate SIP Returns
-                        </button>
+            <div class="sip-calculator-container">
+                <!-- Calculator Inputs -->
+                <div class="calculator-card">
+                    <div class="calculator-header">
+                        <i class="fas fa-calculator"></i>
+                        <h2>SIP Calculator</h2>
                     </div>
                     
-                    <div class="results-section">
-                        <h3>Projected Returns</h3>
-                        
-                        <div class="results-display">
-                            <div class="result-item">
-                                <span class="result-label">Total Investment</span>
-                                <span class="result-value" id="totalInvestment">₹6,00,000</span>
+                    <form id="sipCalculatorForm">
+                        <!-- Monthly Investment -->
+                        <div class="input-group">
+                            <label for="monthlyInvestment">
+                                Monthly Investment (₹)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="tooltip-text">
+                                        The amount you plan to invest every month. 
+                                        SIP allows you to invest a fixed amount regularly.
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-rupee-sign"></i>
+                                <input type="number" id="monthlyInvestment" min="500" max="1000000" step="500" value="10000" required>
                             </div>
-                            
-                            <div class="result-item">
-                                <span class="result-label">Wealth Gained</span>
-                                <span class="result-value" id="wealthGained">₹4,66,270</span>
-                            </div>
-                            
-                            <div class="result-item">
-                                <span class="result-label">Total Value</span>
-                                <span class="result-value highlight" id="totalValue">₹10,66,270</span>
+                            <div class="slider-container">
+                                <div class="slider-header">
+                                    <span>₹500</span>
+                                    <div class="slider-value" id="monthlyInvestmentValue">₹10,000</div>
+                                    <span>₹1,00,000</span>
+                                </div>
+                                <input type="range" class="slider" id="monthlyInvestmentSlider" min="500" max="100000" step="500" value="10000">
                             </div>
                         </div>
                         
-                        <div class="chart-container">
+                        <!-- Investment Period -->
+                        <div class="input-group">
+                            <label for="investmentPeriod">
+                                Investment Period (Years)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="tooltip-text">
+                                        The number of years you plan to continue your SIP. 
+                                        Longer periods benefit more from compounding.
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="number" id="investmentPeriod" min="1" max="30" step="1" value="10" required>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header">
+                                    <span>1 Year</span>
+                                    <div class="slider-value" id="investmentPeriodValue">10 Years</div>
+                                    <span>30 Years</span>
+                                </div>
+                                <input type="range" class="slider" id="investmentPeriodSlider" min="1" max="30" step="1" value="10">
+                            </div>
+                        </div>
+                        
+                        <!-- Expected Return Rate -->
+                        <div class="input-group">
+                            <label for="expectedReturn">
+                                Expected Annual Return (%)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="tooltip-text">
+                                        The expected rate of return on your investment per year. 
+                                        Based on historical data and market expectations.
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-percentage"></i>
+                                <input type="number" id="expectedReturn" min="1" max="30" step="0.1" value="12" required>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header">
+                                    <span>1%</span>
+                                    <div class="slider-value" id="expectedReturnValue">12%</div>
+                                    <span>30%</span>
+                                </div>
+                                <input type="range" class="slider" id="expectedReturnSlider" min="1" max="30" step="0.1" value="12">
+                            </div>
+                        </div>
+                        
+                        <!-- Start Date -->
+                        <div class="input-group">
+                            <label for="startDate">
+                                SIP Start Date
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="tooltip-text">
+                                        The date when you plan to start your SIP. 
+                                        Earlier starts benefit more from compounding.
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-day"></i>
+                                <input type="date" id="startDate" value="2024-01-01" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Investment Frequency -->
+                        <div class="input-group">
+                            <label for="investmentFrequency">
+                                Investment Frequency
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="tooltip-text">
+                                        How often you want to invest. 
+                                        Monthly is most common for SIPs.
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-sync-alt"></i>
+                                <select id="investmentFrequency" class="form-control" style="padding: 15px 15px 15px 50px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; width: 100%;">
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="half-yearly">Half-Yearly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="calculateSIP">
+                            <i class="fas fa-calculator"></i>
+                            <span>Calculate SIP Returns</span>
+                        </button>
+                        
+                        <button type="button" class="btn btn-secondary" id="resetCalculator" style="margin-top: 15px;">
+                            <i class="fas fa-redo"></i>
+                            <span>Reset Calculator</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Results Display -->
+                <div class="results-card">
+                    <div class="results-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h2>SIP Results</h2>
+                    </div>
+                    
+                    <div class="results-summary">
+                        <div class="result-item">
+                            <div class="result-value" id="totalInvestment">₹12,00,000</div>
+                            <div class="result-label">Total Investment</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-value positive" id="estimatedReturns">₹10,58,601</div>
+                            <div class="result-label">Estimated Returns</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-value" id="totalValue">₹22,58,601</div>
+                            <div class="result-label">Total Value</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-value" id="annualizedReturn">12.0%</div>
+                            <div class="result-label">Annualized Return</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Investment Growth</h3>
+                        </div>
+                        <div class="chart-wrapper">
                             <canvas id="sipChart"></canvas>
                         </div>
-                        
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="returnProgress" style="width: 70%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; color: #cbd5e1; font-size: 14px;">
-                            <span>Investment: <span id="investmentPercent">56%</span></span>
-                            <span>Returns: <span id="returnsPercent">44%</span></span>
+                    </div>
+                    
+                    <div class="input-group" style="margin-top: 30px;">
+                        <label>Summary</label>
+                        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; color: #cbd5e1; font-size: 14px; line-height: 1.6;">
+                            <p>By investing <strong id="summaryMonthlyInvestment">₹10,000</strong> monthly for <strong id="summaryYears">10 years</strong> at an expected return of <strong id="summaryReturn">12%</strong>:</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Your total investment will be <strong id="summaryTotalInvestment">₹12,00,000</strong></li>
+                                <li>Estimated returns: <strong id="summaryReturns">₹10,58,601</strong></li>
+                                <li>Total value after <strong id="summaryYears2">10 years</strong>: <strong id="summaryTotalValue">₹22,58,601</strong></li>
+                                <li>Annualized return: <strong id="summaryAnnualReturn">12.0%</strong></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
             
-            <!-- Active SIPs -->
-            <section class="active-sips-section">
+            <!-- SIP Plans -->
+            <div class="sip-plans-section">
                 <div class="section-header">
-                    <h2>Your Active SIPs</h2>
-                    <button class="btn btn-secondary" id="viewAllSipsBtn">
+                    <h2>Popular SIP Plans</h2>
+                    <button class="btn btn-secondary" id="viewAllPlans">
                         <i class="fas fa-list"></i>
-                        <span>View All</span>
+                        <span>View All Plans</span>
                     </button>
                 </div>
                 
-                <div class="sips-grid" id="activeSipsGrid">
-                    <!-- Active SIP cards will be loaded here -->
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <div class="plan-header">
+                            <h3>Conservative SIP</h3>
+                            <p>Low risk, stable returns</p>
+                        </div>
+                        
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Debt-oriented funds</li>
+                            <li><i class="fas fa-check"></i> 8-10% expected returns</li>
+                            <li><i class="fas fa-check"></i> Low volatility</li>
+                            <li><i class="fas fa-check"></i> Suitable for short-term goals</li>
+                            <li><i class="fas fa-check"></i> Capital preservation focus</li>
+                        </ul>
+                        
+                        <div class="plan-actions">
+                            <button class="btn btn-secondary" data-plan="conservative">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Details</span>
+                            </button>
+                            <button class="btn btn-primary" data-plan="conservative">
+                                <i class="fas fa-play"></i>
+                                <span>Start SIP</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="plan-card popular">
+                        <div class="popular-badge">Most Popular</div>
+                        <div class="plan-header">
+                            <h3>Balanced SIP</h3>
+                            <p>Moderate risk, good returns</p>
+                        </div>
+                        
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Hybrid funds</li>
+                            <li><i class="fas fa-check"></i> 12-15% expected returns</li>
+                            <li><i class="fas fa-check"></i> Balanced portfolio</li>
+                            <li><i class="fas fa-check"></i> Suitable for medium-term goals</li>
+                            <li><i class="fas fa-check"></i> Growth + income focus</li>
+                        </ul>
+                        
+                        <div class="plan-actions">
+                            <button class="btn btn-secondary" data-plan="balanced">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Details</span>
+                            </button>
+                            <button class="btn btn-primary" data-plan="balanced">
+                                <i class="fas fa-play"></i>
+                                <span>Start SIP</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <div class="plan-header">
+                            <h3>Aggressive SIP</h3>
+                            <p>High risk, high potential returns</p>
+                        </div>
+                        
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Equity-oriented funds</li>
+                            <li><i class="fas fa-check"></i> 15-18% expected returns</li>
+                            <li><i class="fas fa-check"></i> High growth potential</li>
+                            <li><i class="fas fa-check"></i> Suitable for long-term goals</li>
+                            <li><i class="fas fa-check"></i> Wealth creation focus</li>
+                        </ul>
+                        
+                        <div class="plan-actions">
+                            <button class="btn btn-secondary" data-plan="aggressive">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Details</span>
+                            </button>
+                            <button class="btn btn-primary" data-plan="aggressive">
+                                <i class="fas fa-play"></i>
+                                <span>Start SIP</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
             
-            <!-- SIP Benefits -->
-            <section class="benefits-section">
+            <!-- SIP Comparison -->
+            <div class="comparison-section">
                 <div class="section-header">
-                    <h2>Why Invest Through SIP?</h2>
+                    <h2>SIP vs Lumpsum Comparison</h2>
                 </div>
                 
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-hand-holding-usd"></i>
-                        </div>
-                        <h4>Rupee Cost Averaging</h4>
-                        <p>Buy more units when prices are low and fewer when prices are high, averaging out your purchase cost</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <h4>Financial Discipline</h4>
-                        <p>Automated investing helps build consistent saving habits and long-term wealth creation</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h4>Power of Compounding</h4>
-                        <p>Reinvest your earnings to generate additional returns over time, creating exponential growth</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Risk Mitigation</h4>
-                        <p>Regular investments over time reduce the impact of market volatility on your portfolio</p>
-                    </div>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>SIP (Systematic)</th>
+                                <th>Lumpsum (One-time)</th>
+                                <th>Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonTableBody">
+                            <!-- Comparison data will be loaded here -->
+                        </tbody>
+                    </table>
                 </div>
-            </section>
-            
-            <!-- FAQ Section -->
-            <section class="faq-section">
-                <div class="section-header">
-                    <h2>Frequently Asked Questions</h2>
-                </div>
-                
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            What is a SIP?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>A Systematic Investment Plan (SIP) is an investment method offered by mutual funds where you invest a fixed amount regularly (monthly, quarterly, etc.) instead of making a lump-sum investment. It helps in building wealth gradually over time.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            How does SIP work?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>SIP works on the principle of regular investing. You choose a mutual fund scheme, decide the investment amount and frequency, and authorize auto-debit from your bank account. The fund house invests this amount in the chosen scheme at the prevailing Net Asset Value (NAV).</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            What is the minimum SIP amount?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>The minimum SIP amount varies across mutual fund schemes, but most funds allow SIPs starting from ₹500 per month. Some funds may have higher minimums for specific plans or categories.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Can I modify or stop my SIP?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Yes, you can modify the SIP amount, frequency, or stop it anytime. Most fund houses require you to submit a SIP modification or cancellation form at least 30 days before the next installment date.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Are SIP returns guaranteed?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>No, SIP returns are not guaranteed as they are subject to market risks. However, SIP helps in averaging out purchase costs and reduces the impact of market volatility over the long term.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Footer -->
-            <footer class="sip-footer">
-                <p>Infinity Mutual Funds SIP Planner • Calculations are for illustrative purposes only</p>
-                <p style="margin-top: 5px; font-size: 0.8rem; color: #94a3b8;">
-                    <i class="fas fa-exclamation-triangle"></i> Past performance is not indicative of future returns
-                </p>
-            </footer>
+            </div>
         </main>
     </div>
 
     <script>
-        // ===== SIP DATA =====
-        const sipData = {
-            activeSips: [
-                {
-                    id: 1,
-                    fundName: 'Axis Bluechip Fund',
-                    category: 'Equity - Large Cap',
-                    amount: 10000,
-                    duration: '5 Years',
-                    startDate: '2023-01-15',
-                    nextDate: '2024-01-15',
-                    status: 'active',
-                    returns: 15.8,
-                    invested: 120000,
-                    currentValue: 138960,
-                    icon: 'fas fa-chart-line',
-                    color: '#3b82f6'
-                },
-                {
-                    id: 2,
-                    fundName: 'Mirae Asset Emerging Bluechip',
-                    category: 'Equity - Large & Mid Cap',
-                    amount: 8000,
-                    duration: '3 Years',
-                    startDate: '2023-03-20',
-                    nextDate: '2024-01-20',
-                    status: 'active',
-                    returns: 18.2,
-                    invested: 88000,
-                    currentValue: 104016,
-                    icon: 'fas fa-rocket',
-                    color: '#10b981'
-                },
-                {
-                    id: 3,
-                    fundName: 'SBI Small Cap Fund',
-                    category: 'Equity - Small Cap',
-                    amount: 5000,
-                    duration: '2 Years',
-                    startDate: '2023-06-10',
-                    nextDate: '2024-01-10',
-                    status: 'active',
-                    returns: 22.5,
-                    invested: 40000,
-                    currentValue: 49000,
-                    icon: 'fas fa-arrow-up',
-                    color: '#8b5cf6'
-                },
-                {
-                    id: 4,
-                    fundName: 'ICICI Prudential Corporate Bond',
-                    category: 'Debt - Corporate Bond',
-                    amount: 7000,
-                    duration: '7 Years',
-                    startDate: '2022-11-05',
-                    nextDate: '2024-01-05',
-                    status: 'active',
-                    returns: 8.5,
-                    invested: 105000,
-                    currentValue: 113925,
-                    icon: 'fas fa-shield-alt',
-                    color: '#f59e0b'
-                }
-            ],
-            
-            completedSips: [
-                {
-                    id: 5,
-                    fundName: 'Kotak Equity Opportunities',
-                    category: 'Equity - Multi Cap',
-                    amount: 12000,
-                    duration: '10 Years',
-                    startDate: '2013-01-15',
-                    endDate: '2023-01-15',
-                    status: 'completed',
-                    returns: 16.3,
-                    invested: 1440000,
-                    currentValue: 1674720,
-                    icon: 'fas fa-bolt',
-                    color: '#ef4444'
-                }
-            ]
-        };
-
         // ===== SIP CALCULATOR =====
-        function calculateSIP(monthlyInvestment, years, annualReturn) {
-            // Convert annual return to monthly
-            const monthlyReturn = annualReturn / 12 / 100;
-            const months = years * 12;
-            
-            // Calculate future value of SIP
-            const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn) * (1 + monthlyReturn);
-            
-            // Calculate total investment
-            const totalInvestment = monthlyInvestment * months;
-            
-            // Calculate wealth gained
-            const wealthGained = futureValue - totalInvestment;
-            
-            // Calculate percentages
-            const investmentPercent = (totalInvestment / futureValue * 100).toFixed(1);
-            const returnsPercent = (wealthGained / futureValue * 100).toFixed(1);
-            
-            return {
-                totalInvestment: Math.round(totalInvestment),
-                wealthGained: Math.round(wealthGained),
-                totalValue: Math.round(futureValue),
-                investmentPercent,
-                returnsPercent
-            };
-        }
-
-        // ===== SIP PLANNER INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('SIP Planner loaded - Initializing...');
+            console.log('SIP Calculator loaded - Initializing...');
             
             // DOM Elements
             const sidebar = document.getElementById('sidebar');
@@ -1372,10 +1162,6 @@
             const notification = document.getElementById('notification');
             const notificationMessage = document.getElementById('notificationMessage');
             const sidebarLogout = document.getElementById('sidebarLogout');
-            const startNewSipBtn = document.getElementById('startNewSipBtn');
-            const compareSipBtn = document.getElementById('compareSipBtn');
-            const viewAllSipsBtn = document.getElementById('viewAllSipsBtn');
-            const activeSipsGrid = document.getElementById('activeSipsGrid');
             const sipUserName = document.getElementById('sipUserName');
             const sipUserEmail = document.getElementById('sipUserEmail');
             const sipUserAvatar = document.getElementById('sipUserAvatar');
@@ -1385,28 +1171,40 @@
             // Calculator Elements
             const monthlyInvestment = document.getElementById('monthlyInvestment');
             const monthlyInvestmentSlider = document.getElementById('monthlyInvestmentSlider');
+            const monthlyInvestmentValue = document.getElementById('monthlyInvestmentValue');
+            
             const investmentPeriod = document.getElementById('investmentPeriod');
             const investmentPeriodSlider = document.getElementById('investmentPeriodSlider');
+            const investmentPeriodValue = document.getElementById('investmentPeriodValue');
+            
             const expectedReturn = document.getElementById('expectedReturn');
             const expectedReturnSlider = document.getElementById('expectedReturnSlider');
-            const calculateSipBtn = document.getElementById('calculateSipBtn');
+            const expectedReturnValue = document.getElementById('expectedReturnValue');
+            
+            const startDate = document.getElementById('startDate');
+            const investmentFrequency = document.getElementById('investmentFrequency');
+            
+            const calculateSIP = document.getElementById('calculateSIP');
+            const resetCalculator = document.getElementById('resetCalculator');
             
             // Results Elements
-            const totalInvestmentElement = document.getElementById('totalInvestment');
-            const wealthGainedElement = document.getElementById('wealthGained');
-            const totalValueElement = document.getElementById('totalValue');
-            const investmentPercentElement = document.getElementById('investmentPercent');
-            const returnsPercentElement = document.getElementById('returnsPercent');
-            const returnProgress = document.getElementById('returnProgress');
+            const totalInvestment = document.getElementById('totalInvestment');
+            const estimatedReturns = document.getElementById('estimatedReturns');
+            const totalValue = document.getElementById('totalValue');
+            const annualizedReturn = document.getElementById('annualizedReturn');
             
-            // Modal Elements
-            const startSipModal = document.getElementById('startSipModal');
-            const closeStartSipModal = document.getElementById('closeStartSipModal');
-            const cancelStartSip = document.getElementById('cancelStartSip');
-            const startSipForm = document.getElementById('startSipForm');
+            // Summary Elements
+            const summaryMonthlyInvestment = document.getElementById('summaryMonthlyInvestment');
+            const summaryYears = document.getElementById('summaryYears');
+            const summaryReturn = document.getElementById('summaryReturn');
+            const summaryTotalInvestment = document.getElementById('summaryTotalInvestment');
+            const summaryReturns = document.getElementById('summaryReturns');
+            const summaryTotalValue = document.getElementById('summaryTotalValue');
+            const summaryAnnualReturn = document.getElementById('summaryAnnualReturn');
+            const summaryYears2 = document.getElementById('summaryYears2');
             
-            // Chart variable
-            let sipChart;
+            // Chart
+            let sipChart = null;
             
             // ===== USER AUTHENTICATION CHECK =====
             function checkAuth() {
@@ -1414,7 +1212,7 @@
                     const userData = localStorage.getItem('infinity_user');
                     if (!userData) {
                         // No user found, redirect to login
-                        showNotification('Please login to access SIP planner', 'warning');
+                        showNotification('Please login to access SIP calculator', 'warning');
                         setTimeout(() => {
                             window.location.href = 'index.html';
                         }, 2000);
@@ -1450,261 +1248,26 @@
             
             const currentUser = checkAuth();
             
-            // ===== INITIALIZE SIP PLANNER =====
-            function initSipPlanner() {
-                // Load active SIPs
-                loadActiveSips();
-                
-                // Initialize calculator
-                initCalculator();
-                
-                // Initialize charts
-                initCharts();
+            // ===== INITIALIZE SIP CALCULATOR =====
+            function initSIPCalculator() {
+                // Set default date to today
+                const today = new Date();
+                startDate.value = today.toISOString().split('T')[0];
                 
                 // Initialize event listeners
                 initEventListeners();
                 
-                // Initialize FAQ
-                initFAQ();
+                // Initialize chart
+                initChart();
                 
-                // Set default date in modal
-                const today = new Date();
-                const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 15);
-                const formattedDate = nextMonth.toISOString().split('T')[0];
-                const sipDateInput = document.getElementById('sipDate');
-                if (sipDateInput) {
-                    sipDateInput.min = new Date().toISOString().split('T')[0];
-                    sipDateInput.value = formattedDate;
-                }
+                // Load comparison data
+                loadComparisonData();
+                
+                // Calculate initial results
+                calculateSIPReturns();
             }
             
-            // ===== LOAD ACTIVE SIPS =====
-            function loadActiveSips() {
-                if (!activeSipsGrid) return;
-                
-                // Clear existing SIPs
-                activeSipsGrid.innerHTML = '';
-                
-                // Create SIP cards
-                sipData.activeSips.forEach(sip => {
-                    const sipCard = document.createElement('div');
-                    sipCard.className = 'sip-card';
-                    
-                    sipCard.innerHTML = `
-                        <div class="sip-card-header">
-                            <div class="sip-fund">
-                                <div class="sip-fund-icon" style="background: ${sip.color}20; color: ${sip.color};">
-                                    <i class="${sip.icon}"></i>
-                                </div>
-                                <div class="sip-fund-details">
-                                    <h4>${sip.fundName}</h4>
-                                    <p>${sip.category}</p>
-                                </div>
-                            </div>
-                            <span class="sip-status ${sip.status}">${sip.status.charAt(0).toUpperCase() + sip.status.slice(1)}</span>
-                        </div>
-                        
-                        <div class="sip-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Monthly Amount</span>
-                                <span class="detail-value">₹${sip.amount.toLocaleString()}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Duration</span>
-                                <span class="detail-value">${sip.duration}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Returns</span>
-                                <span class="detail-value" style="color: #10b981;">+${sip.returns}%</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Next Installment</span>
-                                <span class="detail-value">${formatDate(sip.nextDate)}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${(sip.currentValue / (sip.amount * 60)) * 100}%"></div>
-                        </div>
-                        
-                        <div class="sip-actions">
-                            <button class="action-btn primary" data-id="${sip.id}" data-action="modify">
-                                <i class="fas fa-edit"></i>
-                                Modify
-                            </button>
-                            <button class="action-btn" data-id="${sip.id}" data-action="pause">
-                                <i class="fas fa-pause"></i>
-                                Pause
-                            </button>
-                            <button class="action-btn danger" data-id="${sip.id}" data-action="stop">
-                                <i class="fas fa-stop"></i>
-                                Stop
-                            </button>
-                        </div>
-                    `;
-                    
-                    activeSipsGrid.appendChild(sipCard);
-                });
-                
-                // Add event listeners to action buttons
-                document.querySelectorAll('.sip-actions .action-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const sipId = this.dataset.id;
-                        const action = this.dataset.action;
-                        handleSipAction(sipId, action);
-                    });
-                });
-            }
-            
-            // ===== INITIALIZE CALCULATOR =====
-            function initCalculator() {
-                // Sync sliders with input fields
-                syncSliderAndInput(monthlyInvestment, monthlyInvestmentSlider);
-                syncSliderAndInput(investmentPeriod, investmentPeriodSlider);
-                syncSliderAndInput(expectedReturn, expectedReturnSlider);
-                
-                // Calculate initial values
-                updateCalculator();
-                
-                // Calculate button
-                if (calculateSipBtn) {
-                    calculateSipBtn.addEventListener('click', updateCalculator);
-                }
-            }
-            
-            function syncSliderAndInput(input, slider) {
-                if (!input || !slider) return;
-                
-                // Input to slider
-                input.addEventListener('input', function() {
-                    slider.value = this.value;
-                    updateCalculator();
-                });
-                
-                // Slider to input
-                slider.addEventListener('input', function() {
-                    input.value = this.value;
-                    updateCalculator();
-                });
-            }
-            
-            function updateCalculator() {
-                const monthlyAmount = parseFloat(monthlyInvestment.value) || 5000;
-                const years = parseFloat(investmentPeriod.value) || 10;
-                const annualReturn = parseFloat(expectedReturn.value) || 12;
-                
-                // Calculate SIP
-                const result = calculateSIP(monthlyAmount, years, annualReturn);
-                
-                // Update results
-                if (totalInvestmentElement) {
-                    totalInvestmentElement.textContent = `₹${result.totalInvestment.toLocaleString()}`;
-                }
-                
-                if (wealthGainedElement) {
-                    wealthGainedElement.textContent = `₹${result.wealthGained.toLocaleString()}`;
-                }
-                
-                if (totalValueElement) {
-                    totalValueElement.textContent = `₹${result.totalValue.toLocaleString()}`;
-                }
-                
-                if (investmentPercentElement) {
-                    investmentPercentElement.textContent = `${result.investmentPercent}%`;
-                }
-                
-                if (returnsPercentElement) {
-                    returnsPercentElement.textContent = `${result.returnsPercent}%`;
-                }
-                
-                if (returnProgress) {
-                    returnProgress.style.width = `${result.returnsPercent}%`;
-                }
-                
-                // Update chart
-                updateChart(result);
-            }
-            
-            // ===== INITIALIZE CHARTS =====
-            function initCharts() {
-                const ctx = document.getElementById('sipChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                sipChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Year 1', 'Year 3', 'Year 5', 'Year 7', 'Year 10'],
-                        datasets: [{
-                            label: 'SIP Growth',
-                            data: [60000, 216000, 396000, 588000, 840000],
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                },
-                                ticks: {
-                                    color: '#cbd5e1',
-                                    callback: function(value) {
-                                        if (value >= 100000) return '₹' + (value / 100000) + 'L';
-                                        return '₹' + value;
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                },
-                                ticks: {
-                                    color: '#cbd5e1'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            function updateChart(result) {
-                if (!sipChart) return;
-                
-                // Generate growth data
-                const monthlyAmount = parseFloat(monthlyInvestment.value) || 5000;
-                const years = parseFloat(investmentPeriod.value) || 10;
-                const annualReturn = parseFloat(expectedReturn.value) || 12;
-                
-                const dataPoints = [];
-                for (let year = 1; year <= years; year += Math.ceil(years / 5)) {
-                    const calcResult = calculateSIP(monthlyAmount, year, annualReturn);
-                    dataPoints.push(calcResult.totalValue);
-                }
-                
-                // Update chart data
-                const labels = [];
-                for (let year = 1; year <= years; year += Math.ceil(years / 5)) {
-                    labels.push(`Year ${year}`);
-                }
-                
-                sipChart.data.labels = labels;
-                sipChart.data.datasets[0].data = dataPoints;
-                sipChart.update();
-            }
-            
-            // ===== INITIALIZE EVENT LISTENERS =====
+            // ===== EVENT LISTENERS =====
             function initEventListeners() {
                 // Mobile menu toggle
                 if (mobileMenuToggle) {
@@ -1736,266 +1299,457 @@
                     });
                 }
                 
-                // Start New SIP button
-                if (startNewSipBtn) {
-                    startNewSipBtn.addEventListener('click', function() {
-                        openModal(startSipModal);
-                    });
-                }
-                
-                // Compare SIPs button
-                if (compareSipBtn) {
-                    compareSipBtn.addEventListener('click', function() {
-                        showNotification('SIP comparison feature coming soon!', 'info');
-                    });
-                }
-                
-                // View All SIPs button
-                if (viewAllSipsBtn) {
-                    viewAllSipsBtn.addEventListener('click', function() {
-                        showNotification('Showing all SIPs...', 'info');
-                    });
-                }
-                
-                // Modal close buttons
-                if (closeStartSipModal) {
-                    closeStartSipModal.addEventListener('click', function() {
-                        closeModal(startSipModal);
-                    });
-                }
-                
-                if (cancelStartSip) {
-                    cancelStartSip.addEventListener('click', function() {
-                        closeModal(startSipModal);
-                    });
-                }
-                
-                // Close modal when clicking outside
-                window.addEventListener('click', function(e) {
-                    if (e.target === startSipModal) {
-                        closeModal(startSipModal);
-                    }
+                // Monthly Investment Sync
+                monthlyInvestment.addEventListener('input', function() {
+                    const value = parseInt(this.value) || 0;
+                    monthlyInvestmentSlider.value = value;
+                    monthlyInvestmentValue.textContent = formatCurrency(value);
+                    calculateSIPReturns();
                 });
                 
-                // Start SIP form submission
-                if (startSipForm) {
-                    startSipForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        startNewSip();
+                monthlyInvestmentSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    monthlyInvestment.value = value;
+                    monthlyInvestmentValue.textContent = formatCurrency(value);
+                    calculateSIPReturns();
+                });
+                
+                // Investment Period Sync
+                investmentPeriod.addEventListener('input', function() {
+                    const value = parseInt(this.value) || 1;
+                    investmentPeriodSlider.value = value;
+                    investmentPeriodValue.textContent = `${value} Year${value > 1 ? 's' : ''}`;
+                    calculateSIPReturns();
+                });
+                
+                investmentPeriodSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    investmentPeriod.value = value;
+                    investmentPeriodValue.textContent = `${value} Year${value > 1 ? 's' : ''}`;
+                    calculateSIPReturns();
+                });
+                
+                // Expected Return Sync
+                expectedReturn.addEventListener('input', function() {
+                    const value = parseFloat(this.value) || 1;
+                    expectedReturnSlider.value = value;
+                    expectedReturnValue.textContent = `${value.toFixed(1)}%`;
+                    calculateSIPReturns();
+                });
+                
+                expectedReturnSlider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    expectedReturn.value = value;
+                    expectedReturnValue.textContent = `${value.toFixed(1)}%`;
+                    calculateSIPReturns();
+                });
+                
+                // Calculate button
+                calculateSIP.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    calculateSIPReturns();
+                });
+                
+                // Reset calculator
+                resetCalculator.addEventListener('click', function() {
+                    resetCalculatorValues();
+                });
+                
+                // SIP plan buttons
+                document.querySelectorAll('.plan-actions .btn-primary').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const plan = this.dataset.plan;
+                        startSIPPlan(plan);
+                    });
+                });
+                
+                document.querySelectorAll('.plan-actions .btn-secondary').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const plan = this.dataset.plan;
+                        showPlanDetails(plan);
+                    });
+                });
+                
+                // View all plans button
+                const viewAllPlans = document.getElementById('viewAllPlans');
+                if (viewAllPlans) {
+                    viewAllPlans.addEventListener('click', function() {
+                        showNotification('All SIP plans feature coming soon!', 'info');
                     });
                 }
                 
-                // Initialize sliders in modal
-                initModalSliders();
-            }
-            
-            // ===== INITIALIZE MODAL SLIDERS =====
-            function initModalSliders() {
-                const sipAmount = document.getElementById('sipAmount');
-                const sipAmountSlider = document.getElementById('sipAmountSlider');
-                const sipDuration = document.getElementById('sipDuration');
-                const sipDurationSlider = document.getElementById('sipDurationSlider');
-                
-                if (sipAmount && sipAmountSlider) {
-                    sipAmountSlider.min = 500;
-                    sipAmountSlider.max = 50000;
-                    sipAmountSlider.step = 500;
-                    sipAmountSlider.value = sipAmount.value || 5000;
-                    
-                    sipAmount.addEventListener('input', function() {
-                        sipAmountSlider.value = this.value;
-                    });
-                    
-                    sipAmountSlider.addEventListener('input', function() {
-                        sipAmount.value = this.value;
-                    });
-                }
-                
-                if (sipDuration && sipDurationSlider) {
-                    sipDurationSlider.min = 1;
-                    sipDurationSlider.max = 30;
-                    sipDurationSlider.value = sipDuration.value || 5;
-                    
-                    sipDuration.addEventListener('input', function() {
-                        sipDurationSlider.value = this.value;
-                    });
-                    
-                    sipDurationSlider.addEventListener('input', function() {
-                        sipDuration.value = this.value;
-                    });
-                }
-            }
-            
-            // ===== INITIALIZE FAQ =====
-            function initFAQ() {
-                const faqQuestions = document.querySelectorAll('.faq-question');
-                
-                faqQuestions.forEach(question => {
-                    question.addEventListener('click', function() {
-                        const answer = this.nextElementSibling;
-                        const isActive = this.classList.contains('active');
-                        
-                        // Close all other FAQs
-                        document.querySelectorAll('.faq-question').forEach(q => {
-                            q.classList.remove('active');
-                            q.nextElementSibling.classList.remove('active');
-                        });
-                        
-                        // Toggle current FAQ
-                        if (!isActive) {
-                            this.classList.add('active');
-                            answer.classList.add('active');
-                        }
-                    });
+                // Form submission
+                document.getElementById('sipCalculatorForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    calculateSIPReturns();
                 });
             }
             
-            // ===== HANDLE SIP ACTIONS =====
-            function handleSipAction(sipId, action) {
-                const sip = sipData.activeSips.find(s => s.id == sipId);
-                if (!sip) return;
+            // ===== CALCULATE SIP RETURNS =====
+            function calculateSIPReturns() {
+                // Get input values
+                const monthlyAmount = parseFloat(monthlyInvestment.value) || 10000;
+                const years = parseFloat(investmentPeriod.value) || 10;
+                const annualReturn = parseFloat(expectedReturn.value) || 12;
+                const frequency = investmentFrequency.value;
                 
-                switch(action) {
-                    case 'modify':
-                        showNotification(`Modify feature for ${sip.fundName} coming soon!`, 'info');
+                // Calculate based on frequency
+                let annualAmount;
+                let periodsPerYear;
+                
+                switch(frequency) {
+                    case 'monthly':
+                        annualAmount = monthlyAmount * 12;
+                        periodsPerYear = 12;
                         break;
-                        
-                    case 'pause':
-                        if (confirm(`Pause SIP for ${sip.fundName}?`)) {
-                            sip.status = 'paused';
-                            loadActiveSips();
-                            showNotification('SIP paused successfully', 'success');
-                        }
+                    case 'quarterly':
+                        annualAmount = monthlyAmount * 4;
+                        periodsPerYear = 4;
                         break;
-                        
-                    case 'stop':
-                        if (confirm(`Stop SIP for ${sip.fundName}? This action cannot be undone.`)) {
-                            const index = sipData.activeSips.findIndex(s => s.id == sipId);
-                            if (index !== -1) {
-                                sipData.activeSips.splice(index, 1);
-                                sipData.completedSips.push({...sip, status: 'completed'});
-                                loadActiveSips();
-                                showNotification('SIP stopped successfully', 'success');
+                    case 'half-yearly':
+                        annualAmount = monthlyAmount * 2;
+                        periodsPerYear = 2;
+                        break;
+                    case 'yearly':
+                        annualAmount = monthlyAmount;
+                        periodsPerYear = 1;
+                        break;
+                }
+                
+                // Calculate total investment
+                const totalInvested = annualAmount * years;
+                
+                // Calculate future value of SIP
+                const monthlyRate = annualReturn / 100 / periodsPerYear;
+                const totalPeriods = years * periodsPerYear;
+                
+                // Future Value of SIP = P * [((1 + r)^n - 1) / r] * (1 + r)
+                // where P = periodic investment, r = rate per period, n = number of periods
+                const futureValue = monthlyAmount * ((Math.pow(1 + monthlyRate, totalPeriods) - 1) / monthlyRate) * (1 + monthlyRate);
+                
+                // Calculate returns
+                const returns = futureValue - totalInvested;
+                
+                // Calculate annualized return (CAGR)
+                const cagr = (Math.pow(futureValue / totalInvested, 1 / years) - 1) * 100;
+                
+                // Update results
+                updateResults(totalInvested, returns, futureValue, cagr);
+                
+                // Update summary
+                updateSummary(monthlyAmount, years, annualReturn, totalInvested, returns, futureValue, cagr);
+                
+                // Update chart
+                updateChart(monthlyAmount, years, annualReturn, totalInvested, futureValue);
+                
+                // Show notification
+                showNotification('SIP calculation updated!', 'success');
+            }
+            
+            // ===== UPDATE RESULTS =====
+            function updateResults(totalInvested, returns, futureValue, cagr) {
+                if (totalInvestment) {
+                    totalInvestment.textContent = formatCurrency(totalInvested);
+                }
+                
+                if (estimatedReturns) {
+                    estimatedReturns.textContent = formatCurrency(returns);
+                    estimatedReturns.className = returns >= 0 ? 'result-value positive' : 'result-value negative';
+                }
+                
+                if (totalValue) {
+                    totalValue.textContent = formatCurrency(futureValue);
+                }
+                
+                if (annualizedReturn) {
+                    annualizedReturn.textContent = `${cagr.toFixed(1)}%`;
+                    annualizedReturn.className = cagr >= 0 ? 'result-value positive' : 'result-value negative';
+                }
+            }
+            
+            // ===== UPDATE SUMMARY =====
+            function updateSummary(monthlyAmount, years, annualReturn, totalInvested, returns, futureValue, cagr) {
+                if (summaryMonthlyInvestment) {
+                    summaryMonthlyInvestment.textContent = formatCurrency(monthlyAmount);
+                }
+                
+                if (summaryYears) {
+                    summaryYears.textContent = `${years} year${years > 1 ? 's' : ''}`;
+                }
+                
+                if (summaryYears2) {
+                    summaryYears2.textContent = `${years} year${years > 1 ? 's' : ''}`;
+                }
+                
+                if (summaryReturn) {
+                    summaryReturn.textContent = `${annualReturn}%`;
+                }
+                
+                if (summaryTotalInvestment) {
+                    summaryTotalInvestment.textContent = formatCurrency(totalInvested);
+                }
+                
+                if (summaryReturns) {
+                    summaryReturns.textContent = formatCurrency(returns);
+                }
+                
+                if (summaryTotalValue) {
+                    summaryTotalValue.textContent = formatCurrency(futureValue);
+                }
+                
+                if (summaryAnnualReturn) {
+                    summaryAnnualReturn.textContent = `${cagr.toFixed(1)}%`;
+                }
+            }
+            
+            // ===== INITIALIZE CHART =====
+            function initChart() {
+                const ctx = document.getElementById('sipChart')?.getContext('2d');
+                if (!ctx) return;
+                
+                sipChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: 'Total Investment',
+                                data: [],
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Investment Value',
+                                data: [],
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#cbd5e1'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#cbd5e1',
+                                    callback: function(value) {
+                                        return '₹' + (value / 100000).toFixed(0) + 'L';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#cbd5e1'
+                                }
                             }
                         }
-                        break;
+                    }
+                });
+            }
+            
+            // ===== UPDATE CHART =====
+            function updateChart(monthlyAmount, years, annualReturn, totalInvested, futureValue) {
+                if (!sipChart) return;
+                
+                // Generate labels (years)
+                const labels = [];
+                const investmentData = [];
+                const valueData = [];
+                
+                const monthlyRate = annualReturn / 100 / 12;
+                const totalMonths = years * 12;
+                
+                let cumulativeInvestment = 0;
+                let cumulativeValue = 0;
+                
+                for (let year = 1; year <= years; year++) {
+                    labels.push(`Year ${year}`);
+                    
+                    // Calculate investment up to this year
+                    cumulativeInvestment = monthlyAmount * 12 * year;
+                    investmentData.push(cumulativeInvestment);
+                    
+                    // Calculate value using SIP formula for each year
+                    const months = year * 12;
+                    const value = monthlyAmount * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+                    valueData.push(value);
                 }
-            }
-            
-            // ===== START NEW SIP =====
-            function startNewSip() {
-                const submitBtn = startSipForm.querySelector('button[type="submit"]');
-                const submitText = document.getElementById('submitStartSipText');
-                const submitLoading = document.getElementById('submitStartSipLoading');
                 
-                // Show loading
-                submitBtn.disabled = true;
-                if (submitText) submitText.style.display = 'none';
-                if (submitLoading) submitLoading.style.display = 'inline-block';
+                sipChart.data.labels = labels;
+                sipChart.data.datasets[0].data = investmentData;
+                sipChart.data.datasets[1].data = valueData;
+                sipChart.update();
+            }
+            
+            // ===== RESET CALCULATOR =====
+            function resetCalculatorValues() {
+                monthlyInvestment.value = 10000;
+                monthlyInvestmentSlider.value = 10000;
+                monthlyInvestmentValue.textContent = formatCurrency(10000);
                 
-                // Simulate API call
-                setTimeout(() => {
-                    // Get form values
-                    const fundSelect = document.getElementById('sipFund');
-                    const fundName = fundSelect.selectedOptions[0].text;
-                    const fundValue = fundSelect.value;
-                    const amount = parseFloat(document.getElementById('sipAmount').value);
-                    const duration = parseInt(document.getElementById('sipDuration').value);
-                    const startDate = document.getElementById('sipDate').value;
-                    const frequency = document.getElementById('sipFrequency').value;
-                    
-                    // Create new SIP
-                    const newSipId = Math.max(...sipData.activeSips.map(s => s.id)) + 1;
-                    const nextDate = new Date(startDate);
-                    nextDate.setMonth(nextDate.getMonth() + 1);
-                    
-                    const newSip = {
-                        id: newSipId,
-                        fundName: fundName,
-                        category: getFundCategory(fundValue),
-                        amount: amount,
-                        duration: `${duration} Years`,
-                        startDate: startDate,
-                        nextDate: nextDate.toISOString().split('T')[0],
-                        status: 'active',
-                        returns: 0,
-                        invested: 0,
-                        currentValue: 0,
-                        icon: getFundIcon(fundValue),
-                        color: getFundColor(fundValue)
-                    };
-                    
-                    sipData.activeSips.push(newSip);
-                    
-                    // Reset form
-                    startSipForm.reset();
-                    
-                    // Close modal
-                    closeModal(startSipModal);
-                    
-                    // Reload SIPs
-                    loadActiveSips();
-                    
-                    // Show success message
-                    showNotification('SIP started successfully! First installment will be processed on ' + formatDate(startDate), 'success');
-                    
-                    // Reset button
-                    submitBtn.disabled = false;
-                    if (submitText) submitText.style.display = 'inline';
-                    if (submitLoading) submitLoading.style.display = 'none';
-                }, 1500);
+                investmentPeriod.value = 10;
+                investmentPeriodSlider.value = 10;
+                investmentPeriodValue.textContent = '10 Years';
+                
+                expectedReturn.value = 12;
+                expectedReturnSlider.value = 12;
+                expectedReturnValue.textContent = '12%';
+                
+                const today = new Date();
+                startDate.value = today.toISOString().split('T')[0];
+                
+                investmentFrequency.value = 'monthly';
+                
+                // Recalculate
+                calculateSIPReturns();
+                
+                showNotification('Calculator reset to default values', 'info');
             }
             
-            function getFundCategory(fundValue) {
-                const categories = {
-                    'axis-bluechip': 'Equity - Large Cap',
-                    'mirae-emerging': 'Equity - Large & Mid Cap',
-                    'sbi-smallcap': 'Equity - Small Cap',
-                    'icici-corporate': 'Debt - Corporate Bond',
-                    'kotak-opportunities': 'Equity - Multi Cap'
+            // ===== LOAD COMPARISON DATA =====
+            function loadComparisonData() {
+                const comparisonTableBody = document.getElementById('comparisonTableBody');
+                if (!comparisonTableBody) return;
+                
+                const comparisonData = [
+                    {
+                        parameter: 'Risk Management',
+                        sip: 'Rupee cost averaging reduces market timing risk',
+                        lumpsum: 'Higher risk due to market timing',
+                        recommendation: 'SIP is better for risk-averse investors'
+                    },
+                    {
+                        parameter: 'Investment Discipline',
+                        sip: 'Forces regular investing habit',
+                        lumpsum: 'Requires self-discipline',
+                        recommendation: 'SIP builds better investment habits'
+                    },
+                    {
+                        parameter: 'Market Timing',
+                        sip: 'No need to time the market',
+                        lumpsum: 'Requires perfect market timing',
+                        recommendation: 'SIP eliminates market timing stress'
+                    },
+                    {
+                        parameter: 'Returns in Bull Market',
+                        sip: 'Lower returns as average cost increases',
+                        lumpsum: 'Higher returns if timed correctly',
+                        recommendation: 'Lumpsum may perform better'
+                    },
+                    {
+                        parameter: 'Returns in Bear Market',
+                        sip: 'Higher returns as average cost decreases',
+                        lumpsum: 'Lower returns if market declines',
+                        recommendation: 'SIP performs much better'
+                    },
+                    {
+                        parameter: 'Suitable For',
+                        sip: 'Salaried individuals, beginners',
+                        lumpsum: 'Investors with large corpus, experienced',
+                        recommendation: 'Depends on investor profile'
+                    }
+                ];
+                
+                comparisonTableBody.innerHTML = '';
+                
+                comparisonData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${item.parameter}</strong></td>
+                        <td>${item.sip}</td>
+                        <td>${item.lumpsum}</td>
+                        <td><span class="positive">${item.recommendation}</span></td>
+                    `;
+                    comparisonTableBody.appendChild(row);
+                });
+            }
+            
+            // ===== START SIP PLAN =====
+            function startSIPPlan(plan) {
+                const planNames = {
+                    conservative: 'Conservative SIP',
+                    balanced: 'Balanced SIP',
+                    aggressive: 'Aggressive SIP'
                 };
-                return categories[fundValue] || 'Equity Fund';
+                
+                showNotification(`Starting ${planNames[plan]}... Feature coming soon!`, 'info');
             }
             
-            function getFundIcon(fundValue) {
-                const icons = {
-                    'axis-bluechip': 'fas fa-chart-line',
-                    'mirae-emerging': 'fas fa-rocket',
-                    'sbi-smallcap': 'fas fa-arrow-up',
-                    'icici-corporate': 'fas fa-shield-alt',
-                    'kotak-opportunities': 'fas fa-bolt'
+            // ===== SHOW PLAN DETAILS =====
+            function showPlanDetails(plan) {
+                const planDetails = {
+                    conservative: {
+                        name: 'Conservative SIP',
+                        description: 'Focuses on capital preservation with stable returns',
+                        recommendedFor: 'Short-term goals, risk-averse investors',
+                        expectedReturns: '8-10% per annum',
+                        riskLevel: 'Low',
+                        suggestedAllocation: '70% Debt, 30% Equity'
+                    },
+                    balanced: {
+                        name: 'Balanced SIP',
+                        description: 'Balances growth and stability for moderate returns',
+                        recommendedFor: 'Medium-term goals, balanced risk appetite',
+                        expectedReturns: '12-15% per annum',
+                        riskLevel: 'Medium',
+                        suggestedAllocation: '50% Debt, 50% Equity'
+                    },
+                    aggressive: {
+                        name: 'Aggressive SIP',
+                        description: 'Focuses on wealth creation with higher growth potential',
+                        recommendedFor: 'Long-term goals, high risk tolerance',
+                        expectedReturns: '15-18% per annum',
+                        riskLevel: 'High',
+                        suggestedAllocation: '20% Debt, 80% Equity'
+                    }
                 };
-                return icons[fundValue] || 'fas fa-chart-line';
-            }
-            
-            function getFundColor(fundValue) {
-                const colors = {
-                    'axis-bluechip': '#3b82f6',
-                    'mirae-emerging': '#10b981',
-                    'sbi-smallcap': '#8b5cf6',
-                    'icici-corporate': '#f59e0b',
-                    'kotak-opportunities': '#ef4444'
-                };
-                return colors[fundValue] || '#667eea';
-            }
-            
-            // ===== MODAL FUNCTIONS =====
-            function openModal(modal) {
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function closeModal(modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
+                
+                const details = planDetails[plan];
+                if (details) {
+                    const message = `
+                        <strong>${details.name}</strong><br>
+                        ${details.description}<br><br>
+                        <strong>Recommended For:</strong> ${details.recommendedFor}<br>
+                        <strong>Expected Returns:</strong> ${details.expectedReturns}<br>
+                        <strong>Risk Level:</strong> ${details.riskLevel}<br>
+                        <strong>Suggested Allocation:</strong> ${details.suggestedAllocation}
+                    `;
+                    
+                    showNotification(message, 'info');
+                }
             }
             
             // ===== UTILITY FUNCTIONS =====
             function showNotification(message, type = 'success') {
                 if (!notification || !notificationMessage) return;
                 
-                // Set message
-                notificationMessage.textContent = message;
+                // Set message (allow HTML for plan details)
+                if (message.includes('<strong>')) {
+                    notificationMessage.innerHTML = message;
+                } else {
+                    notificationMessage.textContent = message;
+                }
                 
                 // Set color based on type
                 const colors = {
@@ -2010,24 +1764,27 @@
                 // Show notification
                 notification.classList.add('show');
                 
-                // Auto hide after 5 seconds
+                // Auto hide after appropriate time
+                const hideTime = message.includes('<strong>') ? 8000 : 5000;
                 setTimeout(() => {
                     notification.classList.remove('show');
-                }, 5000);
+                }, hideTime);
             }
             
-            function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-IN', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                });
+            function formatCurrency(amount) {
+                if (amount >= 10000000) {
+                    return '₹' + (amount / 10000000).toFixed(2) + 'Cr';
+                } else if (amount >= 100000) {
+                    return '₹' + (amount / 100000).toFixed(2) + 'L';
+                } else if (amount >= 1000) {
+                    return '₹' + (amount / 1000).toFixed(1) + 'K';
+                }
+                return '₹' + amount.toFixed(0);
             }
             
-            // ===== INITIALIZE SIP PLANNER =====
+            // ===== INITIALIZE SIP CALCULATOR =====
             if (currentUser) {
-                initSipPlanner();
+                initSIPCalculator();
             }
         });
     </script>
