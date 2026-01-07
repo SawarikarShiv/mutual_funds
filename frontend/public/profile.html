@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Mutual Funds System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>MutualFunds Pro</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="funds.html"><i class="fas fa-coins"></i> Funds</a></li>
+                <li><a href="portfolio.html"><i class="fas fa-chart-pie"></i> Portfolio</a></li>
+                <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="profile-container">
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <div class="user-card">
+                    <div class="avatar">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="status online"></span>
+                    </div>
+                    <h3>John Doe</h3>
+                    <p class="user-email">john.doe@example.com</p>
+                    <p class="user-role">Premium Investor</p>
+                    
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">$45,280</span>
+                            <span class="stat-label">Portfolio Value</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">Active Funds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="profile-menu">
+                    <li><a href="#" class="active"><i class="fas fa-user-cog"></i> Account Settings</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Security</a></li>
+                    <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Statements</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <div class="profile-header">
+                    <h1><i class="fas fa-user-cog"></i> Account Settings</h1>
+                    <p>Manage your personal information and account preferences</p>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-id-card"></i> Personal Information</h2>
+                        <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Full Name</label>
+                            <p>John Michael Doe</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Email Address</label>
+                            <p>john.doe@example.com</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone Number</label>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Date of Birth</label>
+                            <p>January 15, 1985</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Address</label>
+                            <p>123 Main Street, Suite 400<br>San Francisco, CA 94107</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Account Type</label>
+                            <p><span class="badge premium">Premium Investor</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-unlock-alt"></i> Security Settings</h2>
+                    </div>
+                    
+                    <div class="security-grid">
+                        <div class="security-item">
+                            <i class="fas fa-key"></i>
+                            <div>
+                                <h3>Password</h3>
+                                <p>Last changed 30 days ago</p>
+                            </div>
+                            <button class="btn-change">Change</button>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h3>Two-Factor Authentication</h3>
+                                <p>Add an extra layer of security</p>
+                            </div>
+                            <button class="btn-enable">Enable</button>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-history"></i>
+                            <div>
+                                <h3>Login History</h3>
+                                <p>View recent account activity</p>
+                            </div>
+                            <button class="btn-view">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Investment Preferences</h2>
+                    </div>
+                    
+                    <div class="preferences">
+                        <div class="pref-item">
+                            <span class="pref-label">Risk Tolerance</span>
+                            <div class="risk-level">
+                                <div class="risk-bar">
+                                    <div class="risk-fill" style="width: 70%;"></div>
+                                </div>
+                                <span class="risk-text">Moderate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pref-item">
+                            <span class="pref-label">Investment Goals</span>
+                            <div class="tags">
+                                <span class="tag">Retirement</span>
+                                <span class="tag">Wealth Growth</span>
+                                <span class="tag">Education Fund</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pref-item">
+                            <span class="pref-label">Preferred Sectors</span>
+                            <div class="tags">
+                                <span class="tag">Technology</span>
+                                <span class="tag">Healthcare</span>
+                                <span class="tag">Renewable Energy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary"><i class="fas fa-download"></i> Export Data</button>
+                    <button class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
