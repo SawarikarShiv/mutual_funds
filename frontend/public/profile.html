@@ -3,180 +3,1258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile | Mutual Funds System</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My Profile | Infinity Mutual Funds</title>
+    
+    <!-- Reuse the same head content -->
+    <meta name="description" content="Manage your Infinity Mutual Funds profile and account settings">
+    <meta name="keywords" content="profile, account settings, user profile, investment profile">
+    <meta name="author" content="Infinity Financial Services">
+    
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="My Profile | Infinity Mutual Funds">
+    <meta property="og:description" content="Manage your account settings and investment profile">
+    <meta property="og:image" content="https://infinitymutualfunds.com/assets/images/company/og-profile.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://infinitymutualfunds.com/profile.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Infinity Mutual Funds">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    
+    <!-- Profile-specific CSS -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(rgba(10, 15, 46, 0.95), rgba(26, 31, 78, 0.95)), url('assets/images/dashboard/hero-bg.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.25) 0%, transparent 50%);
+        }
+        
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 100px 100px, 50px 50px;
+            opacity: 0.5;
+        }
+        
+        /* Dashboard Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            padding: 30px 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        /* Sidebar (same as portfolio) */
+        .sidebar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid var(--glass-border);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .user-avatar-large:hover::after {
+            content: 'Change';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .user-info h3 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .user-info p {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .user-plan {
+            display: inline-block;
+            padding: 6px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            color: white;
+            border-left: 4px solid #667eea;
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        /* Profile Content */
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .profile-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h2 {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .edit-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Profile Info Grid */
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .info-group label {
+            color: #cbd5e1;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-group .value {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-group input {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .info-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* Investment Profile */
+        .risk-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .risk-meter {
+            flex: 1;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .risk-level {
+            position: absolute;
+            left: 60%; /* Moderate risk position */
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .risk-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #cbd5e1;
+            font-size: 12px;
+        }
+        
+        /* Account Security */
+        .security-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .security-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .security-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 20px;
+        }
+        
+        .security-details h4 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .security-details p {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .security-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-badge.inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        /* Plan & Billing */
+        .plan-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .plan-header h3 {
+            color: white;
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        .plan-price {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+        }
+        
+        .plan-features li {
+            color: white;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-features li i {
+            color: #10b981;
+        }
+        
+        .billing-history {
+            margin-top: 30px;
+        }
+        
+        .billing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .billing-table th {
+            text-align: left;
+            padding: 15px;
+            color: #cbd5e1;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .billing-table td {
+            padding: 15px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .billing-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .billing-status.paid {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .billing-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-section {
+                padding: 20px;
+            }
+            
+            .profile-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .billing-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        /* Navigation bar styles */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
+    <!-- Background Effects -->
+    <div class="background-overlay"></div>
+    <div class="background-particles"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar glass-nav">
+        <div class="container">
             <div class="nav-brand">
-                <i class="fas fa-chart-line"></i>
-                <span>MutualFunds Pro</span>
+                <a href="index.html" class="logo-with-image">
+                    <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image"
+                         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∞</text></svg>'">
+                    <span class="brand-name">Infinity Mutual Funds</span>
+                </a>
             </div>
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="funds.html"><i class="fas fa-coins"></i> Funds</a></li>
-                <li><a href="portfolio.html"><i class="fas fa-chart-pie"></i> Portfolio</a></li>
-                <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
-                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-        </nav>
-
-        <!-- Main Content -->
-        <div class="profile-container">
-            <!-- Sidebar -->
-            <div class="profile-sidebar">
-                <div class="user-card">
-                    <div class="avatar">
-                        <i class="fas fa-user-circle"></i>
-                        <span class="status online"></span>
+            <div class="nav-menu" id="navMenu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+                
+                <!-- User Menu -->
+                <div class="user-menu" id="userMenu">
+                    <span class="user-greeting">Hello, <span id="userGreetingName">User</span></span>
+                    <div class="user-avatar-small" id="userAvatarBtn">
+                        <span id="userInitials">U</span>
                     </div>
-                    <h3>John Doe</h3>
-                    <p class="user-email">john.doe@example.com</p>
-                    <p class="user-role">Premium Investor</p>
-                    
-                    <div class="quick-stats">
-                        <div class="stat-item">
-                            <span class="stat-value">$45,280</span>
-                            <span class="stat-label">Portfolio Value</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value">12</span>
-                            <span class="stat-label">Active Funds</span>
-                        </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="dashboard.html">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                        <a href="portfolio.html">
+                            <i class="fas fa-briefcase"></i> Portfolio
+                        </a>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <a href="#" class="logout" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </a>
                     </div>
                 </div>
-
-                <ul class="profile-menu">
-                    <li><a href="#" class="active"><i class="fas fa-user-cog"></i> Account Settings</a></li>
-                    <li><a href="#"><i class="fas fa-shield-alt"></i> Security</a></li>
-                    <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
-                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Statements</a></li>
-                    <li><a href="#"><i class="fas fa-question-circle"></i> Help & Support</a></li>
-                </ul>
             </div>
+            <button class="menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-            <!-- Profile Content -->
-            <div class="profile-content">
-                <div class="profile-header">
-                    <h1><i class="fas fa-user-cog"></i> Account Settings</h1>
-                    <p>Manage your personal information and account preferences</p>
+    <!-- Main Content -->
+    <main class="container dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-avatar-large" id="userAvatarLarge">
+                    <span id="userLargeInitials">DU</span>
                 </div>
+                <div class="user-info">
+                    <h3 id="userName">Demo User</h3>
+                    <p id="userEmail">demo@infinityfunds.com</p>
+                    <span class="user-plan" id="userPlan">Premium Plan</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a>
+                <a href="portfolio.html" class="nav-item">
+                    <i class="fas fa-briefcase"></i>
+                    Portfolio
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <i class="fas fa-user"></i>
+                    Profile
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+                <a href="security.html" class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    Security
+                </a>
+                <a href="notifications.html" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    Notifications
+                </a>
+                <a href="preferences.html" class="nav-item">
+                    <i class="fas fa-sliders-h"></i>
+                    Preferences
+                </a>
+                <a href="help.html" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    Help & Support
+                </a>
+            </nav>
+        </aside>
 
-                <div class="profile-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-id-card"></i> Personal Information</h2>
-                        <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <section class="profile-section">
+                <div class="section-header">
+                    <h2>Personal Information</h2>
+                    <button class="edit-btn" id="editPersonalInfo">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+                
+                <div class="profile-info-grid" id="personalInfoGrid">
+                    <!-- Information will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Investment Profile -->
+            <section class="profile-section">
+                <div class="section-header">
+                    <h2>Investment Profile</h2>
+                    <button class="edit-btn" id="editInvestmentProfile">
+                        <i class="fas fa-edit"></i> Update Profile
+                    </button>
+                </div>
+                
+                <div class="profile-info-grid" id="investmentProfileGrid">
+                    <!-- Information will be populated by JavaScript -->
+                </div>
+                
+                <div class="risk-profile">
+                    <div style="flex: 1;">
+                        <h3 style="color: white; margin-bottom: 15px; font-size: 16px;">Risk Tolerance</h3>
+                        <div class="risk-meter">
+                            <div class="risk-level" id="riskLevel"></div>
+                        </div>
+                        <div class="risk-labels">
+                            <span>Conservative</span>
+                            <span>Moderate</span>
+                            <span>Aggressive</span>
+                        </div>
                     </div>
-                    
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <label>Full Name</label>
-                            <p>John Michael Doe</p>
-                        </div>
-                        <div class="info-item">
-                            <label>Email Address</label>
-                            <p>john.doe@example.com</p>
-                        </div>
-                        <div class="info-item">
-                            <label>Phone Number</label>
-                            <p>+1 (555) 123-4567</p>
-                        </div>
-                        <div class="info-item">
-                            <label>Date of Birth</label>
-                            <p>January 15, 1985</p>
-                        </div>
-                        <div class="info-item">
-                            <label>Address</label>
-                            <p>123 Main Street, Suite 400<br>San Francisco, CA 94107</p>
-                        </div>
-                        <div class="info-item">
-                            <label>Account Type</label>
-                            <p><span class="badge premium">Premium Investor</span></p>
-                        </div>
+                    <div style="text-align: center;">
+                        <div style="color: #cbd5e1; font-size: 14px; margin-bottom: 5px;">Current Level</div>
+                        <div id="riskLevelText" style="color: #667eea; font-size: 20px; font-weight: 600;">Moderate</div>
                     </div>
                 </div>
+            </section>
 
-                <div class="profile-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-unlock-alt"></i> Security Settings</h2>
-                    </div>
-                    
-                    <div class="security-grid">
-                        <div class="security-item">
-                            <i class="fas fa-key"></i>
-                            <div>
-                                <h3>Password</h3>
+            <!-- Account Security -->
+            <section class="profile-section">
+                <div class="section-header">
+                    <h2>Account Security</h2>
+                </div>
+                
+                <div class="security-items">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <div class="security-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="security-details">
+                                <h4>Password</h4>
                                 <p>Last changed 30 days ago</p>
                             </div>
-                            <button class="btn-change">Change</button>
                         </div>
-                        <div class="security-item">
-                            <i class="fas fa-mobile-alt"></i>
-                            <div>
-                                <h3>Two-Factor Authentication</h3>
-                                <p>Add an extra layer of security</p>
-                            </div>
-                            <button class="btn-enable">Enable</button>
+                        <div class="security-status">
+                            <span class="status-badge active">Active</span>
+                            <button class="edit-btn" id="changePasswordBtn">Change</button>
                         </div>
-                        <div class="security-item">
-                            <i class="fas fa-history"></i>
-                            <div>
-                                <h3>Login History</h3>
-                                <p>View recent account activity</p>
-                            </div>
-                            <button class="btn-view">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-chart-line"></i> Investment Preferences</h2>
                     </div>
                     
-                    <div class="preferences">
-                        <div class="pref-item">
-                            <span class="pref-label">Risk Tolerance</span>
-                            <div class="risk-level">
-                                <div class="risk-bar">
-                                    <div class="risk-fill" style="width: 70%;"></div>
-                                </div>
-                                <span class="risk-text">Moderate</span>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <div class="security-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="security-details">
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security</p>
                             </div>
                         </div>
-                        
-                        <div class="pref-item">
-                            <span class="pref-label">Investment Goals</span>
-                            <div class="tags">
-                                <span class="tag">Retirement</span>
-                                <span class="tag">Wealth Growth</span>
-                                <span class="tag">Education Fund</span>
+                        <div class="security-status">
+                            <span class="status-badge inactive">Inactive</span>
+                            <button class="edit-btn" id="enable2faBtn">Enable</button>
+                        </div>
+                    </div>
+                    
+                    <div class="security-item">
+                        <div class="security-info">
+                            <div class="security-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="security-details">
+                                <h4>Email Notifications</h4>
+                                <p>Receive important updates</p>
                             </div>
                         </div>
-                        
-                        <div class="pref-item">
-                            <span class="pref-label">Preferred Sectors</span>
-                            <div class="tags">
-                                <span class="tag">Technology</span>
-                                <span class="tag">Healthcare</span>
-                                <span class="tag">Renewable Energy</span>
-                            </div>
+                        <div class="security-status">
+                            <span class="status-badge active">Active</span>
+                            <button class="edit-btn" id="manageNotificationsBtn">Manage</button>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="action-buttons">
-                    <button class="btn btn-secondary"><i class="fas fa-download"></i> Export Data</button>
-                    <button class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+            <!-- Plan & Billing -->
+            <section class="profile-section">
+                <div class="section-header">
+                    <h2>Plan & Billing</h2>
+                    <button class="btn btn-primary-gradient" id="upgradePlanBtn">Upgrade Plan</button>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 id="currentPlanName">Premium Plan</h3>
+                        <div class="plan-price" id="currentPlanPrice">₹999/month</div>
+                    </div>
+                    
+                    <ul class="plan-features" id="planFeaturesList">
+                        <!-- Features will be populated by JavaScript -->
+                    </ul>
+                    
+                    <button class="btn btn-glass" style="width: 100%;" id="manageBillingBtn">
+                        <i class="fas fa-credit-card"></i> Manage Billing
+                    </button>
+                </div>
+                
+                <div class="billing-history">
+                    <h3 style="color: white; margin-bottom: 20px;">Billing History</h3>
+                    <table class="billing-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Invoice</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingHistoryTable">
+                            <!-- Billing history will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 50px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo-with-image" style="justify-content: center; margin-bottom: 15px;">
+                        <img src="assets/images/company/logo-icon.png" alt="Infinity Mutual Funds" class="logo-image"
+                             onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∞</text></svg>'">
+                    </div>
+                    <h3>Infinity Mutual Funds</h3>
+                    <p>Smart Investment Management Platform</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="disclaimer">
+                    <p>
+                        <strong>Disclaimer:</strong> This is a demo application. Mutual fund investments are subject to market risks. 
+                        Please read all scheme related documents carefully before investing. 
+                        Past performance is not indicative of future returns.
+                    </p>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 Infinity Financial Services Pvt. Ltd. All rights reserved.</p>
                 </div>
             </div>
         </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="fab">
+        <button class="fab-button" id="helpButton">
+            <i class="fas fa-question"></i>
+        </button>
+        <div class="fab-tooltip">Need help?</div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script>
+        // Auth check and user data loading
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            const userData = localStorage.getItem('infinity_user');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userData);
+                updateUserInfo(user);
+                loadProfileData(user.id);
+                setupEventListeners();
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                window.location.href = 'index.html';
+            }
+        });
+
+        function updateUserInfo(user) {
+            // Update user information in the UI
+            document.getElementById('userGreetingName').textContent = user.name.split(' ')[0];
+            document.getElementById('userInitials').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            document.getElementById('userLargeInitials').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+            
+            // Update plan if available
+            if (user.plan) {
+                document.getElementById('userPlan').textContent = user.plan.charAt(0).toUpperCase() + user.plan.slice(1) + ' Plan';
+                document.getElementById('currentPlanName').textContent = user.plan.charAt(0).toUpperCase() + user.plan.slice(1) + ' Plan';
+            }
+        }
+
+        function loadProfileData(userId) {
+            // Load profile data from localStorage or use demo data
+            const profileData = JSON.parse(localStorage.getItem(`infinity_profile_${userId}`)) || getDemoProfileData();
+            
+            // Populate personal information
+            populatePersonalInfo(profileData.personal);
+            
+            // Populate investment profile
+            populateInvestmentProfile(profileData.investment);
+            
+            // Update risk profile
+            updateRiskProfile(profileData.investment.riskTolerance);
+            
+            // Populate plan features
+            populatePlanFeatures(profileData.plan);
+            
+            // Populate billing history
+            populateBillingHistory(profileData.billingHistory);
+            
+            // Save profile data
+            localStorage.setItem(`infinity_profile_${userId}`, JSON.stringify(profileData));
+        }
+
+        function getDemoProfileData() {
+            return {
+                personal: {
+                    fullName: "Demo User",
+                    email: "demo@infinityfunds.com",
+                    phone: "+91 98765 43210",
+                    dob: "1985-05-15",
+                    pan: "ABCDE1234F",
+                    aadhar: "1234 5678 9012",
+                    address: "123 Financial District, Mumbai, Maharashtra 400001",
+                    accountNumber: "INF1234567890",
+                    kycStatus: "Verified"
+                },
+                investment: {
+                    experience: "5-10 years",
+                    objective: "Wealth Creation",
+                    horizon: "10+ years",
+                    riskTolerance: 60, // 0-100 scale
+                    investmentAmount: "₹50,000 - ₹1,00,000 per month",
+                    preferredCategories: ["Equity Funds", "Hybrid Funds"],
+                    advisorRequired: false
+                },
+                plan: {
+                    name: "premium",
+                    price: 999,
+                    features: [
+                        "Unlimited Portfolio Tracking",
+                        "AI-Powered Recommendations",
+                        "Tax Optimization Reports",
+                        "Priority Customer Support",
+                        "Advanced Analytics",
+                        "Multi-Portfolio Management",
+                        "Real-time Alerts",
+                        "Export to Excel"
+                    ]
+                },
+                billingHistory: [
+                    {
+                        date: "2024-03-01",
+                        description: "Monthly Subscription - Premium Plan",
+                        amount: 999,
+                        status: "paid",
+                        invoice: "INV-2024-03-001"
+                    },
+                    {
+                        date: "2024-02-01",
+                        description: "Monthly Subscription - Premium Plan",
+                        amount: 999,
+                        status: "paid",
+                        invoice: "INV-2024-02-001"
+                    },
+                    {
+                        date: "2024-01-01",
+                        description: "Monthly Subscription - Premium Plan",
+                        amount: 999,
+                        status: "paid",
+                        invoice: "INV-2024-01-001"
+                    }
+                ]
+            };
+        }
+
+        function populatePersonalInfo(personalData) {
+            const grid = document.getElementById('personalInfoGrid');
+            
+            const fields = [
+                { label: "Full Name", value: personalData.fullName, id: "fullName", editable: true },
+                { label: "Email Address", value: personalData.email, id: "email", editable: true },
+                { label: "Phone Number", value: personalData.phone, id: "phone", editable: true },
+                { label: "Date of Birth", value: formatDate(personalData.dob), id: "dob", editable: true },
+                { label: "PAN Number", value: personalData.pan, id: "pan", editable: false },
+                { label: "Aadhar Number", value: personalData.aadhar, id: "aadhar", editable: false },
+                { label: "Address", value: personalData.address, id: "address", editable: true, fullWidth: true },
+                { label: "Account Number", value: personalData.accountNumber, id: "accountNumber", editable: false },
+                { label: "KYC Status", value: personalData.kycStatus, id: "kycStatus", editable: false, badge: true }
+            ];
+            
+            grid.innerHTML = '';
+            
+            fields.forEach(field => {
+                const group = document.createElement('div');
+                group.className = 'info-group';
+                if (field.fullWidth) {
+                    group.style.gridColumn = '1 / -1';
+                }
+                
+                group.innerHTML = `
+                    <label>${field.label}</label>
+                    ${field.editable ? 
+                        `<input type="text" id="input_${field.id}" value="${field.value}" style="display: none;">` : 
+                        ''
+                    }
+                    <div class="value" id="value_${field.id}">
+                        ${field.badge ? 
+                            `<span class="status-badge ${field.value.toLowerCase() === 'verified' ? 'active' : 'inactive'}">${field.value}</span>` : 
+                            field.value
+                        }
+                    </div>
+                `;
+                
+                grid.appendChild(group);
+            });
+        }
+
+        function populateInvestmentProfile(investmentData) {
+            const grid = document.getElementById('investmentProfileGrid');
+            
+            const fields = [
+                { label: "Investment Experience", value: investmentData.experience, id: "experience", editable: true },
+                { label: "Primary Objective", value: investmentData.objective, id: "objective", editable: true },
+                { label: "Investment Horizon", value: investmentData.horizon, id: "horizon", editable: true },
+                { label: "Monthly Investment", value: investmentData.investmentAmount, id: "investmentAmount", editable: true },
+                { label: "Preferred Categories", value: investmentData.preferredCategories.join(", "), id: "preferredCategories", editable: true },
+                { label: "Advisor Required", value: investmentData.advisorRequired ? "Yes" : "No", id: "advisorRequired", editable: true }
+            ];
+            
+            grid.innerHTML = '';
+            
+            fields.forEach(field => {
+                const group = document.createElement('div');
+                group.className = 'info-group';
+                
+                group.innerHTML = `
+                    <label>${field.label}</label>
+                    ${field.editable ? 
+                        `<input type="text" id="input_${field.id}" value="${field.value}" style="display: none;">` : 
+                        ''
+                    }
+                    <div class="value" id="value_${field.id}">${field.value}</div>
+                `;
+                
+                grid.appendChild(group);
+            });
+        }
+
+        function updateRiskProfile(riskTolerance) {
+            const riskLevel = document.getElementById('riskLevel');
+            const riskLevelText = document.getElementById('riskLevelText');
+            
+            // Update position (0-100% to left position)
+            const leftPosition = riskTolerance + '%';
+            riskLevel.style.left = leftPosition;
+            
+            // Update text
+            let riskText = '';
+            if (riskTolerance <= 33) {
+                riskText = 'Conservative';
+            } else if (riskTolerance <= 66) {
+                riskText = 'Moderate';
+            } else {
+                riskText = 'Aggressive';
+            }
+            riskLevelText.textContent = riskText;
+        }
+
+        function populatePlanFeatures(planData) {
+            const list = document.getElementById('planFeaturesList');
+            const priceElement = document.getElementById('currentPlanPrice');
+            
+            priceElement.textContent = `₹${planData.price}/month`;
+            
+            list.innerHTML = '';
+            planData.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
+                list.appendChild(li);
+            });
+        }
+
+        function populateBillingHistory(billingHistory) {
+            const tableBody = document.getElementById('billingHistoryTable');
+            tableBody.innerHTML = '';
+            
+            billingHistory.forEach(bill => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${formatDate(bill.date)}</td>
+                    <td>${bill.description}</td>
+                    <td>₹${bill.amount}</td>
+                    <td>
+                        <span class="billing-status ${bill.status}">${bill.status.charAt(0).toUpperCase() + bill.status.slice(1)}</span>
+                    </td>
+                    <td>
+                        <button class="btn-action" data-invoice="${bill.invoice}" title="Download Invoice">
+                            <i class="fas fa-download"></i> ${bill.invoice}
+                        </button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupEventListeners() {
+            // Navigation
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // User dropdown
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            if (userAvatarBtn) {
+                userAvatarBtn.addEventListener('click', function() {
+                    userDropdown.classList.toggle('show');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userAvatarBtn?.contains(e.target) && !userDropdown?.contains(e.target)) {
+                    userDropdown?.classList.remove('show');
+                }
+            });
+
+            // Logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to sign out?')) {
+                        localStorage.removeItem('infinity_user');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+
+            // Edit buttons
+            const editPersonalInfoBtn = document.getElementById('editPersonalInfo');
+            const editInvestmentProfileBtn = document.getElementById('editInvestmentProfile');
+            
+            let isEditingPersonalInfo = false;
+            let isEditingInvestmentProfile = false;
+            
+            if (editPersonalInfoBtn) {
+                editPersonalInfoBtn.addEventListener('click', function() {
+                    isEditingPersonalInfo = !isEditingPersonalInfo;
+                    toggleEditMode('personal', isEditingPersonalInfo, editPersonalInfoBtn);
+                });
+            }
+            
+            if (editInvestmentProfileBtn) {
+                editInvestmentProfileBtn.addEventListener('click', function() {
+                    isEditingInvestmentProfile = !isEditingInvestmentProfile;
+                    toggleEditMode('investment', isEditingInvestmentProfile, editInvestmentProfileBtn);
+                });
+            }
+
+            // Security buttons
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const enable2faBtn = document.getElementById('enable2faBtn');
+            const manageNotificationsBtn = document.getElementById('manageNotificationsBtn');
+            
+            if (changePasswordBtn) {
+                changePasswordBtn.addEventListener('click', function() {
+                    const newPassword = prompt('Enter new password:');
+                    if (newPassword && newPassword.length >= 6) {
+                        alert('Password changed successfully!');
+                    } else if (newPassword) {
+                        alert('Password must be at least 6 characters');
+                    }
+                });
+            }
+            
+            if (enable2faBtn) {
+                enable2faBtn.addEventListener('click', function() {
+                    alert('Two-factor authentication setup would open here');
+                });
+            }
+            
+            if (manageNotificationsBtn) {
+                manageNotificationsBtn.addEventListener('click', function() {
+                    alert('Notification preferences would open here');
+                });
+            }
+
+            // Plan & billing buttons
+            const upgradePlanBtn = document.getElementById('upgradePlanBtn');
+            const manageBillingBtn = document.getElementById('manageBillingBtn');
+            
+            if (upgradePlanBtn) {
+                upgradePlanBtn.addEventListener('click', function() {
+                    alert('Plan upgrade options would open here');
+                });
+            }
+            
+            if (manageBillingBtn) {
+                manageBillingBtn.addEventListener('click', function() {
+                    alert('Billing management would open here');
+                });
+            }
+
+            // Invoice download buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.btn-action[data-invoice]')) {
+                    const invoice = e.target.closest('.btn-action').dataset.invoice;
+                    alert(`Invoice ${invoice} would be downloaded`);
+                }
+            });
+
+            // Help button
+            const helpButton = document.getElementById('helpButton');
+            if (helpButton) {
+                helpButton.addEventListener('click', function() {
+                    alert('Need help? Contact our support team at contact@infinityfunds.com');
+                });
+            }
+        }
+
+        function toggleEditMode(section, isEditing, editButton) {
+            const userData = JSON.parse(localStorage.getItem('infinity_user'));
+            const profileData = JSON.parse(localStorage.getItem(`infinity_profile_${userData.id}`)) || getDemoProfileData();
+            
+            const fieldIds = section === 'personal' ? 
+                ['fullName', 'email', 'phone', 'dob', 'address'] :
+                ['experience', 'objective', 'horizon', 'investmentAmount', 'preferredCategories', 'advisorRequired'];
+            
+            fieldIds.forEach(fieldId => {
+                const valueElement = document.getElementById(`value_${fieldId}`);
+                const inputElement = document.getElementById(`input_${fieldId}`);
+                
+                if (valueElement && inputElement) {
+                    if (isEditing) {
+                        valueElement.style.display = 'none';
+                        inputElement.style.display = 'block';
+                        inputElement.focus();
+                    } else {
+                        // Save changes
+                        const newValue = inputElement.value;
+                        valueElement.textContent = newValue;
+                        
+                        // Update data structure
+                        if (section === 'personal') {
+                            profileData.personal[fieldId] = newValue;
+                        } else {
+                            if (fieldId === 'preferredCategories') {
+                                profileData.investment[fieldId] = newValue.split(',').map(item => item.trim());
+                            } else if (fieldId === 'advisorRequired') {
+                                profileData.investment[fieldId] = newValue.toLowerCase() === 'yes';
+                            } else {
+                                profileData.investment[fieldId] = newValue;
+                            }
+                        }
+                        
+                        inputElement.style.display = 'none';
+                        valueElement.style.display = 'block';
+                    }
+                }
+            });
+            
+            // Update edit button text
+            editButton.innerHTML = isEditing ? 
+                '<i class="fas fa-save"></i> Save' : 
+                '<i class="fas fa-edit"></i> Edit';
+            
+            // Save profile data if we're saving
+            if (!isEditing) {
+                localStorage.setItem(`infinity_profile_${userData.id}`, JSON.stringify(profileData));
+                
+                // Update user info if personal data changed
+                if (section === 'personal') {
+                    updateUserInfo({
+                        ...userData,
+                        name: profileData.personal.fullName,
+                        email: profileData.personal.email
+                    });
+                }
+            }
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+    </script>
 </body>
 </html>
