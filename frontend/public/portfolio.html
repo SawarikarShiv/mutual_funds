@@ -3,22 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Management | Infinity Mutual Funds</title>
+    <title>Dashboard | Infinity Mutual Funds</title>
     
-    <!-- Reuse the same head content from index.html for consistency -->
-    <meta name="description" content="Manage your mutual fund portfolio with advanced analytics and insights">
-    <meta name="keywords" content="portfolio management, mutual funds, investment tracking, portfolio analytics">
+    <meta name="description" content="Infinity Mutual Funds Dashboard - Track your investments in real-time">
+    <meta name="keywords" content="dashboard, investment tracking, portfolio analytics, mutual funds">
     <meta name="author" content="Infinity Financial Services">
-    
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="Portfolio Management | Infinity Mutual Funds">
-    <meta property="og:description" content="Track and manage your mutual fund investments with AI-powered insights">
-    <meta property="og:image" content="https://infinitymutualfunds.com/assets/images/company/og-portfolio.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://infinitymutualfunds.com/portfolio.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Infinity Mutual Funds">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,12 +21,11 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
     
-    <!-- Portfolio-specific CSS -->
+    <!-- Dashboard-specific CSS -->
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --dark-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -54,7 +42,6 @@
             background-position: center;
         }
         
-        /* Background effects */
         .background-overlay {
             position: fixed;
             top: 0;
@@ -181,12 +168,58 @@
             font-size: 18px;
         }
         
-        /* Portfolio Overview Cards */
-        .portfolio-stats {
+        /* Dashboard Content */
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-content h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .welcome-content p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
         }
         
         .stat-card {
@@ -218,6 +251,18 @@
             letter-spacing: 0.5px;
         }
         
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            color: #667eea;
+        }
+        
         .stat-value {
             font-size: 32px;
             font-weight: 700;
@@ -241,276 +286,210 @@
             color: #ef4444;
         }
         
-        /* Portfolio Table */
-        .portfolio-table-container {
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .chart-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
         }
         
-        .table-header {
+        .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
         }
         
-        .table-header h3 {
+        .chart-header h3 {
             color: white;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 600;
         }
         
-        .table-actions {
+        .chart-period {
             display: flex;
             gap: 10px;
         }
         
-        .table-actions .btn {
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-        
-        .portfolio-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .portfolio-table th {
-            text-align: left;
-            padding: 15px;
+        .period-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             color: #cbd5e1;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
         
-        .portfolio-table td {
-            padding: 15px;
-            color: white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
-        }
-        
-        .portfolio-table tbody tr {
-            transition: background 0.3s ease;
-        }
-        
-        .portfolio-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .fund-name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .fund-logo {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        .period-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .fund-details h4 {
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        
-        .fund-details p {
             color: #cbd5e1;
-            font-size: 12px;
-            margin: 0;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
         }
         
-        .allocation-bar {
-            width: 100%;
-            height: 6px;
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-card {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 5px;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
         
-        .allocation-fill {
-            height: 100%;
-            border-radius: 3px;
+        .action-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+            color: white;
+        }
+        
+        .action-card:nth-child(1) .action-icon {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        .performance-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+        .action-card:nth-child(2) .action-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
         
-        .performance-badge.positive {
+        .action-card:nth-child(3) .action-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .action-card:nth-child(4) .action-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+        
+        .action-card h4 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .action-card p {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Recent Activity */
+        .activity-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .activity-icon.buy {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
         }
         
-        .performance-badge.negative {
+        .activity-icon.sell {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
         }
         
-        /* Asset Allocation Chart */
-        .asset-allocation {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+        .activity-icon.dividend {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
         }
         
-        .allocation-chart-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .activity-icon.alert {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
         }
         
-        .chart-title {
+        .activity-details h4 {
             color: white;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
+            font-size: 16px;
+            margin-bottom: 5px;
         }
         
-        .allocation-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .allocation-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        
-        .allocation-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .allocation-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .allocation-name {
-            color: white;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .allocation-value {
-            color: white;
-            font-weight: 600;
-        }
-        
-        /* Recent Transactions */
-        .transactions-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
-        }
-        
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-        
-        .transaction-details {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .transaction-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-        
-        .transaction-icon.buy {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .transaction-icon.sell {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        
-        .transaction-icon.dividend {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-        
-        .transaction-info h4 {
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-        
-        .transaction-info p {
+        .activity-details p {
             color: #cbd5e1;
-            font-size: 12px;
+            font-size: 14px;
             margin: 0;
         }
         
-        .transaction-amount {
-            text-align: right;
-        }
-        
-        .transaction-amount .amount {
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-        
-        .transaction-amount .date {
-            color: #cbd5e1;
+        .activity-time {
+            color: #94a3b8;
             font-size: 12px;
+            margin-left: auto;
         }
         
         /* Responsive Design */
@@ -523,26 +502,23 @@
                 position: static;
                 margin-bottom: 30px;
             }
-            
-            .asset-allocation {
-                grid-template-columns: 1fr;
-            }
         }
         
         @media (max-width: 768px) {
-            .portfolio-stats {
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
             
-            .table-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
+            .quick-actions {
+                grid-template-columns: 1fr;
             }
             
-            .portfolio-table {
-                display: block;
-                overflow-x: auto;
+            .welcome-banner {
+                padding: 20px;
+            }
+            
+            .welcome-content h1 {
+                font-size: 24px;
             }
         }
         
@@ -552,6 +528,21 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -559,7 +550,7 @@
     <div class="background-overlay"></div>
     <div class="background-particles"></div>
     
-    <!-- Navigation (Reuse from index.html) -->
+    <!-- Navigation -->
     <nav class="navbar glass-nav">
         <div class="container">
             <div class="nav-brand">
@@ -570,8 +561,8 @@
                 </a>
             </div>
             <div class="nav-menu" id="navMenu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="portfolio.html" class="nav-link active">Portfolio</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
                 <a href="profile.html" class="nav-link">Profile</a>
                 
                 <!-- User Menu -->
@@ -623,11 +614,11 @@
             </div>
             
             <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item">
+                <a href="dashboard.html" class="nav-item active">
                     <i class="fas fa-chart-line"></i>
                     Dashboard
                 </a>
-                <a href="portfolio.html" class="nav-item active">
+                <a href="portfolio.html" class="nav-item">
                     <i class="fas fa-briefcase"></i>
                     Portfolio
                 </a>
@@ -671,14 +662,32 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <!-- Portfolio Stats -->
-            <div class="portfolio-stats">
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-content">
+                    <h1 id="welcomeMessage">Welcome back, Demo!</h1>
+                    <p>Your portfolio is up <strong>2.4%</strong> today. Check out the latest insights and recommendations for your investments.</p>
+                    <div class="hero-actions" style="display: flex; gap: 15px; margin-top: 25px;">
+                        <a href="portfolio.html" class="btn btn-glass" style="background: rgba(255, 255, 255, 0.2); color: white;">
+                            <i class="fas fa-briefcase"></i> View Portfolio
+                        </a>
+                        <a href="#" class="btn" style="background: white; color: #667eea; font-weight: 600;">
+                            <i class="fas fa-plus-circle"></i> Add Investment
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-header">
                         <h4>Total Investment</h4>
-                        <i class="fas fa-rupee-sign" style="color: #667eea;"></i>
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
                     </div>
                     <div class="stat-value" id="totalInvestment">₹18,45,600</div>
                     <div class="stat-change positive">
@@ -689,7 +698,9 @@
                 <div class="stat-card">
                     <div class="stat-header">
                         <h4>Current Value</h4>
-                        <i class="fas fa-chart-line" style="color: #10b981;"></i>
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
                     </div>
                     <div class="stat-value" id="currentValue">₹24,78,450</div>
                     <div class="stat-change positive">
@@ -699,10 +710,12 @@
                 
                 <div class="stat-card">
                     <div class="stat-header">
-                        <h4>Today's Change</h4>
-                        <i class="fas fa-sync-alt" style="color: #f59e0b;"></i>
+                        <h4>Today's Gain</h4>
+                        <div class="stat-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
                     </div>
-                    <div class="stat-value" id="todaysChange">+₹12,450</div>
+                    <div class="stat-value" id="todaysGain">+₹12,450</div>
                     <div class="stat-change positive">
                         <i class="fas fa-arrow-up"></i> 2.4%
                     </div>
@@ -710,124 +723,116 @@
                 
                 <div class="stat-card">
                     <div class="stat-header">
-                        <h4>Annual Returns</h4>
-                        <i class="fas fa-percentage" style="color: #8b5cf6;"></i>
+                        <h4>XIRR</h4>
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
                     </div>
-                    <div class="stat-value" id="annualReturns">15.8%</div>
+                    <div class="stat-value" id="xirrValue">15.8%</div>
                     <div class="stat-change positive">
                         <i class="fas fa-arrow-up"></i> 3.2% vs benchmark
                     </div>
                 </div>
             </div>
 
-            <!-- Portfolio Holdings -->
-            <div class="portfolio-table-container">
-                <div class="table-header">
-                    <h3>Your Holdings</h3>
-                    <div class="table-actions">
-                        <button class="btn btn-glass" id="addFundBtn">
-                            <i class="fas fa-plus"></i> Add Fund
-                        </button>
-                        <button class="btn btn-primary-gradient" id="rebalanceBtn">
-                            <i class="fas fa-sync-alt"></i> Rebalance
-                        </button>
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Portfolio Performance</h3>
+                        <div class="chart-period">
+                            <button class="period-btn active">1M</button>
+                            <button class="period-btn">6M</button>
+                            <button class="period-btn">1Y</button>
+                            <button class="period-btn">All</button>
+                        </div>
                     </div>
-                </div>
-                
-                <table class="portfolio-table">
-                    <thead>
-                        <tr>
-                            <th>Fund Name</th>
-                            <th>Type</th>
-                            <th>Units</th>
-                            <th>Avg. Cost</th>
-                            <th>Current Value</th>
-                            <th>Allocation</th>
-                            <th>Performance</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="holdingsTable">
-                        <!-- Data will be populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Asset Allocation -->
-            <div class="asset-allocation">
-                <div class="allocation-chart-container">
-                    <h3 class="chart-title">Asset Allocation</h3>
-                    <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                        <!-- Chart placeholder -->
-                        <div style="width: 250px; height: 250px; border-radius: 50%; background: conic-gradient(
-                            #667eea 0% 35%,
-                            #10b981 35% 60%,
-                            #f59e0b 60% 80%,
-                            #8b5cf6 80% 90%,
-                            #ec4899 90% 100%
-                        ); display: flex; align-items: center; justify-content: center;">
-                            <div style="width: 150px; height: 150px; background: rgba(30, 41, 59, 0.95); border-radius: 50%;"></div>
+                    <div class="chart-placeholder">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-line" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <p>Portfolio performance chart would appear here</p>
+                            <small style="color: #94a3b8;">Showing 1 year growth of 34.2%</small>
                         </div>
                     </div>
                 </div>
                 
-                <div class="allocation-chart-container">
-                    <h3 class="chart-title">Allocation Breakdown</h3>
-                    <div class="allocation-list">
-                        <div class="allocation-item">
-                            <div class="allocation-label">
-                                <div class="allocation-color" style="background: #667eea;"></div>
-                                <span class="allocation-name">Equity Funds</span>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Asset Allocation</h3>
+                        <a href="portfolio.html" style="color: #667eea; text-decoration: none; font-size: 14px;">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="chart-placeholder">
+                        <div style="text-align: center; width: 100%;">
+                            <div style="width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(
+                                #667eea 0% 35%,
+                                #10b981 35% 60%,
+                                #f59e0b 60% 80%,
+                                #8b5cf6 80% 90%,
+                                #ec4899 90% 100%
+                            ); margin: 0 auto 20px; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                                            width: 100px; height: 100px; background: rgba(30, 41, 59, 0.95); border-radius: 50%;"></div>
                             </div>
-                            <span class="allocation-value">35%</span>
-                        </div>
-                        <div class="allocation-item">
-                            <div class="allocation-label">
-                                <div class="allocation-color" style="background: #10b981;"></div>
-                                <span class="allocation-name">Debt Funds</span>
-                            </div>
-                            <span class="allocation-value">25%</span>
-                        </div>
-                        <div class="allocation-item">
-                            <div class="allocation-label">
-                                <div class="allocation-color" style="background: #f59e0b;"></div>
-                                <span class="allocation-name">Hybrid Funds</span>
-                            </div>
-                            <span class="allocation-value">20%</span>
-                        </div>
-                        <div class="allocation-item">
-                            <div class="allocation-label">
-                                <div class="allocation-color" style="background: #8b5cf6;"></div>
-                                <span class="allocation-name">International Funds</span>
-                            </div>
-                            <span class="allocation-value">10%</span>
-                        </div>
-                        <div class="allocation-item">
-                            <div class="allocation-label">
-                                <div class="allocation-color" style="background: #ec4899;"></div>
-                                <span class="allocation-name">Others</span>
-                            </div>
-                            <span class="allocation-value">10%</span>
+                            <p>Equity: 35% | Debt: 25% | Hybrid: 20%</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Transactions -->
-            <div class="transactions-container">
-                <div class="table-header">
-                    <h3>Recent Transactions</h3>
-                    <a href="transactions.html" class="btn btn-glass">View All</a>
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" id="quickAddFund">
+                    <div class="action-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h4>Add Fund</h4>
+                    <p>Add new mutual fund to your portfolio</p>
                 </div>
                 
-                <div class="transactions-list" id="recentTransactions">
-                    <!-- Transactions will be populated by JavaScript -->
+                <div class="action-card" id="quickRebalance">
+                    <div class="action-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h4>Rebalance</h4>
+                    <p>Optimize your portfolio allocation</p>
+                </div>
+                
+                <div class="action-card" id="quickReport">
+                    <div class="action-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h4>Generate Report</h4>
+                    <p>Create portfolio performance report</p>
+                </div>
+                
+                <div class="action-card" id="quickTax">
+                    <div class="action-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h4>Tax Planning</h4>
+                    <p>Optimize your capital gains tax</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-container">
+                <div class="chart-header">
+                    <h3>Recent Activity</h3>
+                    <a href="transactions.html" style="color: #667eea; text-decoration: none; font-size: 14px;">
+                        View All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="activity-list" id="activityList">
+                    <!-- Activities will be populated by JavaScript -->
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer (Reuse from index.html) -->
+    <!-- Footer -->
     <footer class="footer" style="margin-top: 50px;">
         <div class="container">
             <div class="footer-content">
@@ -892,14 +897,12 @@
             try {
                 const user = JSON.parse(userData);
                 updateUserInfo(user);
-                loadPortfolioData(user.id);
+                loadDashboardData(user.id);
+                setupEventListeners();
             } catch (error) {
                 console.error('Error loading user data:', error);
                 window.location.href = 'index.html';
             }
-
-            // Setup event listeners
-            setupEventListeners();
         });
 
         function updateUserInfo(user) {
@@ -910,264 +913,159 @@
             document.getElementById('userName').textContent = user.name;
             document.getElementById('userEmail').textContent = user.email;
             
+            // Update welcome message
+            document.getElementById('welcomeMessage').textContent = `Welcome back, ${user.name.split(' ')[0]}!`;
+            
             // Update plan if available
             if (user.plan) {
                 document.getElementById('userPlan').textContent = user.plan.charAt(0).toUpperCase() + user.plan.slice(1) + ' Plan';
             }
         }
 
-        function loadPortfolioData(userId) {
-            // Load portfolio data from localStorage or use demo data
-            const portfolioData = JSON.parse(localStorage.getItem(`infinity_portfolio_${userId}`)) || getDemoPortfolioData();
+        function loadDashboardData(userId) {
+            // Load dashboard data from localStorage or use demo data
+            const dashboardData = JSON.parse(localStorage.getItem(`infinity_dashboard_${userId}`)) || getDemoDashboardData();
             
-            // Update portfolio stats
-            document.getElementById('totalInvestment').textContent = formatCurrency(portfolioData.totalInvestment);
-            document.getElementById('currentValue').textContent = formatCurrency(portfolioData.currentValue);
-            document.getElementById('todaysChange').textContent = formatCurrency(portfolioData.todaysChange, true);
-            document.getElementById('annualReturns').textContent = portfolioData.annualReturns + '%';
-            document.getElementById('totalPortfolioValue').textContent = formatCurrency(portfolioData.currentValue);
-
-            // Populate holdings table
-            populateHoldingsTable(portfolioData.holdings);
-
-            // Populate recent transactions
-            populateRecentTransactions(portfolioData.transactions);
-
-            // Save portfolio data
-            localStorage.setItem(`infinity_portfolio_${userId}`, JSON.stringify(portfolioData));
+            // Update stats
+            updateStats(dashboardData.stats);
+            
+            // Update activity
+            updateActivity(dashboardData.activity);
+            
+            // Setup chart period buttons
+            setupChartPeriods();
+            
+            // Save dashboard data
+            localStorage.setItem(`infinity_dashboard_${userId}`, JSON.stringify(dashboardData));
         }
 
-        function getDemoPortfolioData() {
+        function getDemoDashboardData() {
             return {
-                totalInvestment: 1845600,
-                currentValue: 2478450,
-                todaysChange: 12450,
-                annualReturns: 15.8,
-                holdings: [
+                stats: {
+                    totalInvestment: 1845600,
+                    currentValue: 2478450,
+                    todaysGain: 12450,
+                    xirr: 15.8
+                },
+                activity: [
                     {
-                        id: 1,
-                        name: "Axis Bluechip Fund",
-                        type: "Equity Large Cap",
-                        units: 450,
-                        avgCost: 45.20,
-                        currentValue: 225000,
-                        allocation: 35,
-                        performance: 12.5,
-                        category: "Equity"
+                        type: 'buy',
+                        title: 'Added Axis Bluechip Fund',
+                        description: 'Purchased 100 units at ₹250.50',
+                        time: '2 hours ago'
                     },
                     {
-                        id: 2,
-                        name: "SBI Equity Hybrid Fund",
-                        type: "Hybrid Aggressive",
-                        units: 1200,
-                        avgCost: 22.50,
-                        currentValue: 150000,
-                        allocation: 25,
-                        performance: 8.3,
-                        category: "Hybrid"
+                        type: 'dividend',
+                        title: 'Dividend Received',
+                        description: 'SBI Equity Hybrid Fund paid ₹1,200',
+                        time: '1 day ago'
                     },
                     {
-                        id: 3,
-                        name: "ICICI Prudential Bond Fund",
-                        type: "Debt Corporate Bond",
-                        units: 850,
-                        avgCost: 15.80,
-                        currentValue: 98700,
-                        allocation: 20,
-                        performance: 6.2,
-                        category: "Debt"
+                        type: 'alert',
+                        title: 'Portfolio Rebalancing Alert',
+                        description: 'Equity allocation is above target',
+                        time: '2 days ago'
                     },
                     {
-                        id: 4,
-                        name: "Mirae Asset Emerging Bluechip",
-                        type: "Equity Mid Cap",
-                        units: 600,
-                        avgCost: 32.40,
-                        currentValue: 124800,
-                        allocation: 10,
-                        performance: 18.7,
-                        category: "Equity"
+                        type: 'sell',
+                        title: 'Redeemed ICICI Bond Fund',
+                        description: 'Sold 50 units for ₹15,000',
+                        time: '3 days ago'
                     },
                     {
-                        id: 5,
-                        name: "Parag Parikh Flexi Cap",
-                        type: "Equity Flexi Cap",
-                        units: 300,
-                        avgCost: 45.60,
-                        currentValue: 67500,
-                        allocation: 10,
-                        performance: 15.2,
-                        category: "Equity"
-                    }
-                ],
-                transactions: [
-                    {
-                        id: 1,
-                        type: "buy",
-                        fund: "Axis Bluechip Fund",
-                        amount: 25000,
-                        date: "2024-03-15",
-                        units: 100
-                    },
-                    {
-                        id: 2,
-                        type: "dividend",
-                        fund: "SBI Equity Hybrid Fund",
-                        amount: 1200,
-                        date: "2024-03-14",
-                        units: 0
-                    },
-                    {
-                        id: 3,
-                        type: "sell",
-                        fund: "ICICI Prudential Bond Fund",
-                        amount: -15000,
-                        date: "2024-03-12",
-                        units: -50
-                    },
-                    {
-                        id: 4,
-                        type: "buy",
-                        fund: "Mirae Asset Emerging Bluechip",
-                        amount: 30000,
-                        date: "2024-03-10",
-                        units: 150
+                        type: 'buy',
+                        title: 'Started SIP in Mirae Fund',
+                        description: 'Monthly SIP of ₹5,000 activated',
+                        time: '1 week ago'
                     }
                 ]
             };
         }
 
-        function populateHoldingsTable(holdings) {
-            const tableBody = document.getElementById('holdingsTable');
-            tableBody.innerHTML = '';
-
-            holdings.forEach(fund => {
-                const row = document.createElement('tr');
-                
-                // Get fund initials for logo
-                const initials = fund.name.split(' ').map(word => word[0]).join('').substring(0, 2).toUpperCase();
-                
-                row.innerHTML = `
-                    <td>
-                        <div class="fund-name">
-                            <div class="fund-logo">${initials}</div>
-                            <div class="fund-details">
-                                <h4>${fund.name}</h4>
-                                <p>${fund.type}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${fund.type}</td>
-                    <td>${fund.units.toLocaleString()}</td>
-                    <td>₹${fund.avgCost.toFixed(2)}</td>
-                    <td>₹${formatNumber(fund.currentValue)}</td>
-                    <td>
-                        <span>${fund.allocation}%</span>
-                        <div class="allocation-bar">
-                            <div class="allocation-fill" style="width: ${fund.allocation}%"></div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="performance-badge ${fund.performance >= 0 ? 'positive' : 'negative'}">
-                            ${fund.performance >= 0 ? '+' : ''}${fund.performance}%
-                        </span>
-                    </td>
-                    <td>
-                        <div class="action-buttons" style="display: flex; gap: 5px;">
-                            <button class="btn-action" data-action="view" data-id="${fund.id}" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-action" data-action="edit" data-id="${fund.id}" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-action" data-action="delete" data-id="${fund.id}" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-
-            // Add event listeners to action buttons
-            document.querySelectorAll('.btn-action').forEach(button => {
-                button.addEventListener('click', function() {
-                    const action = this.dataset.action;
-                    const fundId = this.dataset.id;
-                    handleFundAction(action, fundId);
-                });
-            });
+        function updateStats(stats) {
+            document.getElementById('totalInvestment').textContent = formatCurrency(stats.totalInvestment);
+            document.getElementById('currentValue').textContent = formatCurrency(stats.currentValue);
+            document.getElementById('todaysGain').textContent = formatCurrency(stats.todaysGain, true);
+            document.getElementById('xirrValue').textContent = stats.xirr.toFixed(1) + '%';
+            document.getElementById('totalPortfolioValue').textContent = formatCurrency(stats.currentValue);
         }
 
-        function populateRecentTransactions(transactions) {
-            const container = document.getElementById('recentTransactions');
-            container.innerHTML = '';
-
-            transactions.forEach(transaction => {
-                const transactionElement = document.createElement('div');
-                transactionElement.className = 'transaction-item';
+        function updateActivity(activities) {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
                 
                 let iconClass = '';
-                let iconText = '';
-                let typeText = '';
+                let icon = '';
                 
-                switch (transaction.type) {
+                switch (activity.type) {
                     case 'buy':
                         iconClass = 'buy';
-                        iconText = '↓';
-                        typeText = 'Purchase';
+                        icon = 'fas fa-arrow-down';
                         break;
                     case 'sell':
                         iconClass = 'sell';
-                        iconText = '↑';
-                        typeText = 'Redemption';
+                        icon = 'fas fa-arrow-up';
                         break;
                     case 'dividend':
                         iconClass = 'dividend';
-                        iconText = '💰';
-                        typeText = 'Dividend';
+                        icon = 'fas fa-money-bill-wave';
+                        break;
+                    case 'alert':
+                        iconClass = 'alert';
+                        icon = 'fas fa-exclamation-triangle';
                         break;
                 }
-
-                transactionElement.innerHTML = `
-                    <div class="transaction-details">
-                        <div class="transaction-icon ${iconClass}">
-                            ${iconText}
-                        </div>
-                        <div class="transaction-info">
-                            <h4>${transaction.fund}</h4>
-                            <p>${typeText} • ${formatDate(transaction.date)}</p>
-                        </div>
+                
+                activityItem.innerHTML = `
+                    <div class="activity-icon ${iconClass}">
+                        <i class="${icon}"></i>
                     </div>
-                    <div class="transaction-amount">
-                        <div class="amount ${transaction.amount >= 0 ? 'positive' : 'negative'}" 
-                             style="color: ${transaction.amount >= 0 ? '#10b981' : '#ef4444'}">
-                            ${transaction.amount >= 0 ? '+' : ''}₹${formatNumber(Math.abs(transaction.amount))}
-                        </div>
-                        <div class="date">${transaction.units !== 0 ? Math.abs(transaction.units) + ' units' : 'Dividend'}</div>
+                    <div class="activity-details">
+                        <h4>${activity.title}</h4>
+                        <p>${activity.description}</p>
                     </div>
+                    <div class="activity-time">${activity.time}</div>
                 `;
                 
-                container.appendChild(transactionElement);
+                activityList.appendChild(activityItem);
             });
         }
 
-        function handleFundAction(action, fundId) {
-            switch (action) {
-                case 'view':
-                    alert(`Viewing details for fund ID: ${fundId}`);
-                    break;
-                case 'edit':
-                    alert(`Edit functionality for fund ID: ${fundId} would open here`);
-                    break;
-                case 'delete':
-                    if (confirm('Are you sure you want to remove this fund from your portfolio?')) {
-                        // In a real app, this would make an API call
-                        alert(`Fund ${fundId} would be deleted`);
-                    }
-                    break;
-            }
+        function setupChartPeriods() {
+            const periodButtons = document.querySelectorAll('.period-btn');
+            periodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    periodButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real app, this would fetch new chart data
+                    const period = this.textContent;
+                    console.log(`Loading chart data for period: ${period}`);
+                    
+                    // Show loading state
+                    const chartPlaceholder = document.querySelector('.chart-placeholder');
+                    const originalContent = chartPlaceholder.innerHTML;
+                    
+                    chartPlaceholder.innerHTML = `
+                        <div style="text-align: center;">
+                            <div class="loading-spinner" style="margin: 0 auto 15px;"></div>
+                            <p>Loading ${period} data...</p>
+                        </div>
+                    `;
+                    
+                    // Simulate loading delay
+                    setTimeout(() => {
+                        chartPlaceholder.innerHTML = originalContent;
+                    }, 1000);
+                });
+            });
         }
 
         function setupEventListeners() {
@@ -1211,19 +1109,33 @@
                 });
             }
 
-            // Portfolio actions
-            const addFundBtn = document.getElementById('addFundBtn');
-            const rebalanceBtn = document.getElementById('rebalanceBtn');
+            // Quick Actions
+            const quickAddFund = document.getElementById('quickAddFund');
+            const quickRebalance = document.getElementById('quickRebalance');
+            const quickReport = document.getElementById('quickReport');
+            const quickTax = document.getElementById('quickTax');
             
-            if (addFundBtn) {
-                addFundBtn.addEventListener('click', function() {
-                    alert('Add Fund functionality would open here');
+            if (quickAddFund) {
+                quickAddFund.addEventListener('click', function() {
+                    alert('Add Fund feature would open here');
                 });
             }
             
-            if (rebalanceBtn) {
-                rebalanceBtn.addEventListener('click', function() {
-                    alert('Portfolio rebalancing feature would open here');
+            if (quickRebalance) {
+                quickRebalance.addEventListener('click', function() {
+                    alert('Portfolio Rebalancing feature would open here');
+                });
+            }
+            
+            if (quickReport) {
+                quickReport.addEventListener('click', function() {
+                    alert('Report Generation feature would open here');
+                });
+            }
+            
+            if (quickTax) {
+                quickTax.addEventListener('click', function() {
+                    alert('Tax Planning feature would open here');
                 });
             }
 
@@ -1234,6 +1146,23 @@
                     alert('Need help? Contact our support team at contact@infinityfunds.com');
                 });
             }
+
+            // Add loading animation to stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const statValue = this.querySelector('.stat-value');
+                    const originalValue = statValue.textContent;
+                    
+                    // Show loading
+                    statValue.innerHTML = '<span class="loading-spinner"></span>';
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        statValue.textContent = originalValue;
+                    }, 1000);
+                });
+            });
         }
 
         // Utility functions
@@ -1248,18 +1177,14 @@
             }
         }
 
-        function formatNumber(num) {
-            return num.toLocaleString();
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-IN', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-        }
+        // Auto-refresh data every 30 seconds
+        setInterval(() => {
+            const userData = localStorage.getItem('infinity_user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                loadDashboardData(user.id);
+            }
+        }, 30000);
     </script>
 </body>
 </html>
