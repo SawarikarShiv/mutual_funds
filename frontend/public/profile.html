@@ -121,7 +121,7 @@
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             padding: 30px;
             height: fit-content;
             position: sticky;
@@ -229,6 +229,7 @@
             border-radius: 10px;
             margin-bottom: 8px;
             transition: all 0.3s;
+            position: relative;
         }
         
         .sidebar-nav a:hover {
@@ -242,17 +243,53 @@
             border-left: 4px solid #667eea;
         }
         
+        /* ADDED: Separator lines between sidebar items */
+        .sidebar-nav a:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 15px;
+            right: 15px;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+        }
+        
         /* Profile Content */
         .profile-content {
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             padding: 30px;
+            position: relative;
+        }
+        
+        /* ADDED: Content area with visible borders */
+        .profile-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 25%, 
+                rgba(255, 255, 255, 0.02) 50%, 
+                rgba(255, 255, 255, 0.05) 75%, 
+                transparent 100%);
+            pointer-events: none;
+            z-index: 0;
         }
         
         .profile-section {
             display: none;
+            position: relative;
+            z-index: 1;
         }
         
         .profile-section.active {
@@ -270,6 +307,20 @@
             font-weight: 600;
             margin-bottom: 30px;
             color: white;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15); /* Added visible border */
+            position: relative;
+        }
+        
+        /* ADDED: Gradient underline for section titles */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
         }
         
         /* Personal Info Form */
@@ -285,6 +336,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added visible separator */
         }
         
         @media (max-width: 576px) {
@@ -307,7 +360,7 @@
             width: 100%;
             padding: 14px 16px;
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             border-radius: 10px;
             color: white;
             font-size: 16px;
@@ -332,7 +385,7 @@
             gap: 15px;
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid rgba(255, 255, 255, 0.15); /* Increased opacity and thickness */
         }
         
         .btn {
@@ -361,7 +414,7 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Increased border opacity */
         }
         
         .btn-secondary:hover {
@@ -381,7 +434,7 @@
         /* Security Section */
         .security-item {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 15px;
@@ -392,6 +445,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added visible separator */
         }
         
         .security-title {
@@ -411,11 +466,13 @@
         .status-active {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .status-inactive {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
         .security-description {
@@ -427,7 +484,7 @@
         /* Investment Preferences */
         .preference-card {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             border-radius: 10px;
             padding: 25px;
             margin-bottom: 25px;
@@ -441,12 +498,17 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added visible separator */
         }
         
         .risk-level {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
         
         .risk-option {
@@ -484,14 +546,22 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
+            margin-bottom: 30px;
         }
         
         .document-card {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Increased border opacity */
             border-radius: 10px;
             padding: 20px;
             text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         .document-icon {
@@ -503,12 +573,15 @@
         .document-name {
             font-weight: 600;
             margin-bottom: 10px;
+            color: white;
         }
         
         .document-size {
             color: #94a3b8;
             font-size: 12px;
             margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added visible separator */
         }
         
         .document-actions {
@@ -523,10 +596,17 @@
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .document-btn.upload {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
         }
         
         .document-btn.download {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
         }
@@ -535,6 +615,60 @@
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
             border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Notifications Section - FIXED visible lines */
+        .notification-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15); /* Increased opacity and thickness */
+            color: #e2e8f0;
+        }
+        
+        .notification-option:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .notification-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(15, 23, 42, 0.8);
+            cursor: pointer;
+        }
+        
+        .notification-option input[type="checkbox"]:checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+        
+        /* Billing Section */
+        .plan-feature {
+            padding: 12px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15); /* Increased opacity and thickness */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-feature:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-feature i {
+            min-width: 20px;
+            text-align: center;
         }
         
         /* Loading Overlay */
@@ -586,6 +720,7 @@
             display: none;
             align-items: center;
             gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .notification.show {
@@ -594,11 +729,11 @@
         }
         
         .notification.success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%);
         }
         
         .notification.error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(220, 38, 38, 0.9) 100%);
         }
         
         @keyframes slideIn {
@@ -609,7 +744,7 @@
         /* Footer */
         .footer {
             background: rgba(15, 23, 42, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid rgba(255, 255, 255, 0.15); /* Increased opacity and thickness */
             padding: 40px 0;
             margin-top: 60px;
         }
@@ -636,6 +771,8 @@
         .footer-links h4 {
             color: white;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Added visible border */
         }
         
         .footer-links a {
@@ -644,6 +781,12 @@
             text-decoration: none;
             margin-bottom: 10px;
             transition: color 0.3s;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Added subtle separator */
+        }
+        
+        .footer-links a:last-child {
+            border-bottom: none;
         }
         
         .footer-links a:hover {
@@ -653,9 +796,105 @@
         .footer-bottom {
             text-align: center;
             padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid rgba(255, 255, 255, 0.15); /* Increased opacity and thickness */
             color: #94a3b8;
             font-size: 14px;
+        }
+        
+        /* ADDED: Card separators for better visibility */
+        .card-separator {
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 20%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0.2) 80%, 
+                transparent 100%);
+            margin: 20px 0;
+        }
+        
+        /* ADDED: Enhanced borders for all interactive elements */
+        .enhanced-border {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* ADDED: Grid separators */
+        .grid-separator {
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding-right: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-separator {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-right: 0;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+        }
+        
+        /* ADDED: Dashboard preview section (if you want to show user's stats) */
+        .dashboard-preview {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .dashboard-preview h3 {
+            color: white;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .dashboard-stat {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .dashboard-stat small {
+            color: #94a3b8;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .dashboard-stat h4 {
+            color: white;
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        /* ADDED: Visual enhancements for form groups */
+        .form-group.enhanced {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+        }
+        
+        /* ADDED: Section header with gradient background */
+        .section-header {
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.1) 0%, 
+                rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -767,17 +1006,17 @@
                         </a>
                     </div>
                     
-                    <div class="account-stats" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 10px;">Account Status</p>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <div class="account-stats" style="margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(255, 255, 255, 0.2);">
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Account Status</p>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; padding: 5px 0;">
                             <span style="color: #cbd5e1; font-size: 13px;">Member Since</span>
                             <span style="color: white; font-weight: 500;" id="memberSince">Jan 2024</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
                             <span style="color: #cbd5e1; font-size: 13px;">Last Login</span>
                             <span style="color: white; font-weight: 500;" id="lastLogin">Today</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; padding: 5px 0;">
                             <span style="color: #cbd5e1; font-size: 13px;">Portfolio Value</span>
                             <span style="color: #10b981; font-weight: 500;" id="portfolioValue">₹24.78L</span>
                         </div>
@@ -802,31 +1041,43 @@
                             </div>
                         </div>
                         
+                        <div class="card-separator"></div>
+                        
                         <div class="form-group">
                             <label for="email">Email Address</label>
                             <input type="email" id="email" value="demo@infinityfunds.com" disabled>
                             <small style="color: #94a3b8; display: block; margin-top: 5px;">Email cannot be changed</small>
                         </div>
                         
+                        <div class="card-separator"></div>
+                        
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
                             <input type="tel" id="phone" value="+91 98765 43210">
                         </div>
+                        
+                        <div class="card-separator"></div>
                         
                         <div class="form-group">
                             <label for="dateOfBirth">Date of Birth</label>
                             <input type="date" id="dateOfBirth" value="1990-01-15">
                         </div>
                         
+                        <div class="card-separator"></div>
+                        
                         <div class="form-group">
                             <label for="panNumber">PAN Number</label>
                             <input type="text" id="panNumber" placeholder="ABCDE1234F">
                         </div>
                         
+                        <div class="card-separator"></div>
+                        
                         <div class="form-group">
                             <label for="address">Address</label>
                             <textarea id="address" rows="3" placeholder="Enter your complete address"></textarea>
                         </div>
+                        
+                        <div class="card-separator"></div>
                         
                         <div class="form-group">
                             <label for="occupation">Occupation</label>
@@ -867,6 +1118,8 @@
                         </button>
                     </div>
                     
+                    <div class="card-separator"></div>
+                    
                     <div class="security-item">
                         <div class="security-header">
                             <h3 class="security-title">Two-Factor Authentication</h3>
@@ -878,20 +1131,22 @@
                         </button>
                     </div>
                     
+                    <div class="card-separator"></div>
+                    
                     <div class="security-item">
                         <div class="security-header">
                             <h3 class="security-title">Login Sessions</h3>
                         </div>
                         <p class="security-description">Manage your active login sessions</p>
                         <div style="margin-top: 15px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
                                 <div>
                                     <div style="font-weight: 500;">Current Session</div>
                                     <div style="font-size: 12px; color: #94a3b8;">Chrome • Windows • Mumbai, IN</div>
                                 </div>
                                 <span style="color: #10b981; font-size: 12px;">Active Now</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
                                 <div>
                                     <div style="font-weight: 500;">Mobile Session</div>
                                     <div style="font-size: 12px; color: #94a3b8;">Safari • iOS • Delhi, IN • 2 days ago</div>
@@ -933,31 +1188,50 @@
                         </div>
                     </div>
                     
+                    <div class="card-separator"></div>
+                    
                     <div class="preference-card">
                         <h3 class="preference-title">
                             <i class="fas fa-bullseye"></i> Investment Goals
                         </h3>
                         <div class="form-group">
-                            <label>Select your primary investment goals:</label>
+                            <label style="color: #94a3b8; margin-bottom: 10px; display: block;">Select your primary investment goals:</label>
                             <div style="margin-top: 10px;">
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" checked> Wealth Creation
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox"> Retirement Planning
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" checked> Children's Education
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox"> Tax Saving
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox"> Short-term Savings
-                                </label>
+                                <div class="notification-option">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Wealth Creation
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <label>
+                                        <input type="checkbox">
+                                        Retirement Planning
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Children's Education
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <label>
+                                        <input type="checkbox">
+                                        Tax Saving
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <label>
+                                        <input type="checkbox">
+                                        Short-term Savings
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="card-separator"></div>
                     
                     <div class="preference-card">
                         <h3 class="preference-title">
@@ -1042,10 +1316,10 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 30px; padding: 20px; background: rgba(15, 23, 42, 0.8); border-radius: 10px;">
-                        <h4 style="margin-bottom: 15px; color: white;">Upload New Document</h4>
-                        <div style="display: flex; gap: 15px; align-items: center;">
-                            <select style="flex: 1; padding: 12px;">
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(15, 23, 42, 0.8); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <h4 style="margin-bottom: 15px; color: white; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2);">Upload New Document</h4>
+                        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                            <select style="flex: 1; min-width: 200px; padding: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white;">
                                 <option value="">Select document type</option>
                                 <option value="pan">PAN Card</option>
                                 <option value="aadhaar">Aadhaar Card</option>
@@ -1053,7 +1327,7 @@
                                 <option value="cheque">Cancelled Cheque</option>
                                 <option value="other">Other</option>
                             </select>
-                            <input type="file" id="documentUpload" style="flex: 1; padding: 12px;">
+                            <input type="file" id="documentUpload" style="flex: 1; min-width: 200px; padding: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white;">
                             <button class="btn btn-primary">
                                 <i class="fas fa-upload"></i> Upload
                             </button>
@@ -1070,42 +1344,58 @@
                             <i class="fas fa-envelope"></i> Email Notifications
                         </h3>
                         <div style="margin-top: 15px;">
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Portfolio Updates</span>
-                                <input type="checkbox" checked style="transform: scale(1.2);">
-                            </label>
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Market Alerts</span>
-                                <input type="checkbox" checked style="transform: scale(1.2);">
-                            </label>
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Fund Recommendations</span>
-                                <input type="checkbox" style="transform: scale(1.2);">
-                            </label>
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Newsletter</span>
-                                <input type="checkbox" style="transform: scale(1.2);">
-                            </label>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Portfolio Updates
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Market Alerts
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox">
+                                    Fund Recommendations
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox">
+                                    Newsletter
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="card-separator"></div>
                     
                     <div class="preference-card">
                         <h3 class="preference-title">
                             <i class="fas fa-bell"></i> Push Notifications
                         </h3>
                         <div style="margin-top: 15px;">
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Price Alerts</span>
-                                <input type="checkbox" checked style="transform: scale(1.2);">
-                            </label>
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Dividend Announcements</span>
-                                <input type="checkbox" style="transform: scale(1.2);">
-                            </label>
-                            <label style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                <span>Rebalancing Suggestions</span>
-                                <input type="checkbox" checked style="transform: scale(1.2);">
-                            </label>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Price Alerts
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox">
+                                    Dividend Announcements
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Rebalancing Suggestions
+                                </label>
+                            </div>
                         </div>
                     </div>
                     
@@ -1124,7 +1414,7 @@
                         <h3 class="preference-title">
                             <i class="fas fa-crown"></i> Current Plan
                         </h3>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
                             <div>
                                 <div style="font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
                                     Free Plan
@@ -1137,37 +1427,39 @@
                         </div>
                         
                         <div style="margin-top: 30px;">
-                            <h4 style="margin-bottom: 15px;">Plan Features</h4>
+                            <h4 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2);">Plan Features</h4>
                             <ul style="list-style: none; padding: 0;">
-                                <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                    <i class="fas fa-check" style="color: #10b981; margin-right: 10px;"></i>
+                                <li class="plan-feature">
+                                    <i class="fas fa-check" style="color: #10b981;"></i>
                                     Track up to 10 mutual funds
                                 </li>
-                                <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                    <i class="fas fa-check" style="color: #10b981; margin-right: 10px;"></i>
+                                <li class="plan-feature">
+                                    <i class="fas fa-check" style="color: #10b981;"></i>
                                     Basic portfolio analytics
                                 </li>
-                                <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                    <i class="fas fa-times" style="color: #ef4444; margin-right: 10px;"></i>
+                                <li class="plan-feature">
+                                    <i class="fas fa-times" style="color: #ef4444;"></i>
                                     AI Recommendations (Premium)
                                 </li>
-                                <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                                    <i class="fas fa-times" style="color: #ef4444; margin-right: 10px;"></i>
+                                <li class="plan-feature">
+                                    <i class="fas fa-times" style="color: #ef4444;"></i>
                                     Tax Optimization Tools (Premium)
                                 </li>
-                                <li style="padding: 10px 0;">
-                                    <i class="fas fa-times" style="color: #ef4444; margin-right: 10px;"></i>
+                                <li class="plan-feature">
+                                    <i class="fas fa-times" style="color: #ef4444;"></i>
                                     Priority Support (Premium)
                                 </li>
                             </ul>
                         </div>
                     </div>
                     
-                    <div class="preference-card" style="margin-top: 30px;">
+                    <div class="card-separator"></div>
+                    
+                    <div class="preference-card">
                         <h3 class="preference-title">
                             <i class="fas fa-credit-card"></i> Payment Methods
                         </h3>
-                        <div style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
                                     <div style="font-weight: 500;">Visa •••• 4567</div>
@@ -1532,6 +1824,16 @@
                     }
                 }
             }, 5000);
+            
+            // Add visual feedback for interactive elements
+            document.querySelectorAll('.btn, .document-btn, .risk-option, .sidebar-nav a').forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
         });
     </script>
 </body>
